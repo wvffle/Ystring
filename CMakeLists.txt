@@ -6,15 +6,29 @@ set(CMAKE_MODULE_PATH
     "${CMAKE_SOURCE_DIR}/cmake/Modules"
     ${CMAKE_MODULE_PATH})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y")
+if(APPLE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall")
+elseif(WIN32)
+    add_definitions(-D_SCL_SECURE_NO_WARNINGS)
+endif(APPLE)
 
 set(PUBLIC_HEADERS
+    Ystring/DecoderResult.hpp
+    Ystring/FindFlags.hpp
     Ystring/Unicode/CaseConverter.hpp
     Ystring/Unicode/CaseInsensitive.hpp
     Ystring/Unicode/CharClass.hpp
     Ystring/Unicode/UnicodeChars.hpp
     Ystring/Unicode/UnicodePredicates.hpp
+    Ystring/Utf8/DecodeUtf8.hpp
+    Ystring/Utf8/DecodeUtf8-impl.hpp
+    Ystring/Utf8/EncodeUtf8.hpp
+    Ystring/Utf8/EncodeUtf8-impl.hpp
+    Ystring/Utf8/Utf8Encoding.hpp
+    Ystring/Utf8/Utf8String.hpp
+    Ystring/Utilities/Iterators.hpp
     Ystring/Utilities/KeyFunctionAlgorithms.hpp
+    Ystring/Utilities/Range.hpp
     )
 
 set(PRIVATE_HEADERS
@@ -30,6 +44,8 @@ set(SOURCE_FILES
     Ystring/Unicode/CharClass.cpp
     Ystring/Unicode/CharMap.cpp
     Ystring/Unicode/CharMappingTypes.cpp
+    Ystring/Utf8/EncodeUtf8.cpp
+    Ystring/Utf8/Utf8String.cpp
     )
 
 add_library(
@@ -38,7 +54,6 @@ add_library(
     ${PRIVATE_HEADERS}
     ${SOURCE_FILES}
     )
-
 
 set(CTEST_OUTPUT_ON_FAILURE 1)
 add_subdirectory(UnitTest)
