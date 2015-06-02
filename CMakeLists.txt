@@ -1,3 +1,10 @@
+##****************************************************************************
+## Copyright © 2015 Jan Erik Breimo. All rights reserved.
+## Created by Jan Erik Breimo on 31.05.15
+##
+## This file is distributed under the BSD License.
+## License text is included with the source distribution.
+##****************************************************************************
 cmake_minimum_required(VERSION 3.2)
 project(Ystring)
 
@@ -14,7 +21,12 @@ endif(APPLE)
 
 set(PUBLIC_HEADERS
     Ystring/DecoderResult.hpp
+    Ystring/Encoding.hpp
     Ystring/FindFlags.hpp
+    Ystring/Encoded/ForwardDecoder.hpp
+    Ystring/Encoded/ReverseDecoder.hpp
+    Ystring/Generic/EncodedRange.hpp
+    Ystring/Generic/GenericString.hpp
     Ystring/Unicode/CaseConverter.hpp
     Ystring/Unicode/CaseInsensitive.hpp
     Ystring/Unicode/CharClass.hpp
