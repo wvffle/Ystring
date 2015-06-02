@@ -1,10 +1,10 @@
-/* Ystring: Efficient unicode string manipulation
- * Copyright 2015 Jan Erik Breimo
- * All rights reserved.
- *
- * This file is distributed under the BSD License.
- * License text is included with the source distribution.
- */
+//****************************************************************************
+// Copyright © 2013 Jan Erik Breimo. All rights reserved.
+// Created by Jan Erik Breimo on 2013-07-01
+//
+// This file is distributed under the BSD License.
+// License text is included with the source distribution.
+//****************************************************************************
 #pragma once
 
 #include <algorithm>
