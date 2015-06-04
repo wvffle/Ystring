@@ -20,6 +20,7 @@ set(SOURCE_FILES
     Unicode/test_CharClass.cpp
     Unicode/test_CharMap.cpp
     Unicode/test_CharMappingTypes.cpp
+    Utf8/test_Utf8String.cpp
     )
 
 add_executable(${PROJECT_NAME}

@@ -8,6 +8,7 @@
 #include "Utf8String.hpp"
 
 #include "Utf8Encoding.hpp"
+#include "../Generic/GenericString.hpp"
 
 namespace Ystring { namespace Utf8 {
 
@@ -16,8 +17,12 @@ std::pair<std::string::const_iterator, std::string::const_iterator>
          const std::string& cmp,
          FindFlags_t flags)
 {
-    return find(makeEncodedRange(str, Utf8Encoding()),
-                makeEncodedRange(cmp, Utf8Encoding())).getRange();
+    return Generic::find(
+            Generic::makeEncodedRange(Utilities::makeRange(str),
+                                      Utf8Encoding()),
+            Generic::makeEncodedRange(Utilities::makeRange(cmp),
+                                      Utf8Encoding()),
+            flags).getRange();
 }
 
 }}

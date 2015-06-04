@@ -15,11 +15,11 @@
 
 namespace Ystring { namespace Utilities {
 
-template <typename Iterator>
+template <typename IteratorT>
 class Range
 {
 public:
-    typedef Iterator Iterator;
+    typedef IteratorT Iterator;
     typedef std::iterator_traits<Iterator> IteratorTraits;
     typedef typename IteratorTraits::value_type ValueType;
     typedef typename IteratorTraits::difference_type DifferenceType;

@@ -65,8 +65,8 @@ inline bool isMark(uint32_t c)
 inline bool isNewline(uint32_t c)
 {
     return c == '\n' || c == '\v' || c == '\f' || c == '\r' ||
-           c == Unicode::NextLine || c == Unicode::LineSeparator ||
-           c == Unicode::ParagraphSeparator;
+           c == Unicode::NEXT_LINE || c == Unicode::LINE_SEPARATOR ||
+           c == Unicode::PARAGRAPH_SEPARATOR;
 }
 
 inline bool isNumber(uint32_t c)

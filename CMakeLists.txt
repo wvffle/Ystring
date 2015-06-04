@@ -19,10 +19,18 @@ elseif(WIN32)
     add_definitions(-D_SCL_SECURE_NO_WARNINGS)
 endif(APPLE)
 
+find_package(JEBDebug)
+if(JEBDEBUG_FOUND)
+    include_directories(${JEBDEBUG_INCLUDE_DIRS})
+endif(JEBDEBUG_FOUND)
+
 set(PUBLIC_HEADERS
     Ystring/DecoderResult.hpp
     Ystring/Encoding.hpp
     Ystring/FindFlags.hpp
+    Ystring/Encoded/DecoderAlgorithms.hpp
+    Ystring/Encoded/DecoderStringFunctions.hpp
+    Ystring/Encoded/DecoderStringFunctions-impl.hpp
     Ystring/Encoded/ForwardDecoder.hpp
     Ystring/Encoded/ReverseDecoder.hpp
     Ystring/Generic/EncodedRange.hpp

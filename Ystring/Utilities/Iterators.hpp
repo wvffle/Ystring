@@ -11,7 +11,6 @@
 #include <iterator>
 #include <stdexcept>
 #include <utility>
-#include "JEBBase/JEBBaseDefinitions.hpp"
 
 namespace Ystring { namespace Utilities {
 

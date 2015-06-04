@@ -5,6 +5,7 @@
 #pragma once
 
 #include <cstdint>
+#include "../Utilities/Range.hpp"
 
 namespace Ystring { namespace Encoded {
 
@@ -22,12 +23,17 @@ public:
 
     bool next(uint32_t &ch)
     {
-        return m_Encoding.next(ch);
+        return m_Encoding.next(ch, m_First, m_Last);
     }
 
     bool skip()
     {
-        return m_Encoding.skipNext();
+        return m_Encoding.skipNext(m_First, m_Last);
+    }
+
+    const Encoding& getEncoding() const
+    {
+        return m_Encoding;
     }
 
     FwdIt getLogicalBegin()
@@ -73,6 +79,15 @@ ForwardDecoder<FwdIt, Encoding> makeForwardDecoder(
         Encoding encoding)
 {
     return ForwardDecoder<FwdIt, Encoding>(first, last, encoding);
+}
+
+template <typename FwdIt, typename Encoding>
+ForwardDecoder<FwdIt, Encoding> makeForwardDecoder(
+        Utilities::Range<FwdIt> range,
+        Encoding encoding)
+{
+    return ForwardDecoder<FwdIt, Encoding>(range.begin(), range.end(),
+                                           encoding);
 }
 
 }}

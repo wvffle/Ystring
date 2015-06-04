@@ -23,11 +23,11 @@ public:
     {
         switch (nextUtf8CodePoint(codePoint, it, last))
         {
-            case DecodeResult::EndOfString:
+            case DecodeResult::END_OF_STRING:
                 return false;
-            case DecodeResult::Incomplete:
+            case DecodeResult::INCOMPLETE:
                 throw std::logic_error("Incomplete character.");
-            case DecodeResult::Invalid:
+            case DecodeResult::INVALID:
                 throw std::logic_error("Invalid character.");
             default:
                 break;
@@ -46,11 +46,11 @@ public:
     {
         switch (prevUtf8CodePoint(codePoint, first, it))
         {
-            case DecodeResult::EndOfString:
+            case DecodeResult::END_OF_STRING:
                 return false;
-            case DecodeResult::Incomplete:
+            case DecodeResult::INCOMPLETE:
                 throw std::logic_error("Incomplete character.");
-            case DecodeResult::Invalid:
+            case DecodeResult::INVALID:
                 throw std::logic_error("Invalid character.");
             default:
                 break;

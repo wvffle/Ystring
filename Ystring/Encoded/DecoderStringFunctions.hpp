@@ -1,20 +1,23 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 2015-05-31
+// Created by Jan Erik Breimo on 03.06.15
 //
 // This file is distributed under the BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
 #pragma once
 
-#include <string>
 #include "../FindFlags.hpp"
 
-namespace Ystring { namespace Utf8 {
+namespace Ystring { namespace Encoded {
 
-std::pair<std::string::const_iterator, std::string::const_iterator>
-    find(const std::string& str,
-         const std::string& cmp,
-         FindFlags_t flags = FindFlags::DEFAULTS);
+template <typename Decoder1, typename Decoder2>
+Decoder1 find(Decoder1&& str, Decoder2&& sub);
+
+template <typename Decoder1, typename Decoder2>
+Decoder1 findCaseInsensitive(Decoder1&& str, Decoder2&& sub);
+
 
 }}
+
+#include "DecoderStringFunctions-impl.hpp"

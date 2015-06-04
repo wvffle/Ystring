@@ -5,6 +5,7 @@
 #pragma once
 
 #include <cstdint>
+#include "../Utilities/Range.hpp"
 
 namespace Ystring { namespace Encoded {
 
@@ -30,6 +31,11 @@ public:
         return m_Encoding.skipPrev();
     }
 
+    const Encoding& getEncoding() const
+    {
+        return m_Encoding;
+    }
+
     BiIt getLogicalBegin()
     {
         return m_Last;
@@ -37,7 +43,7 @@ public:
 
     void setLogicalBegin(BiIt first)
     {
-        m_Last = last;
+        m_Last = first;
     }
 
     BiIt getLogicalEnd()
@@ -47,7 +53,7 @@ public:
 
     void setLogicalEnd(BiIt last)
     {
-        m_First = first;
+        m_First = last;
     }
 
     BiIt begin()
@@ -65,13 +71,22 @@ protected:
     Encoding m_Encoding;
 };
 
-template <typename FwdIt, typename Encoding>
+template <typename BiIt, typename Encoding>
 ReverseDecoder<BiIt, Encoding> makeReverseDecoder(
         BiIt first,
         BiIt last,
         Encoding encoding)
 {
     return ReverseDecoder<BiIt, Encoding>(first, last, encoding);
+}
+
+template <typename BiIt, typename Encoding>
+ReverseDecoder<BiIt, Encoding> makeReverseDecoder(
+        Utilities::Range<BiIt> range,
+        Encoding encoding)
+{
+    return ReverseDecoder<BiIt, Encoding>(range.begin(), range.end(),
+                                          encoding);
 }
 
 }}

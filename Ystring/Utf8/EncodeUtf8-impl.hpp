@@ -7,7 +7,7 @@
 //****************************************************************************
 #include <algorithm>
 
-namespace JEBString { namespace Utf8 {
+namespace Ystring { namespace Utf8 {
 
 namespace
 {

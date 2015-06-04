@@ -20,43 +20,50 @@ class EncodedRange
 public:
     static const Encoding_t encoding = Enc::encoding;
 
-    EncodedRange(It first, It last, Enc encoding)
-        : m_First(first),
-          m_Last(last),
+    EncodedRange(Utilities::Range<It> range, Enc encoding)
+        : m_Range(range),
           m_Encoding(encoding)
     {}
 
     Utilities::Range<It> getRange() const
     {
-        return Utilities::makeRange(m_First, m_Last);
+        return m_Range;
     }
 
     Encoded::ForwardDecoder<It, Enc> getForwardDecoder() const
     {
-        return Encoded::makeForwardDecoder(m_First, m_Last, m_Encoding);
+        return Encoded::makeForwardDecoder(m_Range, m_Encoding);
     }
 
     Encoded::ReverseDecoder<It, Enc> getReverseDecoder() const
     {
-        return Encoded::makeReverseDecoder(m_First, m_Last, m_Encoding);
+        return Encoded::makeReverseDecoder(m_Range, m_Encoding);
     }
 
 private:
-    It m_First;
-    It m_Last;
+    Utilities::Range<It> m_Range;
     Enc m_Encoding;
 };
 
 template<typename It, typename Enc>
-EncodedRange<It, Enc> makeEncodedRange(It first, It last, Enc encoding)
+EncodedRange<It, Enc> makeEncodedRange(Utilities::Range<It> range,
+                                       Enc encoding)
 {
-    return EncodedRange<It, Enc>(first, last, encoding);
+    return EncodedRange<It, Enc>(range, encoding);
 }
 
 template<typename It, typename Enc>
-EncodedRange<It, Enc> makeEncodedRange(Utilities::Range<It> range, Enc encoding)
+EncodedRange<It, Enc> makeEncodedRange(Encoded::ForwardDecoder<It, Enc> dec)
 {
-    return EncodedRange<It, Enc>(begin(range), end(range), encoding);
+    return EncodedRange<It, Enc>(Utilities::makeRange(dec),
+                                 dec.getEncoding());
+}
+
+template<typename It, typename Enc>
+EncodedRange<It, Enc> makeEncodedRange(Encoded::ReverseDecoder<It, Enc> dec)
+{
+    return EncodedRange<It, Enc>(Utilities::makeRange(dec),
+                                 dec.getEncoding());
 }
 
 }}
