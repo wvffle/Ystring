@@ -12,16 +12,50 @@
 
 namespace Ystring { namespace Utf8 {
 
-std::pair<std::string::const_iterator, std::string::const_iterator>
-    find(const std::string& str,
-         const std::string& cmp,
-         FindFlags_t flags)
+using Generic::makeEncodedRange;
+using Utilities::makeRange;
+
+std::pair<std::string::iterator, std::string::iterator> find(
+        std::string& str,
+        const std::string& cmp,
+        FindFlags_t flags)
 {
     return Generic::find(
-            Generic::makeEncodedRange(Utilities::makeRange(str),
-                                      Utf8Encoding()),
-            Generic::makeEncodedRange(Utilities::makeRange(cmp),
-                                      Utf8Encoding()),
+            makeEncodedRange(makeRange(str), Utf8Encoding()),
+            makeEncodedRange(makeRange(cmp), Utf8Encoding()),
+            flags).getRange();
+}
+
+std::pair<std::string::const_iterator, std::string::const_iterator> find(
+        const std::string& str,
+        const std::string& cmp,
+        FindFlags_t flags)
+{
+    return Generic::find(
+            makeEncodedRange(makeRange(str), Utf8Encoding()),
+            makeEncodedRange(makeRange(cmp), Utf8Encoding()),
+            flags).getRange();
+}
+
+std::pair<std::string::iterator, std::string::iterator> find(
+      std::pair<std::string::iterator, std::string::iterator> str,
+      const std::string& cmp,
+      FindFlags_t flags)
+{
+    return Generic::find(
+            makeEncodedRange(makeRange(str), Utf8Encoding()),
+            makeEncodedRange(makeRange(cmp), Utf8Encoding()),
+            flags).getRange();
+}
+
+std::pair<std::string::const_iterator, std::string::const_iterator> find(
+      std::pair<std::string::const_iterator, std::string::const_iterator> str,
+      const std::string& cmp,
+      FindFlags_t flags)
+{
+    return Generic::find(
+            makeEncodedRange(makeRange(str), Utf8Encoding()),
+            makeEncodedRange(makeRange(cmp), Utf8Encoding()),
             flags).getRange();
 }
 

@@ -79,13 +79,13 @@ void test_find()
                         FindFlags::CASE_INSENSITIVE);
     JT_EQUAL(std::string(r.first, r.second),
              "gH" UTF8_GREEK_SMALL_SIGMA "Ij");
-//    auto t = Utf8::find(r, UTF8_GREEK_CAPITAL_SIGMA "i",
-//                           FindFlags::CASE_INSENSITIVE);
-//    JT_EQUAL(std::string(t.first, t.second), UTF8_GREEK_SMALL_SIGMA "I");
-//    auto u = find(r, UTF8_GREEK_CAPITAL_SIGMA "i");
-//    JT_ASSERT(u.first == u.second && u.second == r.second);
+    auto t = Utf8::find(r, UTF8_GREEK_CAPITAL_SIGMA "i",
+                        FindFlags::CASE_INSENSITIVE);
+    JT_EQUAL(std::string(t.first, t.second), UTF8_GREEK_SMALL_SIGMA "I");
+    auto u = Utf8::find(r, UTF8_GREEK_CAPITAL_SIGMA "i");
+    JT_ASSERT(u.first == u.second && u.second == r.second);
 }
-//
+
 //void test_insert()
 //{
 //    auto str = "The " UTF8_GREEK_SMALL_OMEGA

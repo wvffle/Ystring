@@ -12,6 +12,7 @@
 #include "../Utilities/RangeAlgorithms.hpp"
 #include "EncodedRange.hpp"
 #include "StringTraits.hpp"
+
 #include <JEBDebug/Debug.hpp>
 
 namespace Ystring { namespace Generic {
@@ -23,7 +24,7 @@ EncodedRange<It1, Enc1> findImpl(
         EncodedRange<It2, Enc2> cmp,
         std::true_type)
 {
-    JEB_CHECKPOINT();
+    JEB_SHOW_RANGE(cmp.begin(), cmp.end());
     return makeEncodedRange(search(str.getRange(), cmp.getRange()), Enc1());
 }
 

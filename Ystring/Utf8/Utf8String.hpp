@@ -12,9 +12,24 @@
 
 namespace Ystring { namespace Utf8 {
 
-std::pair<std::string::const_iterator, std::string::const_iterator>
-    find(const std::string& str,
-         const std::string& cmp,
-         FindFlags_t flags = FindFlags::DEFAULTS);
+std::pair<std::string::iterator, std::string::iterator> find(
+        std::string& str,
+        const std::string& cmp,
+        FindFlags_t flags = FindFlags::DEFAULTS);
+
+std::pair<std::string::const_iterator, std::string::const_iterator> find(
+        const std::string& str,
+        const std::string& cmp,
+        FindFlags_t flags = FindFlags::DEFAULTS);
+
+std::pair<std::string::iterator, std::string::iterator> find(
+      std::pair<std::string::iterator, std::string::iterator> str,
+      const std::string& cmp,
+      FindFlags_t flags = FindFlags::DEFAULTS);
+
+std::pair<std::string::const_iterator, std::string::const_iterator> find(
+      std::pair<std::string::const_iterator, std::string::const_iterator> str,
+      const std::string& cmp,
+      FindFlags_t flags = FindFlags::DEFAULTS);
 
 }}
