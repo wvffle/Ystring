@@ -1,3 +1,10 @@
+##****************************************************************************
+## Copyright © 2015 Jan Erik Breimo. All rights reserved.
+## Created by Jan Erik Breimo on 31.05.15
+##
+## This file is distributed under the Simplified BSD License.
+## License text is included with the source distribution.
+##****************************************************************************
 cmake_minimum_required(VERSION 3.2)
 
 find_package(JEBTest)

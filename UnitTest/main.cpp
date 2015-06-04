@@ -2,7 +2,7 @@
  * Copyright 2014 Jan Erik Breimo
  * All rights reserved.
  *
- * This file is distributed under the BSD License.
+ * This file is distributed under the Simplified BSD License.
  * License text is included with the source distribution.
  */
 #include <JEBTest/JEBTest.hpp>
