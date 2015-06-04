@@ -13,15 +13,22 @@
 namespace Ystring { namespace Encoded {
 
 template <typename Decoder1, typename Decoder2>
-Decoder1 find(Decoder1&& str, Decoder2&& sub)
+Decoder1 find(Decoder1&& str, Decoder2&& sub, FindFlags_t flags)
 {
-    return search(str, sub);
+    if (flags == FindFlags::CASE_INSENSITIVE)
+        return search(str, sub, Unicode::CaseInsensitiveEqual());
+    else
+        return search(str, sub);
 }
 
 template <typename Decoder1, typename Decoder2>
-Decoder1 findCaseInsensitive(Decoder1&& str, Decoder2&& sub)
+bool startsWith(Decoder1&& str, Decoder2&& cmp, FindFlags_t flags)
 {
-    return search(str, sub, Unicode::CaseInsensitiveEqual());
+    if (flags == FindFlags::CASE_INSENSITIVE)
+        advanceWhileEqual(str, cmp, Unicode::CaseInsensitiveEqual());
+    else
+        advanceWhileEqual(str, cmp);
+    return cmp.begin() == cmp.end();
 }
 
 }}

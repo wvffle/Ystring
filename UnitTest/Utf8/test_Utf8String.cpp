@@ -55,17 +55,19 @@ using namespace Ystring;
 //    JT_ASSERT(contains("ABCDE", 'D'));
 //    JT_ASSERT(!contains("ABCDE", 'F'));
 //}
-//
-//void test_endsWith()
-//{
-//    JT_ASSERT(endsWith("aBc" UTF8_GREEK_SMALL_SIGMA "D",
-//                       "C" UTF8_GREEK_CAPITAL_SIGMA "d",
-//                       FindFlags::CaseInsensitive));
-//    JT_ASSERT(!endsWith("aBc" UTF8_GREEK_SMALL_SIGMA "D",
-//                        "E" UTF8_GREEK_CAPITAL_SIGMA "d",
-//                        FindFlags::CaseInsensitive));
-//}
-//
+
+void test_endsWith()
+{
+    JT_ASSERT(Utf8::endsWith("aBc" UTF8_GREEK_SMALL_SIGMA "D",
+                             "C" UTF8_GREEK_CAPITAL_SIGMA "d",
+                             FindFlags::CASE_INSENSITIVE));
+    JT_ASSERT(!Utf8::endsWith("aBc" UTF8_GREEK_SMALL_SIGMA "D",
+                              "E" UTF8_GREEK_CAPITAL_SIGMA "d",
+                              FindFlags::CASE_INSENSITIVE));
+    JT_ASSERT(Utf8::endsWith("aBc" UTF8_GREEK_SMALL_SIGMA "D",
+                             "c" UTF8_GREEK_SMALL_SIGMA "D"));
+}
+
 //void test_escape()
 //{
 //    const char str[] = "ab\x01""cd\nef\x7Fgh\x80";
@@ -306,19 +308,19 @@ void test_find()
 //    JT_EQUAL(parts[4], "");
 //    JT_EQUAL(parts[5], "rubb");
 //}
-//
-//void test_startsWith()
-//{
-//    JT_ASSERT(startsWith("qF" UTF8_GREEK_SMALL_SIGMA "aBcD",
-//                         "qF" UTF8_GREEK_CAPITAL_SIGMA,
-//                         FindFlags::CaseInsensitive));
-//    JT_ASSERT(!startsWith("qF" UTF8_GREEK_SMALL_SIGMA "aBcD",
-//                          "qF" UTF8_GREEK_CAPITAL_SIGMA));
-//    JT_ASSERT(!startsWith("qF" UTF8_GREEK_SMALL_SIGMA "aBcD",
-//                          "qF" UTF8_GREEK_CAPITAL_SIGMA "g",
-//                          FindFlags::CaseInsensitive));
-//}
-//
+
+void test_startsWith()
+{
+    JT_ASSERT(Utf8::startsWith("qF" UTF8_GREEK_SMALL_SIGMA "aBcD",
+                               "qF" UTF8_GREEK_CAPITAL_SIGMA,
+                               FindFlags::CASE_INSENSITIVE));
+    JT_ASSERT(!Utf8::startsWith("qF" UTF8_GREEK_SMALL_SIGMA "aBcD",
+                                "qF" UTF8_GREEK_CAPITAL_SIGMA));
+    JT_ASSERT(!Utf8::startsWith("qF" UTF8_GREEK_SMALL_SIGMA "aBcD",
+                                "qF" UTF8_GREEK_CAPITAL_SIGMA "g",
+                                FindFlags::CASE_INSENSITIVE));
+}
+
 //void test_stringLength()
 //{
 //    JT_EQUAL(stringLength("A" UTF8_COMBINING_RING_ABOVE "BCDE"
@@ -416,8 +418,8 @@ JT_SUBTEST("Utf8"/*,
            test_caseInsensitiveCompare,
            test_caseInsensitiveEqual,
            test_caseInsensitiveLess,
-           test_contains,
-           test_endsWith,
+           test_contains*/,
+           test_endsWith/*,
            test_escape*/,
            test_find/*,
            test_insert,
@@ -438,8 +440,8 @@ JT_SUBTEST("Utf8"/*,
            test_split_caseInsensitive,
            test_split_whitespace,
            test_splitIf,
-           test_splitLines,
-           test_startsWith,
+           test_splitLines*/,
+           test_startsWith/*,
            test_stringLength,
            test_substring,
            test_title,

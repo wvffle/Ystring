@@ -225,14 +225,14 @@ Range<Iterator> makeRange(std::pair<Iterator, Iterator> p)
 //{
 //    return std::reverse_iterator<BiIt>(it);
 //}
-//
-//template <typename Iterator>
-//Range<std::reverse_iterator<Iterator>> makeReverseRange(Range<Iterator> range)
-//{
-//    return makeRange(makeReverseIterator(end(range)),
-//                     makeReverseIterator(begin(range)));
-//}
-//
+
+template <typename Iterator>
+Range<std::reverse_iterator<Iterator>> makeReverseRange(Range<Iterator> range)
+{
+    return makeRange(std::reverse_iterator<Iterator>(range.end()),
+                     std::reverse_iterator<Iterator>(range.begin()));
+}
+
 //template <typename Iterator>
 //ptrdiff_t size(const Range<Iterator>& range)
 //{

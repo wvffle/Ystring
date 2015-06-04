@@ -12,10 +12,12 @@
 namespace Ystring { namespace Encoded {
 
 template <typename Decoder1, typename Decoder2>
-Decoder1 find(Decoder1&& str, Decoder2&& sub);
+Decoder1 find(Decoder1&& str, Decoder2&& sub,
+              FindFlags_t flags = FindFlags::DEFAULTS);
 
 template <typename Decoder1, typename Decoder2>
-Decoder1 findCaseInsensitive(Decoder1&& str, Decoder2&& sub);
+bool startsWith(Decoder1&& str, Decoder2&& sub,
+                FindFlags_t flags = FindFlags::DEFAULTS);
 
 
 }}

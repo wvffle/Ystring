@@ -12,6 +12,12 @@
 
 namespace Ystring { namespace Utf8 {
 
+/** @brief Returns true if @a str ends with @a cmp.
+  */
+bool endsWith(const std::string& str,
+              const std::string& cmp,
+              FindFlags_t flags = FindFlags::DEFAULTS);
+
 std::pair<std::string::iterator, std::string::iterator> find(
         std::string& str,
         const std::string& cmp,
@@ -31,5 +37,9 @@ std::pair<std::string::const_iterator, std::string::const_iterator> find(
       std::pair<std::string::const_iterator, std::string::const_iterator> str,
       const std::string& cmp,
       FindFlags_t flags = FindFlags::DEFAULTS);
+
+bool startsWith(const std::string& str,
+                const std::string& cmp,
+                FindFlags_t flags = FindFlags::DEFAULTS);
 
 }}

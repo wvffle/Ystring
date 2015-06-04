@@ -42,7 +42,7 @@ public:
     }
 
     template <typename BiIt>
-    bool prevCodePoint(uint32_t& codePoint, BiIt first, BiIt& it)
+    bool prev(uint32_t& codePoint, BiIt first, BiIt& it)
     {
         switch (prevUtf8CodePoint(codePoint, first, it))
         {

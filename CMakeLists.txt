@@ -52,6 +52,7 @@ set(PUBLIC_HEADERS
     Ystring/Utilities/Iterators.hpp
     Ystring/Utilities/KeyFunctionAlgorithms.hpp
     Ystring/Utilities/Range.hpp
+    Ystring/Utilities/RangeAlgorithms.hpp
     )
 
 set(PRIVATE_HEADERS

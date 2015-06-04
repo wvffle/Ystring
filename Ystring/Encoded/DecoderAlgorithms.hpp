@@ -31,12 +31,26 @@ bool advanceIfEqual(Decoder1& a, Decoder2& b, BinaryPred compare)
     return true;
 }
 
+//template <typename Decoder1, typename Decoder2>
+//bool advanceIfEqual(Decoder1& str, Decoder2& cmp)
+//{
+//    return advanceIfEqual(str, cmp,
+//                          [](uint32_t a, uint32_t b){return a == b;});
+//}
+
 template <typename Decoder1, typename Decoder2, typename BinaryPred>
 bool advanceWhileEqual(Decoder1& str, Decoder2& cmp, BinaryPred compare)
 {
     while (advanceIfEqual(str, cmp, compare))
     {}
     return cmp.begin() == cmp.end();
+}
+
+template <typename Decoder1, typename Decoder2>
+bool advanceWhileEqual(Decoder1& str, Decoder2& cmp)
+{
+    return advanceWhileEqual(str, cmp,
+                             [](uint32_t a, uint32_t b){return a == b;});
 }
 
 template <typename Decoder1, typename Decoder2, typename BinaryPred>

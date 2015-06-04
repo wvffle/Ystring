@@ -149,14 +149,14 @@ FwdIt find(Range<FwdIt> range, const Value& value)
 //                            begin(range2), end(range2),
 //                            isEqual, isLess);
 //}
-//
-//template <typename FwdIt1, typename FwdIt2>
-//std::pair<FwdIt1, FwdIt2> mismatch(Range<FwdIt1> range1, Range<FwdIt2> range2)
-//{
-//    return Utilities::mismatch(begin(range1), end(range1),
-//                                begin(range2), end(range2));
-//}
-//
+
+template <typename FwdIt1, typename FwdIt2>
+std::pair<FwdIt1, FwdIt2> mismatch(Range<FwdIt1> range1, Range<FwdIt2> range2)
+{
+    return std::mismatch(begin(range1), end(range1),
+                         begin(range2), end(range2));
+}
+
 //template <typename FwdIt1, typename FwdIt2, typename BinaryPred>
 //std::pair<FwdIt1, FwdIt2> mismatch(Range<FwdIt1> range1, Range<FwdIt2> range2,
 //                                   BinaryPred predicate)

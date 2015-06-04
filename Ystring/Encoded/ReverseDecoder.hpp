@@ -23,12 +23,12 @@ public:
 
     bool next(uint32_t& ch)
     {
-        return m_Encoding.prev(ch);
+        return m_Encoding.prev(ch, m_First, m_Last);
     }
 
     bool skip()
     {
-        return m_Encoding.skipPrev();
+        return m_Encoding.skipPrev(m_First, m_Last);
     }
 
     const Encoding& getEncoding() const
@@ -65,6 +65,7 @@ public:
     {
         return m_Last;
     }
+
 protected:
     BiIt m_First;
     BiIt m_Last;
