@@ -15,6 +15,7 @@ include_directories(
 
 set(SOURCE_FILES
     main.cpp
+    Generic/test_GenericString.cpp
     Unicode/test_CaseConverter.cpp
     Unicode/test_CaseInsensitive.cpp
     Unicode/test_CharClass.cpp

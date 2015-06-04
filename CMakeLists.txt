@@ -35,6 +35,7 @@ set(PUBLIC_HEADERS
     Ystring/Encoded/ReverseDecoder.hpp
     Ystring/Generic/EncodedRange.hpp
     Ystring/Generic/GenericString.hpp
+    Ystring/Generic/StringTraits.hpp
     Ystring/Unicode/CaseConverter.hpp
     Ystring/Unicode/CaseInsensitive.hpp
     Ystring/Unicode/CharClass.hpp
@@ -44,8 +45,10 @@ set(PUBLIC_HEADERS
     Ystring/Utf8/DecodeUtf8-impl.hpp
     Ystring/Utf8/EncodeUtf8.hpp
     Ystring/Utf8/EncodeUtf8-impl.hpp
+    Ystring/Utf8/Utf8Chars.hpp
     Ystring/Utf8/Utf8Encoding.hpp
     Ystring/Utf8/Utf8String.hpp
+    Ystring/Utilities/Algorithms.hpp
     Ystring/Utilities/Iterators.hpp
     Ystring/Utilities/KeyFunctionAlgorithms.hpp
     Ystring/Utilities/Range.hpp

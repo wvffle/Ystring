@@ -40,6 +40,16 @@ public:
         return Encoded::makeReverseDecoder(m_Range, m_Encoding);
     }
 
+    It begin() const
+    {
+        return m_Range.begin();
+    }
+
+    It end() const
+    {
+        return m_Range.end();
+    }
+
 private:
     Utilities::Range<It> m_Range;
     Enc m_Encoding;
