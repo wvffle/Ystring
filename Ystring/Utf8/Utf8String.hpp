@@ -42,4 +42,6 @@ bool startsWith(const std::string& str,
                 const std::string& cmp,
                 FindFlags_t flags = FindFlags::DEFAULTS);
 
+std::string upper(const std::string& str);
+
 }}

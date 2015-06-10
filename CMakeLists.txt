@@ -31,9 +31,11 @@ set(PUBLIC_HEADERS
     Ystring/Encoded/DecoderAlgorithms.hpp
     Ystring/Encoded/DecoderStringFunctions.hpp
     Ystring/Encoded/DecoderStringFunctions-impl.hpp
+    Ystring/Encoded/Encoder.hpp
     Ystring/Encoded/ForwardDecoder.hpp
     Ystring/Encoded/ReverseDecoder.hpp
     Ystring/Generic/EncodedRange.hpp
+    Ystring/Generic/StringReference.hpp
     Ystring/Generic/GenericString.hpp
     Ystring/Generic/StringTraits.hpp
     Ystring/Unicode/CaseConverter.hpp
@@ -53,6 +55,7 @@ set(PUBLIC_HEADERS
     Ystring/Utilities/KeyFunctionAlgorithms.hpp
     Ystring/Utilities/Range.hpp
     Ystring/Utilities/RangeAlgorithms.hpp
+    Ystring/Utilities/ArrayOutputIterator.hpp
     )
 
 set(PRIVATE_HEADERS
@@ -77,7 +80,7 @@ add_library(
     ${PUBLIC_HEADERS}
     ${PRIVATE_HEADERS}
     ${SOURCE_FILES}
-    )
+    Ystring/Utilities/CountingOutputIterator.hpp)
 
 set(CTEST_OUTPUT_ON_FAILURE 1)
 add_subdirectory(UnitTest)

@@ -16,16 +16,19 @@ namespace
     {
         if (length == 1)
         {
-            *it++ = (char)c;
+            *it = (char)c;
+            ++it;
         }
         else
         {
             auto shift = (length - 1) * 6;
-            *it++ = (char)((0xFF << (8 - length)) | (c >> shift));
+            *it = (char)((0xFF << (8 - length)) | (c >> shift));
+            ++it;
             for (size_t i = 1; i < length; i++)
             {
                 shift -= 6;
-                *it++ = (char)(0x80 | ((c >> shift) & 0x3F));
+                *it = (char)(0x80 | ((c >> shift) & 0x3F));
+                ++it;
             }
         }
         return it;

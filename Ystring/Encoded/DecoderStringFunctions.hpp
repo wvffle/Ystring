@@ -11,6 +11,12 @@
 
 namespace Ystring { namespace Encoded {
 
+template <typename Encoder, typename Decoder>
+void appendLower(Encoder&& dst, Decoder&& src);
+
+template <typename Encoder, typename Decoder>
+void appendUpper(Encoder&& dst, Decoder&& src);
+
 template <typename Decoder1, typename Decoder2>
 Decoder1 find(Decoder1&& str, Decoder2&& sub,
               FindFlags_t flags = FindFlags::DEFAULTS);

@@ -20,12 +20,12 @@ class Range
 {
 public:
     typedef IteratorT Iterator;
-    typedef std::iterator_traits<Iterator> IteratorTraits;
-    typedef typename IteratorTraits::value_type ValueType;
-    typedef typename IteratorTraits::difference_type DifferenceType;
-    typedef typename IteratorTraits::pointer Pointer;
-    typedef typename IteratorTraits::reference Reference;
-    typedef typename IteratorTraits::iterator_category IteratorCategory;
+//    typedef std::iterator_traits<Iterator> IteratorTraits;
+//    typedef typename IteratorTraits::value_type ValueType;
+//    typedef typename IteratorTraits::difference_type DifferenceType;
+//    typedef typename IteratorTraits::pointer Pointer;
+//    typedef typename IteratorTraits::reference Reference;
+//    typedef typename IteratorTraits::iterator_category IteratorCategory;
 
     Range()
     {}
@@ -171,10 +171,7 @@ Range<const T*> makeRange(const T (&a)[N])
 template <size_t N>
 Range<char*> makeRange(char (&s)[N])
 {
-    if (s[N - 1])
-        return makeRange<char*>(s, s + N);
-    else
-        return makeRange<char*>(s, s + (N - 1));
+    return makeRange(&s[0], s + std::strlen(s));
 }
 
 template <size_t N>
@@ -189,10 +186,7 @@ Range<const char*> makeRange(const char (&s)[N])
 template <size_t N>
 Range<wchar_t*> makeRange(wchar_t (&s)[N])
 {
-    if (s[N - 1])
-        return makeRange<wchar_t*>(s, s + N);
-    else
-        return makeRange<wchar_t*>(s, s + (N - 1));
+    return makeRange(&s[0], s + std::wcslen(s));
 }
 
 template <size_t N>
@@ -219,12 +213,6 @@ Range<Iterator> makeRange(std::pair<Iterator, Iterator> p)
 {
     return Range<Iterator>(p);
 }
-
-//template <typename BiIt>
-//std::reverse_iterator<BiIt> makeReverseIterator(BiIt it)
-//{
-//    return std::reverse_iterator<BiIt>(it);
-//}
 
 template <typename Iterator>
 Range<std::reverse_iterator<Iterator>> makeReverseRange(Range<Iterator> range)

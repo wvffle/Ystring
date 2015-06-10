@@ -20,8 +20,9 @@ bool endsWith(const std::string& str,
               FindFlags_t flags)
 {
     return Generic::endsWith(
-            makeEncodedRange(makeRange(str), Utf8Encoding()),
-            makeEncodedRange(makeRange(cmp), Utf8Encoding()),
+            makeRange(str),
+            makeRange(cmp),
+            Utf8Encoding(),
             flags);
 }
 
@@ -69,6 +70,16 @@ std::pair<std::string::const_iterator, std::string::const_iterator> find(
             flags).getRange();
 }
 
+std::string lower(const std::string& str)
+{
+    std::string result;
+//    result.reserve(str.size());
+//    EncodedStrings::forEachUpper(
+//            utf8Range(str),
+//            [&](uint32_t c) {EncodedStrings::addUtf8(back_inserter(result), c);});
+    return result;
+}
+
 bool startsWith(const std::string& str,
                 const std::string& cmp,
                 FindFlags_t flags)
@@ -77,6 +88,16 @@ bool startsWith(const std::string& str,
             makeEncodedRange(makeRange(str), Utf8Encoding()),
             makeEncodedRange(makeRange(cmp), Utf8Encoding()),
             flags);
+}
+
+std::string upper(const std::string& str)
+{
+    std::string result;
+//    result.reserve(str.size());
+//    EncodedStrings::forEachUpper(
+//            utf8Range(str),
+//            [&](uint32_t c) {EncodedStrings::addUtf8(back_inserter(result), c);});
+    return result;
 }
 
 }}

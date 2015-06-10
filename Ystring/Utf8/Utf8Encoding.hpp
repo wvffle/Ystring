@@ -17,6 +17,7 @@ class Utf8Encoding
 {
 public:
     static const Encoding_t encoding = Encoding::UTF_8;
+    typedef char CanonicalType;
 
     template <typename FwdIt>
     bool next(uint32_t& codePoint, FwdIt& it, FwdIt last)

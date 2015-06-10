@@ -20,14 +20,21 @@ void test_find_different_containers_same_encoding()
 {
     std::string str("Abraham Brorson");
     char cmp[] = "m B";
-    auto match = Ystring::Generic::find(
+    auto match = Generic::find(
             makeEncodedRange(makeRange(str), Utf8Encoding()),
             makeEncodedRange(makeRange(cmp), Utf8Encoding()));
     JT_EQUAL(std::distance(str.begin(), match.begin()), 6);
     JT_ASSERT(match.end() == str.begin() + 9);
 }
 
+void test_sizeOfLower()
+{
+    std::string str("\xC8\xBA");
+    JT_EQUAL(Generic::sizeOfLower(makeRange(str), Utf8Encoding()), 3);
+}
+
 JT_SUBTEST("Generic",
-           test_find_different_containers_same_encoding);
+           test_find_different_containers_same_encoding,
+           test_sizeOfLower);
 
 }

@@ -7,10 +7,27 @@
 //****************************************************************************
 #pragma once
 
+#include "../Unicode/CaseConverter.hpp"
 #include "../Unicode/CaseInsensitive.hpp"
 #include "DecoderAlgorithms.hpp"
 
 namespace Ystring { namespace Encoded {
+
+template <typename Encoder, typename Decoder>
+void appendLower(Encoder&& dst, Decoder&& src)
+{
+    uint32_t ch;
+    while (src.next(ch))
+        dst.encode(Unicode::lower(ch));
+}
+
+template <typename Encoder, typename Decoder>
+void appendUpper(Encoder&& dst, Decoder&& src)
+{
+    uint32_t ch;
+    while (src.next(ch))
+        dst.encode(ch);
+}
 
 template <typename Decoder1, typename Decoder2>
 Decoder1 find(Decoder1&& str, Decoder2&& sub, FindFlags_t flags)

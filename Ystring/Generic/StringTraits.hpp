@@ -7,7 +7,32 @@
 //****************************************************************************
 #pragma once
 
+#include <string>
+#include "../Utilities/ArrayOutputIterator.hpp"
+
 namespace Ystring { namespace Generic {
+
+//template <typename String>
+//struct StringTraits
+//{
+//    typedef std::back_insert_iterator<String> BackInsertIterator;
+//
+//    BackInsertIterator getBackInserter(String& s)
+//    {
+//        return std::back_inserter(s);
+//    }
+//};
+//
+//template <>
+//struct StringTraits<char*>
+//{
+//    typedef Utilities::SafeOutputIterator<char*> BackInsertIterator;
+//
+//    BackInsertIterator getBackInserter(char* s)
+//    {
+//
+//    }
+//};
 
 template <typename Enc1, typename Enc2>
 struct SameEncoding
