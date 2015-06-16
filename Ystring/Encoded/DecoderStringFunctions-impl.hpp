@@ -26,11 +26,11 @@ void appendUpper(Encoder&& dst, Decoder&& src)
 {
     uint32_t ch;
     while (src.next(ch))
-        dst.encode(ch);
+        dst.encode(Unicode::upper(ch));
 }
 
 template <typename Decoder1, typename Decoder2>
-Decoder1 find(Decoder1&& str, Decoder2&& sub, FindFlags_t flags)
+Decoder1 find(Decoder1 str, Decoder2 sub, FindFlags_t flags)
 {
     if (flags == FindFlags::CASE_INSENSITIVE)
         return search(str, sub, Unicode::CaseInsensitiveEqual());

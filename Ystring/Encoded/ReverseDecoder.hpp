@@ -59,6 +59,11 @@ public:
         m_First = last;
     }
 
+    Utilities::Range<BiIt> getRange() const
+    {
+        return Utilities::makeRange(m_First, m_Last);
+    }
+
     BiIt begin()
     {
         return m_First;

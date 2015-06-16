@@ -32,9 +32,8 @@ std::pair<std::string::iterator, std::string::iterator> find(
         FindFlags_t flags)
 {
     return Generic::find(
-            makeEncodedRange(makeRange(str), Utf8Encoding()),
-            makeEncodedRange(makeRange(cmp), Utf8Encoding()),
-            flags).getRange();
+            makeRange(str), makeRange(cmp), Utf8Encoding(),
+            flags);
 }
 
 std::pair<std::string::const_iterator, std::string::const_iterator> find(
@@ -42,10 +41,8 @@ std::pair<std::string::const_iterator, std::string::const_iterator> find(
         const std::string& cmp,
         FindFlags_t flags)
 {
-    return Generic::find(
-            makeEncodedRange(makeRange(str), Utf8Encoding()),
-            makeEncodedRange(makeRange(cmp), Utf8Encoding()),
-            flags).getRange();
+    return Generic::find(makeRange(str), makeRange(cmp), Utf8Encoding(),
+                         flags);
 }
 
 std::pair<std::string::iterator, std::string::iterator> find(
@@ -53,10 +50,8 @@ std::pair<std::string::iterator, std::string::iterator> find(
       const std::string& cmp,
       FindFlags_t flags)
 {
-    return Generic::find(
-            makeEncodedRange(makeRange(str), Utf8Encoding()),
-            makeEncodedRange(makeRange(cmp), Utf8Encoding()),
-            flags).getRange();
+    return Generic::find(makeRange(str), makeRange(cmp), Utf8Encoding(),
+                         flags);
 }
 
 std::pair<std::string::const_iterator, std::string::const_iterator> find(
@@ -64,40 +59,26 @@ std::pair<std::string::const_iterator, std::string::const_iterator> find(
       const std::string& cmp,
       FindFlags_t flags)
 {
-    return Generic::find(
-            makeEncodedRange(makeRange(str), Utf8Encoding()),
-            makeEncodedRange(makeRange(cmp), Utf8Encoding()),
-            flags).getRange();
+    return Generic::find(makeRange(str), makeRange(cmp), Utf8Encoding(),
+                         flags);
 }
 
 std::string lower(const std::string& str)
 {
-    std::string result;
-//    result.reserve(str.size());
-//    EncodedStrings::forEachUpper(
-//            utf8Range(str),
-//            [&](uint32_t c) {EncodedStrings::addUtf8(back_inserter(result), c);});
-    return result;
+    return Generic::lower<std::string>(makeRange(str), Utf8Encoding());
 }
 
 bool startsWith(const std::string& str,
                 const std::string& cmp,
                 FindFlags_t flags)
 {
-    return Generic::startsWith(
-            makeEncodedRange(makeRange(str), Utf8Encoding()),
-            makeEncodedRange(makeRange(cmp), Utf8Encoding()),
-            flags);
+    return Generic::startsWith(makeRange(str), makeRange(cmp), Utf8Encoding(),
+                               flags);
 }
 
 std::string upper(const std::string& str)
 {
-    std::string result;
-//    result.reserve(str.size());
-//    EncodedStrings::forEachUpper(
-//            utf8Range(str),
-//            [&](uint32_t c) {EncodedStrings::addUtf8(back_inserter(result), c);});
-    return result;
+    return Generic::upper<std::string>(makeRange(str), Utf8Encoding());
 }
 
 }}

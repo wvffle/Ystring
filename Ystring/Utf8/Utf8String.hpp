@@ -18,6 +18,8 @@ bool endsWith(const std::string& str,
               const std::string& cmp,
               FindFlags_t flags = FindFlags::DEFAULTS);
 
+std::string lower(const std::string& str);
+
 std::pair<std::string::iterator, std::string::iterator> find(
         std::string& str,
         const std::string& cmp,

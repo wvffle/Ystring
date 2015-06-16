@@ -62,4 +62,17 @@ private:
     size_t m_Capacity;
 };
 
+template <typename T>
+StringReference<T> makeStringReference(T& str)
+{
+    using namespace std;
+    return StringReference<T>(str);
+}
+
+template <typename T, size_t N>
+StringReference<T*> makeStringReference(T (&arr)[N])
+{
+    return StringReference<T*>(&arr[0], 0, N - 1);
+}
+
 }}

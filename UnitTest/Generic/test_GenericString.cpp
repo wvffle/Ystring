@@ -20,9 +20,8 @@ void test_find_different_containers_same_encoding()
 {
     std::string str("Abraham Brorson");
     char cmp[] = "m B";
-    auto match = Generic::find(
-            makeEncodedRange(makeRange(str), Utf8Encoding()),
-            makeEncodedRange(makeRange(cmp), Utf8Encoding()));
+    auto match = Generic::find(makeRange(str), makeRange(cmp),
+                               Utf8Encoding());
     JT_EQUAL(std::distance(str.begin(), match.begin()), 6);
     JT_ASSERT(match.end() == str.begin() + 9);
 }

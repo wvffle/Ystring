@@ -158,13 +158,13 @@ void test_find()
 //    auto result2 = join(begin(strings), end(strings), ":-:");
 //    JT_EQUAL(result2, "foo:-:faa:-:fii:-:fee:-:fuu");
 //}
-//
-//void test_lower()
-//{
-//    JT_EQUAL(lower("aBc" UTF8_GREEK_CAPITAL_SIGMA "d12$E"),
-//             "abc" UTF8_GREEK_SMALL_SIGMA "d12$e");
-//}
-//
+
+void test_lower()
+{
+    JT_EQUAL(Utf8::lower("aBc" UTF8_GREEK_CAPITAL_SIGMA "d12$E"),
+             "abc" UTF8_GREEK_SMALL_SIGMA "d12$e");
+}
+
 //void test_nthCharacter()
 //{
 //    std::string str("The " UTF8_GREEK_SMALL_OMEGA
@@ -413,51 +413,51 @@ void test_startsWith()
 //    JT_EQUAL(unescape("\\u00C6\\n\\t\\\\\\x41"),
 //                      UTF8_LATIN_CAPITAL_AE "\n\t\\A");
 //}
-//
-//void test_upper()
-//{
-//    JT_EQUAL(upper("aBc" UTF8_GREEK_SMALL_SIGMA "D"),
-//             "ABC" UTF8_GREEK_CAPITAL_SIGMA "D");
-//}
 
-JT_SUBTEST("Utf8"/*,
-           test_append,
-           test_caseInsensitiveCompare,
-           test_caseInsensitiveEqual,
-           test_caseInsensitiveLess,
-           test_contains*/,
-           test_endsWith/*,
-           test_escape*/,
-           test_find/*,
-           test_insert,
-           test_insertChar,
-           test_insertInPlace,
-           test_isAlphaNumeric,
-           test_isValidUtf8,
-           test_join,
+void test_upper()
+{
+    JT_EQUAL(Utf8::upper("aBc" UTF8_GREEK_SMALL_SIGMA "D"),
+             "ABC" UTF8_GREEK_CAPITAL_SIGMA "D");
+}
+
+JT_SUBTEST("Utf8",
+//           test_append,
+//           test_caseInsensitiveCompare,
+//           test_caseInsensitiveEqual,
+//           test_caseInsensitiveLess,
+//           test_contains,
+           test_endsWith,
+//           test_escape,
+           test_find,
+//           test_insert,
+//           test_insertChar,
+//           test_insertInPlace,
+//           test_isAlphaNumeric,
+//           test_isValidUtf8,
+//           test_join,
            test_lower,
-           test_nthCharacter,
-           test_replace_indexes,
-           test_replace_string,
-           test_replaceCodePoint,
-           test_replaceInPlace,
-           test_replaceInvalidUtf8,
-           test_replaceInvalidUtf8InPlace,
-           test_reverse,
-           test_split_caseInsensitive,
-           test_split_whitespace,
-           test_splitIf,
-           test_splitLines*/,
-           test_startsWith/*,
-           test_stringLength,
-           test_substring,
-           test_title,
-           test_toUtf8_fromLatin1,
-           test_toUtf8_fromUtf8,
-           test_toUtf8_fromUtf16,
-           test_trim,
-           test_trimFront,
-           test_trimBack,
-           test_unescape,
-           test_upper*/);
+//           test_nthCharacter,
+//           test_replace_indexes,
+//           test_replace_string,
+//           test_replaceCodePoint,
+//           test_replaceInPlace,
+//           test_replaceInvalidUtf8,
+//           test_replaceInvalidUtf8InPlace,
+//           test_reverse,
+//           test_split_caseInsensitive,
+//           test_split_whitespace,
+//           test_splitIf,
+//           test_splitLines,
+           test_startsWith,
+//           test_stringLength,
+//           test_substring,
+//           test_title,
+//           test_toUtf8_fromLatin1,
+//           test_toUtf8_fromUtf8,
+//           test_toUtf8_fromUtf16,
+//           test_trim,
+//           test_trimFront,
+//           test_trimBack,
+//           test_unescape,
+           test_upper);
 }

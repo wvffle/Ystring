@@ -39,7 +39,7 @@ public:
         return m_Encoding;
     }
 
-    FwdIt getLogicalBegin()
+    FwdIt getLogicalBegin() const
     {
         return m_First;
     }
@@ -49,7 +49,7 @@ public:
         m_First = first;
     }
 
-    FwdIt getLogicalEnd()
+    FwdIt getLogicalEnd() const
     {
         return m_Last;
     }
@@ -57,6 +57,11 @@ public:
     void setLogicalEnd(FwdIt last)
     {
         m_Last = last;
+    }
+
+    Utilities::Range<FwdIt> getRange() const
+    {
+        return Utilities::makeRange(m_First, m_Last);
     }
 
     FwdIt begin()
