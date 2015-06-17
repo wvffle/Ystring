@@ -8,6 +8,7 @@
 #pragma once
 
 #include <iterator>
+#include "../Encoded/Appender.hpp"
 #include "../Encoded/Encoder.hpp"
 #include "../Utilities/ArrayOutputIterator.hpp"
 
@@ -23,10 +24,21 @@ public:
         : m_String(str)
     {}
 
+    Encoded::Appender<String> getAppender()
+    {
+        return Encoded::Appender<String>(m_String);
+    }
+
     template <typename Encoding>
     Encoded::Encoder<BackInsertIterator, Encoding> getEncoder(Encoding encoding)
     {
         return Encoded::makeEncoder(std::back_inserter(m_String), encoding);
+    }
+
+    void reserve(size_t size)
+    {
+        if (size)
+            m_String.reserve(m_String.size() + size);
     }
 
     void terminate()
@@ -46,15 +58,29 @@ public:
           m_Size(size)
     {}
 
-    template <typename Encoding>
-    Encoded::Encoder<BackInsertIterator, Encoding> getEncoder(Encoding encoding)
+    Encoded::Appender<T> getAppender()
     {
-        return Encoded::makeEncoder(BackInsertIterator(m_String, &m_Size, m_Capacity - 1), encoding);
+        return Encoded::Appender<T>(m_String, &m_Size, m_Capacity);
     }
+
+    template <typename Encoding>
+    Encoded::Encoder<BackInsertIterator, Encoding>
+        getEncoder(Encoding encoding)
+    {
+        return Encoded::makeEncoder(
+                BackInsertIterator(m_String, &m_Size, m_Capacity - 1),
+                encoding);
+    }
+
+    void reserve(size_t size)
+    {}
 
     void terminate()
     {
-        m_String[m_Size] = 0;
+        if (m_Size != m_Capacity)
+            m_String[m_Size] = 0;
+        else
+            m_String[m_Capacity - 1] = 0;
     }
 private:
     T* m_String;

@@ -20,15 +20,15 @@
 
 namespace Ystring { namespace Utilities {
 
-//template <typename InpIt, typename OutIt>
-//std::pair<InpIt, OutIt> copy(InpIt srcBeg, InpIt srcEnd,
-//                             OutIt dstBeg, OutIt dstEnd)
-//{
-//    while (srcBeg != srcEnd && dstBeg != dstEnd)
-//        *dstBeg++ = *srcBeg++;
-//    return std::make_pair(srcBeg, dstBeg);
-//}
-//
+template <typename InpIt, typename OutIt>
+std::pair<InpIt, OutIt> copy(InpIt srcBeg, InpIt srcEnd,
+                             OutIt dstBeg, OutIt dstEnd)
+{
+    while (srcBeg != srcEnd && dstBeg != dstEnd)
+        *dstBeg++ = *srcBeg++;
+    return std::make_pair(srcBeg, dstBeg);
+}
+
 //template <typename InpIt1, typename InpIt2, typename BinaryFunc>
 //auto compare(InpIt1 first, InpIt1 last,
 //             InpIt2 cmpFirst, InpIt2 cmpLast)

@@ -37,6 +37,7 @@ set(PUBLIC_HEADERS
     Ystring/Generic/EncodedRange.hpp
     Ystring/Generic/StringReference.hpp
     Ystring/Generic/GenericString.hpp
+    Ystring/Generic/GenericString-impl.hpp
     Ystring/Generic/StringTraits.hpp
     Ystring/Unicode/CaseConverter.hpp
     Ystring/Unicode/CaseInsensitive.hpp
@@ -80,7 +81,7 @@ add_library(
     ${PUBLIC_HEADERS}
     ${PRIVATE_HEADERS}
     ${SOURCE_FILES}
-    Ystring/Utilities/CountingOutputIterator.hpp)
+    Ystring/Utilities/CountingOutputIterator.hpp Ystring/Encoded/Appender.hpp)
 
 set(CTEST_OUTPUT_ON_FAILURE 1)
 add_subdirectory(UnitTest)

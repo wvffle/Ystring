@@ -63,6 +63,15 @@ std::pair<std::string::const_iterator, std::string::const_iterator> find(
                          flags);
 }
 
+std::string join(const std::vector<std::string>& strings,
+                 std::string delimiter)
+{
+    return delimiter.empty() ?
+           Generic::join<std::string>(begin(strings), end(strings)) :
+           Generic::join<std::string>(begin(strings), end(strings),
+                                      begin(delimiter), end(delimiter));
+}
+
 std::string lower(const std::string& str)
 {
     return Generic::lower<std::string>(makeRange(str), Utf8Encoding());

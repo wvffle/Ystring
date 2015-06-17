@@ -8,6 +8,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "../FindFlags.hpp"
 
 namespace Ystring { namespace Utf8 {
@@ -39,6 +40,9 @@ std::pair<std::string::const_iterator, std::string::const_iterator> find(
       std::pair<std::string::const_iterator, std::string::const_iterator> str,
       const std::string& cmp,
       FindFlags_t flags = FindFlags::DEFAULTS);
+
+std::string join(const std::vector<std::string>& strings,
+                 std::string delimiter = std::string());
 
 bool startsWith(const std::string& str,
                 const std::string& cmp,

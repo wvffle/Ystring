@@ -21,12 +21,12 @@ using namespace Ystring;
 //void test_append()
 //{
 //    std::string s;
-//    JT_EQUAL(append(s, Unicode::GreekSmallFinalSigma),
+//    JT_EQUAL(append(s, Unicode::GREEK_SMALL_FINAL_SIGMA),
 //             UTF8_GREEK_SMALL_FINAL_SIGMA);
-//    JT_EQUAL(append(s, Unicode::PunctuationSpace),
+//    JT_EQUAL(append(s, Unicode::PUNCTUATION_SPACE),
 //             UTF8_GREEK_SMALL_FINAL_SIGMA UTF8_PUNCTUATION_SPACE);
 //}
-//
+
 //void test_caseInsensitiveCompare()
 //{
 //    JT_LESS(caseInsensitiveCompare("aBc" UTF8_GREEK_SMALL_SIGMA,
@@ -149,15 +149,15 @@ void test_find()
 //    JT_ASSERT(isValidUtf8("AB\xC1\x80"));
 //    JT_ASSERT(!isValidUtf8("AB\xC0\xBF"));
 //}
-//
-//void test_join()
-//{
-//    std::string strings[] = {"foo", "faa", "fii", "fee", "fuu"};
-//    auto result1 = join(begin(strings), end(strings));
-//    JT_EQUAL(result1, "foofaafiifeefuu");
-//    auto result2 = join(begin(strings), end(strings), ":-:");
-//    JT_EQUAL(result2, "foo:-:faa:-:fii:-:fee:-:fuu");
-//}
+
+void test_join()
+{
+    auto strings = std::vector<std::string>{"foo", "faa", "fii", "fee", "fuu"};
+    auto result1 = Utf8::join(strings);
+    JT_EQUAL(result1, "foofaafiifeefuu");
+    auto result2 = Utf8::join(strings, ":-:");
+    JT_EQUAL(result2, "foo:-:faa:-:fii:-:fee:-:fuu");
+}
 
 void test_lower()
 {
@@ -434,7 +434,7 @@ JT_SUBTEST("Utf8",
 //           test_insertInPlace,
 //           test_isAlphaNumeric,
 //           test_isValidUtf8,
-//           test_join,
+           test_join,
            test_lower,
 //           test_nthCharacter,
 //           test_replace_indexes,
