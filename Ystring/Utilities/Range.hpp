@@ -221,12 +221,12 @@ Range<std::reverse_iterator<Iterator>> makeReverseRange(Range<Iterator> range)
                      std::reverse_iterator<Iterator>(range.begin()));
 }
 
-//template <typename Iterator>
-//ptrdiff_t size(const Range<Iterator>& range)
-//{
-//    return std::distance(begin(range), end(range));
-//}
-//
+template <typename Iterator>
+ptrdiff_t getSize(const Range<Iterator>& range)
+{
+    return std::distance(begin(range), end(range));
+}
+
 //template <typename Iterator>
 //Range<Iterator> subrange(const Range<Iterator>& range, ptrdiff_t first, ptrdiff_t last)
 //{
