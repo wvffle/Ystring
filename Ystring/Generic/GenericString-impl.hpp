@@ -265,7 +265,7 @@ Utilities::Range<It> trim(Utilities::Range<It> str,
                           Enc encoding,
                           UnaryPred trimChar)
 {
-    return trimEnd(trimStart(str, encoding, trimChar));
+    return trimEnd(trimStart(str, encoding, trimChar), encoding, trimChar);
 }
 
 template <typename It, typename Enc, typename UnaryPred>

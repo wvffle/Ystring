@@ -7,8 +7,8 @@
 //****************************************************************************
 #include "Ystring/Utf8/Utf8String.hpp"
 
-#include "Ystring/Unicode/UnicodeChars.hpp"
-#include "Ystring/Unicode/UnicodePredicates.hpp"
+//#include "Ystring/Unicode/UnicodeChars.hpp"
+//#include "Ystring/Unicode/UnicodePredicates.hpp"
 #include "Ystring/Utf8/Utf8Chars.hpp"
 //#include "../../Ystring/FindFlags.hpp"
 #include <JEBTest/JEBTest.hpp>
@@ -379,16 +379,17 @@ void test_startsWith()
 //             UTF8_LATIN_CAPITAL_A_WITH_RING_ABOVE "rb"
 //             UTF8_LATIN_SMALL_O_WITH_STROKE "ker");
 //}
-//
-//void test_trim()
-//{
-//    JT_EQUAL(trim(" \n\t foo bar \f\r" UTF8_PARAGRAPH_SEPARATOR), "foo bar");
+
+void test_trim()
+{
+    JT_EQUAL(Utf8::trim(" \n\t foo bar \f\r" UTF8_PARAGRAPH_SEPARATOR),
+             "foo bar");
 //    JT_EQUAL(trim(":--." UTF8_GREEK_SMALL_SIGMA "foo bar:--",
 //                  Unicode::isPunctuation),
 //             UTF8_GREEK_SMALL_SIGMA "foo bar");
 //    JT_EQUAL(trim("A.BC_DFB.-GA-B", [](uint32_t c){return contains("AB.-", c);}),
 //             "C_DFB.-G");
-//}
+}
 
 void test_trimEnd()
 {
@@ -455,7 +456,7 @@ JT_SUBTEST("Utf8",
 //           test_toUtf8_fromLatin1,
 //           test_toUtf8_fromUtf8,
 //           test_toUtf8_fromUtf16,
-//           test_trim,
+           test_trim,
            test_trimEnd,
            test_trimStart,
 //           test_unescape,

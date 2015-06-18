@@ -87,6 +87,14 @@ bool startsWith(const std::string& str,
                                flags);
 }
 
+std::string trim(const std::string& str)
+{
+    return fromRange<std::string>(Generic::trim(
+            Utilities::makeRange(str),
+            Utf8Encoding(),
+            Unicode::isWhitespace));
+}
+
 std::string trimEnd(const std::string& str)
 {
     return fromRange<std::string>(Generic::trimEnd(
