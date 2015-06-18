@@ -13,8 +13,20 @@ namespace {
 
 using namespace Ystring;
 using Generic::makeEncodedRange;
+using Generic::makeStringReference;
 using Utilities::makeRange;
 using Utf8::Utf8Encoding;
+using std::begin;
+using std::end;
+
+void test_appendJoin()
+{
+    const char* strings[] = {"foo", "faa", "fii", "fee", "fuu"};
+    char result[256] = "Foo bar ";
+    auto ref = makeStringReference(result, strlen(result));
+    Generic::appendJoin(ref, begin(strings), end(strings));
+    JT_EQUAL(result, "Foo bar foofaafiifeefuu");
+}
 
 void test_find_different_containers_same_encoding()
 {
@@ -26,6 +38,22 @@ void test_find_different_containers_same_encoding()
     JT_ASSERT(match.end() == str.begin() + 9);
 }
 
+void test_join()
+{
+    const char* strings[] = {"foo", "faa", "fii", "fee", "fuu"};
+    auto result = Generic::join<std::vector<char>>(begin(strings), end(strings));
+    result.push_back(0);
+    JT_EQUAL_RANGES(result, "foofaafiifeefuu");
+}
+
+void test_sizeOfJoin()
+{
+    const char* strings[] = {"foo", "faa", "fii"};
+    auto result = Generic::sizeOfJoin(begin(strings), end(strings),
+                                      Utilities::makeRange("::"));
+    JT_EQUAL(result, 13);
+}
+
 void test_sizeOfLower()
 {
     std::string str("\xC8\xBA");
@@ -33,7 +61,10 @@ void test_sizeOfLower()
 }
 
 JT_SUBTEST("Generic",
+           test_appendJoin,
            test_find_different_containers_same_encoding,
+           test_join,
+           test_sizeOfJoin,
            test_sizeOfLower);
 
 }
