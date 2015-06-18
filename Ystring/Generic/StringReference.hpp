@@ -58,9 +58,9 @@ public:
           m_Size(size)
     {}
 
-    Encoded::Appender<T> getAppender()
+    Encoded::Appender<T*> getAppender()
     {
-        return Encoded::Appender<T>(m_String, &m_Size, m_Capacity);
+        return Encoded::Appender<T*>(m_String, &m_Size, m_Capacity);
     }
 
     template <typename Encoding>
@@ -96,9 +96,15 @@ StringReference<T> makeStringReference(T& str)
 }
 
 template <typename T, size_t N>
-StringReference<T*> makeStringReference(T (&arr)[N])
+StringReference<T*> makeStringReference(T (&arr)[N], size_t size = 0)
 {
-    return StringReference<T*>(&arr[0], 0, N - 1);
+    return StringReference<T*>(&arr[0], size, N - 1);
+}
+
+template <typename T>
+StringReference<T*> makeStringReference(T* str, size_t size, size_t capacity)
+{
+    return StringReference<T*>(str, size, capacity);
 }
 
 }}

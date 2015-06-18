@@ -9,6 +9,7 @@
 
 #include <string>
 #include "../Utilities/Algorithms.hpp"
+#include "../Utilities/Range.hpp"
 
 namespace Ystring { namespace Encoded {
 
@@ -21,9 +22,9 @@ public:
     {}
 
     template <typename It>
-    void append(It first, It last)
+    void append(Utilities::Range<It> str)
     {
-        m_String.insert(end(m_String), first, last);
+        m_String.insert(end(m_String), str.begin(), str.end());
     }
 private:
     String& m_String;
@@ -40,9 +41,9 @@ public:
     {}
 
     template <typename It>
-    void append(It first, It last)
+    void append(Utilities::Range<It> str)
     {
-        auto its = Utilities::copy(first, last,
+        auto its = Utilities::copy(str.begin(), str.end(),
                                    &m_String[*m_Size], &m_String[m_Capacity]);
         if (its.second == &m_String[m_Capacity])
         {
@@ -67,9 +68,9 @@ public:
     {}
 
     template <typename It>
-    void append(It first, It last)
+    void append(Utilities::Range<It> str)
     {
-        m_String.append(first, last);
+        m_String.append(str.begin(), str.end());
     }
 private:
     std::string& m_String;
@@ -84,9 +85,9 @@ public:
     {}
 
     template <typename It>
-    void append(It first, It last)
+    void append(Utilities::Range<It> str)
     {
-        m_String.append(first, last);
+        m_String.append(str.begin(), str.end());
     }
 private:
     std::wstring& m_String;

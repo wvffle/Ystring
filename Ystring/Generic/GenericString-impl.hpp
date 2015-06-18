@@ -19,18 +19,19 @@ namespace Ystring { namespace Generic {
 
 template <typename Str, typename It1, typename It2>
 void appendJoin(StringReference<Str>& dst, It1 first, It1 last,
-                It2 delimiterFirst, It2 delimiterLast)
+                Utilities::Range<It2> delimiter)
 {
     if (first == last)
         return;
 
     auto appender = dst.getAppender();
-    appender.append(begin(*first), end(*first));
+    appender.append(Utilities::makeRange(*first));
     while (++first != last)
     {
-        appender.append(delimiterFirst, delimiterLast);
-        appender.append(begin(*first), end(*first));
+        appender.append(delimiter);
+        appender.append(Utilities::makeRange(*first));
     }
+    dst.terminate();
 }
 
 template <typename Str, typename It>
@@ -38,7 +39,7 @@ void appendJoin(StringReference<Str>& dst, It first, It last)
 {
     auto appender = dst.getAppender();
     for (; first != last; ++first)
-        appender.append(begin(*first), end(*first));
+        appender.append(Utilities::makeRange(*first));
     dst.terminate();
 }
 
@@ -152,11 +153,11 @@ Utilities::Range<It1> find(Utilities::Range<It1> str,
 }
 
 template <typename Str, typename It1, typename It2>
-Str join(It1 first, It1 last, It2 delimiterFirst, It2 delimiterLast)
+Str join(It1 first, It1 last, Utilities::Range<It2> delimiter)
 {
     auto result = Str();
     auto ref = makeStringReference(result);
-    appendJoin(ref, first, last, delimiterFirst, delimiterLast);
+    appendJoin(ref, first, last, delimiter);
     return result;
 }
 
@@ -178,16 +179,16 @@ Str lower(Utilities::Range<It> src, Enc encoding)
     return str;
 }
 
-template <typename It, typename Delimiter>
-size_t sizeOfJoin(It first, It last, const Delimiter& delimiter)
+template <typename It1, typename It2>
+size_t sizeOfJoin(It1 first, It1 last, Utilities::Range<It2> delimiter)
 {
     size_t n = 0, len = 0;
     for (; first != last; ++first)
     {
-        len += first->size();
+        len += getSize(Utilities::makeRange(*first));
         ++n;
     }
-    return len + (n - 1) * delimiter.size();
+    return len + (n - 1) * getSize(delimiter);
 }
 
 template <typename It>
@@ -195,7 +196,7 @@ size_t sizeOfJoin(It first, It last)
 {
     size_t size = 0;
     for (; first != last; ++first)
-        size += first->size();
+        size += getSize(Utilities::makeRange(first));
     return size;
 }
 

@@ -69,7 +69,7 @@ std::string join(const std::vector<std::string>& strings,
     return delimiter.empty() ?
            Generic::join<std::string>(begin(strings), end(strings)) :
            Generic::join<std::string>(begin(strings), end(strings),
-                                      begin(delimiter), end(delimiter));
+                                      Utilities::makeRange(delimiter));
 }
 
 std::string lower(const std::string& str)

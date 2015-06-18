@@ -15,7 +15,7 @@ namespace Ystring { namespace Generic {
 
 template <typename Str, typename It1, typename It2>
 void appendJoin(StringReference<Str>& dst, It1 first, It1 last,
-                It2 delimiterFirst, It2 delimiterLast);
+                Utilities::Range<It2> delimiter);
 
 template <typename Str, typename It>
 void appendJoin(StringReference<Str>& dst, It first, It last);
@@ -50,7 +50,7 @@ Utilities::Range<It1> find(Utilities::Range<It1> str,
                            FindFlags_t flags = FindFlags::DEFAULTS);
 
 template <typename Str, typename It1, typename It2>
-Str join(It1 first, It1 last, It2 delimiterFirst, It2 delimiterLast);
+Str join(It1 first, It1 last, Utilities::Range<It2> delimiter);
 
 template <typename Str, typename It>
 Str join(It first, It last);
@@ -58,8 +58,8 @@ Str join(It first, It last);
 template <typename Str, typename It, typename Enc>
 Str lower(Utilities::Range<It> src, Enc encoding);
 
-template <typename It, typename Delimiter>
-size_t sizeOfJoin(It first, It last, const Delimiter& delimiter);
+template <typename It1, typename It2>
+size_t sizeOfJoin(It1 first, It1 last, Utilities::Range<It2> delimiter);
 
 template <typename It>
 size_t sizeOfJoin(It first, It last);
