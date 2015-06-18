@@ -55,6 +55,17 @@ void appendLower(StringReference<Str>& dst,
 }
 
 template <typename Str, typename It, typename Enc>
+void appendTitle(StringReference<Str>& dst,
+                 Utilities::Range<It> src,
+                 Enc encoding)
+{
+    Encoded::appendTitle(
+            dst.getEncoder(encoding),
+            Encoded::makeForwardDecoder(src, encoding));
+    dst.terminate();
+}
+
+template <typename Str, typename It, typename Enc>
 void appendUpper(StringReference<Str>& dst,
                  Utilities::Range<It> src,
                  Enc encoding)
@@ -258,6 +269,15 @@ bool startsWith(Utilities::Range<It1> str,
         return startsWithImpl(
                 str, cmp, encoding,
                 typename SameIteratorValueType<It1, It2>::type());
+}
+
+template <typename Str, typename It, typename Enc>
+Str title(Utilities::Range<It> src, Enc encoding)
+{
+    auto str = Str();
+    auto ref = makeStringReference(str);
+    appendTitle(ref, src, encoding);
+    return str;
 }
 
 template <typename It, typename Enc, typename UnaryPred>

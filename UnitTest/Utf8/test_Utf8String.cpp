@@ -351,13 +351,13 @@ void test_startsWith()
 //    JT_EQUAL(substring(s, -2, -2), "");
 //    JT_EQUAL(substring(s, -1, -3), "");
 //}
-//
-//void test_title()
-//{
-//    JT_EQUAL(title("aBc " UTF8_GREEK_SMALL_SIGMA "De.fooB"),
-//             "Abc " UTF8_GREEK_CAPITAL_SIGMA "de.Foob");
-//}
-//
+
+void test_title()
+{
+    JT_EQUAL(Utf8::title("aBc " UTF8_GREEK_SMALL_SIGMA "De.fooB"),
+             "Abc " UTF8_GREEK_CAPITAL_SIGMA "de.Foob");
+}
+
 //void test_toUtf8_fromLatin1()
 //{
 //    JT_EQUAL(toUtf8("\xC5rb\xF8ker", Encoding::Latin1),
@@ -452,7 +452,7 @@ JT_SUBTEST("Utf8",
            test_startsWith,
 //           test_stringLength,
 //           test_substring,
-//           test_title,
+           test_title,
 //           test_toUtf8_fromLatin1,
 //           test_toUtf8_fromUtf8,
 //           test_toUtf8_fromUtf16,

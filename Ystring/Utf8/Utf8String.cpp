@@ -87,6 +87,11 @@ bool startsWith(const std::string& str,
                                flags);
 }
 
+std::string title(const std::string& str)
+{
+    return Generic::title<std::string>(makeRange(str), Utf8Encoding());
+}
+
 std::string trim(const std::string& str)
 {
     return fromRange<std::string>(Generic::trim(

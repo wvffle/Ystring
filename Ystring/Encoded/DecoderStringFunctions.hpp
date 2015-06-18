@@ -15,6 +15,9 @@ template <typename Encoder, typename Decoder>
 void appendLower(Encoder&& dst, Decoder&& src);
 
 template <typename Encoder, typename Decoder>
+void appendTitle(Encoder&& dst, Decoder&& src);
+
+template <typename Encoder, typename Decoder>
 void appendUpper(Encoder&& dst, Decoder&& src);
 
 template <typename Decoder1, typename Decoder2>

@@ -26,6 +26,11 @@ void appendLower(StringReference<Str>& dst,
                  Enc encoding);
 
 template <typename Str, typename It, typename Enc>
+void appendTitle(StringReference<Str>& dst,
+                 Utilities::Range<It> src,
+                 Enc encoding);
+
+template <typename Str, typename It, typename Enc>
 void appendUpper(StringReference<Str>& dst,
                  Utilities::Range<It> src,
                  Enc encoding);
@@ -75,6 +80,9 @@ bool startsWith(Utilities::Range<It1> str,
                 Utilities::Range<It2> cmp,
                 Enc encoding,
                 FindFlags_t flags = FindFlags::DEFAULTS);
+
+template <typename Str, typename It, typename Enc>
+Str title(Utilities::Range<It> src, Enc encoding);
 
 template <typename It, typename Enc, typename UnaryPred>
 Utilities::Range<It> trim(Utilities::Range<It> str,
