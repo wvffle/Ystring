@@ -269,11 +269,11 @@ ptrdiff_t getSize(const Range<Iterator>& range)
 //{
 //    return appendRange(c, begin(range), end(range));
 //}
-//
-//template <typename Container, typename Iterator>
-//Container fromRange(Range<Iterator> range)
-//{
-//    return Container(begin(range), end(range));
-//}
+
+template <typename Container, typename Iterator>
+Container fromRange(Range<Iterator> range)
+{
+    return Container(begin(range), end(range));
+}
 
 }}

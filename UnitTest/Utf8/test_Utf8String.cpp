@@ -389,25 +389,25 @@ void test_startsWith()
 //    JT_EQUAL(trim("A.BC_DFB.-GA-B", [](uint32_t c){return contains("AB.-", c);}),
 //             "C_DFB.-G");
 //}
-//
-//void test_trimFront()
-//{
-//    JT_EQUAL(trimFront(" \n\t" UTF8_PARAGRAPH_SEPARATOR " foo bar \f\r"),
-//             "foo bar \f\r");
-//    JT_EQUAL(trimFront(":--." UTF8_GREEK_SMALL_SIGMA "foo bar:--",
-//                       Unicode::isPunctuation),
-//             UTF8_GREEK_SMALL_SIGMA "foo bar:--");
-//}
-//
-//void test_trimBack()
-//{
-//    JT_EQUAL(trimBack(" \n\t foo bar \f\r" UTF8_PARAGRAPH_SEPARATOR),
-//             " \n\t foo bar");
+
+void test_trimEnd()
+{
+    JT_EQUAL(Utf8::trimEnd(" \n\t foo bar \f\r" UTF8_PARAGRAPH_SEPARATOR),
+             " \n\t foo bar");
 //    JT_EQUAL(trimBack(":--." UTF8_GREEK_SMALL_SIGMA "foo bar:--",
 //                      Unicode::isPunctuation),
 //             ":--." UTF8_GREEK_SMALL_SIGMA "foo bar");
-//}
-//
+}
+
+void test_trimStart()
+{
+    JT_EQUAL(Utf8::trimStart(" \n\t" UTF8_PARAGRAPH_SEPARATOR " foo bar \f\r"),
+             "foo bar \f\r");
+//    JT_EQUAL(Utf8::trimFront(":--." UTF8_GREEK_SMALL_SIGMA "foo bar:--",
+//                             Unicode::isPunctuation),
+//             UTF8_GREEK_SMALL_SIGMA "foo bar:--");
+}
+
 //void test_unescape()
 //{
 //    JT_EQUAL(unescape("\\u00C6\\n\\t\\\\\\x41"),
@@ -456,8 +456,8 @@ JT_SUBTEST("Utf8",
 //           test_toUtf8_fromUtf8,
 //           test_toUtf8_fromUtf16,
 //           test_trim,
-//           test_trimFront,
-//           test_trimBack,
+           test_trimEnd,
+           test_trimStart,
 //           test_unescape,
            test_upper);
 }

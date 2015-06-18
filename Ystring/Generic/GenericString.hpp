@@ -76,6 +76,21 @@ bool startsWith(Utilities::Range<It1> str,
                 Enc encoding,
                 FindFlags_t flags = FindFlags::DEFAULTS);
 
+template <typename It, typename Enc, typename UnaryPred>
+Utilities::Range<It> trim(Utilities::Range<It> str,
+                          Enc encoding,
+                          UnaryPred trimChar);
+
+template <typename It, typename Enc, typename UnaryPred>
+Utilities::Range<It> trimEnd(Utilities::Range<It> str,
+                             Enc encoding,
+                             UnaryPred trimChar);
+
+template <typename It, typename Enc, typename UnaryPred>
+Utilities::Range<It> trimStart(Utilities::Range<It> str,
+                               Enc encoding,
+                               UnaryPred trimChar);
+
 template <typename Str, typename It, typename Enc>
 Str upper(Utilities::Range<It> src, Enc encoding);
 

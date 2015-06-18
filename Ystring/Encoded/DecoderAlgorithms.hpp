@@ -12,6 +12,19 @@
 
 namespace Ystring { namespace Encoded {
 
+template <typename Decoder, typename UnaryPred>
+bool advanceIf(Decoder& str, UnaryPred pred)
+{
+    auto pos = str.getLogicalBegin();
+    uint32_t ch;
+    if (!str.next(ch) || !pred(ch))
+    {
+        str.setLogicalBegin(pos);
+        return false;
+    }
+    return true;
+}
+
 template <typename Decoder1, typename Decoder2, typename BinaryPred>
 bool advanceIfEqual(Decoder1& a, Decoder2& b, BinaryPred compare)
 {
@@ -37,6 +50,14 @@ bool advanceIfEqual(Decoder1& a, Decoder2& b, BinaryPred compare)
 //    return advanceIfEqual(str, cmp,
 //                          [](uint32_t a, uint32_t b){return a == b;});
 //}
+
+template <typename Decoder, typename UnaryPred>
+bool advanceWhile(Decoder& str, UnaryPred pred)
+{
+    while (advanceIf(str, pred))
+    {}
+    return str.begin() == str.end();
+}
 
 template <typename Decoder1, typename Decoder2, typename BinaryPred>
 bool advanceWhileEqual(Decoder1& str, Decoder2& cmp, BinaryPred compare)

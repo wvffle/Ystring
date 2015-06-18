@@ -48,6 +48,12 @@ bool startsWith(const std::string& str,
                 const std::string& cmp,
                 FindFlags_t flags = FindFlags::DEFAULTS);
 
+std::string trim(const std::string& str);
+
+std::string trimEnd(const std::string& str);
+
+std::string trimStart(const std::string& str);
+
 std::string upper(const std::string& str);
 
 }}

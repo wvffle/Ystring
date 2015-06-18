@@ -260,6 +260,34 @@ bool startsWith(Utilities::Range<It1> str,
                 typename SameIteratorValueType<It1, It2>::type());
 }
 
+template <typename It, typename Enc, typename UnaryPred>
+Utilities::Range<It> trim(Utilities::Range<It> str,
+                          Enc encoding,
+                          UnaryPred trimChar)
+{
+    return trimEnd(trimStart(str, encoding, trimChar));
+}
+
+template <typename It, typename Enc, typename UnaryPred>
+Utilities::Range<It> trimEnd(Utilities::Range<It> str,
+                             Enc encoding,
+                             UnaryPred trimChar)
+{
+    auto dec = Encoded::makeReverseDecoder(str, encoding);
+    advanceWhile(dec, trimChar);
+    return dec.getRange();
+}
+
+template <typename It, typename Enc, typename UnaryPred>
+Utilities::Range<It> trimStart(Utilities::Range<It> str,
+                               Enc encoding,
+                               UnaryPred trimChar)
+{
+    auto dec = Encoded::makeForwardDecoder(str, encoding);
+    advanceWhile(dec, trimChar);
+    return dec.getRange();
+}
+
 template <typename Str, typename It, typename Enc>
 Str upper(Utilities::Range<It> src, Enc encoding)
 {

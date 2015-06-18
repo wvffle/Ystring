@@ -9,11 +9,13 @@
 
 #include "Utf8Encoding.hpp"
 #include "../Generic/GenericString.hpp"
+#include "../Unicode/UnicodePredicates.hpp"
 
 namespace Ystring { namespace Utf8 {
 
 using Generic::makeEncodedRange;
 using Utilities::makeRange;
+using Utilities::fromRange;
 
 bool endsWith(const std::string& str,
               const std::string& cmp,
@@ -83,6 +85,22 @@ bool startsWith(const std::string& str,
 {
     return Generic::startsWith(makeRange(str), makeRange(cmp), Utf8Encoding(),
                                flags);
+}
+
+std::string trimEnd(const std::string& str)
+{
+    return fromRange<std::string>(Generic::trimEnd(
+            Utilities::makeRange(str),
+            Utf8Encoding(),
+            Unicode::isWhitespace));
+}
+
+std::string trimStart(const std::string& str)
+{
+    return fromRange<std::string>(Generic::trimStart(
+            Utilities::makeRange(str),
+            Utf8Encoding(),
+            Unicode::isWhitespace));
 }
 
 std::string upper(const std::string& str)
