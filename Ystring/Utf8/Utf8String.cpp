@@ -110,6 +110,15 @@ std::string trim(const std::string& str)
             Unicode::isWhitespace));
 }
 
+std::string trim(const std::string& str,
+                 std::function<bool(uint32_t)> predicate)
+{
+    return fromRange<std::string>(Generic::trim(
+            Utilities::makeRange(str),
+            Utf8Encoding(),
+            predicate));
+}
+
 std::string trimEnd(const std::string& str)
 {
     return fromRange<std::string>(Generic::trimEnd(
@@ -118,12 +127,31 @@ std::string trimEnd(const std::string& str)
             Unicode::isWhitespace));
 }
 
+std::string trimEnd(const std::string& str,
+                    std::function<bool(uint32_t)> predicate)
+{
+    return fromRange<std::string>(Generic::trimEnd(
+            Utilities::makeRange(str),
+            Utf8Encoding(),
+            predicate));
+}
+
 std::string trimStart(const std::string& str)
 {
     return fromRange<std::string>(Generic::trimStart(
             Utilities::makeRange(str),
             Utf8Encoding(),
             Unicode::isWhitespace));
+}
+
+
+std::string trimStart(const std::string& str,
+                      std::function<bool(uint32_t)> predicate)
+{
+    return fromRange<std::string>(Generic::trimStart(
+            Utilities::makeRange(str),
+            Utf8Encoding(),
+            predicate));
 }
 
 std::string upper(const std::string& str)

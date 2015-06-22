@@ -8,7 +8,7 @@
 #include "Ystring/Utf8/Utf8String.hpp"
 
 //#include "Ystring/Unicode/UnicodeChars.hpp"
-//#include "Ystring/Unicode/UnicodePredicates.hpp"
+#include "Ystring/Unicode/UnicodePredicates.hpp"
 #include "Ystring/Utf8/Utf8Chars.hpp"
 //#include "../../Ystring/FindFlags.hpp"
 #include <JEBTest/JEBTest.hpp>
@@ -384,10 +384,10 @@ void test_trim()
 {
     JT_EQUAL(Utf8::trim(" \n\t foo bar \f\r" UTF8_PARAGRAPH_SEPARATOR),
              "foo bar");
-//    JT_EQUAL(trim(":--." UTF8_GREEK_SMALL_SIGMA "foo bar:--",
-//                  Unicode::isPunctuation),
-//             UTF8_GREEK_SMALL_SIGMA "foo bar");
-//    JT_EQUAL(trim("A.BC_DFB.-GA-B", [](uint32_t c){return contains("AB.-", c);}),
+    JT_EQUAL(Utf8::trim(":--." UTF8_GREEK_SMALL_SIGMA "foo bar:--",
+                        Unicode::isPunctuation),
+             UTF8_GREEK_SMALL_SIGMA "foo bar");
+//    JT_EQUAL(Utf8::trim("A.BC_DFB.-GA-B", [](uint32_t c){return contains("AB.-", c);}),
 //             "C_DFB.-G");
 }
 
@@ -395,18 +395,18 @@ void test_trimEnd()
 {
     JT_EQUAL(Utf8::trimEnd(" \n\t foo bar \f\r" UTF8_PARAGRAPH_SEPARATOR),
              " \n\t foo bar");
-//    JT_EQUAL(trimBack(":--." UTF8_GREEK_SMALL_SIGMA "foo bar:--",
-//                      Unicode::isPunctuation),
-//             ":--." UTF8_GREEK_SMALL_SIGMA "foo bar");
+    JT_EQUAL(Utf8::trimEnd(":--." UTF8_GREEK_SMALL_SIGMA "foo bar:--",
+                           Unicode::isPunctuation),
+             ":--." UTF8_GREEK_SMALL_SIGMA "foo bar");
 }
 
 void test_trimStart()
 {
     JT_EQUAL(Utf8::trimStart(" \n\t" UTF8_PARAGRAPH_SEPARATOR " foo bar \f\r"),
              "foo bar \f\r");
-//    JT_EQUAL(Utf8::trimFront(":--." UTF8_GREEK_SMALL_SIGMA "foo bar:--",
-//                             Unicode::isPunctuation),
-//             UTF8_GREEK_SMALL_SIGMA "foo bar:--");
+    JT_EQUAL(Utf8::trimStart(":--." UTF8_GREEK_SMALL_SIGMA "foo bar:--",
+                             Unicode::isPunctuation),
+             UTF8_GREEK_SMALL_SIGMA "foo bar:--");
 }
 
 //void test_unescape()

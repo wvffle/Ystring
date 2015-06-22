@@ -7,6 +7,7 @@
 //****************************************************************************
 #pragma once
 
+#include <functional>
 #include <string>
 #include <vector>
 #include "../FindFlags.hpp"
@@ -69,9 +70,18 @@ std::string title(const std::string& str);
 
 std::string trim(const std::string& str);
 
+std::string trim(const std::string& str,
+                 std::function<bool(uint32_t)> predicate);
+
 std::string trimEnd(const std::string& str);
 
+std::string trimEnd(const std::string& str,
+                    std::function<bool(uint32_t)> predicate);
+
 std::string trimStart(const std::string& str);
+
+std::string trimStart(const std::string& str,
+                      std::function<bool(uint32_t)> predicate);
 
 std::string upper(const std::string& str);
 
