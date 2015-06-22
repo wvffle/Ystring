@@ -63,6 +63,17 @@ Decoder1 find(Decoder1 str, Decoder2 sub, FindFlags_t flags)
         return search(str, sub);
 }
 
+template <typename Decoder, typename UnaryPredicate>
+Decoder nextToken(Decoder& str, UnaryPredicate predicate)
+{
+    auto token = str;
+    token.setLogicalEnd(str.getLogicalBegin());
+    uint32_t ch;
+    while (str.next(ch) && !predicate(ch))
+        token.setLogicalEnd(str.getLogicalBegin());
+    return token;
+}
+
 template <typename Decoder1, typename Decoder2>
 bool startsWith(Decoder1&& str, Decoder2&& cmp, FindFlags_t flags)
 {

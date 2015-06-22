@@ -28,6 +28,8 @@ set(PUBLIC_HEADERS
     Ystring/DecoderResult.hpp
     Ystring/Encoding.hpp
     Ystring/FindFlags.hpp
+    Ystring/SplitFlags.hpp
+    Ystring/Encoded/Appender.hpp
     Ystring/Encoded/DecoderAlgorithms.hpp
     Ystring/Encoded/DecoderStringFunctions.hpp
     Ystring/Encoded/DecoderStringFunctions-impl.hpp
@@ -52,6 +54,7 @@ set(PUBLIC_HEADERS
     Ystring/Utf8/Utf8Encoding.hpp
     Ystring/Utf8/Utf8String.hpp
     Ystring/Utilities/Algorithms.hpp
+    Ystring/Utilities/CountingOutputIterator.hpp
     Ystring/Utilities/Iterators.hpp
     Ystring/Utilities/KeyFunctionAlgorithms.hpp
     Ystring/Utilities/Range.hpp
@@ -81,7 +84,7 @@ add_library(
     ${PUBLIC_HEADERS}
     ${PRIVATE_HEADERS}
     ${SOURCE_FILES}
-    Ystring/Utilities/CountingOutputIterator.hpp Ystring/Encoded/Appender.hpp)
+    )
 
 set(CTEST_OUTPUT_ON_FAILURE 1)
 add_subdirectory(UnitTest)

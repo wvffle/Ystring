@@ -8,7 +8,6 @@
 #pragma once
 
 #include <cstdint>
-#include "JEBString/JEBStringDefinitions.hpp"
 
 namespace Ystring { namespace Unicode {
 

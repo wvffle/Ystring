@@ -24,6 +24,9 @@ template <typename Decoder1, typename Decoder2>
 Decoder1 find(Decoder1 str, Decoder2 sub,
               FindFlags_t flags = FindFlags::DEFAULTS);
 
+template <typename Decoder, typename UnaryPredicate>
+Decoder nextToken(Decoder& str, UnaryPredicate predicate);
+
 template <typename Decoder1, typename Decoder2>
 bool startsWith(Decoder1&& str, Decoder2&& sub,
                 FindFlags_t flags = FindFlags::DEFAULTS);

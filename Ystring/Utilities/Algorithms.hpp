@@ -41,8 +41,8 @@ std::pair<InpIt, OutIt> copy(InpIt srcBeg, InpIt srcEnd,
 //        auto value = *first - *cmpFirst;
 //        if (value != zero)
 //            return value;
-//        first++;
-//        cmpFirst++;
+//        ++first;
+//        ++cmpFirst;
 //    }
 //    if (first != last)
 //        return ReturnType(1);
@@ -65,8 +65,8 @@ std::pair<InpIt, OutIt> copy(InpIt srcBeg, InpIt srcEnd,
 //        auto value = cmp(*first, *cmpFirst);
 //        if (value != zero)
 //            return value;
-//        first++;
-//        cmpFirst++;
+//        ++first;
+//        ++cmpFirst;
 //    }
 //    if (first != last)
 //        return ReturnType(1);
@@ -115,7 +115,7 @@ std::pair<InpIt, OutIt> copy(InpIt srcBeg, InpIt srcEnd,
 //        auto its = Algorithms::mismatch(beg, end, cmpBeg, cmpEnd, pred);
 //        if (its.second == cmpEnd)
 //            result = std::make_pair(beg, its.first);
-//        beg++;
+//        ++beg;
 //    }
 //    return result;
 //}
@@ -333,6 +333,18 @@ std::pair<InpIt, OutIt> copy(InpIt srcBeg, InpIt srcEnd,
 //               {return std::find(firstValue, lastValue, s) != lastValue;});
 //}
 
+template <typename InpIt1, typename InpIt2>
+std::pair<InpIt1, InpIt2> mismatch(InpIt1 beg, InpIt1 end,
+                                   InpIt2 cmpBeg, InpIt2 cmpEnd)
+{
+    while (beg != end && cmpBeg != cmpEnd && *beg == *cmpBeg)
+    {
+        ++beg;
+        ++cmpBeg;
+    }
+    return std::make_pair(beg, cmpBeg);
+}
+
 template <typename FwdIt1, typename FwdIt2>
 std::pair<FwdIt1, FwdIt1> search(FwdIt1 beg, FwdIt1 end,
                                  FwdIt2 cmpBeg, FwdIt2 cmpEnd)
@@ -341,12 +353,12 @@ std::pair<FwdIt1, FwdIt1> search(FwdIt1 beg, FwdIt1 end,
         return std::make_pair(end, end);
     while (beg != end)
     {
-        auto its = std::mismatch(beg, end, cmpBeg, cmpEnd);
+        auto its = Utilities::mismatch(beg, end, cmpBeg, cmpEnd);
         if (its.second == cmpEnd)
             return std::make_pair(beg, its.first);
         else if (its.first == end)
             break;
-        beg++;
+        ++beg;
     }
     return std::make_pair(end, end);
 }

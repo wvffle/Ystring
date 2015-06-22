@@ -280,18 +280,18 @@ void test_lower()
 //    JT_EQUAL(parts[2], "faa");
 //    JT_EQUAL(parts[3], "bor:" UTF8_GREEK_SMALL_OMEGA "q:");
 //}
-//
-//void test_split_whitespace()
-//{
-//    auto parts = split(" foo faa\r\n\tfee bar " UTF8_EM_SPACE "\tbor ");
-//    JT_EQUAL(parts.size(), 5);
-//    JT_EQUAL(parts[0], "foo");
-//    JT_EQUAL(parts[1], "faa");
-//    JT_EQUAL(parts[2], "fee");
-//    JT_EQUAL(parts[3], "bar");
-//    JT_EQUAL(parts[4], "bor");
-//}
-//
+
+void test_split_whitespace()
+{
+    auto parts = Utf8::split(" foo faa\r\n\tfee bar " UTF8_EM_SPACE "\tbor ");
+    JT_EQUAL(parts.size(), 5);
+    JT_EQUAL(parts[0], "foo");
+    JT_EQUAL(parts[1], "faa");
+    JT_EQUAL(parts[2], "fee");
+    JT_EQUAL(parts[3], "bar");
+    JT_EQUAL(parts[4], "bor");
+}
+
 //void test_splitIf()
 //{
 //    auto parts = splitIf(" foo faa\r\n\tfee bar " UTF8_EM_SPACE "\tbor ",
@@ -446,7 +446,7 @@ JT_SUBTEST("Utf8",
 //           test_replaceInvalidUtf8InPlace,
 //           test_reverse,
 //           test_split_caseInsensitive,
-//           test_split_whitespace,
+           test_split_whitespace,
 //           test_splitIf,
 //           test_splitLines,
            test_startsWith,

@@ -79,6 +79,16 @@ std::string lower(const std::string& str)
     return Generic::lower<std::string>(makeRange(str), Utf8Encoding());
 }
 
+std::vector<std::string> split(
+        const std::string& str,
+        size_t maxParts,
+        SplitFlags_t flags)
+{
+    return Generic::split<std::string>(
+            Utilities::makeRange(str), Utf8Encoding(),
+            maxParts, flags);
+}
+
 bool startsWith(const std::string& str,
                 const std::string& cmp,
                 FindFlags_t flags)

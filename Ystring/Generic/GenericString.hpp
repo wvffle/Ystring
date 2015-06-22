@@ -8,6 +8,7 @@
 #pragma once
 
 #include "../FindFlags.hpp"
+#include "../SplitFlags.hpp"
 #include "../Utilities/RangeAlgorithms.hpp"
 #include "StringReference.hpp"
 

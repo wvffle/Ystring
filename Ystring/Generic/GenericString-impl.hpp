@@ -141,9 +141,9 @@ Utilities::Range<It1> findImpl(Utilities::Range<It1> str,
                                std::false_type)
 {
     JEB_CHECKPOINT();
-    return Encoded::find(
-            Encoded::makeForwardDecoder(str, encoding),
-            Encoded::makeForwardDecoder(cmp, encoding)).getRange();
+    return Encoded::find(Encoded::makeForwardDecoder(str, encoding),
+                         Encoded::makeForwardDecoder(cmp, encoding)
+                        ).getRange();
 }
 
 template <typename It1, typename It2, typename Enc>
@@ -231,6 +231,34 @@ size_t sizeOfUpper(Utilities::Range<It> src, Enc encoding)
             Encoded::makeEncoder(it, encoding),
             Encoded::makeForwardDecoder(src, encoding));
     return n;
+}
+
+template <typename Str, typename It, typename Enc>
+std::vector<Str> split(
+        Utilities::Range<It> str,
+        Enc encoding,
+        size_t maxParts = 0,
+        SplitFlags_t flags = SplitFlags::IGNORE_EMPTY)
+{
+    std::vector<Str> result;
+    auto dec = Encoded::makeForwardDecoder(str, encoding);
+    while (maxParts != 1 && str.begin() != str.end())
+    {
+        auto token = nextToken(dec, Unicode::isWhitespace);
+        if (!SplitFlags::ignoreEmpty(flags) || token.begin() != token.end())
+        {
+            result.emplace_back(token.begin(), token.end());
+            --maxParts;
+        }
+        if (token.end() == str.end())
+            return result;
+    }
+    if ((!SplitFlags::ignoreRemainder(flags)) &&
+        (!SplitFlags::ignoreEmpty(flags) || str.begin() != str.end()))
+    {
+        result.emplace_back(str.begin(), str.end());
+    }
+    return result;
 }
 
 template <typename It1, typename It2, typename Enc>
