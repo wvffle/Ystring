@@ -12,7 +12,6 @@
 namespace {
 
 using namespace Ystring;
-using Generic::makeEncodedRange;
 using Generic::makeStringReference;
 using Utilities::makeRange;
 using Utf8::Utf8Encoding;

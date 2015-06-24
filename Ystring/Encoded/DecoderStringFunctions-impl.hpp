@@ -14,6 +14,33 @@
 
 namespace Ystring { namespace Encoded {
 
+template <typename Decoder>
+bool advanceCharacter(Decoder& it)
+{
+    uint32_t ch;
+    if (!it.next(ch))
+        return false;
+    auto prevIt = it.getLogicalBegin();
+    if (Decoder::isForward)
+    {
+        while (it.next(ch))
+        {
+            if (!Unicode::isMark(ch))
+            {
+                it.setLogicalBegin(prevIt);
+                break;
+            }
+            prevIt = it.getLogicalBegin();
+        }
+    }
+    else
+    {
+        while (Unicode::isMark(ch) && it.next(ch))
+        {}
+    }
+    return true;
+}
+
 template <typename Encoder, typename Decoder>
 void appendLower(Encoder&& dst, Decoder&& src)
 {
@@ -52,6 +79,44 @@ void appendUpper(Encoder&& dst, Decoder&& src)
     uint32_t ch;
     while (src.next(ch))
         dst.encode(Unicode::upper(ch));
+}
+
+template <typename Decoder1, typename Decoder2>
+int32_t caseInsensitiveCompare(Decoder1 str,
+                               Decoder2 cmp)
+{
+    advanceWhileEqual(str, cmp, Unicode::CaseInsensitiveEqual());
+    if (str.begin() == str.end() && cmp.begin() == cmp.end())
+        return 0;
+    else if (str.begin() == str.end())
+        return -1;
+    else if (cmp.begin() == cmp.end())
+        return 1;
+    uint32_t strCh, cmpCh;
+    str.next(strCh);
+    cmp.next(cmpCh);
+    return Unicode::caseInsensitiveCompare(strCh, cmpCh);
+}
+
+template <typename Decoder1, typename Decoder2>
+bool caseInsensitiveEqual(Decoder1 str,
+                          Decoder2 cmp)
+{
+    advanceWhileEqual(str, cmp, Unicode::CaseInsensitiveEqual());
+    return str.begin() == str.end() && cmp.begin() == cmp.end();
+}
+
+template <typename Decoder1, typename Decoder2>
+bool caseInsensitiveLess(Decoder1 str,
+                         Decoder2 cmp)
+{
+    advanceWhileEqual(str, cmp, Unicode::CaseInsensitiveEqual());
+    if (str.begin() == str.end() || cmp.begin() == cmp.end())
+        return str.begin() == str.end() && cmp.begin() != cmp.end();
+    uint32_t strCh, cmpCh;
+    str.next(strCh);
+    cmp.next(cmpCh);
+    return Unicode::caseInsensitiveLess(strCh, cmpCh);
 }
 
 template <typename Decoder1, typename Decoder2>

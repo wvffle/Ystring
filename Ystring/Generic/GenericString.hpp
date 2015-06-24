@@ -14,6 +14,12 @@
 
 namespace Ystring { namespace Generic {
 
+template <typename Str, typename Enc>
+void append(StringReference<Str>& dst, uint32_t chr, Enc encoding);
+
+template <typename Str, typename Enc>
+void append(StringReference<Str>&& dst, uint32_t chr, Enc encoding);
+
 template <typename Str, typename It1, typename It2>
 void appendJoin(StringReference<Str>& dst, It1 first, It1 last,
                 Utilities::Range<It2> delimiter);
@@ -35,13 +41,6 @@ template <typename Str, typename It, typename Enc>
 void appendUpper(StringReference<Str>& dst,
                  Utilities::Range<It> src,
                  Enc encoding);
-
-//template <typename Str, typename It2, typename Enc>
-//void replace(EncodedString<Str, Enc> dst,
-//             EncodedRange<It2, Enc> cmp,)
-//{
-//    Encoded::appendLower(dst.getEncoder(), src.getForwardDecoder());
-//}
 
 template <typename It1, typename It2, typename Enc>
 bool endsWith(Utilities::Range<It1> str,

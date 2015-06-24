@@ -222,9 +222,9 @@ Range<std::reverse_iterator<Iterator>> makeReverseRange(Range<Iterator> range)
 }
 
 template <typename Iterator>
-ptrdiff_t getSize(const Range<Iterator>& range)
+size_t getSize(const Range<Iterator>& range)
 {
-    return std::distance(begin(range), end(range));
+    return static_cast<size_t>(std::distance(begin(range), end(range)));
 }
 
 //template <typename Iterator>

@@ -29,13 +29,13 @@ namespace Ystring { namespace Utilities {
 //                               begin(range2), end(range2),
 //                               cmp);
 //}
-//
-//template <typename FwdIt, typename OutIt>
-//OutIt copy(Range<FwdIt> src, OutIt dst)
-//{
-//    return std::copy(begin(src), end(src), dst);
-//}
-//
+
+template <typename FwdIt, typename OutIt>
+OutIt copy(Range<FwdIt> src, OutIt dst)
+{
+    return std::copy(begin(src), end(src), dst);
+}
+
 //template <typename FwdIt, typename T>
 //size_t count(Range<FwdIt> range, const T& value)
 //{

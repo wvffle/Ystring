@@ -25,6 +25,19 @@ bool advanceIf(Decoder& str, UnaryPred pred)
     return true;
 }
 
+template <typename Decoder, typename UnaryPred>
+bool advanceIfNot(Decoder& str, UnaryPred pred)
+{
+    auto pos = str.getLogicalBegin();
+    uint32_t ch;
+    if (!str.next(ch) || pred(ch))
+    {
+        str.setLogicalBegin(pos);
+        return false;
+    }
+    return true;
+}
+
 template <typename Decoder1, typename Decoder2, typename BinaryPred>
 bool advanceIfEqual(Decoder1& a, Decoder2& b, BinaryPred compare)
 {
@@ -50,6 +63,14 @@ bool advanceIfEqual(Decoder1& a, Decoder2& b, BinaryPred compare)
 //    return advanceIfEqual(str, cmp,
 //                          [](uint32_t a, uint32_t b){return a == b;});
 //}
+
+template <typename Decoder, typename UnaryPred>
+bool advanceUntil(Decoder& str, UnaryPred pred)
+{
+    while (advanceIfNot(str, pred))
+    {}
+    return str.begin() != str.end();
+}
 
 template <typename Decoder, typename UnaryPred>
 bool advanceWhile(Decoder& str, UnaryPred pred)

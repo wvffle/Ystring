@@ -9,13 +9,27 @@
 
 #include "../Encoded/DecoderStringFunctions.hpp"
 #include "../Encoded/Encoder.hpp"
+#include "../Encoded/ForwardDecoder.hpp"
+#include "../Encoded/ReverseDecoder.hpp"
 #include "../Utilities/CountingOutputIterator.hpp"
-#include "EncodedRange.hpp"
 #include "StringTraits.hpp"
 
 #include <JEBDebug/Debug.hpp>
 
 namespace Ystring { namespace Generic {
+
+template <typename Str, typename Enc>
+void append(StringReference<Str>& dst, uint32_t chr, Enc encoding)
+{
+    auto encoder = dst.getEncoder(encoding);
+    encoder.encode(chr);
+}
+
+template <typename Str, typename Enc>
+void append(StringReference<Str>&& dst, uint32_t chr, Enc encoding)
+{
+    append(dst, chr, encoding);
+}
 
 template <typename Str, typename It1, typename It2>
 void appendJoin(StringReference<Str>& dst, It1 first, It1 last,
@@ -76,6 +90,40 @@ void appendUpper(StringReference<Str>& dst,
     dst.terminate();
 }
 
+template <typename It1, typename It2, typename Enc>
+int32_t caseInsensitiveCompare(Utilities::Range<It1> str,
+                               Utilities::Range<It2> cmp,
+                               Enc encoding)
+{
+    return caseInsensitiveCompare(
+            Encoded::makeForwardDecoder(str, encoding),
+            Encoded::makeForwardDecoder(cmp, encoding));
+}
+
+template <typename It1, typename It2, typename Enc>
+bool caseInsensitiveEqual(Utilities::Range<It1> str,
+                          Utilities::Range<It2> cmp,
+                          Enc encoding)
+{
+    return caseInsensitiveEqual(Encoded::makeForwardDecoder(str, encoding),
+                                Encoded::makeForwardDecoder(cmp, encoding));
+}
+
+template <typename It1, typename It2, typename Enc>
+bool caseInsensitiveLess(Utilities::Range<It1> str,
+                         Utilities::Range<It2> cmp,
+                         Enc encoding)
+{
+    return caseInsensitiveLess(Encoded::makeForwardDecoder(str, encoding),
+                               Encoded::makeForwardDecoder(cmp, encoding));
+}
+
+template <typename It, typename Enc>
+bool contains(Utilities::Range<It> str, uint32_t chr, Enc encoding)
+{
+    auto dec = Encoded::makeForwardDecoder(str, encoding);
+    return Encoded::advanceUntil(dec, [=](uint32_t c){return c == chr;});
+}
 
 //template <typename Str, typename It2, typename Enc>
 //void replace(EncodedString<Str, Enc> dst,
@@ -188,6 +236,21 @@ Str lower(Utilities::Range<It> src, Enc encoding)
     auto ref = makeStringReference(str);
     appendLower(ref, src, encoding);
     return str;
+}
+
+template <typename Str, typename It, typename Enc>
+Str reverse(Utilities::Range<It> src, Enc encoding)
+{
+    Str result(getSize(src), 0);
+    auto dst = begin(result);
+    auto dec = Encoded::makeReverseDecoder(src, encoding);
+    while (advanceCharacter(dec))
+    {
+        src.begin() = dec.end();
+        dst = copy(src, dst);
+        src.end() = src.begin();
+    }
+    return result;
 }
 
 template <typename It1, typename It2>

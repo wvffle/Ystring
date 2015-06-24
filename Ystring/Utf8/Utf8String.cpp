@@ -13,9 +13,41 @@
 
 namespace Ystring { namespace Utf8 {
 
-using Generic::makeEncodedRange;
+using Generic::makeStringReference;
 using Utilities::makeRange;
 using Utilities::fromRange;
+
+std::string& append(std::string& str, uint32_t chr)
+{
+    append(makeStringReference(str), chr, Utf8Encoding());
+    return str;
+}
+
+int32_t caseInsensitiveCompare(const std::string& str, const std::string& cmp)
+{
+    return Generic::caseInsensitiveCompare(makeRange(str),
+                                           makeRange(cmp),
+                                           Utf8Encoding());
+}
+
+bool caseInsensitiveEqual(const std::string& str, const std::string& cmp)
+{
+    return Generic::caseInsensitiveEqual(makeRange(str),
+                                         makeRange(cmp),
+                                         Utf8Encoding());
+}
+
+bool caseInsensitiveLess(const std::string& str, const std::string& cmp)
+{
+    return Generic::caseInsensitiveLess(makeRange(str),
+                                        makeRange(cmp),
+                                        Utf8Encoding());
+}
+
+bool contains(const std::string& str, uint32_t chr)
+{
+    return Generic::contains(makeRange(str), chr, Utf8Encoding());
+}
 
 bool endsWith(const std::string& str,
               const std::string& cmp,
@@ -65,18 +97,28 @@ std::pair<std::string::const_iterator, std::string::const_iterator> find(
                          flags);
 }
 
+bool isValidUtf8(const std::string& str)
+{
+    return isValidUtf8(begin(str), end(str));
+}
+
 std::string join(const std::vector<std::string>& strings,
                  std::string delimiter)
 {
     return delimiter.empty() ?
            Generic::join<std::string>(begin(strings), end(strings)) :
            Generic::join<std::string>(begin(strings), end(strings),
-                                      Utilities::makeRange(delimiter));
+                                      makeRange(delimiter));
 }
 
 std::string lower(const std::string& str)
 {
     return Generic::lower<std::string>(makeRange(str), Utf8Encoding());
+}
+
+std::string reverse(const std::string& str)
+{
+    return Generic::reverse<std::string>(makeRange(str), Utf8Encoding());
 }
 
 std::vector<std::string> split(
@@ -85,7 +127,7 @@ std::vector<std::string> split(
         SplitFlags_t flags)
 {
     return Generic::split<std::string>(
-            Utilities::makeRange(str), Utf8Encoding(),
+            makeRange(str), Utf8Encoding(),
             maxParts, flags);
 }
 
@@ -105,7 +147,7 @@ std::string title(const std::string& str)
 std::string trim(const std::string& str)
 {
     return fromRange<std::string>(Generic::trim(
-            Utilities::makeRange(str),
+            makeRange(str),
             Utf8Encoding(),
             Unicode::isWhitespace));
 }
@@ -114,7 +156,7 @@ std::string trim(const std::string& str,
                  std::function<bool(uint32_t)> predicate)
 {
     return fromRange<std::string>(Generic::trim(
-            Utilities::makeRange(str),
+            makeRange(str),
             Utf8Encoding(),
             predicate));
 }
@@ -122,7 +164,7 @@ std::string trim(const std::string& str,
 std::string trimEnd(const std::string& str)
 {
     return fromRange<std::string>(Generic::trimEnd(
-            Utilities::makeRange(str),
+            makeRange(str),
             Utf8Encoding(),
             Unicode::isWhitespace));
 }
@@ -131,7 +173,7 @@ std::string trimEnd(const std::string& str,
                     std::function<bool(uint32_t)> predicate)
 {
     return fromRange<std::string>(Generic::trimEnd(
-            Utilities::makeRange(str),
+            makeRange(str),
             Utf8Encoding(),
             predicate));
 }
@@ -139,7 +181,7 @@ std::string trimEnd(const std::string& str,
 std::string trimStart(const std::string& str)
 {
     return fromRange<std::string>(Generic::trimStart(
-            Utilities::makeRange(str),
+            makeRange(str),
             Utf8Encoding(),
             Unicode::isWhitespace));
 }
@@ -149,7 +191,7 @@ std::string trimStart(const std::string& str,
                       std::function<bool(uint32_t)> predicate)
 {
     return fromRange<std::string>(Generic::trimStart(
-            Utilities::makeRange(str),
+            makeRange(str),
             Utf8Encoding(),
             predicate));
 }
