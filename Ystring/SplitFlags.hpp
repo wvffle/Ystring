@@ -6,6 +6,7 @@
 // License text is included with the source distribution.
 //****************************************************************************
 #pragma once
+#include "FindFlags.hpp"
 
 namespace Ystring {
 
@@ -34,6 +35,13 @@ struct SplitFlags
     static bool ignoreRemainder(Flags flags)
     {
         return (flags & IGNORE_REMAINDER) != 0;
+    }
+
+    static FindFlags_t toFindFlags(Flags flags)
+    {
+        return isCaseInsensitive(flags)
+                ? FindFlags::CASE_INSENSITIVE
+                : FindFlags::DEFAULTS;
     }
 };
 

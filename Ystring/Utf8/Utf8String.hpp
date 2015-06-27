@@ -161,14 +161,14 @@ std::string reverse(const std::string& str);
 
 std::vector<std::string> split(
         const std::string& str,
-        size_t maxParts = 0,
+        int maxParts = 0,
         SplitFlags_t flags = SplitFlags::IGNORE_EMPTY);
 
-// std::vector<std::string> split(
-//         const std::string& str,
-//         const std::string& sep,
-//         size_t maxParts = 0,
-//         SplitFlags_t flags = SplitFlags::DEFAULTS);
+std::vector<std::string> split(
+        const std::string& str,
+        const std::string& sep,
+        size_t maxParts = 0,
+        SplitFlags_t flags = SplitFlags::DEFAULTS);
 
 // std::vector<std::string> splitIf(
 //         const std::string& str,

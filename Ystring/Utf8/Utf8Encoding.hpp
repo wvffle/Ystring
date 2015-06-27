@@ -60,7 +60,7 @@ public:
     }
 
     template <typename BiIt>
-    bool skipPrev(uint32_t& codePoint, BiIt first, BiIt& it)
+    bool skipPrev(BiIt first, BiIt& it)
     {
         return skipPrevUtf8CodePoint(first, it);
     }

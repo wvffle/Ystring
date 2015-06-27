@@ -120,7 +120,7 @@ bool caseInsensitiveLess(Decoder1 str,
 }
 
 template <typename Decoder1, typename Decoder2>
-Decoder1 find(Decoder1 str, Decoder2 sub, FindFlags_t flags)
+Decoder1 find(Decoder1& str, Decoder2 sub, FindFlags_t flags)
 {
     if (flags == FindFlags::CASE_INSENSITIVE)
         return search(str, sub, Unicode::CaseInsensitiveEqual());
@@ -136,6 +136,15 @@ Decoder nextToken(Decoder& str, UnaryPredicate predicate)
     uint32_t ch;
     while (str.next(ch) && !predicate(ch))
         token.setLogicalEnd(str.getLogicalBegin());
+    return token;
+}
+
+template <typename Decoder1, typename Decoder2>
+Decoder1 nextToken(Decoder1& str, Decoder2 cmp, FindFlags_t flags)
+{
+    auto token = str;
+    auto delimiter = Encoded::find(str, cmp, flags);
+    token.setLogicalEnd(delimiter.getLogicalBegin());
     return token;
 }
 

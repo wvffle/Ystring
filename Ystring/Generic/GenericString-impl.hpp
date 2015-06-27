@@ -18,6 +18,76 @@
 
 namespace Ystring { namespace Generic {
 
+namespace Details
+{
+    template <typename It1, typename It2, typename Enc>
+    bool endsWithImpl(Utilities::Range<It1> str,
+                      Utilities::Range<It2> cmp,
+                      Enc /*encoding*/,
+                      FindFlags_t /*flags*/,
+                      std::true_type);
+
+    template <typename It1, typename It2, typename Enc>
+    bool endsWithImpl(Utilities::Range<It1> str,
+                      Utilities::Range<It2> cmp,
+                      Enc encoding,
+                      FindFlags_t flags,
+                      std::false_type);
+
+    template <typename It1, typename It2, typename Enc>
+    Utilities::Range<It1> findImpl(Utilities::Range<It1> str,
+                                   Utilities::Range<It2> cmp,
+                                   Enc /*encoding*/,
+                                   FindFlags_t /*flags*/,
+                                   std::true_type);
+
+    template <typename It1, typename It2, typename Enc>
+    Utilities::Range<It1> findImpl(Utilities::Range<It1> str,
+                                   Utilities::Range<It2> cmp,
+                                   Enc encoding,
+                                   FindFlags_t flags,
+                                   std::false_type);
+
+    template <typename Str, typename Decoder, typename NextTokenFunc>
+    std::vector<Str> splitImpl(
+            Decoder str,
+            NextTokenFunc nextTokenFunc,
+            size_t maxParts,
+            SplitFlags_t flags);
+
+    template <typename Str, typename It1, typename It2, typename Enc>
+    std::vector<Str> splitImpl(
+            Utilities::Range<It1> str,
+            Utilities::Range<It2> cmp,
+            Enc encoding,
+            int maxParts,
+            SplitFlags_t flags,
+            std::true_type);
+
+    template <typename Str, typename It1, typename It2, typename Enc>
+    std::vector<Str> splitImpl(
+            Utilities::Range<It1> str,
+            Utilities::Range<It2> cmp,
+            Enc encoding,
+            int maxParts,
+            SplitFlags_t flags,
+            std::false_type);
+
+    template <typename It1, typename It2, typename Enc>
+    bool startsWithImpl(Utilities::Range<It1> str,
+                        Utilities::Range<It2> cmp,
+                        Enc /*encoding*/,
+                        FindFlags_t /*flags*/,
+                        std::true_type);
+
+    template <typename It1, typename It2, typename Enc>
+    bool startsWithImpl(Utilities::Range<It1> str,
+                        Utilities::Range<It2> cmp,
+                        Enc encoding,
+                        FindFlags_t flags,
+                        std::false_type);
+}
+
 template <typename Str, typename Enc>
 void append(StringReference<Str>& dst, uint32_t chr, Enc encoding)
 {
@@ -133,29 +203,6 @@ bool contains(Utilities::Range<It> str, uint32_t chr, Enc encoding)
 //}
 
 template <typename It1, typename It2, typename Enc>
-bool endsWithImpl(Utilities::Range<It1> str,
-                  Utilities::Range<It2> cmp,
-                  Enc encoding,
-                  std::true_type)
-{
-    JEB_CHECKPOINT();
-    auto strRange = makeReverseRange(str);
-    auto cmpRange = makeReverseRange(cmp);
-    return mismatch(strRange, cmpRange).second == cmpRange.end();
-}
-
-template <typename It1, typename It2, typename Enc>
-bool endsWithImpl(Utilities::Range<It1> str,
-                  Utilities::Range<It2> cmp,
-                  Enc encoding,
-                  std::false_type)
-{
-    JEB_CHECKPOINT();
-    return Encoded::startsWith(Encoded::makeReverseDecoder(str, encoding),
-                               Encoded::makeReverseDecoder(cmp, encoding));
-}
-
-template <typename It1, typename It2, typename Enc>
 bool endsWith(Utilities::Range<It1> str,
               Utilities::Range<It2> cmp,
               Enc encoding,
@@ -163,35 +210,12 @@ bool endsWith(Utilities::Range<It1> str,
 {
     JEB_CHECKPOINT();
     if (flags == FindFlags::CASE_INSENSITIVE)
-        return Encoded::startsWith(Encoded::makeReverseDecoder(str, encoding),
-                                   Encoded::makeReverseDecoder(cmp, encoding),
-                                   flags);
+        return Details::endsWithImpl(str, cmp, encoding, flags,
+                                     std::false_type());
     else
-        return endsWithImpl(
-                str, cmp, encoding,
+        return Details::endsWithImpl(
+                str, cmp, encoding, flags,
                 typename SameIteratorValueType<It1, It2>::type());
-}
-
-template <typename It1, typename It2, typename Enc>
-Utilities::Range<It1> findImpl(Utilities::Range<It1> str,
-                               Utilities::Range<It2> cmp,
-                               Enc encoding,
-                               std::true_type)
-{
-    JEB_CHECKPOINT();
-    return search(str, cmp);
-}
-
-template <typename It1, typename It2, typename Enc>
-Utilities::Range<It1> findImpl(Utilities::Range<It1> str,
-                               Utilities::Range<It2> cmp,
-                               Enc encoding,
-                               std::false_type)
-{
-    JEB_CHECKPOINT();
-    return Encoded::find(Encoded::makeForwardDecoder(str, encoding),
-                         Encoded::makeForwardDecoder(cmp, encoding)
-                        ).getRange();
 }
 
 template <typename It1, typename It2, typename Enc>
@@ -202,12 +226,11 @@ Utilities::Range<It1> find(Utilities::Range<It1> str,
 {
     JEB_CHECKPOINT();
     if (flags == FindFlags::CASE_INSENSITIVE)
-        return Encoded::find(Encoded::makeForwardDecoder(str, encoding),
-                             Encoded::makeForwardDecoder(cmp, encoding),
-                             flags).getRange();
+        return Details::findImpl(str, cmp, encoding, flags,
+                                 std::false_type());
     else
-        return findImpl(
-                str, cmp, encoding,
+        return Details::findImpl(
+                str, cmp, encoding, flags,
                 typename CanCompareRawValues<It1, Enc, It2, Enc>::type());
 }
 
@@ -300,49 +323,38 @@ template <typename Str, typename It, typename Enc>
 std::vector<Str> split(
         Utilities::Range<It> str,
         Enc encoding,
-        size_t maxParts = 0,
-        SplitFlags_t flags = SplitFlags::IGNORE_EMPTY)
+        int maxParts,
+        SplitFlags_t flags)
 {
-    std::vector<Str> result;
-    auto dec = Encoded::makeForwardDecoder(str, encoding);
-    while (maxParts != 1 && str.begin() != str.end())
-    {
-        auto token = nextToken(dec, Unicode::isWhitespace);
-        if (!SplitFlags::ignoreEmpty(flags) || token.begin() != token.end())
-        {
-            result.emplace_back(token.begin(), token.end());
-            --maxParts;
-        }
-        if (token.end() == str.end())
-            return result;
-    }
-    if ((!SplitFlags::ignoreRemainder(flags)) &&
-        (!SplitFlags::ignoreEmpty(flags) || str.begin() != str.end()))
-    {
-        result.emplace_back(str.begin(), str.end());
-    }
-    return result;
+    if (maxParts >= 0)
+        return Details::splitImpl<Str>(
+                Encoded::makeForwardDecoder(str, encoding),
+                [&](Encoded::ForwardDecoder<It, Enc>& d)
+                   {return nextToken(d, Unicode::isWhitespace);},
+                maxParts, flags);
+    else
+        return Details::splitImpl<Str>(
+                Encoded::makeReverseDecoder(str, encoding),
+                [&](Encoded::ReverseDecoder<It, Enc>& d)
+                   {return nextToken(d, Unicode::isWhitespace);},
+                -maxParts, flags);
 }
 
-template <typename It1, typename It2, typename Enc>
-bool startsWithImpl(Utilities::Range<It1> str,
-                    Utilities::Range<It2> cmp,
-                    Enc /*encoding*/,
-                    std::true_type)
+template <typename Str, typename It1, typename It2, typename Enc>
+std::vector<Str> split(
+        Utilities::Range<It1> str,
+        Utilities::Range<It2> cmp,
+        Enc encoding,
+        int maxParts,
+        SplitFlags_t flags)
 {
-    JEB_CHECKPOINT();
-    return mismatch(str, cmp).second == cmp.end();
-}
-
-template <typename It1, typename It2, typename Enc>
-bool startsWithImpl(Utilities::Range<It1> str,
-                    Utilities::Range<It2> cmp,
-                    Enc encoding,
-                    std::false_type)
-{
-    JEB_CHECKPOINT();
-    return Encoded::startsWith(Encoded::makeForwardDecoder(str, encoding),
-                               Encoded::makeForwardDecoder(cmp, encoding));
+    if (SplitFlags::isCaseInsensitive(flags) || maxParts < 0)
+        return Details::splitImpl<Str>(str, cmp, encoding, maxParts, flags,
+                                       std::false_type());
+    else
+        return Details::splitImpl<Str>(
+                str, cmp, encoding, maxParts, flags,
+                typename SameIteratorValueType<It1, It2>::type());
 }
 
 template <typename It1, typename It2, typename Enc>
@@ -353,12 +365,11 @@ bool startsWith(Utilities::Range<It1> str,
 {
     JEB_CHECKPOINT();
     if (flags == FindFlags::CASE_INSENSITIVE)
-        return Encoded::startsWith(Encoded::makeForwardDecoder(str, encoding),
-                                   Encoded::makeForwardDecoder(cmp, encoding),
-                                   flags);
+        return Details::startsWithImpl(str, cmp, encoding, flags,
+                                       std::false_type());
     else
-        return startsWithImpl(
-                str, cmp, encoding,
+        return Details::startsWithImpl(
+                str, cmp, encoding, flags,
                 typename SameIteratorValueType<It1, It2>::type());
 }
 
@@ -406,6 +417,169 @@ Str upper(Utilities::Range<It> src, Enc encoding)
     auto ref = makeStringReference(str);
     appendUpper(ref, src, encoding);
     return str;
+}
+
+namespace Details
+{
+    template <typename It1, typename It2, typename Enc>
+    bool endsWithImpl(Utilities::Range<It1> str,
+                      Utilities::Range<It2> cmp,
+                      Enc /*encoding*/,
+                      FindFlags_t /*flags*/,
+                      std::true_type)
+    {
+        JEB_CHECKPOINT();
+        auto strRange = makeReverseRange(str);
+        auto cmpRange = makeReverseRange(cmp);
+        return mismatch(strRange, cmpRange).second == cmpRange.end();
+    }
+
+    template <typename It1, typename It2, typename Enc>
+    bool endsWithImpl(Utilities::Range<It1> str,
+                      Utilities::Range<It2> cmp,
+                      Enc encoding,
+                      FindFlags_t flags,
+                      std::false_type)
+    {
+        JEB_CHECKPOINT();
+        return Encoded::startsWith(Encoded::makeReverseDecoder(str, encoding),
+                                   Encoded::makeReverseDecoder(cmp, encoding),
+                                   flags);
+    }
+
+    template <typename It1, typename It2, typename Enc>
+    Utilities::Range<It1> findImpl(Utilities::Range<It1> str,
+                                   Utilities::Range<It2> cmp,
+                                   Enc /*encoding*/,
+                                   FindFlags_t /*flags*/,
+                                   std::true_type)
+    {
+        JEB_CHECKPOINT();
+        return search(str, cmp);
+    }
+
+    template <typename It1, typename It2, typename Enc>
+    Utilities::Range<It1> findImpl(Utilities::Range<It1> str,
+                                   Utilities::Range<It2> cmp,
+                                   Enc encoding,
+                                   FindFlags_t flags,
+                                   std::false_type)
+    {
+        JEB_CHECKPOINT();
+        auto strDec = Encoded::makeForwardDecoder(str, encoding);
+        return Encoded::find(strDec,
+                             Encoded::makeForwardDecoder(cmp, encoding),
+                             flags).getRange();
+    }
+
+    template <typename Str, typename Decoder, typename NextTokenFunc>
+    std::vector<Str> splitImpl(
+            Decoder str,
+            NextTokenFunc nextTokenFunc,
+            size_t maxParts,
+            SplitFlags_t flags)
+    {
+        std::vector<Str> result;
+        while (maxParts != 1 && str.begin() != str.end())
+        {
+            auto token = nextTokenFunc(str);
+            if (!SplitFlags::ignoreEmpty(flags) || token.begin() != token.end())
+            {
+                result.emplace_back(token.begin(), token.end());
+                --maxParts;
+            }
+            if (token.end() == str.end())
+                return result;
+        }
+        if ((!SplitFlags::ignoreRemainder(flags)) &&
+            (!SplitFlags::ignoreEmpty(flags) || str.begin() != str.end()))
+        {
+            result.emplace_back(str.begin(), str.end());
+        }
+        return result;
+    }
+
+    template <typename Str, typename It1, typename It2, typename Enc>
+    std::vector<Str> splitImpl(
+            Utilities::Range<It1> str,
+            Utilities::Range<It2> cmp,
+            Enc encoding,
+            int maxParts,
+            SplitFlags_t flags,
+            std::true_type)
+    {
+        std::vector<Str> result;
+        while (maxParts != 1 && str.begin() != str.end())
+        {
+            auto token = search(str, cmp);
+            if (!SplitFlags::ignoreEmpty(flags) || str.begin() != token.begin())
+            {
+                result.emplace_back(str.begin(), token.begin());
+                --maxParts;
+            }
+            str.begin() = token.end();
+        }
+        if ((!SplitFlags::ignoreRemainder(flags)) &&
+            (!SplitFlags::ignoreEmpty(flags) || str.begin() != str.end()))
+        {
+            result.emplace_back(str.begin(), str.end());
+        }
+        return result;
+    }
+
+    template <typename Str, typename It1, typename It2, typename Enc>
+    std::vector<Str> splitImpl(
+            Utilities::Range<It1> str,
+            Utilities::Range<It2> cmp,
+            Enc encoding,
+            int maxParts,
+            SplitFlags_t flags,
+            std::false_type)
+    {
+        auto findFlags = SplitFlags::toFindFlags(flags);
+        if (maxParts >= 0)
+        {
+            auto cmpDec = Encoded::makeForwardDecoder(cmp, encoding);
+            return splitImpl<Str>(
+                    Encoded::makeForwardDecoder(str, encoding),
+                    [=](Encoded::ForwardDecoder<It1, Enc>& d)
+                       {return nextToken(d, cmpDec, findFlags);},
+                    maxParts, flags);
+        }
+        else
+        {
+            auto cmpDec = Encoded::makeReverseDecoder(cmp, encoding);
+            return splitImpl<Str>(
+                    Encoded::makeReverseDecoder(str, encoding),
+                    [=](Encoded::ReverseDecoder<It1, Enc>& d)
+                       {return nextToken(d, cmpDec, findFlags);},
+                    -maxParts, flags);
+        }
+    }
+
+    template <typename It1, typename It2, typename Enc>
+    bool startsWithImpl(Utilities::Range<It1> str,
+                        Utilities::Range<It2> cmp,
+                        Enc /*encoding*/,
+                        FindFlags_t /*flags*/,
+                        std::true_type)
+    {
+        JEB_CHECKPOINT();
+        return mismatch(str, cmp).second == cmp.end();
+    }
+
+    template <typename It1, typename It2, typename Enc>
+    bool startsWithImpl(Utilities::Range<It1> str,
+                        Utilities::Range<It2> cmp,
+                        Enc encoding,
+                        FindFlags_t flags,
+                        std::false_type)
+    {
+        JEB_CHECKPOINT();
+        return Encoded::startsWith(Encoded::makeForwardDecoder(str, encoding),
+                                   Encoded::makeForwardDecoder(cmp, encoding),
+                                   flags);
+    }
 }
 
 }}

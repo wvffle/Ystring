@@ -123,12 +123,22 @@ std::string reverse(const std::string& str)
 
 std::vector<std::string> split(
         const std::string& str,
-        size_t maxParts,
+        int maxParts,
         SplitFlags_t flags)
 {
     return Generic::split<std::string>(
             makeRange(str), Utf8Encoding(),
             maxParts, flags);
+}
+
+std::vector<std::string> split(
+        const std::string& str,
+        const std::string& sep,
+        size_t maxParts,
+        SplitFlags_t flags)
+{
+  return Generic::split<std::string>(
+          makeRange(str), makeRange(sep), Utf8Encoding(), maxParts, flags);
 }
 
 bool startsWith(const std::string& str,

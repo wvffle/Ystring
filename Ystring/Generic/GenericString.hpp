@@ -7,6 +7,7 @@
 //****************************************************************************
 #pragma once
 
+#include <vector>
 #include "../FindFlags.hpp"
 #include "../SplitFlags.hpp"
 #include "../Utilities/RangeAlgorithms.hpp"
@@ -74,6 +75,21 @@ size_t sizeOfLower(Utilities::Range<It> src, Enc encoding);
 
 template <typename It, typename Enc>
 size_t sizeOfUpper(Utilities::Range<It> src, Enc encoding);
+
+template <typename Str, typename It, typename Enc>
+std::vector<Str> split(
+        Utilities::Range<It> str,
+        Enc encoding,
+        int maxParts = 0,
+        SplitFlags_t flags = SplitFlags::IGNORE_EMPTY);
+
+template <typename Str, typename It1, typename It2, typename Enc>
+std::vector<Str> split(
+        Utilities::Range<It1> str,
+        Utilities::Range<It2> cmp,
+        Enc encoding,
+        int maxParts = 0,
+        SplitFlags_t flags = SplitFlags::IGNORE_EMPTY);
 
 template <typename It1, typename It2, typename Enc>
 bool startsWith(Utilities::Range<It1> str,

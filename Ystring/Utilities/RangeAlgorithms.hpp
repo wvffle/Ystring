@@ -146,8 +146,8 @@ FwdIt find(Range<FwdIt> range, const Value& value)
 //          BinaryPredicate2 isLess)
 //{
 //    return Utilities::less(begin(range1), end(range1),
-//                            begin(range2), end(range2),
-//                            isEqual, isLess);
+//                           begin(range2), end(range2),
+//                           isEqual, isLess);
 //}
 
 template <typename FwdIt1, typename FwdIt2>
@@ -178,15 +178,15 @@ Range<FwdIt1> search(Range<FwdIt1> range1, Range<FwdIt2> range2)
 //                     BinaryPred predicate)
 //{
 //    return Utilities::search(begin(range1), end(range1),
-//                              begin(range2), end(range2),
-//                              predicate);
+//                             begin(range2), end(range2),
+//                             predicate);
 //}
 //
 //template <typename FwdIt1, typename FwdIt2>
 //Range<FwdIt1> searchLast(Range<FwdIt1> range1, Range<FwdIt2> range2)
 //{
 //    return Utilities::searchLast(begin(range1), end(range1),
-//                                  begin(range2), end(range2));
+//                                 begin(range2), end(range2));
 //}
 //
 //template <typename FwdIt1, typename FwdIt2, typename BinaryPred>
@@ -194,8 +194,8 @@ Range<FwdIt1> search(Range<FwdIt1> range1, Range<FwdIt2> range2)
 //                         BinaryPred predicate)
 //{
 //    return Utilities::searchLast(begin(range1), end(range1),
-//                                  begin(range2), end(range2),
-//                                  predicate);
+//                                 begin(range2), end(range2),
+//                                 predicate);
 //}
 //
 //template <typename InIt, typename OutIt, typename UnaryFunc>

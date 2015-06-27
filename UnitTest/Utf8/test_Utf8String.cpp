@@ -13,6 +13,8 @@
 //#include "../../Ystring/FindFlags.hpp"
 #include <JEBTest/JEBTest.hpp>
 
+#include <JEBDebug/Debug.hpp>
+
 namespace {
 
 using namespace Ystring;
@@ -264,21 +266,44 @@ void test_reverse()
              UTF8_COMBINING_TILDE " ehT");
 }
 
-//void test_split_caseInsensitive()
-//{
-//    auto parts = split(":" UTF8_GREEK_CAPITAL_OMEGA "Q:foo:"
-//                       UTF8_GREEK_CAPITAL_OMEGA "q:faa:"
-//                       UTF8_GREEK_SMALL_OMEGA "Q:bor:"
-//                       UTF8_GREEK_SMALL_OMEGA "q:",
-//                       ":" UTF8_GREEK_SMALL_OMEGA "q:",
-//                       4,
-//                       SplitFlags::CaseInsensitive);
-//    JT_EQUAL(parts.size(), 4);
-//    JT_EQUAL(parts[0], "");
-//    JT_EQUAL(parts[1], "foo");
-//    JT_EQUAL(parts[2], "faa");
-//    JT_EQUAL(parts[3], "bor:" UTF8_GREEK_SMALL_OMEGA "q:");
-//}
+void test_split_caseInsensitive()
+{
+    auto parts = Utf8::split(
+            ":" UTF8_GREEK_CAPITAL_OMEGA "Q:foo:"
+            UTF8_GREEK_CAPITAL_OMEGA "q:faa:"
+            UTF8_GREEK_SMALL_OMEGA "Q:bor:"
+            UTF8_GREEK_SMALL_OMEGA "q:",
+            ":" UTF8_GREEK_SMALL_OMEGA "q:",
+            4,
+            SplitFlags::CASE_INSENSITIVE);
+    JEB_SHOW_CONTAINER(parts);
+    JT_EQUAL(parts.size(), 4);
+    JT_EQUAL(parts[0], "");
+    JT_EQUAL(parts[1], "foo");
+    JT_EQUAL(parts[2], "faa");
+    JT_EQUAL(parts[3], "bor:" UTF8_GREEK_SMALL_OMEGA "q:");
+}
+
+void test_split_caseInsensitive_reverse()
+{
+    auto parts = Utf8::split("1234ab4567AB8901aB2345", "AB", -3,
+                             SplitFlags::CASE_INSENSITIVE |
+                             SplitFlags::IGNORE_REMAINDER);
+    JEB_SHOW_CONTAINER(parts);
+    JT_EQUAL(parts.size(), 2);
+    JT_EQUAL(parts[0], "2345");
+    JT_EQUAL(parts[1], "8901");
+}
+
+void test_split_caseSensitive_sameEncoding()
+{
+    auto parts = Utf8::split("123:aB:321:AB:234:AB:", ":AB:");
+    JEB_SHOW_CONTAINER(parts);
+    JT_EQUAL(parts.size(), 3);
+    JT_EQUAL(parts[0], "123:aB:321");
+    JT_EQUAL(parts[1], "234");
+    JT_EQUAL(parts[2], "");
+}
 
 void test_split_whitespace()
 {
@@ -289,6 +314,15 @@ void test_split_whitespace()
     JT_EQUAL(parts[2], "fee");
     JT_EQUAL(parts[3], "bar");
     JT_EQUAL(parts[4], "bor");
+}
+
+void test_split_whitespace_backwards()
+{
+    auto parts = Utf8::split("haa baa ett yui ert swr", -3);
+    JT_EQUAL(parts.size(), 3);
+    JT_EQUAL(parts[0], "swr");
+    JT_EQUAL(parts[1], "ert");
+    JT_EQUAL(parts[2], "haa baa ett yui");
 }
 
 //void test_splitIf()
@@ -445,8 +479,11 @@ JT_SUBTEST("Utf8",
 //           test_replaceInvalidUtf8,
 //           test_replaceInvalidUtf8InPlace,
            test_reverse,
-//           test_split_caseInsensitive,
+           test_split_caseInsensitive,
+           test_split_caseInsensitive_reverse,
+           test_split_caseSensitive_sameEncoding,
            test_split_whitespace,
+           test_split_whitespace_backwards,
 //           test_splitIf,
 //           test_splitLines,
            test_startsWith,
