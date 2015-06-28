@@ -91,6 +91,20 @@ bool endsWith(const std::string& str,
 //      const std::string& cmp,
 //      FindFlags_t flags = FindFlags::DEFAULTS);
 
+//std::pair<std::string::iterator, std::string::iterator> findLastNewline(
+//        std::string& str);
+//
+//std::pair<std::string::const_iterator, std::string::const_iterator>
+//    findLastNewline(
+//        const std::string& str);
+//
+//std::pair<std::string::iterator, std::string::iterator> findLastNewline(
+//        std::pair<std::string::iterator, std::string::iterator> str);
+//
+//std::pair<std::string::const_iterator, std::string::const_iterator>
+//    findLastNewline(
+//     std::pair<std::string::const_iterator, std::string::const_iterator> str);
+
 std::pair<std::string::iterator, std::string::iterator> findNext(
         std::string& str,
         const std::string& cmp,
