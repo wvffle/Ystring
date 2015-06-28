@@ -70,41 +70,66 @@ bool endsWith(const std::string& str,
             flags);
 }
 
-std::pair<std::string::iterator, std::string::iterator> find(
+std::pair<std::string::iterator, std::string::iterator> findNext(
         std::string& str,
         const std::string& cmp,
         FindFlags_t flags)
 {
-    return Generic::find(
-            makeRange(str), makeRange(cmp), Utf8Encoding(),
-            flags);
+    return Generic::findNext(makeRange(str), makeRange(cmp), Utf8Encoding(),
+                            flags);
 }
 
-std::pair<std::string::const_iterator, std::string::const_iterator> find(
+std::pair<std::string::const_iterator, std::string::const_iterator> findNext(
         const std::string& str,
         const std::string& cmp,
         FindFlags_t flags)
 {
-    return Generic::find(makeRange(str), makeRange(cmp), Utf8Encoding(),
-                         flags);
+    return Generic::findNext(makeRange(str), makeRange(cmp), Utf8Encoding(),
+                             flags);
 }
 
-std::pair<std::string::iterator, std::string::iterator> find(
+std::pair<std::string::iterator, std::string::iterator> findNext(
       std::pair<std::string::iterator, std::string::iterator> str,
       const std::string& cmp,
       FindFlags_t flags)
 {
-    return Generic::find(makeRange(str), makeRange(cmp), Utf8Encoding(),
-                         flags);
+    return Generic::findNext(makeRange(str), makeRange(cmp), Utf8Encoding(),
+                             flags);
 }
 
-std::pair<std::string::const_iterator, std::string::const_iterator> find(
+std::pair<std::string::const_iterator, std::string::const_iterator> findNext(
       std::pair<std::string::const_iterator, std::string::const_iterator> str,
       const std::string& cmp,
       FindFlags_t flags)
 {
-    return Generic::find(makeRange(str), makeRange(cmp), Utf8Encoding(),
-                         flags);
+    return Generic::findNext(makeRange(str), makeRange(cmp), Utf8Encoding(),
+                             flags);
+}
+
+std::pair<std::string::iterator, std::string::iterator> findNextNewline(
+        std::string& str)
+{
+    return Generic::findNextNewline(makeRange(str), Utf8Encoding());
+}
+
+std::pair<std::string::const_iterator, std::string::const_iterator>
+    findNextNewline(
+        const std::string& str)
+{
+    return Generic::findNextNewline(makeRange(str), Utf8Encoding());
+}
+
+std::pair<std::string::iterator, std::string::iterator> findNextNewline(
+        std::pair<std::string::iterator, std::string::iterator> str)
+{
+    return Generic::findNextNewline(makeRange(str), Utf8Encoding());
+}
+
+std::pair<std::string::const_iterator, std::string::const_iterator>
+    findNextNewline(
+      std::pair<std::string::const_iterator, std::string::const_iterator> str)
+{
+    return Generic::findNextNewline(makeRange(str), Utf8Encoding());
 }
 
 std::string insert(const std::string& str, int pos,

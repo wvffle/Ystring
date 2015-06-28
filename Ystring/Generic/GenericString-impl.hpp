@@ -14,8 +14,6 @@
 #include "../Utilities/CountingOutputIterator.hpp"
 #include "StringTraits.hpp"
 
-#include <JEBDebug/Debug.hpp>
-
 namespace Ystring { namespace Generic {
 
 namespace Details
@@ -226,7 +224,6 @@ bool endsWith(Utilities::Range<It1> str,
               Enc encoding,
               FindFlags_t flags)
 {
-    JEB_CHECKPOINT();
     if (flags == FindFlags::CASE_INSENSITIVE)
         return Details::endsWithImpl(str, cmp, encoding, flags,
                                      std::false_type());
@@ -237,12 +234,11 @@ bool endsWith(Utilities::Range<It1> str,
 }
 
 template <typename It1, typename It2, typename Enc>
-Utilities::Range<It1> find(Utilities::Range<It1> str,
-                           Utilities::Range<It2> cmp,
-                           Enc encoding,
-                           FindFlags_t flags)
+Utilities::Range<It1> findNext(Utilities::Range<It1> str,
+                               Utilities::Range<It2> cmp,
+                               Enc encoding,
+                               FindFlags_t flags)
 {
-    JEB_CHECKPOINT();
     if (flags == FindFlags::CASE_INSENSITIVE)
         return Details::findImpl(str, cmp, encoding, flags,
                                  std::false_type());
@@ -250,6 +246,14 @@ Utilities::Range<It1> find(Utilities::Range<It1> str,
         return Details::findImpl(
                 str, cmp, encoding, flags,
                 typename CanCompareRawValues<It1, Enc, It2, Enc>::type());
+}
+
+template <typename It, typename Enc>
+Utilities::Range<It> findNextNewline(Utilities::Range<It> str,
+                                      Enc encoding)
+{
+    auto dec = Encoded::makeForwardDecoder(str, encoding);
+    return Encoded::nextNewline(dec).getRange();
 }
 
 template <typename Str, typename It1, typename It2, typename Enc>
@@ -442,7 +446,6 @@ bool startsWith(Utilities::Range<It1> str,
                 Enc encoding,
                 FindFlags_t flags)
 {
-    JEB_CHECKPOINT();
     if (flags == FindFlags::CASE_INSENSITIVE)
         return Details::startsWithImpl(str, cmp, encoding, flags,
                                        std::false_type());
@@ -507,7 +510,6 @@ namespace Details
                       FindFlags_t /*flags*/,
                       std::true_type)
     {
-        JEB_CHECKPOINT();
         auto strRange = makeReverseRange(str);
         auto cmpRange = makeReverseRange(cmp);
         return mismatch(strRange, cmpRange).second == cmpRange.end();
@@ -520,7 +522,6 @@ namespace Details
                       FindFlags_t flags,
                       std::false_type)
     {
-        JEB_CHECKPOINT();
         return Encoded::startsWith(Encoded::makeReverseDecoder(str, encoding),
                                    Encoded::makeReverseDecoder(cmp, encoding),
                                    flags);
@@ -533,7 +534,6 @@ namespace Details
                                    FindFlags_t /*flags*/,
                                    std::true_type)
     {
-        JEB_CHECKPOINT();
         return search(str, cmp);
     }
 
@@ -544,7 +544,6 @@ namespace Details
                                    FindFlags_t flags,
                                    std::false_type)
     {
-        JEB_CHECKPOINT();
         auto strDec = Encoded::makeForwardDecoder(str, encoding);
         return Encoded::find(strDec,
                              Encoded::makeForwardDecoder(cmp, encoding),
@@ -643,7 +642,6 @@ namespace Details
                         FindFlags_t /*flags*/,
                         std::true_type)
     {
-        JEB_CHECKPOINT();
         return mismatch(str, cmp).second == cmp.end();
     }
 
@@ -654,7 +652,6 @@ namespace Details
                         FindFlags_t flags,
                         std::false_type)
     {
-        JEB_CHECKPOINT();
         return Encoded::startsWith(Encoded::makeForwardDecoder(str, encoding),
                                    Encoded::makeForwardDecoder(cmp, encoding),
                                    flags);

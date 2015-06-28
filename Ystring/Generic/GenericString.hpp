@@ -50,10 +50,14 @@ bool endsWith(Utilities::Range<It1> str,
               FindFlags_t flags = FindFlags::DEFAULTS);
 
 template <typename It1, typename It2, typename Enc>
-Utilities::Range<It1> find(Utilities::Range<It1> str,
-                           Utilities::Range<It2> cmp,
-                           Enc encoding,
-                           FindFlags_t flags = FindFlags::DEFAULTS);
+Utilities::Range<It1> findNext(Utilities::Range<It1> str,
+                               Utilities::Range<It2> cmp,
+                               Enc encoding,
+                               FindFlags_t flags = FindFlags::DEFAULTS);
+
+template <typename It1, typename It2, typename Enc>
+Utilities::Range<It1> findNextNewline(Utilities::Range<It1> str,
+                                      Enc encoding);
 
 template <typename Str, typename It1, typename It2>
 Str join(It1 first, It1 last, Utilities::Range<It2> delimiter);

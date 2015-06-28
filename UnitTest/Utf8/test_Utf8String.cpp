@@ -7,18 +7,13 @@
 //****************************************************************************
 #include "Ystring/Utf8/Utf8String.hpp"
 
-//#include "Ystring/Unicode/UnicodeChars.hpp"
 #include "Ystring/Unicode/UnicodePredicates.hpp"
 #include "Ystring/Utf8/Utf8Chars.hpp"
-//#include "../../Ystring/FindFlags.hpp"
 #include <JEBTest/JEBTest.hpp>
-
-#include <JEBDebug/Debug.hpp>
 
 namespace {
 
 using namespace Ystring;
-//using namespace Ystring::Utf8;
 
 void test_append()
 {
@@ -97,18 +92,33 @@ void test_endsWith()
 //    JT_EQUAL(escape(str), "ab\\x01cd\\nef\\x7Fgh\\x80");
 //}
 
-void test_find()
+void test_findNext()
 {
     auto s = std::string("abc_ghIJ_gH" UTF8_GREEK_SMALL_SIGMA "Ij_kLM_nop");
-    auto r = Utf8::find(s, "gh" UTF8_GREEK_CAPITAL_SIGMA "ij",
-                        FindFlags::CASE_INSENSITIVE);
+    auto r = Utf8::findNext(s, "gh" UTF8_GREEK_CAPITAL_SIGMA "ij",
+                            FindFlags::CASE_INSENSITIVE);
     JT_EQUAL(std::string(r.first, r.second),
              "gH" UTF8_GREEK_SMALL_SIGMA "Ij");
-    auto t = Utf8::find(r, UTF8_GREEK_CAPITAL_SIGMA "i",
-                        FindFlags::CASE_INSENSITIVE);
+    auto t = Utf8::findNext(r, UTF8_GREEK_CAPITAL_SIGMA "i",
+                            FindFlags::CASE_INSENSITIVE);
     JT_EQUAL(std::string(t.first, t.second), UTF8_GREEK_SMALL_SIGMA "I");
-    auto u = Utf8::find(r, UTF8_GREEK_CAPITAL_SIGMA "i");
+    auto u = Utf8::findNext(r, UTF8_GREEK_CAPITAL_SIGMA "i");
     JT_ASSERT(u.first == u.second && u.second == r.second);
+}
+
+void test_findNextNewline()
+{
+    auto str = std::string("abc\ndef\r\nghi");
+    auto s = make_pair(begin(str), end(str));
+    auto r = Utf8::findNextNewline(str);
+    JT_EQUAL(std::string(s.first, r.first), "abc");
+    auto t = make_pair(r.second, s.second);
+    r = Utf8::findNextNewline(t);
+    JT_EQUAL(std::string(t.first, r.first), "def");
+    t.first = r.second;
+    r = Utf8::findNextNewline(t);
+    JT_ASSERT(r.first == r.second);
+    JT_EQUAL(std::string(t.first, r.first), "ghi");
 }
 
 void test_insert()
@@ -470,7 +480,8 @@ JT_SUBTEST("Utf8",
            test_countCodePoints,
            test_endsWith,
 //           test_escape,
-           test_find,
+           test_findNext,
+           test_findNextNewline,
            test_insert,
 //           test_insertChar,
 //           test_insertInPlace,
