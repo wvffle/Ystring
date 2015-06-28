@@ -195,6 +195,24 @@ bool contains(Utilities::Range<It> str, uint32_t chr, Enc encoding)
     return Encoded::advanceUntil(dec, [=](uint32_t c){return c == chr;});
 }
 
+template <typename It, typename Enc>
+size_t countCharacters(Utilities::Range<It> str, Enc encoding)
+{
+    auto dec = Encoded::makeForwardDecoder(str, encoding);
+    return advanceCharacters(dec, SIZE_MAX);
+}
+
+template <typename It, typename Enc>
+size_t countCodePoints(Utilities::Range<It> str, Enc encoding)
+{
+    auto dec = Encoded::makeForwardDecoder(str, encoding);
+    size_t n = 0;
+    uint32_t ch;
+    while (dec.next(ch))
+        ++n;
+    return n;
+}
+
 //template <typename Str, typename It2, typename Enc>
 //void replace(EncodedString<Str, Enc> dst,
 //             EncodedRange<It2, Enc> cmp,)

@@ -65,6 +65,20 @@ void test_contains()
     JT_ASSERT(!Utf8::contains("ABCDE", 'F'));
 }
 
+void test_countCharacters()
+{
+    JT_EQUAL(Utf8::countCharacters(
+                  "A" UTF8_COMBINING_RING_ABOVE "BCDE" UTF8_COMBINING_TILDE),
+             5);
+}
+
+void test_countCodePoints()
+{
+    JT_EQUAL(Utf8::countCodePoints(
+                  "A" UTF8_COMBINING_RING_ABOVE "BCDE" UTF8_COMBINING_TILDE),
+             7);
+}
+
 void test_endsWith()
 {
     JT_ASSERT(Utf8::endsWith("aBc" UTF8_GREEK_SMALL_SIGMA "D",
@@ -358,13 +372,6 @@ void test_startsWith()
                                 FindFlags::CASE_INSENSITIVE));
 }
 
-//void test_stringLength()
-//{
-//    JT_EQUAL(stringLength("A" UTF8_COMBINING_RING_ABOVE "BCDE"
-//                          UTF8_COMBINING_TILDE),
-//             5);
-//}
-//
 //void test_substring()
 //{
 //    std::string s("ABCD");
@@ -458,6 +465,8 @@ JT_SUBTEST("Utf8",
            test_caseInsensitiveEqual,
            test_caseInsensitiveLess,
            test_contains,
+           test_countCharacters,
+           test_countCodePoints,
            test_endsWith,
 //           test_escape,
            test_find,
@@ -484,7 +493,6 @@ JT_SUBTEST("Utf8",
 //           test_splitIf,
 //           test_splitLines,
            test_startsWith,
-//           test_stringLength,
 //           test_substring,
            test_title,
 //           test_toUtf8_fromLatin1,

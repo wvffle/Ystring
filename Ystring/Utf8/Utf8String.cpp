@@ -49,6 +49,16 @@ bool contains(const std::string& str, uint32_t chr)
     return Generic::contains(makeRange(str), chr, Utf8Encoding());
 }
 
+size_t countCharacters(const std::string& str)
+{
+    return Generic::countCharacters(makeRange(str), Utf8Encoding());
+}
+
+size_t countCodePoints(const std::string& str)
+{
+    return Generic::countCodePoints(makeRange(str), Utf8Encoding());
+}
+
 bool endsWith(const std::string& str,
               const std::string& cmp,
               FindFlags_t flags)

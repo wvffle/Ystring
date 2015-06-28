@@ -47,6 +47,22 @@ bool caseInsensitiveLess(const std::string& str, const std::string& cmp);
   */
 bool contains(const std::string& str, uint32_t chr);
 
+/** @brief Returns the number of characters in @a str.
+  *
+  * @note A composed character can consist of multiple code points.
+  * @return the number of characters.
+  * @throw runtime_error if str contains an invalid UTF-8 code point.
+  */
+size_t countCharacters(const std::string& str);
+
+/** @brief Returns the number of code points int @a str.
+  *
+  * @note A composed character can consist of multiple code points.
+  * @return the number of code points.
+  * @throw runtime_error if str contains an invalid UTF-8 code point.
+  */
+size_t countCodePoints(const std::string& str);
+
 /** @brief Returns true if @a str ends with @a cmp.
   */
 bool endsWith(const std::string& str,
@@ -183,13 +199,6 @@ std::vector<std::string> split(
 bool startsWith(const std::string& str,
                 const std::string& cmp,
                 FindFlags_t flags = FindFlags::DEFAULTS);
-
-/** @brief Returns the number of code points from @a begin to @a end.
-  *
-  * @return the number of code points.
-  * @throw runtime_error if str contains an invalid UTF-8 code point.
-  */
-// size_t stringLength(const std::string& str);
 
 // std::string substring(
 //         const std::string& str,
