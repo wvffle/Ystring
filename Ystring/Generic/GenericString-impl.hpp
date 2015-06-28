@@ -234,6 +234,34 @@ Utilities::Range<It1> find(Utilities::Range<It1> str,
                 typename CanCompareRawValues<It1, Enc, It2, Enc>::type());
 }
 
+template <typename Str, typename It1, typename It2, typename Enc>
+Str insert(Utilities::Range<It1> str, int pos, Utilities::Range<It2> sub,
+           Enc encoding)
+{
+    Utilities::Range<It1> range1 = str;
+    Utilities::Range<It1> range2 = str;
+    It1 insertPos;
+    if (pos >= 0)
+    {
+        auto dec = Encoded::makeForwardDecoder(str, encoding);
+        advanceCharacters(dec, (size_t)pos);
+        range1.end() = range2.begin() = dec.begin();
+    }
+    else
+    {
+        auto dec = Encoded::makeReverseDecoder(str, encoding);
+        advanceCharacters(dec, (size_t)-pos);
+        range1.end() = range2.begin() = dec.end();
+    }
+    auto result = Str();
+    auto ref = makeStringReference(result);
+    auto appender = ref.getAppender();
+    appender.append(range1);
+    appender.append(sub);
+    appender.append(range2);
+    return result;
+}
+
 template <typename Str, typename It1, typename It2>
 Str join(It1 first, It1 last, Utilities::Range<It2> delimiter)
 {

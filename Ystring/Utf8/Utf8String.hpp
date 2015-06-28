@@ -75,8 +75,7 @@ std::pair<std::string::const_iterator, std::string::const_iterator> find(
       const std::string& cmp,
       FindFlags_t flags = FindFlags::DEFAULTS);
 
-// std::string insert(const std::string& str, ptrdiff_t pos,
-//                    const std::string& sub);
+ std::string insert(const std::string& str, int pos, const std::string& sub);
 
 // std::string insert(const std::string& str, ptrdiff_t pos, uint32_t chr);
 

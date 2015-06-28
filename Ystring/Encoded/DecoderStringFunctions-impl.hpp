@@ -41,6 +41,17 @@ bool advanceCharacter(Decoder& it)
     return true;
 }
 
+template <typename Decoder>
+size_t advanceCharacters(Decoder& it, size_t n)
+{
+    for (size_t i = 0; i != n; ++i)
+    {
+        if (!advanceCharacter(it))
+            return i;
+    }
+    return n;
+}
+
 template <typename Encoder, typename Decoder>
 void appendLower(Encoder&& dst, Decoder&& src)
 {

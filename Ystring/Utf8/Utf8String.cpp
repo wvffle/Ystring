@@ -97,6 +97,34 @@ std::pair<std::string::const_iterator, std::string::const_iterator> find(
                          flags);
 }
 
+std::string insert(const std::string& str, int pos,
+                   const std::string& sub)
+{
+    return Generic::insert<std::string>(makeRange(str), pos, makeRange(sub),
+                                        Utf8Encoding());
+//    auto it = nthCharacter(str, pos);
+//    std::string result(begin(str), it);
+//    result.append(sub);
+//    result.append(it, end(str));
+//    return result;
+}
+
+//std::string insert(const std::string& str, int pos, uint32_t chr)
+//{
+//    auto it = nthCharacter(str, pos);
+//    std::string result(begin(str), it);
+//    append(result, chr);
+//    result.append(it, end(str));
+//    return result;
+//}
+
+//std::string& insertInPlace(std::string& str, int pos,
+//                           const std::string& sub)
+//{
+//    str.insert(nthCharacter(str, pos), begin(sub), end(sub));
+//    return str;
+//}
+
 bool isValidUtf8(const std::string& str)
 {
     return isValidUtf8(begin(str), end(str));

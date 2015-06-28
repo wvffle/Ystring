@@ -97,19 +97,19 @@ void test_find()
     JT_ASSERT(u.first == u.second && u.second == r.second);
 }
 
-//void test_insert()
-//{
-//    auto str = "The " UTF8_GREEK_SMALL_OMEGA
-//               UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
-//               " and the A" UTF8_COMBINING_INVERTED_BREVE
-//               UTF8_COMBINING_DOT_ABOVE ".";
-//    auto r = insert(insert(str, 13, " insanely"), -2, "great ");
-//    JT_EQUAL(r, "The " UTF8_GREEK_SMALL_OMEGA
-//                 UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
-//                 " and the insanely great A" UTF8_COMBINING_INVERTED_BREVE
-//                 UTF8_COMBINING_DOT_ABOVE ".");
-//}
-//
+void test_insert()
+{
+    auto str = "The " UTF8_GREEK_SMALL_OMEGA
+               UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
+               " and the A" UTF8_COMBINING_INVERTED_BREVE
+               UTF8_COMBINING_DOT_ABOVE ".";
+    auto r = Utf8::insert(Utf8::insert(str, 13, " insanely"), -2, "great ");
+    JT_EQUAL(r, "The " UTF8_GREEK_SMALL_OMEGA
+                 UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
+                 " and the insanely great A" UTF8_COMBINING_INVERTED_BREVE
+                 UTF8_COMBINING_DOT_ABOVE ".");
+}
+
 //void test_insertChar()
 //{
 //    auto str = "The " UTF8_GREEK_SMALL_OMEGA
@@ -276,7 +276,6 @@ void test_split_caseInsensitive()
             ":" UTF8_GREEK_SMALL_OMEGA "q:",
             4,
             SplitFlags::CASE_INSENSITIVE);
-    JEB_SHOW_CONTAINER(parts);
     JT_EQUAL(parts.size(), 4);
     JT_EQUAL(parts[0], "");
     JT_EQUAL(parts[1], "foo");
@@ -289,7 +288,6 @@ void test_split_caseInsensitive_reverse()
     auto parts = Utf8::split("1234ab4567AB8901aB2345", "AB", -3,
                              SplitFlags::CASE_INSENSITIVE |
                              SplitFlags::IGNORE_REMAINDER);
-    JEB_SHOW_CONTAINER(parts);
     JT_EQUAL(parts.size(), 2);
     JT_EQUAL(parts[0], "2345");
     JT_EQUAL(parts[1], "8901");
@@ -298,7 +296,6 @@ void test_split_caseInsensitive_reverse()
 void test_split_caseSensitive_sameEncoding()
 {
     auto parts = Utf8::split("123:aB:321:AB:234:AB:", ":AB:");
-    JEB_SHOW_CONTAINER(parts);
     JT_EQUAL(parts.size(), 3);
     JT_EQUAL(parts[0], "123:aB:321");
     JT_EQUAL(parts[1], "234");
@@ -464,7 +461,7 @@ JT_SUBTEST("Utf8",
            test_endsWith,
 //           test_escape,
            test_find,
-//           test_insert,
+           test_insert,
 //           test_insertChar,
 //           test_insertInPlace,
 //           test_isAlphaNumeric,
