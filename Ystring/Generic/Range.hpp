@@ -11,9 +11,9 @@
 #include <cwchar>
 #include <iterator>
 #include <utility>
-#include "Iterators.hpp"
+//#include "Iterators.hpp"
 
-namespace Ystring { namespace Utilities {
+namespace Ystring { namespace Generic {
 
 template <typename IteratorT>
 class Range

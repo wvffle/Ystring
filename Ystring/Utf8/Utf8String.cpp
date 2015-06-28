@@ -14,8 +14,8 @@
 namespace Ystring { namespace Utf8 {
 
 using Generic::makeStringReference;
-using Utilities::makeRange;
-using Utilities::fromRange;
+using Generic::makeRange;
+using Generic::fromRange;
 
 std::string& append(std::string& str, uint32_t chr)
 {

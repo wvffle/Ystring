@@ -10,7 +10,7 @@
 #include <vector>
 #include "../FindFlags.hpp"
 #include "../SplitFlags.hpp"
-#include "../Utilities/RangeAlgorithms.hpp"
+#include "RangeAlgorithms.hpp"
 #include "StringReference.hpp"
 
 namespace Ystring { namespace Generic {
@@ -23,112 +23,112 @@ void append(StringReference<Str>&& dst, uint32_t chr, Enc encoding);
 
 template <typename Str, typename It1, typename It2>
 void appendJoin(StringReference<Str>& dst, It1 first, It1 last,
-                Utilities::Range<It2> delimiter);
+                Range<It2> delimiter);
 
 template <typename Str, typename It>
 void appendJoin(StringReference<Str>& dst, It first, It last);
 
 template <typename Str, typename It, typename Enc>
 void appendLower(StringReference<Str>& dst,
-                 Utilities::Range<It> src,
+                 Range<It> src,
                  Enc encoding);
 
 template <typename Str, typename It, typename Enc>
 void appendTitle(StringReference<Str>& dst,
-                 Utilities::Range<It> src,
+                 Range<It> src,
                  Enc encoding);
 
 template <typename Str, typename It, typename Enc>
 void appendUpper(StringReference<Str>& dst,
-                 Utilities::Range<It> src,
+                 Range<It> src,
                  Enc encoding);
 
 template <typename It1, typename It2, typename Enc>
-bool endsWith(Utilities::Range<It1> str,
-              Utilities::Range<It2> cmp,
+bool endsWith(Range<It1> str,
+              Range<It2> cmp,
               Enc encoding,
               FindFlags_t flags = FindFlags::DEFAULTS);
 
 template <typename It1, typename It2, typename Enc>
-Utilities::Range<It1> findNext(Utilities::Range<It1> str,
-                               Utilities::Range<It2> cmp,
-                               Enc encoding,
-                               FindFlags_t flags = FindFlags::DEFAULTS);
+Range<It1> findNext(Range<It1> str,
+                    Range<It2> cmp,
+                    Enc encoding,
+                    FindFlags_t flags = FindFlags::DEFAULTS);
 
 template <typename It1, typename It2, typename Enc>
-Utilities::Range<It1> findNextNewline(Utilities::Range<It1> str,
-                                      Enc encoding);
+Range<It1> findNextNewline(Range<It1> str,
+                           Enc encoding);
 
 template <typename Str, typename It1, typename It2>
-Str join(It1 first, It1 last, Utilities::Range<It2> delimiter);
+Str join(It1 first, It1 last, Range<It2> delimiter);
 
 template <typename Str, typename It>
 Str join(It first, It last);
 
 template <typename Str, typename It, typename Enc>
-Str lower(Utilities::Range<It> src, Enc encoding);
+Str lower(Range<It> src, Enc encoding);
 
 template <typename It1, typename It2>
-size_t sizeOfJoin(It1 first, It1 last, Utilities::Range<It2> delimiter);
+size_t sizeOfJoin(It1 first, It1 last, Range<It2> delimiter);
 
 template <typename It>
 size_t sizeOfJoin(It first, It last);
 
 template <typename It, typename Enc>
-size_t sizeOfLower(Utilities::Range<It> src, Enc encoding);
+size_t sizeOfLower(Range<It> src, Enc encoding);
 
 template <typename It, typename Enc>
-size_t sizeOfUpper(Utilities::Range<It> src, Enc encoding);
+size_t sizeOfUpper(Range<It> src, Enc encoding);
 
 template <typename Str, typename It, typename Enc>
 std::vector<Str> split(
-        Utilities::Range<It> str,
+        Range<It> str,
         Enc encoding,
         int maxParts = 0,
         SplitFlags_t flags = SplitFlags::IGNORE_EMPTY);
 
 template <typename Str, typename It1, typename It2, typename Enc>
 std::vector<Str> split(
-        Utilities::Range<It1> str,
-        Utilities::Range<It2> cmp,
+        Range<It1> str,
+        Range<It2> cmp,
         Enc encoding,
         int maxParts = 0,
         SplitFlags_t flags = SplitFlags::IGNORE_EMPTY);
 
 template <typename Str, typename It, typename Enc, typename Predicate>
 std::vector<Str> splitIf(
-        Utilities::Range<It> str,
+        Range<It> str,
         Enc encoding,
         Predicate predicate,
         int maxParts,
         SplitFlags_t flags);
 
 template <typename It1, typename It2, typename Enc>
-bool startsWith(Utilities::Range<It1> str,
-                Utilities::Range<It2> cmp,
+bool startsWith(Range<It1> str,
+                Range<It2> cmp,
                 Enc encoding,
                 FindFlags_t flags = FindFlags::DEFAULTS);
 
 template <typename Str, typename It, typename Enc>
-Str title(Utilities::Range<It> src, Enc encoding);
+Str title(Range<It> src, Enc encoding);
 
 template <typename It, typename Enc, typename UnaryPred>
-Utilities::Range<It> trim(Utilities::Range<It> str,
-                          Enc encoding,
-                          UnaryPred trimChar);
+Range<It> trim(Range<It> str,
+               Enc encoding,
+               UnaryPred trimChar);
 
 template <typename It, typename Enc, typename UnaryPred>
-Utilities::Range<It> trimEnd(Utilities::Range<It> str,
-                             Enc encoding,
-                             UnaryPred trimChar);
+Range<It> trimEnd(Range<It> str,
+                  Enc encoding,
+                  UnaryPred trimChar);
 
 template <typename It, typename Enc, typename UnaryPred>
-Utilities::Range<It> trimStart(Utilities::Range<It> str,
-                               Enc encoding,
-                               UnaryPred trimChar);
+Range<It> trimStart(Range<It> str,
+                    Enc encoding,
+                    UnaryPred trimChar);
 
 template <typename Str, typename It, typename Enc>
-Str upper(Utilities::Range<It> src, Enc encoding);
+Str upper(Range<It> src, Enc encoding);
 
 }}
 

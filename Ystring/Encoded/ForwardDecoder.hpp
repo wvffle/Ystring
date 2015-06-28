@@ -8,7 +8,7 @@
 #pragma once
 
 #include <cstdint>
-#include "../Utilities/Range.hpp"
+#include "../Generic/Range.hpp"
 
 namespace Ystring { namespace Encoded {
 
@@ -59,9 +59,9 @@ public:
         m_Last = last;
     }
 
-    Utilities::Range<FwdIt> getRange() const
+    Generic::Range<FwdIt> getRange() const
     {
-        return Utilities::makeRange(m_First, m_Last);
+        return Generic::makeRange(m_First, m_Last);
     }
 
     FwdIt begin()
@@ -91,7 +91,7 @@ ForwardDecoder<FwdIt, Encoding> makeForwardDecoder(
 
 template <typename FwdIt, typename Encoding>
 ForwardDecoder<FwdIt, Encoding> makeForwardDecoder(
-        Utilities::Range<FwdIt> range,
+        Generic::Range<FwdIt> range,
         Encoding encoding)
 {
     return ForwardDecoder<FwdIt, Encoding>(range.begin(), range.end(),

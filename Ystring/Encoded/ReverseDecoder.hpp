@@ -8,7 +8,7 @@
 #pragma once
 
 #include <cstdint>
-#include "../Utilities/Range.hpp"
+#include "../Generic/Range.hpp"
 
 namespace Ystring { namespace Encoded {
 
@@ -59,9 +59,9 @@ public:
         m_First = last;
     }
 
-    Utilities::Range<BiIt> getRange() const
+    Generic::Range<BiIt> getRange() const
     {
-        return Utilities::makeRange(m_First, m_Last);
+        return Generic::makeRange(m_First, m_Last);
     }
 
     BiIt begin()
@@ -91,7 +91,7 @@ ReverseDecoder<BiIt, Encoding> makeReverseDecoder(
 
 template <typename BiIt, typename Encoding>
 ReverseDecoder<BiIt, Encoding> makeReverseDecoder(
-        Utilities::Range<BiIt> range,
+        Generic::Range<BiIt> range,
         Encoding encoding)
 {
     return ReverseDecoder<BiIt, Encoding>(range.begin(), range.end(),

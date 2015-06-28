@@ -7,10 +7,10 @@
 //****************************************************************************
 #pragma once
 
-#include "Algorithms.hpp"
+#include "../Utilities/Algorithms.hpp"
 #include "Range.hpp"
 
-namespace Ystring { namespace Utilities {
+namespace Ystring { namespace Generic {
 
 //template <typename FwdIt1, typename FwdIt2>
 //auto compare(Range<FwdIt1> range1, Range<FwdIt2> range2)

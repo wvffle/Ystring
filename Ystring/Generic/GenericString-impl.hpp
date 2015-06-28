@@ -19,32 +19,32 @@ namespace Ystring { namespace Generic {
 namespace Details
 {
     template <typename It1, typename It2, typename Enc>
-    bool endsWithImpl(Utilities::Range<It1> str,
-                      Utilities::Range<It2> cmp,
+    bool endsWithImpl(Range<It1> str,
+                      Range<It2> cmp,
                       Enc /*encoding*/,
                       FindFlags_t /*flags*/,
                       std::true_type);
 
     template <typename It1, typename It2, typename Enc>
-    bool endsWithImpl(Utilities::Range<It1> str,
-                      Utilities::Range<It2> cmp,
+    bool endsWithImpl(Range<It1> str,
+                      Range<It2> cmp,
                       Enc encoding,
                       FindFlags_t flags,
                       std::false_type);
 
     template <typename It1, typename It2, typename Enc>
-    Utilities::Range<It1> findImpl(Utilities::Range<It1> str,
-                                   Utilities::Range<It2> cmp,
-                                   Enc /*encoding*/,
-                                   FindFlags_t /*flags*/,
-                                   std::true_type);
+    Range<It1> findImpl(Range<It1> str,
+                        Range<It2> cmp,
+                        Enc /*encoding*/,
+                        FindFlags_t /*flags*/,
+                        std::true_type);
 
     template <typename It1, typename It2, typename Enc>
-    Utilities::Range<It1> findImpl(Utilities::Range<It1> str,
-                                   Utilities::Range<It2> cmp,
-                                   Enc encoding,
-                                   FindFlags_t flags,
-                                   std::false_type);
+    Range<It1> findImpl(Range<It1> str,
+                        Range<It2> cmp,
+                        Enc encoding,
+                        FindFlags_t flags,
+                        std::false_type);
 
     template <typename Str, typename Decoder, typename NextTokenFunc>
     std::vector<Str> splitImpl(
@@ -55,8 +55,8 @@ namespace Details
 
     template <typename Str, typename It1, typename It2, typename Enc>
     std::vector<Str> splitImpl(
-            Utilities::Range<It1> str,
-            Utilities::Range<It2> cmp,
+            Range<It1> str,
+            Range<It2> cmp,
             Enc encoding,
             int maxParts,
             SplitFlags_t flags,
@@ -64,23 +64,23 @@ namespace Details
 
     template <typename Str, typename It1, typename It2, typename Enc>
     std::vector<Str> splitImpl(
-            Utilities::Range<It1> str,
-            Utilities::Range<It2> cmp,
+            Range<It1> str,
+            Range<It2> cmp,
             Enc encoding,
             int maxParts,
             SplitFlags_t flags,
             std::false_type);
 
     template <typename It1, typename It2, typename Enc>
-    bool startsWithImpl(Utilities::Range<It1> str,
-                        Utilities::Range<It2> cmp,
+    bool startsWithImpl(Range<It1> str,
+                        Range<It2> cmp,
                         Enc /*encoding*/,
                         FindFlags_t /*flags*/,
                         std::true_type);
 
     template <typename It1, typename It2, typename Enc>
-    bool startsWithImpl(Utilities::Range<It1> str,
-                        Utilities::Range<It2> cmp,
+    bool startsWithImpl(Range<It1> str,
+                        Range<It2> cmp,
                         Enc encoding,
                         FindFlags_t flags,
                         std::false_type);
@@ -101,17 +101,17 @@ void append(StringReference<Str>&& dst, uint32_t chr, Enc encoding)
 
 template <typename Str, typename It1, typename It2>
 void appendJoin(StringReference<Str>& dst, It1 first, It1 last,
-                Utilities::Range<It2> delimiter)
+                Range<It2> delimiter)
 {
     if (first == last)
         return;
 
     auto appender = dst.getAppender();
-    appender.append(Utilities::makeRange(*first));
+    appender.append(makeRange(*first));
     while (++first != last)
     {
         appender.append(delimiter);
-        appender.append(Utilities::makeRange(*first));
+        appender.append(makeRange(*first));
     }
     dst.terminate();
 }
@@ -121,13 +121,13 @@ void appendJoin(StringReference<Str>& dst, It first, It last)
 {
     auto appender = dst.getAppender();
     for (; first != last; ++first)
-        appender.append(Utilities::makeRange(*first));
+        appender.append(makeRange(*first));
     dst.terminate();
 }
 
 template <typename Str, typename It, typename Enc>
 void appendLower(StringReference<Str>& dst,
-                 Utilities::Range<It> src,
+                 Range<It> src,
                  Enc encoding)
 {
     Encoded::appendLower(
@@ -138,7 +138,7 @@ void appendLower(StringReference<Str>& dst,
 
 template <typename Str, typename It, typename Enc>
 void appendTitle(StringReference<Str>& dst,
-                 Utilities::Range<It> src,
+                 Range<It> src,
                  Enc encoding)
 {
     Encoded::appendTitle(
@@ -149,7 +149,7 @@ void appendTitle(StringReference<Str>& dst,
 
 template <typename Str, typename It, typename Enc>
 void appendUpper(StringReference<Str>& dst,
-                 Utilities::Range<It> src,
+                 Range<It> src,
                  Enc encoding)
 {
     Encoded::appendUpper(
@@ -159,8 +159,8 @@ void appendUpper(StringReference<Str>& dst,
 }
 
 template <typename It1, typename It2, typename Enc>
-int32_t caseInsensitiveCompare(Utilities::Range<It1> str,
-                               Utilities::Range<It2> cmp,
+int32_t caseInsensitiveCompare(Range<It1> str,
+                               Range<It2> cmp,
                                Enc encoding)
 {
     return caseInsensitiveCompare(
@@ -169,8 +169,8 @@ int32_t caseInsensitiveCompare(Utilities::Range<It1> str,
 }
 
 template <typename It1, typename It2, typename Enc>
-bool caseInsensitiveEqual(Utilities::Range<It1> str,
-                          Utilities::Range<It2> cmp,
+bool caseInsensitiveEqual(Range<It1> str,
+                          Range<It2> cmp,
                           Enc encoding)
 {
     return caseInsensitiveEqual(Encoded::makeForwardDecoder(str, encoding),
@@ -178,8 +178,8 @@ bool caseInsensitiveEqual(Utilities::Range<It1> str,
 }
 
 template <typename It1, typename It2, typename Enc>
-bool caseInsensitiveLess(Utilities::Range<It1> str,
-                         Utilities::Range<It2> cmp,
+bool caseInsensitiveLess(Range<It1> str,
+                         Range<It2> cmp,
                          Enc encoding)
 {
     return caseInsensitiveLess(Encoded::makeForwardDecoder(str, encoding),
@@ -187,21 +187,21 @@ bool caseInsensitiveLess(Utilities::Range<It1> str,
 }
 
 template <typename It, typename Enc>
-bool contains(Utilities::Range<It> str, uint32_t chr, Enc encoding)
+bool contains(Range<It> str, uint32_t chr, Enc encoding)
 {
     auto dec = Encoded::makeForwardDecoder(str, encoding);
     return Encoded::advanceUntil(dec, [=](uint32_t c){return c == chr;});
 }
 
 template <typename It, typename Enc>
-size_t countCharacters(Utilities::Range<It> str, Enc encoding)
+size_t countCharacters(Range<It> str, Enc encoding)
 {
     auto dec = Encoded::makeForwardDecoder(str, encoding);
     return advanceCharacters(dec, SIZE_MAX);
 }
 
 template <typename It, typename Enc>
-size_t countCodePoints(Utilities::Range<It> str, Enc encoding)
+size_t countCodePoints(Range<It> str, Enc encoding)
 {
     auto dec = Encoded::makeForwardDecoder(str, encoding);
     size_t n = 0;
@@ -219,8 +219,8 @@ size_t countCodePoints(Utilities::Range<It> str, Enc encoding)
 //}
 
 template <typename It1, typename It2, typename Enc>
-bool endsWith(Utilities::Range<It1> str,
-              Utilities::Range<It2> cmp,
+bool endsWith(Range<It1> str,
+              Range<It2> cmp,
               Enc encoding,
               FindFlags_t flags)
 {
@@ -234,10 +234,10 @@ bool endsWith(Utilities::Range<It1> str,
 }
 
 template <typename It1, typename It2, typename Enc>
-Utilities::Range<It1> findNext(Utilities::Range<It1> str,
-                               Utilities::Range<It2> cmp,
-                               Enc encoding,
-                               FindFlags_t flags)
+Range<It1> findNext(Range<It1> str,
+                    Range<It2> cmp,
+                    Enc encoding,
+                    FindFlags_t flags)
 {
     if (flags == FindFlags::CASE_INSENSITIVE)
         return Details::findImpl(str, cmp, encoding, flags,
@@ -249,7 +249,7 @@ Utilities::Range<It1> findNext(Utilities::Range<It1> str,
 }
 
 template <typename It, typename Enc>
-Utilities::Range<It> findNextNewline(Utilities::Range<It> str,
+Range<It> findNextNewline(Range<It> str,
                                       Enc encoding)
 {
     auto dec = Encoded::makeForwardDecoder(str, encoding);
@@ -257,11 +257,11 @@ Utilities::Range<It> findNextNewline(Utilities::Range<It> str,
 }
 
 template <typename Str, typename It1, typename It2, typename Enc>
-Str insert(Utilities::Range<It1> str, int pos, Utilities::Range<It2> sub,
+Str insert(Range<It1> str, int pos, Range<It2> sub,
            Enc encoding)
 {
-    Utilities::Range<It1> range1 = str;
-    Utilities::Range<It1> range2 = str;
+    Range<It1> range1 = str;
+    Range<It1> range2 = str;
     It1 insertPos;
     if (pos >= 0)
     {
@@ -285,7 +285,7 @@ Str insert(Utilities::Range<It1> str, int pos, Utilities::Range<It2> sub,
 }
 
 template <typename Str, typename It1, typename It2>
-Str join(It1 first, It1 last, Utilities::Range<It2> delimiter)
+Str join(It1 first, It1 last, Range<It2> delimiter)
 {
     auto result = Str();
     auto ref = makeStringReference(result);
@@ -303,7 +303,7 @@ Str join(It first, It last)
 }
 
 template <typename Str, typename It, typename Enc>
-Str lower(Utilities::Range<It> src, Enc encoding)
+Str lower(Range<It> src, Enc encoding)
 {
     auto str = Str();
     auto ref = makeStringReference(str);
@@ -312,7 +312,7 @@ Str lower(Utilities::Range<It> src, Enc encoding)
 }
 
 template <typename Str, typename It, typename Enc>
-Str reverse(Utilities::Range<It> src, Enc encoding)
+Str reverse(Range<It> src, Enc encoding)
 {
     Str result(getSize(src), 0);
     auto dst = begin(result);
@@ -327,12 +327,12 @@ Str reverse(Utilities::Range<It> src, Enc encoding)
 }
 
 template <typename It1, typename It2>
-size_t sizeOfJoin(It1 first, It1 last, Utilities::Range<It2> delimiter)
+size_t sizeOfJoin(It1 first, It1 last, Range<It2> delimiter)
 {
     size_t n = 0, len = 0;
     for (; first != last; ++first)
     {
-        len += getSize(Utilities::makeRange(*first));
+        len += getSize(makeRange(*first));
         ++n;
     }
     return len + (n - 1) * getSize(delimiter);
@@ -343,12 +343,12 @@ size_t sizeOfJoin(It first, It last)
 {
     size_t size = 0;
     for (; first != last; ++first)
-        size += getSize(Utilities::makeRange(first));
+        size += getSize(makeRange(first));
     return size;
 }
 
 template <typename It, typename Enc>
-size_t sizeOfLower(Utilities::Range<It> src, Enc encoding)
+size_t sizeOfLower(Range<It> src, Enc encoding)
 {
     size_t n = 0;
     Utilities::CountingOutputIterator<typename Enc::CanonicalType> it(&n);
@@ -359,7 +359,7 @@ size_t sizeOfLower(Utilities::Range<It> src, Enc encoding)
 }
 
 template <typename It, typename Enc>
-size_t sizeOfUpper(Utilities::Range<It> src, Enc encoding)
+size_t sizeOfUpper(Range<It> src, Enc encoding)
 {
     size_t n = 0;
     Utilities::CountingOutputIterator<typename Enc::CanonicalType> it(&n);
@@ -370,23 +370,21 @@ size_t sizeOfUpper(Utilities::Range<It> src, Enc encoding)
 }
 
 template <typename Str, typename It, typename Enc>
-std::vector<Str> split(
-        Utilities::Range<It> str,
-        Enc encoding,
-        int maxParts,
-        SplitFlags_t flags)
+std::vector<Str> split(Range<It> str,
+                       Enc encoding,
+                       int maxParts,
+                       SplitFlags_t flags)
 {
     return splitIf<Str>(str, encoding, Unicode::isWhitespace,
                         maxParts, flags);
 }
 
 template <typename Str, typename It1, typename It2, typename Enc>
-std::vector<Str> split(
-        Utilities::Range<It1> str,
-        Utilities::Range<It2> cmp,
-        Enc encoding,
-        int maxParts,
-        SplitFlags_t flags)
+std::vector<Str> split(Range<It1> str,
+                       Range<It2> cmp,
+                       Enc encoding,
+                       int maxParts,
+                       SplitFlags_t flags)
 {
     if (SplitFlags::isCaseInsensitive(flags) || maxParts < 0)
         return Details::splitImpl<Str>(str, cmp, encoding, maxParts, flags,
@@ -398,12 +396,11 @@ std::vector<Str> split(
 }
 
 template <typename Str, typename It, typename Enc, typename Predicate>
-std::vector<Str> splitIf(
-        Utilities::Range<It> str,
-        Enc encoding,
-        Predicate predicate,
-        int maxParts,
-        SplitFlags_t flags)
+std::vector<Str> splitIf(Range<It> str,
+                         Enc encoding,
+                         Predicate predicate,
+                         int maxParts,
+                         SplitFlags_t flags)
 {
     if (maxParts >= 0)
         return Details::splitImpl<Str>(
@@ -420,11 +417,10 @@ std::vector<Str> splitIf(
 }
 
 template <typename Str, typename It, typename Enc>
-std::vector<Str> splitLines(
-        Utilities::Range<It> str,
-        Enc encoding,
-        int maxParts,
-        SplitFlags_t flags)
+std::vector<Str> splitLines(Range<It> str,
+                            Enc encoding,
+                            int maxParts,
+                            SplitFlags_t flags)
 {
     if (maxParts >= 0)
         return Details::splitImpl<Str>(
@@ -441,8 +437,8 @@ std::vector<Str> splitLines(
 }
 
 template <typename It1, typename It2, typename Enc>
-bool startsWith(Utilities::Range<It1> str,
-                Utilities::Range<It2> cmp,
+bool startsWith(Range<It1> str,
+                Range<It2> cmp,
                 Enc encoding,
                 FindFlags_t flags)
 {
@@ -456,7 +452,7 @@ bool startsWith(Utilities::Range<It1> str,
 }
 
 template <typename Str, typename It, typename Enc>
-Str title(Utilities::Range<It> src, Enc encoding)
+Str title(Range<It> src, Enc encoding)
 {
     auto str = Str();
     auto ref = makeStringReference(str);
@@ -465,17 +461,17 @@ Str title(Utilities::Range<It> src, Enc encoding)
 }
 
 template <typename It, typename Enc, typename UnaryPred>
-Utilities::Range<It> trim(Utilities::Range<It> str,
-                          Enc encoding,
-                          UnaryPred trimChar)
+Range<It> trim(Range<It> str,
+               Enc encoding,
+               UnaryPred trimChar)
 {
     return trimEnd(trimStart(str, encoding, trimChar), encoding, trimChar);
 }
 
 template <typename It, typename Enc, typename UnaryPred>
-Utilities::Range<It> trimEnd(Utilities::Range<It> str,
-                             Enc encoding,
-                             UnaryPred trimChar)
+Range<It> trimEnd(Range<It> str,
+                  Enc encoding,
+                  UnaryPred trimChar)
 {
     auto dec = Encoded::makeReverseDecoder(str, encoding);
     advanceWhile(dec, trimChar);
@@ -483,9 +479,9 @@ Utilities::Range<It> trimEnd(Utilities::Range<It> str,
 }
 
 template <typename It, typename Enc, typename UnaryPred>
-Utilities::Range<It> trimStart(Utilities::Range<It> str,
-                               Enc encoding,
-                               UnaryPred trimChar)
+Range<It> trimStart(Range<It> str,
+                    Enc encoding,
+                    UnaryPred trimChar)
 {
     auto dec = Encoded::makeForwardDecoder(str, encoding);
     advanceWhile(dec, trimChar);
@@ -493,7 +489,7 @@ Utilities::Range<It> trimStart(Utilities::Range<It> str,
 }
 
 template <typename Str, typename It, typename Enc>
-Str upper(Utilities::Range<It> src, Enc encoding)
+Str upper(Range<It> src, Enc encoding)
 {
     auto str = Str();
     auto ref = makeStringReference(str);
@@ -504,8 +500,8 @@ Str upper(Utilities::Range<It> src, Enc encoding)
 namespace Details
 {
     template <typename It1, typename It2, typename Enc>
-    bool endsWithImpl(Utilities::Range<It1> str,
-                      Utilities::Range<It2> cmp,
+    bool endsWithImpl(Range<It1> str,
+                      Range<It2> cmp,
                       Enc /*encoding*/,
                       FindFlags_t /*flags*/,
                       std::true_type)
@@ -516,8 +512,8 @@ namespace Details
     }
 
     template <typename It1, typename It2, typename Enc>
-    bool endsWithImpl(Utilities::Range<It1> str,
-                      Utilities::Range<It2> cmp,
+    bool endsWithImpl(Range<It1> str,
+                      Range<It2> cmp,
                       Enc encoding,
                       FindFlags_t flags,
                       std::false_type)
@@ -528,21 +524,21 @@ namespace Details
     }
 
     template <typename It1, typename It2, typename Enc>
-    Utilities::Range<It1> findImpl(Utilities::Range<It1> str,
-                                   Utilities::Range<It2> cmp,
-                                   Enc /*encoding*/,
-                                   FindFlags_t /*flags*/,
-                                   std::true_type)
+    Range<It1> findImpl(Range<It1> str,
+                        Range<It2> cmp,
+                        Enc /*encoding*/,
+                        FindFlags_t /*flags*/,
+                        std::true_type)
     {
         return search(str, cmp);
     }
 
     template <typename It1, typename It2, typename Enc>
-    Utilities::Range<It1> findImpl(Utilities::Range<It1> str,
-                                   Utilities::Range<It2> cmp,
-                                   Enc encoding,
-                                   FindFlags_t flags,
-                                   std::false_type)
+    Range<It1> findImpl(Range<It1> str,
+                        Range<It2> cmp,
+                        Enc encoding,
+                        FindFlags_t flags,
+                        std::false_type)
     {
         auto strDec = Encoded::makeForwardDecoder(str, encoding);
         return Encoded::find(strDec,
@@ -551,11 +547,10 @@ namespace Details
     }
 
     template <typename Str, typename Decoder, typename NextTokenFunc>
-    std::vector<Str> splitImpl(
-            Decoder str,
-            NextTokenFunc nextTokenFunc,
-            size_t maxParts,
-            SplitFlags_t flags)
+    std::vector<Str> splitImpl(Decoder str,
+                               NextTokenFunc nextTokenFunc,
+                               size_t maxParts,
+                               SplitFlags_t flags)
     {
         std::vector<Str> result;
         while (maxParts != 1 && str.begin() != str.end())
@@ -578,13 +573,12 @@ namespace Details
     }
 
     template <typename Str, typename It1, typename It2, typename Enc>
-    std::vector<Str> splitImpl(
-            Utilities::Range<It1> str,
-            Utilities::Range<It2> cmp,
-            Enc encoding,
-            int maxParts,
-            SplitFlags_t flags,
-            std::true_type)
+    std::vector<Str> splitImpl(Range<It1> str,
+                               Range<It2> cmp,
+                               Enc encoding,
+                               int maxParts,
+                               SplitFlags_t flags,
+                               std::true_type)
     {
         std::vector<Str> result;
         while (maxParts != 1 && str.begin() != str.end())
@@ -606,13 +600,12 @@ namespace Details
     }
 
     template <typename Str, typename It1, typename It2, typename Enc>
-    std::vector<Str> splitImpl(
-            Utilities::Range<It1> str,
-            Utilities::Range<It2> cmp,
-            Enc encoding,
-            int maxParts,
-            SplitFlags_t flags,
-            std::false_type)
+    std::vector<Str> splitImpl(Range<It1> str,
+                               Range<It2> cmp,
+                               Enc encoding,
+                               int maxParts,
+                               SplitFlags_t flags,
+                               std::false_type)
     {
         auto findFlags = SplitFlags::toFindFlags(flags);
         if (maxParts >= 0)
@@ -636,8 +629,8 @@ namespace Details
     }
 
     template <typename It1, typename It2, typename Enc>
-    bool startsWithImpl(Utilities::Range<It1> str,
-                        Utilities::Range<It2> cmp,
+    bool startsWithImpl(Range<It1> str,
+                        Range<It2> cmp,
                         Enc /*encoding*/,
                         FindFlags_t /*flags*/,
                         std::true_type)
@@ -646,8 +639,8 @@ namespace Details
     }
 
     template <typename It1, typename It2, typename Enc>
-    bool startsWithImpl(Utilities::Range<It1> str,
-                        Utilities::Range<It2> cmp,
+    bool startsWithImpl(Range<It1> str,
+                        Range<It2> cmp,
                         Enc encoding,
                         FindFlags_t flags,
                         std::false_type)

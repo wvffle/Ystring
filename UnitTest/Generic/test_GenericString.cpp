@@ -13,7 +13,7 @@ namespace {
 
 using namespace Ystring;
 using Generic::makeStringReference;
-using Utilities::makeRange;
+using Generic::makeRange;
 using Utf8::Utf8Encoding;
 using std::begin;
 using std::end;
@@ -49,7 +49,7 @@ void test_sizeOfJoin()
 {
     const char* strings[] = {"foo", "faa", "fii"};
     auto result = Generic::sizeOfJoin(begin(strings), end(strings),
-                                      Utilities::makeRange("::"));
+                                      Generic::makeRange("::"));
     JT_EQUAL(result, 13);
 }
 

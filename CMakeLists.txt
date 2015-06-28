@@ -40,6 +40,8 @@ set(PUBLIC_HEADERS
     Ystring/Generic/StringReference.hpp
     Ystring/Generic/GenericString.hpp
     Ystring/Generic/GenericString-impl.hpp
+    Ystring/Generic/Range.hpp
+    Ystring/Generic/RangeAlgorithms.hpp
     Ystring/Generic/StringTraits.hpp
     Ystring/Unicode/CaseConverter.hpp
     Ystring/Unicode/CaseInsensitive.hpp
@@ -57,8 +59,6 @@ set(PUBLIC_HEADERS
     Ystring/Utilities/CountingOutputIterator.hpp
     Ystring/Utilities/Iterators.hpp
     Ystring/Utilities/KeyFunctionAlgorithms.hpp
-    Ystring/Utilities/Range.hpp
-    Ystring/Utilities/RangeAlgorithms.hpp
     Ystring/Utilities/ArrayOutputIterator.hpp
     )
 
