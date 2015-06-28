@@ -336,29 +336,30 @@ void test_split_whitespace_backwards()
     JT_EQUAL(parts[2], "haa baa ett yui");
 }
 
-//void test_splitIf()
-//{
-//    auto parts = splitIf(" foo faa\r\n\tfee bar " UTF8_EM_SPACE "\tbor ",
-//                         Unicode::isWhitespace, 0, SplitFlags::IgnoreEmpty);
-//    JT_EQUAL(parts.size(), 5);
-//    JT_EQUAL(parts[0], "foo");
-//    JT_EQUAL(parts[1], "faa");
-//    JT_EQUAL(parts[2], "fee");
-//    JT_EQUAL(parts[3], "bar");
-//    JT_EQUAL(parts[4], "bor");
-//}
-//
-//void test_splitLines()
-//{
-//    auto parts = splitLines(" foo\nfaa \r\n\tfee bar \vbor\f\rrubb");
-//    JT_EQUAL(parts.size(), 6);
-//    JT_EQUAL(parts[0], " foo");
-//    JT_EQUAL(parts[1], "faa ");
-//    JT_EQUAL(parts[2], "\tfee bar ");
-//    JT_EQUAL(parts[3], "bor");
-//    JT_EQUAL(parts[4], "");
-//    JT_EQUAL(parts[5], "rubb");
-//}
+void test_splitIf()
+{
+    auto parts = Utf8::splitIf(
+            " foo faa\r\n\tfee bar " UTF8_EM_SPACE "\tbor ",
+            Unicode::isWhitespace, 0, SplitFlags::IGNORE_EMPTY);
+    JT_EQUAL(parts.size(), 5);
+    JT_EQUAL(parts[0], "foo");
+    JT_EQUAL(parts[1], "faa");
+    JT_EQUAL(parts[2], "fee");
+    JT_EQUAL(parts[3], "bar");
+    JT_EQUAL(parts[4], "bor");
+}
+
+void test_splitLines()
+{
+    auto parts = Utf8::splitLines(" foo\nfaa \r\n\tfee bar \vbor\f\rrubb");
+    JT_EQUAL(parts.size(), 6);
+    JT_EQUAL(parts[0], " foo");
+    JT_EQUAL(parts[1], "faa ");
+    JT_EQUAL(parts[2], "\tfee bar ");
+    JT_EQUAL(parts[3], "bor");
+    JT_EQUAL(parts[4], "");
+    JT_EQUAL(parts[5], "rubb");
+}
 
 void test_startsWith()
 {
@@ -490,8 +491,8 @@ JT_SUBTEST("Utf8",
            test_split_caseSensitive_sameEncoding,
            test_split_whitespace,
            test_split_whitespace_backwards,
-//           test_splitIf,
-//           test_splitLines,
+           test_splitIf,
+           test_splitLines,
            test_startsWith,
 //           test_substring,
            test_title,

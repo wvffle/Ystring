@@ -372,18 +372,8 @@ std::vector<Str> split(
         int maxParts,
         SplitFlags_t flags)
 {
-    if (maxParts >= 0)
-        return Details::splitImpl<Str>(
-                Encoded::makeForwardDecoder(str, encoding),
-                [&](Encoded::ForwardDecoder<It, Enc>& d)
-                   {return nextToken(d, Unicode::isWhitespace);},
-                maxParts, flags);
-    else
-        return Details::splitImpl<Str>(
-                Encoded::makeReverseDecoder(str, encoding),
-                [&](Encoded::ReverseDecoder<It, Enc>& d)
-                   {return nextToken(d, Unicode::isWhitespace);},
-                -maxParts, flags);
+    return splitIf<Str>(str, encoding, Unicode::isWhitespace,
+                        maxParts, flags);
 }
 
 template <typename Str, typename It1, typename It2, typename Enc>
@@ -401,6 +391,49 @@ std::vector<Str> split(
         return Details::splitImpl<Str>(
                 str, cmp, encoding, maxParts, flags,
                 typename SameIteratorValueType<It1, It2>::type());
+}
+
+template <typename Str, typename It, typename Enc, typename Predicate>
+std::vector<Str> splitIf(
+        Utilities::Range<It> str,
+        Enc encoding,
+        Predicate predicate,
+        int maxParts,
+        SplitFlags_t flags)
+{
+    if (maxParts >= 0)
+        return Details::splitImpl<Str>(
+                Encoded::makeForwardDecoder(str, encoding),
+                [&](Encoded::ForwardDecoder<It, Enc>& d)
+                   {return nextToken(d, predicate);},
+                maxParts, flags);
+    else
+        return Details::splitImpl<Str>(
+                Encoded::makeReverseDecoder(str, encoding),
+                [&](Encoded::ReverseDecoder<It, Enc>& d)
+                   {return nextToken(d, predicate);},
+                -maxParts, flags);
+}
+
+template <typename Str, typename It, typename Enc>
+std::vector<Str> splitLines(
+        Utilities::Range<It> str,
+        Enc encoding,
+        int maxParts,
+        SplitFlags_t flags)
+{
+    if (maxParts >= 0)
+        return Details::splitImpl<Str>(
+                Encoded::makeForwardDecoder(str, encoding),
+                [&](Encoded::ForwardDecoder<It, Enc>& d)
+                   {return nextLine(d);},
+                maxParts, flags);
+    else
+        return Details::splitImpl<Str>(
+                Encoded::makeReverseDecoder(str, encoding),
+                [&](Encoded::ReverseDecoder<It, Enc>& d)
+                   {return nextLine(d);},
+                -maxParts, flags);
 }
 
 template <typename It1, typename It2, typename Enc>

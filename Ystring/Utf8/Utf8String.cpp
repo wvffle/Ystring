@@ -179,6 +179,25 @@ std::vector<std::string> split(
           makeRange(str), makeRange(sep), Utf8Encoding(), maxParts, flags);
 }
 
+std::vector<std::string> splitIf(
+        const std::string& str,
+        std::function<bool(uint32_t)> predicate,
+        size_t maxParts,
+        SplitFlags_t flags)
+{
+    return Generic::splitIf<std::string>(
+            makeRange(str), Utf8Encoding(), predicate, maxParts, flags);
+}
+
+std::vector<std::string> splitLines(
+        const std::string& str,
+        size_t maxParts,
+        SplitFlags_t flags)
+{
+    return Generic::splitLines<std::string>(makeRange(str), Utf8Encoding(),
+                                            maxParts, flags);
+}
+
 bool startsWith(const std::string& str,
                 const std::string& cmp,
                 FindFlags_t flags)

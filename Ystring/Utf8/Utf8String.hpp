@@ -185,16 +185,16 @@ std::vector<std::string> split(
         size_t maxParts = 0,
         SplitFlags_t flags = SplitFlags::DEFAULTS);
 
-// std::vector<std::string> splitIf(
-//         const std::string& str,
-//         std::function<bool(uint32_t)> predicate,
-//         size_t maxParts = 0,
-//         SplitFlags_t flags = SplitFlags::Defaults);
+ std::vector<std::string> splitIf(
+         const std::string& str,
+         std::function<bool(uint32_t)> predicate,
+         size_t maxParts = 0,
+         SplitFlags_t flags = SplitFlags::DEFAULTS);
 
-// std::vector<std::string> splitLines(
-//         const std::string& str,
-//         size_t maxParts = 0,
-//         SplitFlags_t flags = SplitFlags::DEFAULTS);
+ std::vector<std::string> splitLines(
+         const std::string& str,
+         size_t maxParts = 0,
+         SplitFlags_t flags = SplitFlags::DEFAULTS);
 
 bool startsWith(const std::string& str,
                 const std::string& cmp,

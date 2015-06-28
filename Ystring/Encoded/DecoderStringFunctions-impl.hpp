@@ -139,6 +139,57 @@ Decoder1 find(Decoder1& str, Decoder2 sub, FindFlags_t flags)
         return search(str, sub);
 }
 
+template <typename Decoder>
+Decoder nextLine(Decoder& str)
+{
+    auto line = str;
+    auto newline = nextNewline(str);
+    line.setLogicalEnd(newline.getLogicalBegin());
+    return line;
+}
+
+template <typename Decoder>
+Decoder nextNewline(Decoder& str)
+{
+    auto newline = str;
+    uint32_t ch;
+    while (str.next(ch))
+    {
+        switch (ch)
+        {
+        case '\n':
+            if (!Decoder::isForward)
+            {
+                auto copyOfStr = str;
+                if (str.next(ch) && ch != '\r')
+                    str.setLogicalBegin(copyOfStr.getLogicalBegin());
+            }
+            newline.setLogicalEnd(str.getLogicalBegin());
+            return newline;
+        case '\v':
+        case '\f':
+        case Unicode::NEXT_LINE:
+        case Unicode::LINE_SEPARATOR:
+        case Unicode::PARAGRAPH_SEPARATOR:
+            newline.setLogicalEnd(str.getLogicalBegin());
+            return newline;
+        case '\r':
+            if (Decoder::isForward)
+            {
+                auto copyOfStr = str;
+                if (str.next(ch) && ch != '\n')
+                    str.setLogicalBegin(copyOfStr.getLogicalBegin());
+            }
+            newline.setLogicalEnd(str.getLogicalBegin());
+            return newline;
+        default:
+            break;
+        }
+        newline.setLogicalBegin(str.getLogicalBegin());
+    }
+    return str;
+}
+
 template <typename Decoder, typename UnaryPredicate>
 Decoder nextToken(Decoder& str, UnaryPredicate predicate)
 {

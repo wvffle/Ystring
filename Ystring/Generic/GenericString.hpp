@@ -91,6 +91,14 @@ std::vector<Str> split(
         int maxParts = 0,
         SplitFlags_t flags = SplitFlags::IGNORE_EMPTY);
 
+template <typename Str, typename It, typename Enc, typename Predicate>
+std::vector<Str> splitIf(
+        Utilities::Range<It> str,
+        Enc encoding,
+        Predicate predicate,
+        int maxParts,
+        SplitFlags_t flags);
+
 template <typename It1, typename It2, typename Enc>
 bool startsWith(Utilities::Range<It1> str,
                 Utilities::Range<It2> cmp,
