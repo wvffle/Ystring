@@ -181,14 +181,14 @@ Range<FwdIt1> search(Range<FwdIt1> range1, Range<FwdIt2> range2)
 //                             begin(range2), end(range2),
 //                             predicate);
 //}
-//
-//template <typename FwdIt1, typename FwdIt2>
-//Range<FwdIt1> searchLast(Range<FwdIt1> range1, Range<FwdIt2> range2)
-//{
-//    return Utilities::searchLast(begin(range1), end(range1),
-//                                 begin(range2), end(range2));
-//}
-//
+
+template <typename FwdIt1, typename FwdIt2>
+Range<FwdIt1> searchLast(Range<FwdIt1> range1, Range<FwdIt2> range2)
+{
+    return Utilities::searchLast(begin(range1), end(range1),
+                                 begin(range2), end(range2));
+}
+
 //template <typename FwdIt1, typename FwdIt2, typename BinaryPred>
 //Range<FwdIt1> searchLast(Range<FwdIt1> range1, Range<FwdIt2> range2,
 //                         BinaryPred predicate)

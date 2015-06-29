@@ -70,6 +70,42 @@ bool endsWith(const std::string& str,
             flags);
 }
 
+std::pair<std::string::iterator, std::string::iterator> findLast(
+        std::string& str,
+        const std::string& cmp,
+        FindFlags_t flags)
+{
+    return Generic::findLast(makeRange(str), makeRange(cmp), Utf8Encoding(),
+                             flags);
+}
+
+std::pair<std::string::const_iterator, std::string::const_iterator> findLast(
+        const std::string& str,
+        const std::string& cmp,
+        FindFlags_t flags)
+{
+    return Generic::findLast(makeRange(str), makeRange(cmp), Utf8Encoding(),
+                             flags);
+}
+
+std::pair<std::string::iterator, std::string::iterator> findLast(
+      std::pair<std::string::iterator, std::string::iterator> str,
+      const std::string& cmp,
+      FindFlags_t flags)
+{
+    return Generic::findLast(makeRange(str), makeRange(cmp), Utf8Encoding(),
+                            flags);
+}
+
+std::pair<std::string::const_iterator, std::string::const_iterator> findLast(
+      std::pair<std::string::const_iterator, std::string::const_iterator> str,
+      const std::string& cmp,
+      FindFlags_t flags)
+{
+    return Generic::findLast(makeRange(str), makeRange(cmp), Utf8Encoding(),
+                            flags);
+}
+
 std::pair<std::string::iterator, std::string::iterator> findNext(
         std::string& str,
         const std::string& cmp,

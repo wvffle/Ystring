@@ -71,25 +71,25 @@ bool endsWith(const std::string& str,
 
 // std::string escape(const std::string& str);
 
-//std::pair<std::string::iterator, std::string::iterator> findLast(
-//        std::string& str,
-//        const std::string& cmp,
-//        FindFlags_t flags = FindFlags::DEFAULTS);
-//
-//std::pair<std::string::const_iterator, std::string::const_iterator> findLast(
-//        const std::string& str,
-//        const std::string& cmp,
-//        FindFlags_t flags = FindFlags::DEFAULTS);
-//
-//std::pair<std::string::iterator, std::string::iterator> findLast(
-//      std::pair<std::string::iterator, std::string::iterator> str,
-//      const std::string& cmp,
-//      FindFlags_t flags = FindFlags::DEFAULTS);
-//
-//std::pair<std::string::const_iterator, std::string::const_iterator> findLast(
-//      std::pair<std::string::const_iterator, std::string::const_iterator> str,
-//      const std::string& cmp,
-//      FindFlags_t flags = FindFlags::DEFAULTS);
+std::pair<std::string::iterator, std::string::iterator> findLast(
+        std::string& str,
+        const std::string& cmp,
+        FindFlags_t flags = FindFlags::DEFAULTS);
+
+std::pair<std::string::const_iterator, std::string::const_iterator> findLast(
+        const std::string& str,
+        const std::string& cmp,
+        FindFlags_t flags = FindFlags::DEFAULTS);
+
+std::pair<std::string::iterator, std::string::iterator> findLast(
+      std::pair<std::string::iterator, std::string::iterator> str,
+      const std::string& cmp,
+      FindFlags_t flags = FindFlags::DEFAULTS);
+
+std::pair<std::string::const_iterator, std::string::const_iterator> findLast(
+      std::pair<std::string::const_iterator, std::string::const_iterator> str,
+      const std::string& cmp,
+      FindFlags_t flags = FindFlags::DEFAULTS);
 
 //std::pair<std::string::iterator, std::string::iterator> findLastNewline(
 //        std::string& str);

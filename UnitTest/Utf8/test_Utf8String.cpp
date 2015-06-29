@@ -92,6 +92,21 @@ void test_endsWith()
 //    JT_EQUAL(escape(str), "ab\\x01cd\\nef\\x7Fgh\\x80");
 //}
 
+void test_findLast()
+{
+    auto s = std::string("abc_gh" UTF8_GREEK_CAPITAL_SIGMA  "IJ_gH"
+                         UTF8_GREEK_SMALL_SIGMA "Ij_kLM_nop");
+    auto r = Utf8::findLast(s, "gh" UTF8_GREEK_CAPITAL_SIGMA "ij",
+                            FindFlags::CASE_INSENSITIVE);
+    JT_EQUAL(std::string(r.first, r.second),
+             "gH" UTF8_GREEK_SMALL_SIGMA "Ij");
+    auto t = Utf8::findLast(r, UTF8_GREEK_CAPITAL_SIGMA "i",
+                            FindFlags::CASE_INSENSITIVE);
+    JT_EQUAL(std::string(t.first, t.second), UTF8_GREEK_SMALL_SIGMA "I");
+    auto u = Utf8::findLast(r, UTF8_GREEK_CAPITAL_SIGMA "i");
+    JT_ASSERT(u.first == u.second && u.first == r.first);
+}
+
 void test_findNext()
 {
     auto s = std::string("abc_ghIJ_gH" UTF8_GREEK_SMALL_SIGMA "Ij_kLM_nop");
@@ -480,6 +495,7 @@ JT_SUBTEST("Utf8",
            test_countCodePoints,
            test_endsWith,
 //           test_escape,
+           test_findLast,
            test_findNext,
            test_findNextNewline,
            test_insert,

@@ -33,18 +33,32 @@ namespace Details
                       std::false_type);
 
     template <typename It1, typename It2, typename Enc>
-    Range<It1> findImpl(Range<It1> str,
-                        Range<It2> cmp,
-                        Enc /*encoding*/,
-                        FindFlags_t /*flags*/,
-                        std::true_type);
+    Range<It1> findLastImpl(Range<It1> str,
+                            Range<It2> cmp,
+                            Enc /*encoding*/,
+                            FindFlags_t /*flags*/,
+                            std::true_type);
 
     template <typename It1, typename It2, typename Enc>
-    Range<It1> findImpl(Range<It1> str,
-                        Range<It2> cmp,
-                        Enc encoding,
-                        FindFlags_t flags,
-                        std::false_type);
+    Range<It1> findLastImpl(Range<It1> str,
+                            Range<It2> cmp,
+                            Enc encoding,
+                            FindFlags_t flags,
+                            std::false_type);
+
+    template <typename It1, typename It2, typename Enc>
+    Range<It1> findNextImpl(Range<It1> str,
+                            Range<It2> cmp,
+                            Enc /*encoding*/,
+                            FindFlags_t /*flags*/,
+                            std::true_type);
+
+    template <typename It1, typename It2, typename Enc>
+    Range<It1> findNextImpl(Range<It1> str,
+                            Range<It2> cmp,
+                            Enc encoding,
+                            FindFlags_t flags,
+                            std::false_type);
 
     template <typename Str, typename Decoder, typename NextTokenFunc>
     std::vector<Str> splitImpl(
@@ -234,16 +248,31 @@ bool endsWith(Range<It1> str,
 }
 
 template <typename It1, typename It2, typename Enc>
+Range<It1> findLast(Range<It1> str,
+                    Range<It2> cmp,
+                    Enc encoding,
+                    FindFlags_t flags)
+{
+    if (flags == FindFlags::CASE_INSENSITIVE)
+        return Details::findLastImpl(str, cmp, encoding, flags,
+                                 std::false_type());
+    else
+        return Details::findLastImpl(
+                str, cmp, encoding, flags,
+                typename CanCompareRawValues<It1, Enc, It2, Enc>::type());
+}
+
+template <typename It1, typename It2, typename Enc>
 Range<It1> findNext(Range<It1> str,
                     Range<It2> cmp,
                     Enc encoding,
                     FindFlags_t flags)
 {
     if (flags == FindFlags::CASE_INSENSITIVE)
-        return Details::findImpl(str, cmp, encoding, flags,
-                                 std::false_type());
+        return Details::findNextImpl(str, cmp, encoding, flags,
+                                     std::false_type());
     else
-        return Details::findImpl(
+        return Details::findNextImpl(
                 str, cmp, encoding, flags,
                 typename CanCompareRawValues<It1, Enc, It2, Enc>::type());
 }
@@ -524,21 +553,44 @@ namespace Details
     }
 
     template <typename It1, typename It2, typename Enc>
-    Range<It1> findImpl(Range<It1> str,
-                        Range<It2> cmp,
-                        Enc /*encoding*/,
-                        FindFlags_t /*flags*/,
-                        std::true_type)
+    Range<It1> findLastImpl(Range<It1> str,
+                            Range<It2> cmp,
+                            Enc /*encoding*/,
+                            FindFlags_t /*flags*/,
+                            std::true_type)
+    {
+        return searchLast(str, cmp);
+    }
+
+    template <typename It1, typename It2, typename Enc>
+    Range<It1> findLastImpl(Range<It1> str,
+                            Range<It2> cmp,
+                            Enc encoding,
+                            FindFlags_t flags,
+                            std::false_type)
+    {
+        auto strDec = Encoded::makeReverseDecoder(str, encoding);
+        return Encoded::find(strDec,
+                             Encoded::makeReverseDecoder(cmp, encoding),
+                             flags).getRange();
+    }
+
+    template <typename It1, typename It2, typename Enc>
+    Range<It1> findNextImpl(Range<It1> str,
+                            Range<It2> cmp,
+                            Enc /*encoding*/,
+                            FindFlags_t /*flags*/,
+                            std::true_type)
     {
         return search(str, cmp);
     }
 
     template <typename It1, typename It2, typename Enc>
-    Range<It1> findImpl(Range<It1> str,
-                        Range<It2> cmp,
-                        Enc encoding,
-                        FindFlags_t flags,
-                        std::false_type)
+    Range<It1> findNextImpl(Range<It1> str,
+                            Range<It2> cmp,
+                            Enc encoding,
+                            FindFlags_t flags,
+                            std::false_type)
     {
         auto strDec = Encoded::makeForwardDecoder(str, encoding);
         return Encoded::find(strDec,
