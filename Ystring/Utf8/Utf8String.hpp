@@ -55,7 +55,7 @@ bool contains(const std::string& str, uint32_t chr);
   */
 size_t countCharacters(const std::string& str);
 
-/** @brief Returns the number of code points int @a str.
+/** @brief Returns the number of code points in @a str.
   *
   * @note A composed character can consist of multiple code points.
   * @return the number of code points.
@@ -139,9 +139,9 @@ std::pair<std::string::const_iterator, std::string::const_iterator>
     findNextNewline(
      std::pair<std::string::const_iterator, std::string::const_iterator> str);
 
-std::string insert(const std::string& str, int pos, const std::string& sub);
+std::string insert(const std::string& str, ptrdiff_t pos, const std::string& sub);
 
-// std::string insert(const std::string& str, ptrdiff_t pos, uint32_t chr);
+std::string insert(const std::string& str, ptrdiff_t pos, uint32_t chr);
 
 // std::string& insertInPlace(std::string& str, ptrdiff_t pos,
 //                            const std::string& sub);
@@ -224,24 +224,24 @@ std::string reverse(const std::string& str);
 
 std::vector<std::string> split(
         const std::string& str,
-        int maxParts = 0,
+        ptrdiff_t maxParts = 0,
         SplitFlags_t flags = SplitFlags::IGNORE_EMPTY);
 
 std::vector<std::string> split(
         const std::string& str,
         const std::string& sep,
-        size_t maxParts = 0,
+        ptrdiff_t maxParts = 0,
         SplitFlags_t flags = SplitFlags::DEFAULTS);
 
  std::vector<std::string> splitIf(
          const std::string& str,
          std::function<bool(uint32_t)> predicate,
-         size_t maxParts = 0,
+         ptrdiff_t maxParts = 0,
          SplitFlags_t flags = SplitFlags::DEFAULTS);
 
  std::vector<std::string> splitLines(
          const std::string& str,
-         size_t maxParts = 0,
+         ptrdiff_t maxParts = 0,
          SplitFlags_t flags = SplitFlags::DEFAULTS);
 
 bool startsWith(const std::string& str,

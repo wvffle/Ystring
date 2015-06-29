@@ -72,7 +72,7 @@ namespace Details
             Range<It1> str,
             Range<It2> cmp,
             Enc encoding,
-            int maxParts,
+            ptrdiff_t maxParts,
             SplitFlags_t flags,
             std::true_type);
 
@@ -81,7 +81,7 @@ namespace Details
             Range<It1> str,
             Range<It2> cmp,
             Enc encoding,
-            int maxParts,
+            ptrdiff_t maxParts,
             SplitFlags_t flags,
             std::false_type);
 
@@ -285,31 +285,50 @@ Range<It> findNextNewline(Range<It> str,
     return Encoded::nextNewline(dec).getRange();
 }
 
-template <typename Str, typename It1, typename It2, typename Enc>
-Str insert(Range<It1> str, int pos, Range<It2> sub,
-           Enc encoding)
+template <typename It, typename Enc>
+std::pair<Range<It>, Range<It>> findInsertPosition(Range<It> str, ptrdiff_t pos,
+                                                   Enc encoding)
 {
-    Range<It1> range1 = str;
-    Range<It1> range2 = str;
-    It1 insertPos;
+    Range<It> range1 = str;
+    Range<It> range2 = str;
+    It insertPos;
     if (pos >= 0)
     {
         auto dec = Encoded::makeForwardDecoder(str, encoding);
-        advanceCharacters(dec, (size_t)pos);
+        advanceCharacters(dec, static_cast<size_t>(pos));
         range1.end() = range2.begin() = dec.begin();
     }
     else
     {
         auto dec = Encoded::makeReverseDecoder(str, encoding);
-        advanceCharacters(dec, (size_t)-pos);
+        advanceCharacters(dec, static_cast<size_t>(-pos));
         range1.end() = range2.begin() = dec.end();
     }
+    return std::make_pair(range1, range2);
+}
+
+template <typename Str, typename It1, typename It2, typename Enc>
+Str insert(Range<It1> str, ptrdiff_t pos, Range<It2> sub, Enc encoding)
+{
+    auto ranges = findInsertPosition(str, pos, encoding);
     auto result = Str();
     auto ref = makeStringReference(result);
     auto appender = ref.getAppender();
-    appender.append(range1);
+    appender.append(ranges.first);
     appender.append(sub);
-    appender.append(range2);
+    appender.append(ranges.second);
+    return result;
+}
+
+template <typename Str, typename It, typename Enc>
+Str insert(Range<It> str, ptrdiff_t pos, uint32_t chr, Enc encoding)
+{
+    auto ranges = findInsertPosition(str, pos, encoding);
+    auto result = Str();
+    auto ref = makeStringReference(result);
+    ref.getAppender().append(ranges.first);
+    ref.getEncoder(encoding).encode(chr);
+    ref.getAppender().append(ranges.second);
     return result;
 }
 
@@ -401,7 +420,7 @@ size_t sizeOfUpper(Range<It> src, Enc encoding)
 template <typename Str, typename It, typename Enc>
 std::vector<Str> split(Range<It> str,
                        Enc encoding,
-                       int maxParts,
+                       ptrdiff_t maxParts,
                        SplitFlags_t flags)
 {
     return splitIf<Str>(str, encoding, Unicode::isWhitespace,
@@ -412,7 +431,7 @@ template <typename Str, typename It1, typename It2, typename Enc>
 std::vector<Str> split(Range<It1> str,
                        Range<It2> cmp,
                        Enc encoding,
-                       int maxParts,
+                       ptrdiff_t maxParts,
                        SplitFlags_t flags)
 {
     if (SplitFlags::isCaseInsensitive(flags) || maxParts < 0)
@@ -428,7 +447,7 @@ template <typename Str, typename It, typename Enc, typename Predicate>
 std::vector<Str> splitIf(Range<It> str,
                          Enc encoding,
                          Predicate predicate,
-                         int maxParts,
+                         ptrdiff_t maxParts,
                          SplitFlags_t flags)
 {
     if (maxParts >= 0)
@@ -448,7 +467,7 @@ std::vector<Str> splitIf(Range<It> str,
 template <typename Str, typename It, typename Enc>
 std::vector<Str> splitLines(Range<It> str,
                             Enc encoding,
-                            int maxParts,
+                            ptrdiff_t maxParts,
                             SplitFlags_t flags)
 {
     if (maxParts >= 0)
@@ -628,7 +647,7 @@ namespace Details
     std::vector<Str> splitImpl(Range<It1> str,
                                Range<It2> cmp,
                                Enc encoding,
-                               int maxParts,
+                               ptrdiff_t maxParts,
                                SplitFlags_t flags,
                                std::true_type)
     {
@@ -655,7 +674,7 @@ namespace Details
     std::vector<Str> splitImpl(Range<It1> str,
                                Range<It2> cmp,
                                Enc encoding,
-                               int maxParts,
+                               ptrdiff_t maxParts,
                                SplitFlags_t flags,
                                std::false_type)
     {

@@ -149,20 +149,20 @@ void test_insert()
                  UTF8_COMBINING_DOT_ABOVE ".");
 }
 
-//void test_insertChar()
-//{
-//    auto str = "The " UTF8_GREEK_SMALL_OMEGA
-//               UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
-//               " and the A" UTF8_COMBINING_INVERTED_BREVE
-//               UTF8_COMBINING_DOT_ABOVE ".";
-//    auto r = insert(str, 5, Unicode::GreekSmallFinalSigma);
-//    JT_EQUAL(r, "The " UTF8_GREEK_SMALL_OMEGA
-//                UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
-//                UTF8_GREEK_SMALL_FINAL_SIGMA
-//                " and the A" UTF8_COMBINING_INVERTED_BREVE
-//                UTF8_COMBINING_DOT_ABOVE ".");
-//}
-//
+void test_insertChar()
+{
+    auto str = "The " UTF8_GREEK_SMALL_OMEGA
+               UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
+               " and the A" UTF8_COMBINING_INVERTED_BREVE
+               UTF8_COMBINING_DOT_ABOVE ".";
+    auto r = Utf8::insert(str, 5, Unicode::GREEK_SMALL_FINAL_SIGMA);
+    JT_EQUAL(r, "The " UTF8_GREEK_SMALL_OMEGA
+                UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
+                UTF8_GREEK_SMALL_FINAL_SIGMA
+                " and the A" UTF8_COMBINING_INVERTED_BREVE
+                UTF8_COMBINING_DOT_ABOVE ".");
+}
+
 //void test_insertInPlace()
 //{
 //    auto s = std::string("The " UTF8_GREEK_SMALL_OMEGA
@@ -499,7 +499,7 @@ JT_SUBTEST("Utf8",
            test_findNext,
            test_findNextNewline,
            test_insert,
-//           test_insertChar,
+           test_insertChar,
 //           test_insertInPlace,
 //           test_isAlphaNumeric,
 //           test_isValidUtf8,

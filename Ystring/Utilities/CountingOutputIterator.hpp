@@ -17,7 +17,7 @@ class CountingOutputIterator : public std::iterator<
         Value>
 {
 public:
-    CountingOutputIterator(size_t* count)
+    explicit CountingOutputIterator(size_t* count)
         : m_Count(count)
     {}
 
