@@ -132,28 +132,20 @@ std::pair<std::string::const_iterator, std::string::const_iterator>
     return Generic::findNextNewline(makeRange(str), Utf8Encoding());
 }
 
-std::string insert(const std::string& str, int pos,
+std::string insert(const std::string& str, ptrdiff_t pos,
                    const std::string& sub)
 {
     return Generic::insert<std::string>(makeRange(str), pos, makeRange(sub),
                                         Utf8Encoding());
-//    auto it = nthCharacter(str, pos);
-//    std::string result(begin(str), it);
-//    result.append(sub);
-//    result.append(it, end(str));
-//    return result;
 }
 
-//std::string insert(const std::string& str, int pos, uint32_t chr)
-//{
-//    auto it = nthCharacter(str, pos);
-//    std::string result(begin(str), it);
-//    append(result, chr);
-//    result.append(it, end(str));
-//    return result;
-//}
+std::string insert(const std::string& str, ptrdiff_t pos, uint32_t chr)
+{
+    return Generic::insert<std::string>(makeRange(str), pos, chr,
+                                        Utf8Encoding());
+}
 
-//std::string& insertInPlace(std::string& str, int pos,
+//std::string& insertInPlace(std::string& str, ptrdiff_t pos,
 //                           const std::string& sub)
 //{
 //    str.insert(nthCharacter(str, pos), begin(sub), end(sub));
@@ -186,7 +178,7 @@ std::string reverse(const std::string& str)
 
 std::vector<std::string> split(
         const std::string& str,
-        int maxParts,
+        ptrdiff_t maxParts,
         SplitFlags_t flags)
 {
     return Generic::split<std::string>(
@@ -197,7 +189,7 @@ std::vector<std::string> split(
 std::vector<std::string> split(
         const std::string& str,
         const std::string& sep,
-        size_t maxParts,
+        ptrdiff_t maxParts,
         SplitFlags_t flags)
 {
   return Generic::split<std::string>(
@@ -207,7 +199,7 @@ std::vector<std::string> split(
 std::vector<std::string> splitIf(
         const std::string& str,
         std::function<bool(uint32_t)> predicate,
-        size_t maxParts,
+        ptrdiff_t maxParts,
         SplitFlags_t flags)
 {
     return Generic::splitIf<std::string>(
@@ -216,7 +208,7 @@ std::vector<std::string> splitIf(
 
 std::vector<std::string> splitLines(
         const std::string& str,
-        size_t maxParts,
+        ptrdiff_t maxParts,
         SplitFlags_t flags)
 {
     return Generic::splitLines<std::string>(makeRange(str), Utf8Encoding(),
