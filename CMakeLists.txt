@@ -79,12 +79,21 @@ set(SOURCE_FILES
     Ystring/Utf8/Utf8String.cpp
     )
 
-add_library(
-    ${PROJECT_NAME} SHARED
-    ${PUBLIC_HEADERS}
-    ${PRIVATE_HEADERS}
-    ${SOURCE_FILES}
-    )
+if(APPLE)
+	add_library(
+		${PROJECT_NAME} SHARED
+		${PUBLIC_HEADERS}
+	    ${PRIVATE_HEADERS}
+	    ${SOURCE_FILES}
+	    )
+elseif(WIN32)
+	add_library(
+		${PROJECT_NAME} STATIC
+		${PUBLIC_HEADERS}
+		${PRIVATE_HEADERS}
+		${SOURCE_FILES}
+		)
+endif(APPLE)
 
 set(CTEST_OUTPUT_ON_FAILURE 1)
 add_subdirectory(UnitTest)
