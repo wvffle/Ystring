@@ -249,13 +249,9 @@ bool startsWith(const std::string& str,
                 const std::string& cmp,
                 FindFlags_t flags = FindFlags::DEFAULTS);
 
-// std::string substring(
-//         const std::string& str,
-//         ptrdiff_t startIndex,
-//         ptrdiff_t endIndex = std::numeric_limits<ptrdiff_t>::max());
-
-// std::string substring(const std::string& str,
-//                       std::pair<size_t, size_t>& indexes);
+std::string substring(const std::string& str,
+                      ptrdiff_t startIndex,
+                      ptrdiff_t endIndex = PTRDIFF_MAX);
 
 std::string title(const std::string& str);
 

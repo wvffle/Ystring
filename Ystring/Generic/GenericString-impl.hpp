@@ -499,6 +499,56 @@ bool startsWith(Range<It1> str,
                 typename SameIteratorValueType<It1, It2>::type());
 }
 
+template <typename It, typename Enc>
+Range<It> subrange(Range<It> str, ptrdiff_t start, ptrdiff_t end,
+                   Enc encoding)
+{
+    if (end == PTRDIFF_MAX)
+        return makeRange(nthCharacter(str, start, encoding), str.end());
+
+    It first, last;
+    auto sameSign = start >= 0 == end >= 0;
+    if (sameSign)
+    {
+        if (start >= end)
+        {
+            first = nthCharacter(str, start, encoding);
+            last = first;
+        }
+        else if (start >= 0)
+        {
+            first = nthCharacter(str, start, encoding);
+            last = nthCharacter(makeRange(first, str.end()), end - start,
+                                 encoding);
+        }
+        else
+        {
+            last = nthCharacter(str, end, encoding);
+            first = nthCharacter(makeRange(str.begin(), last), start - end,
+                                 encoding);
+        }
+    }
+    else
+    {
+        first = nthCharacter(str, start, encoding);
+        last = nthCharacter(str, end, encoding);
+        using std::distance;
+        if (distance(str.begin(), first) > distance(str.begin(), last))
+        {
+            last = first;
+        }
+    }
+
+    return Range<It>(first, last);
+}
+
+template <typename Str, typename It, typename Enc>
+Str substring(Range<It> str, ptrdiff_t start, ptrdiff_t end, Enc encoding)
+{
+    auto sub = subrange(str, start, end, encoding);
+    return Str(sub.begin(), sub.end());
+}
+
 template <typename Str, typename It, typename Enc>
 Str title(Range<It> src, Enc encoding)
 {

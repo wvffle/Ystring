@@ -262,8 +262,16 @@ bool startsWith(const std::string& str,
                 const std::string& cmp,
                 FindFlags_t flags)
 {
-    return Generic::startsWith(makeRange(str), makeRange(cmp), Utf8Encoding(),
-                               flags);
+    return Generic::startsWith(makeRange(str), makeRange(cmp),
+                               Utf8Encoding(), flags);
+}
+
+std::string substring(const std::string& str,
+                      ptrdiff_t start,
+                      ptrdiff_t end)
+{
+    return Generic::substring<std::string>(makeRange(str), start, end,
+                                           Utf8Encoding());
 }
 
 std::string title(const std::string& str)

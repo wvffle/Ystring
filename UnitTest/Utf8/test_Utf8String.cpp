@@ -439,22 +439,22 @@ void test_startsWith()
                                 FindFlags::CASE_INSENSITIVE));
 }
 
-//void test_substring()
-//{
-//    std::string s("ABCD");
-//    JT_EQUAL(substring(s, 0), "ABCD");
-//    JT_EQUAL(substring(s, 0, 5), "ABCD");
-//    JT_EQUAL(substring(s, 1, 3), "BC");
-//    JT_EQUAL(substring(s, 2, 2), "");
-//    JT_EQUAL(substring(s, 3, 1), "");
-//    JT_EQUAL(substring(s, 1, -1), "BC");
-//    JT_EQUAL(substring(s, 2, -2), "");
-//    JT_EQUAL(substring(s, 3, -4), "");
-//    JT_EQUAL(substring(s, -3), "BCD");
-//    JT_EQUAL(substring(s, -3, -1), "BC");
-//    JT_EQUAL(substring(s, -2, -2), "");
-//    JT_EQUAL(substring(s, -1, -3), "");
-//}
+void test_substring()
+{
+    std::string s("AB" UTF8_COMBINING_BRIDGE_ABOVE "CD");
+    JT_EQUAL(Utf8::substring(s, 0), "AB" UTF8_COMBINING_BRIDGE_ABOVE "CD");
+    JT_EQUAL(Utf8::substring(s, 0, 4), "AB" UTF8_COMBINING_BRIDGE_ABOVE "CD");
+    JT_EQUAL(Utf8::substring(s, 1, 3), "B" UTF8_COMBINING_BRIDGE_ABOVE "C");
+    JT_EQUAL(Utf8::substring(s, 2, 2), "");
+    JT_EQUAL(Utf8::substring(s, 3, 1), "");
+    JT_EQUAL(Utf8::substring(s, 1, -1), "B" UTF8_COMBINING_BRIDGE_ABOVE "C");
+    JT_EQUAL(Utf8::substring(s, 2, -2), "");
+    JT_EQUAL(Utf8::substring(s, 3, -4), "");
+    JT_EQUAL(Utf8::substring(s, -3), "B" UTF8_COMBINING_BRIDGE_ABOVE "CD");
+    JT_EQUAL(Utf8::substring(s, -3, -1), "B" UTF8_COMBINING_BRIDGE_ABOVE "C");
+    JT_EQUAL(Utf8::substring(s, -2, -2), "");
+    JT_EQUAL(Utf8::substring(s, -1, -3), "");
+}
 
 void test_title()
 {
@@ -565,7 +565,7 @@ JT_SUBTEST("Utf8",
            test_splitIf,
            test_splitLines,
            test_startsWith,
-//           test_substring,
+           test_substring,
            test_title,
 //           test_toUtf8_fromLatin1,
 //           test_toUtf8_fromUtf8,
