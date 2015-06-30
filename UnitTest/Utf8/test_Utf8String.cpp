@@ -266,19 +266,19 @@ void test_prevCharacter_mutable()
     JT_THROWS(Utf8::prevCharacter(b, e, 5), std::logic_error);
 }
 
-//void test_replace_indexes()
-//{
-//    auto s = "The " UTF8_GREEK_SMALL_OMEGA
-//             UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
-//             " and the A" UTF8_COMBINING_INVERTED_BREVE
-//             UTF8_COMBINING_DOT_ABOVE ".";
-//    JT_EQUAL(replace(s, 6, -3, "beats no"),
-//             "The " UTF8_GREEK_SMALL_OMEGA
-//             UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
-//             " beats no A" UTF8_COMBINING_INVERTED_BREVE
-//             UTF8_COMBINING_DOT_ABOVE ".");
-//}
-//
+void test_replace_indexes()
+{
+    auto s = "The " UTF8_GREEK_SMALL_OMEGA
+             UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
+             " and the A" UTF8_COMBINING_INVERTED_BREVE
+             UTF8_COMBINING_DOT_ABOVE ".";
+    JT_EQUAL(Utf8::replace(s, 6, -3, "beats no"),
+             "The " UTF8_GREEK_SMALL_OMEGA
+             UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
+             " beats no A" UTF8_COMBINING_INVERTED_BREVE
+             UTF8_COMBINING_DOT_ABOVE ".");
+}
+
 //void test_replace_string()
 //{
 //    auto s = "The " UTF8_GREEK_SMALL_OMEGA " and the A.";
@@ -550,7 +550,7 @@ JT_SUBTEST("Utf8",
            test_nthCharacter,
            test_prevCharacter_const,
            test_prevCharacter_mutable,
-//           test_replace_indexes,
+           test_replace_indexes,
 //           test_replace_string,
 //           test_replaceCodePoint,
 //           test_replaceInPlace,

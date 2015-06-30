@@ -214,6 +214,15 @@ std::string::const_iterator prevCharacter(std::string::const_iterator& first,
                                   Utf8Encoding());
 }
 
+std::string replace(const std::string& str,
+                    ptrdiff_t start,
+                    ptrdiff_t end,
+                    const std::string& repl)
+{
+    return Generic::replace<std::string>(makeRange(str), start, end,
+                                         makeRange(repl), Utf8Encoding());
+}
+
 std::string reverse(const std::string& str)
 {
     return Generic::reverse<std::string>(makeRange(str), Utf8Encoding());

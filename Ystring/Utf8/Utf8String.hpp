@@ -203,10 +203,10 @@ std::string::const_iterator prevCharacter(std::string::const_iterator& first,
 //                              uint32_t toChar,
 //                              size_t max = 0);
 
-// std::string replace(const std::string& str,
-//                     ptrdiff_t start,
-//                     ptrdiff_t end,
-//                     const std::string& repl);
+std::string replace(const std::string& str,
+                    ptrdiff_t start,
+                    ptrdiff_t end,
+                    const std::string& repl);
 
 // std::string& replaceInPlace(std::string& str,
 //                             ptrdiff_t start,

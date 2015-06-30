@@ -109,6 +109,13 @@ bool startsWith(Range<It1> str,
                 Enc encoding,
                 FindFlags_t flags = FindFlags::DEFAULTS);
 
+template <typename It, typename Enc>
+Range<It> subrange(Range<It> str, ptrdiff_t start, ptrdiff_t end,
+                   Enc encoding);
+
+template <typename Str, typename It, typename Enc>
+Str substring(Range<It> str, ptrdiff_t start, ptrdiff_t end, Enc encoding);
+
 template <typename Str, typename It, typename Enc>
 Str title(Range<It> src, Enc encoding);
 

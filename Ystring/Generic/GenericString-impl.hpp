@@ -359,6 +359,20 @@ It prevCharacter(Range<It> str, size_t n, Enc encoding)
     return dec.end();
 }
 
+template <typename Str, typename It1, typename It2, typename Enc>
+Str replace(Range<It1> str, ptrdiff_t start, ptrdiff_t end, Range<It2> rep,
+            Enc encoding)
+{
+    auto sub = subrange(str, start, end, encoding);
+    auto result = Str();
+    auto ref = makeStringReference(result);
+    auto appender = ref.getAppender();
+    appender.append(makeRange(str.begin(), sub.begin()));
+    appender.append(rep);
+    appender.append(makeRange(sub.end(), str.end()));
+    return result;
+}
+
 template <typename Str, typename It, typename Enc>
 Str reverse(Range<It> src, Enc encoding)
 {
