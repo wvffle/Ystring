@@ -330,6 +330,35 @@ Str lower(Range<It> src, Enc encoding)
     return str;
 }
 
+template <typename It, typename Enc>
+It nextCharacter(Range<It> str, size_t n, Enc encoding)
+{
+    auto dec = Encoded::makeForwardDecoder(str, encoding);
+    if (advanceCharacters(dec, n) != n)
+      throw std::logic_error(
+              "can't advance beyond the end of the range");
+    return dec.begin();
+}
+
+template <typename It, typename Enc>
+It nthCharacter(Range<It> str, ptrdiff_t n, Enc encoding)
+{
+    if (n >= 0)
+        return nextCharacter(str, static_cast<size_t>(n), encoding);
+    else
+        return prevCharacter(str, static_cast<size_t>(-n), encoding);
+}
+
+template <typename It, typename Enc>
+It prevCharacter(Range<It> str, size_t n, Enc encoding)
+{
+    auto dec = Encoded::makeReverseDecoder(str, encoding);
+    if (advanceCharacters(dec, n) != n)
+      throw std::logic_error(
+              "can't advance beyond the start of the range");
+    return dec.end();
+}
+
 template <typename Str, typename It, typename Enc>
 Str reverse(Range<It> src, Enc encoding)
 {

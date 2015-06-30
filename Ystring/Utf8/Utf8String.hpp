@@ -157,25 +157,26 @@ std::string join(const std::vector<std::string>& strings,
 
 std::string lower(const std::string& str);
 
-//std::string::iterator nextCharacter(std::string::iterator& first,
-//                                    std::string::iterator& last,
-//                                    size_t n = 1);
+std::string::iterator nextCharacter(std::string::iterator& first,
+                                    std::string::iterator& last,
+                                    size_t n = 1);
 
-//std::string::const_iterator nextCharacter(std::string::const_iterator& first,
-//                                          std::string::const_iterator& last,
-//                                          size_t n = 1);
+std::string::const_iterator nextCharacter(std::string::const_iterator& first,
+                                          std::string::const_iterator& last,
+                                          size_t n = 1);
 
-//std::string::iterator nthCharacter(std::string& str, ptrdiff_t n);
+std::string::iterator nthCharacter(std::string& str, ptrdiff_t n);
 
-//std::string::const_iterator nthCharacter(const std::string& str, ptrdiff_t n);
+std::string::const_iterator nthCharacter(const std::string& str,
+                                         ptrdiff_t n);
 
-//std::string::iterator prevCharacter(std::string::iterator& first,
-//                                    std::string::iterator& last,
-//                                    size_t n = 1);
+std::string::iterator prevCharacter(std::string::iterator& first,
+                                    std::string::iterator& last,
+                                    size_t n = 1);
 
-//std::string::const_iterator prevCharacter(std::string::const_iterator& first,
-//                                          std::string::const_iterator& last,
-//                                          size_t n = 1);
+std::string::const_iterator prevCharacter(std::string::const_iterator& first,
+                                          std::string::const_iterator& last,
+                                          size_t n = 1);
 
 /** @brief Returns a copy of @a str where instances of @a from are replaced
   *      with @a to.

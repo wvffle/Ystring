@@ -171,6 +171,49 @@ std::string lower(const std::string& str)
     return Generic::lower<std::string>(makeRange(str), Utf8Encoding());
 }
 
+std::string::iterator nextCharacter(std::string::iterator& first,
+                                    std::string::iterator& last,
+                                    size_t n)
+{
+    return Generic::nextCharacter(makeRange(first, last), n ,
+                                  Utf8Encoding());
+}
+
+std::string::const_iterator nextCharacter(std::string::const_iterator& first,
+                                          std::string::const_iterator& last,
+                                          size_t n)
+{
+    return Generic::nextCharacter(makeRange(first, last), n,
+                                  Utf8Encoding());
+}
+
+std::string::iterator nthCharacter(std::string& str, ptrdiff_t n)
+{
+    return Generic::nthCharacter(makeRange(str), n, Utf8Encoding());
+}
+
+std::string::const_iterator nthCharacter(const std::string& str,
+                                         ptrdiff_t n)
+{
+    return Generic::nthCharacter(makeRange(str), n, Utf8Encoding());
+}
+
+std::string::iterator prevCharacter(std::string::iterator& first,
+                                    std::string::iterator& last,
+                                    size_t n)
+{
+    return Generic::prevCharacter(makeRange(first, last), n ,
+                                  Utf8Encoding());
+}
+
+std::string::const_iterator prevCharacter(std::string::const_iterator& first,
+                                          std::string::const_iterator& last,
+                                          size_t n)
+{
+    return Generic::prevCharacter(makeRange(first, last), n,
+                                  Utf8Encoding());
+}
+
 std::string reverse(const std::string& str)
 {
     return Generic::reverse<std::string>(makeRange(str), Utf8Encoding());

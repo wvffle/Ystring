@@ -191,25 +191,81 @@ void test_lower()
              "abc" UTF8_GREEK_SMALL_SIGMA "d12$e");
 }
 
-//void test_nthCharacter()
-//{
-//    std::string str("The " UTF8_GREEK_SMALL_OMEGA
-//                    UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
-//                    " and the A" UTF8_COMBINING_INVERTED_BREVE
-//                    UTF8_COMBINING_DOT_ABOVE ".");
-//    JT_ASSERT(nthCharacter(str, 0) == begin(str));
-//    JT_ASSERT(nthCharacter(str, 4) == begin(str) + 4);
-//    JT_ASSERT(nthCharacter(str, 5) == begin(str) + 10);
-//    JT_ASSERT(nthCharacter(str, 14) == begin(str) + 19);
-//    JT_ASSERT(nthCharacter(str, 15) == begin(str) + 24);
-//    JT_ASSERT(nthCharacter(str, 16) == begin(str) + 25);
-//    JT_ASSERT(nthCharacter(str, 17) == begin(str) + 25);
-//    JT_ASSERT(nthCharacter(str, -1) == begin(str) + 24);
-//    JT_ASSERT(nthCharacter(str, -2) == begin(str) + 19);
-//    JT_ASSERT(nthCharacter(str, -16) == begin(str));
-//    JT_ASSERT(nthCharacter(str, -17) == begin(str));
-//}
-//
+void test_nextCharacter_const()
+{
+    const std::string str("AB" UTF8_GREEK_SMALL_OMEGA
+                          UTF8_COMBINING_BRIDGE_ABOVE
+                          UTF8_COMBINING_TILDE "C");
+    auto b = str.begin(), e = str.end();
+    JT_EQUAL(distance(str.begin(), Utf8::nextCharacter(b, e)), 1);
+    JT_EQUAL(distance(str.begin(), Utf8::nextCharacter(b, e, 0)), 0);
+    JT_EQUAL(distance(str.begin(), Utf8::nextCharacter(b, e, 1)), 1);
+    JT_EQUAL(distance(str.begin(), Utf8::nextCharacter(b, e, 2)), 2);
+    JT_EQUAL(distance(str.begin(), Utf8::nextCharacter(b, e, 3)), 8);
+    JT_EQUAL(distance(str.begin(), Utf8::nextCharacter(b, e, 4)), 9);
+    JT_THROWS(Utf8::nextCharacter(b, e, 5), std::logic_error);
+}
+
+void test_nextCharacter_mutable()
+{
+    std::string str("AB" UTF8_GREEK_SMALL_OMEGA UTF8_COMBINING_BRIDGE_ABOVE
+                    UTF8_COMBINING_TILDE "C");
+    auto b = str.begin(), e = str.end();
+    JT_EQUAL(distance(str.begin(), Utf8::nextCharacter(b, e)), 1);
+    JT_EQUAL(distance(str.begin(), Utf8::nextCharacter(b, e, 0)), 0);
+    JT_EQUAL(distance(str.begin(), Utf8::nextCharacter(b, e, 1)), 1);
+    JT_EQUAL(distance(str.begin(), Utf8::nextCharacter(b, e, 2)), 2);
+    JT_EQUAL(distance(str.begin(), Utf8::nextCharacter(b, e, 3)), 8);
+    JT_EQUAL(distance(str.begin(), Utf8::nextCharacter(b, e, 4)), 9);
+    JT_THROWS(Utf8::nextCharacter(b, e, 5), std::logic_error);
+}
+
+void test_nthCharacter()
+{
+    std::string str("AB" UTF8_GREEK_SMALL_OMEGA UTF8_COMBINING_BRIDGE_ABOVE
+                    UTF8_COMBINING_TILDE "C");
+    JT_EQUAL(distance(str.begin(), Utf8::nthCharacter(str, 0)), 0);
+    JT_EQUAL(distance(str.begin(), Utf8::nthCharacter(str, 1)), 1);
+    JT_EQUAL(distance(str.begin(), Utf8::nthCharacter(str, 2)), 2);
+    JT_EQUAL(distance(str.begin(), Utf8::nthCharacter(str, 3)), 8);
+    JT_EQUAL(distance(str.begin(), Utf8::nthCharacter(str, 4)), 9);
+    JT_EQUAL(distance(str.begin(), Utf8::nthCharacter(str, -1)), 8);
+    JT_EQUAL(distance(str.begin(), Utf8::nthCharacter(str, -2)), 2);
+    JT_EQUAL(distance(str.begin(), Utf8::nthCharacter(str, -3)), 1);
+    JT_EQUAL(distance(str.begin(), Utf8::nthCharacter(str, -4)), 0);
+    JT_THROWS(Utf8::nthCharacter(str, 5), std::logic_error);
+    JT_THROWS(Utf8::nthCharacter(str, -5), std::logic_error);
+}
+
+void test_prevCharacter_const()
+{
+    const std::string str("AB" UTF8_GREEK_SMALL_OMEGA
+                          UTF8_COMBINING_BRIDGE_ABOVE
+                          UTF8_COMBINING_TILDE "C");
+    auto b = str.begin(), e = str.end();
+    JT_EQUAL(distance(str.begin(), Utf8::prevCharacter(b, e)), 8);
+    JT_EQUAL(distance(str.begin(), Utf8::prevCharacter(b, e, 0)), 9);
+    JT_EQUAL(distance(str.begin(), Utf8::prevCharacter(b, e, 1)), 8);
+    JT_EQUAL(distance(str.begin(), Utf8::prevCharacter(b, e, 2)), 2);
+    JT_EQUAL(distance(str.begin(), Utf8::prevCharacter(b, e, 3)), 1);
+    JT_EQUAL(distance(str.begin(), Utf8::prevCharacter(b, e, 4)), 0);
+    JT_THROWS(Utf8::prevCharacter(b, e, 5), std::logic_error);
+}
+
+void test_prevCharacter_mutable()
+{
+    std::string str("AB" UTF8_GREEK_SMALL_OMEGA UTF8_COMBINING_BRIDGE_ABOVE
+                    UTF8_COMBINING_TILDE "C");
+    auto b = str.begin(), e = str.end();
+    JT_EQUAL(distance(str.begin(), Utf8::prevCharacter(b, e)), 8);
+    JT_EQUAL(distance(str.begin(), Utf8::prevCharacter(b, e, 0)), 9);
+    JT_EQUAL(distance(str.begin(), Utf8::prevCharacter(b, e, 1)), 8);
+    JT_EQUAL(distance(str.begin(), Utf8::prevCharacter(b, e, 2)), 2);
+    JT_EQUAL(distance(str.begin(), Utf8::prevCharacter(b, e, 3)), 1);
+    JT_EQUAL(distance(str.begin(), Utf8::prevCharacter(b, e, 4)), 0);
+    JT_THROWS(Utf8::prevCharacter(b, e, 5), std::logic_error);
+}
+
 //void test_replace_indexes()
 //{
 //    auto s = "The " UTF8_GREEK_SMALL_OMEGA
@@ -489,7 +545,11 @@ JT_SUBTEST("Utf8",
 //           test_isValidUtf8,
            test_join,
            test_lower,
-//           test_nthCharacter,
+           test_nextCharacter_const,
+           test_nextCharacter_mutable,
+           test_nthCharacter,
+           test_prevCharacter_const,
+           test_prevCharacter_mutable,
 //           test_replace_indexes,
 //           test_replace_string,
 //           test_replaceCodePoint,
