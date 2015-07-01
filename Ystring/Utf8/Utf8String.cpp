@@ -207,6 +207,58 @@ std::string lower(const std::string& str)
     return Generic::lower<std::string>(makeRange(str), Utf8Encoding());
 }
 
+std::string::iterator nextCharacter(std::string::iterator& first,
+                                    std::string::iterator& last,
+                                    size_t n)
+{
+    return Generic::nextCharacter(makeRange(first, last), n ,
+                                  Utf8Encoding());
+}
+
+std::string::const_iterator nextCharacter(std::string::const_iterator& first,
+                                          std::string::const_iterator& last,
+                                          size_t n)
+{
+    return Generic::nextCharacter(makeRange(first, last), n,
+                                  Utf8Encoding());
+}
+
+std::string::iterator nthCharacter(std::string& str, ptrdiff_t n)
+{
+    return Generic::nthCharacter(makeRange(str), n, Utf8Encoding());
+}
+
+std::string::const_iterator nthCharacter(const std::string& str,
+                                         ptrdiff_t n)
+{
+    return Generic::nthCharacter(makeRange(str), n, Utf8Encoding());
+}
+
+std::string::iterator prevCharacter(std::string::iterator& first,
+                                    std::string::iterator& last,
+                                    size_t n)
+{
+    return Generic::prevCharacter(makeRange(first, last), n ,
+                                  Utf8Encoding());
+}
+
+std::string::const_iterator prevCharacter(std::string::const_iterator& first,
+                                          std::string::const_iterator& last,
+                                          size_t n)
+{
+    return Generic::prevCharacter(makeRange(first, last), n,
+                                  Utf8Encoding());
+}
+
+std::string replace(const std::string& str,
+                    ptrdiff_t start,
+                    ptrdiff_t end,
+                    const std::string& repl)
+{
+    return Generic::replace<std::string>(makeRange(str), start, end,
+                                         makeRange(repl), Utf8Encoding());
+}
+
 std::string reverse(const std::string& str)
 {
     return Generic::reverse<std::string>(makeRange(str), Utf8Encoding());
@@ -255,8 +307,16 @@ bool startsWith(const std::string& str,
                 const std::string& cmp,
                 FindFlags_t flags)
 {
-    return Generic::startsWith(makeRange(str), makeRange(cmp), Utf8Encoding(),
-                               flags);
+    return Generic::startsWith(makeRange(str), makeRange(cmp),
+                               Utf8Encoding(), flags);
+}
+
+std::string substring(const std::string& str,
+                      ptrdiff_t start,
+                      ptrdiff_t end)
+{
+    return Generic::substring<std::string>(makeRange(str), start, end,
+                                           Utf8Encoding());
 }
 
 std::string title(const std::string& str)

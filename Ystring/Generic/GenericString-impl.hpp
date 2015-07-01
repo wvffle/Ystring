@@ -359,6 +359,49 @@ Str lower(Range<It> src, Enc encoding)
     return str;
 }
 
+template <typename It, typename Enc>
+It nextCharacter(Range<It> str, size_t n, Enc encoding)
+{
+    auto dec = Encoded::makeForwardDecoder(str, encoding);
+    if (advanceCharacters(dec, n) != n)
+      throw std::logic_error(
+              "can't advance beyond the end of the range");
+    return dec.begin();
+}
+
+template <typename It, typename Enc>
+It nthCharacter(Range<It> str, ptrdiff_t n, Enc encoding)
+{
+    if (n >= 0)
+        return nextCharacter(str, static_cast<size_t>(n), encoding);
+    else
+        return prevCharacter(str, static_cast<size_t>(-n), encoding);
+}
+
+template <typename It, typename Enc>
+It prevCharacter(Range<It> str, size_t n, Enc encoding)
+{
+    auto dec = Encoded::makeReverseDecoder(str, encoding);
+    if (advanceCharacters(dec, n) != n)
+      throw std::logic_error(
+              "can't advance beyond the start of the range");
+    return dec.end();
+}
+
+template <typename Str, typename It1, typename It2, typename Enc>
+Str replace(Range<It1> str, ptrdiff_t start, ptrdiff_t end, Range<It2> rep,
+            Enc encoding)
+{
+    auto sub = subrange(str, start, end, encoding);
+    auto result = Str();
+    auto ref = makeStringReference(result);
+    auto appender = ref.getAppender();
+    appender.append(makeRange(str.begin(), sub.begin()));
+    appender.append(rep);
+    appender.append(makeRange(sub.end(), str.end()));
+    return result;
+}
+
 template <typename Str, typename It, typename Enc>
 Str reverse(Range<It> src, Enc encoding)
 {
@@ -497,6 +540,56 @@ bool startsWith(Range<It1> str,
         return Details::startsWithImpl(
                 str, cmp, encoding, flags,
                 typename SameIteratorValueType<It1, It2>::type());
+}
+
+template <typename It, typename Enc>
+Range<It> subrange(Range<It> str, ptrdiff_t start, ptrdiff_t end,
+                   Enc encoding)
+{
+    if (end == PTRDIFF_MAX)
+        return makeRange(nthCharacter(str, start, encoding), str.end());
+
+    It first, last;
+    auto sameSign = start >= 0 == end >= 0;
+    if (sameSign)
+    {
+        if (start >= end)
+        {
+            first = nthCharacter(str, start, encoding);
+            last = first;
+        }
+        else if (start >= 0)
+        {
+            first = nthCharacter(str, start, encoding);
+            last = nthCharacter(makeRange(first, str.end()), end - start,
+                                 encoding);
+        }
+        else
+        {
+            last = nthCharacter(str, end, encoding);
+            first = nthCharacter(makeRange(str.begin(), last), start - end,
+                                 encoding);
+        }
+    }
+    else
+    {
+        first = nthCharacter(str, start, encoding);
+        last = nthCharacter(str, end, encoding);
+        using std::distance;
+        if (distance(str.begin(), first) > distance(str.begin(), last))
+        {
+            last = first;
+        }
+    }
+
+    return Range<It>(first, last);
+}
+
+template <typename Str, typename It, typename Enc>
+Str substring(Range<It> str, ptrdiff_t start, ptrdiff_t end, Enc encoding)
+{
+    auto sub = subrange(str, start, end, encoding);
+    return Str(sub.begin(), sub.end());
 }
 
 template <typename Str, typename It, typename Enc>
