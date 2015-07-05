@@ -100,10 +100,10 @@ void test_findLast()
                             FindFlags::CASE_INSENSITIVE);
     JT_EQUAL(std::string(r.first, r.second),
              "gH" UTF8_GREEK_SMALL_SIGMA "Ij");
-    auto t = Utf8::findLast(r, UTF8_GREEK_CAPITAL_SIGMA "i",
+    auto t = Utf8::findLast(r.first, r.second, UTF8_GREEK_CAPITAL_SIGMA "i",
                             FindFlags::CASE_INSENSITIVE);
     JT_EQUAL(std::string(t.first, t.second), UTF8_GREEK_SMALL_SIGMA "I");
-    auto u = Utf8::findLast(r, UTF8_GREEK_CAPITAL_SIGMA "i");
+    auto u = Utf8::findLast(r.first, r.second, UTF8_GREEK_CAPITAL_SIGMA "i");
     JT_ASSERT(u.first == u.second && u.first == r.first);
 }
 
@@ -114,11 +114,11 @@ void test_findLastNewline()
     auto r = Utf8::findLastNewline(str);
     JT_EQUAL(std::string(r.second, s.second), "ghi");
     auto t = make_pair(s.first, r.first);
-    r = Utf8::findLastNewline(t);
+    r = Utf8::findLastNewline(t.first, t.second);
     JT_EQUAL(std::string(r.first, r.second), "\n");
     JT_EQUAL(std::string(r.second, t.second), "def");
     t.second = r.first;
-    r = Utf8::findLastNewline(t);
+    r = Utf8::findLastNewline(t.first, t.second);
     JT_ASSERT(r.first == r.second);
     JT_ASSERT(r.first == t.first);
     JT_EQUAL(std::string(r.first, t.second), "abc");
@@ -131,10 +131,10 @@ void test_findNext()
                             FindFlags::CASE_INSENSITIVE);
     JT_EQUAL(std::string(r.first, r.second),
              "gH" UTF8_GREEK_SMALL_SIGMA "Ij");
-    auto t = Utf8::findNext(r, UTF8_GREEK_CAPITAL_SIGMA "i",
+    auto t = Utf8::findNext(r.first, r.second, UTF8_GREEK_CAPITAL_SIGMA "i",
                             FindFlags::CASE_INSENSITIVE);
     JT_EQUAL(std::string(t.first, t.second), UTF8_GREEK_SMALL_SIGMA "I");
-    auto u = Utf8::findNext(r, UTF8_GREEK_CAPITAL_SIGMA "i");
+    auto u = Utf8::findNext(r.first, r.second, UTF8_GREEK_CAPITAL_SIGMA "i");
     JT_ASSERT(u.first == u.second && u.second == r.second);
 }
 
@@ -145,10 +145,10 @@ void test_findNextNewline()
     auto r = Utf8::findNextNewline(str);
     JT_EQUAL(std::string(s.first, r.first), "abc");
     auto t = make_pair(r.second, s.second);
-    r = Utf8::findNextNewline(t);
+    r = Utf8::findNextNewline(t.first, t.second);
     JT_EQUAL(std::string(t.first, r.first), "def");
     t.first = r.second;
-    r = Utf8::findNextNewline(t);
+    r = Utf8::findNextNewline(t.first, t.second);
     JT_ASSERT(r.first == r.second);
     JT_EQUAL(std::string(t.first, r.first), "ghi");
 }
@@ -180,14 +180,14 @@ void test_insertChar()
                 UTF8_COMBINING_DOT_ABOVE ".");
 }
 
-//void test_isAlphaNumeric()
-//{
-//    JT_ASSERT(isAlphaNumeric("Ab1"));
-//    JT_ASSERT(!isAlphaNumeric("Ab-1"));
-//    JT_ASSERT(!isAlphaNumeric(""));
-//    std::string s("2v" UTF8_GREEK_SMALL_OMEGA "1A");
-//    JT_ASSERT(isAlphaNumeric(begin(s), end(s)));
-//}
+void test_isAlphaNumeric()
+{
+    JT_ASSERT(Utf8::isAlphaNumeric("Ab1"));
+    JT_ASSERT(!Utf8::isAlphaNumeric("Ab-1"));
+    JT_ASSERT(!Utf8::isAlphaNumeric(""));
+    std::string s("2v" UTF8_GREEK_SMALL_OMEGA "1A");
+    JT_ASSERT(Utf8::isAlphaNumeric(begin(s), end(s)));
+}
 
 void test_isValidUtf8()
 {
@@ -548,7 +548,7 @@ JT_SUBTEST("Utf8",
            test_findNextNewline,
            test_insert,
            test_insertChar,
-//           test_isAlphaNumeric,
+           test_isAlphaNumeric,
            test_isValidUtf8,
            test_join,
            test_lower,

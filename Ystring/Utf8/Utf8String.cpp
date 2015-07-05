@@ -9,7 +9,6 @@
 
 #include "Utf8Encoding.hpp"
 #include "../Generic/GenericString.hpp"
-#include "../Unicode/UnicodePredicates.hpp"
 
 namespace Ystring { namespace Utf8 {
 
@@ -89,21 +88,23 @@ StringConstIteratorPair findLast(
 }
 
 StringIteratorPair findLast(
-        StringIteratorPair str,
+        std::string::iterator first,
+        std::string::iterator last,
         const std::string& cmp,
         FindFlags_t flags)
 {
-    return Generic::findLast(makeRange(str), makeRange(cmp), Utf8Encoding(),
+    return Generic::findLast(makeRange(first, last), makeRange(cmp), Utf8Encoding(),
                             flags);
 }
 
 StringConstIteratorPair findLast(
-        StringConstIteratorPair str,
+        std::string::const_iterator first,
+        std::string::const_iterator last,
         const std::string& cmp,
         FindFlags_t flags)
 {
-    return Generic::findLast(makeRange(str), makeRange(cmp), Utf8Encoding(),
-                            flags);
+    return Generic::findLast(makeRange(first, last), makeRange(cmp),
+                             Utf8Encoding(), flags);
 }
 
 StringIteratorPair findLastNewline(std::string& str)
@@ -116,14 +117,18 @@ StringConstIteratorPair findLastNewline(const std::string& str)
     return Generic::findLastNewline(makeRange(str), Utf8Encoding());
 }
 
-StringIteratorPair findLastNewline(StringIteratorPair str)
+StringIteratorPair findLastNewline(
+        std::string::iterator first,
+        std::string::iterator last)
 {
-    return Generic::findLastNewline(makeRange(str), Utf8Encoding());
+    return Generic::findLastNewline(makeRange(first, last), Utf8Encoding());
 }
 
-StringConstIteratorPair findLastNewline(StringConstIteratorPair str)
+StringConstIteratorPair findLastNewline(
+        std::string::const_iterator first,
+        std::string::const_iterator last)
 {
-    return Generic::findLastNewline(makeRange(str), Utf8Encoding());
+    return Generic::findLastNewline(makeRange(first, last), Utf8Encoding());
 }
 
 StringIteratorPair findNext(
@@ -145,21 +150,23 @@ StringConstIteratorPair findNext(
 }
 
 StringIteratorPair findNext(
-      StringIteratorPair str,
-      const std::string& cmp,
-      FindFlags_t flags)
+        std::string::iterator first,
+        std::string::iterator last,
+        const std::string& cmp,
+        FindFlags_t flags)
 {
-    return Generic::findNext(makeRange(str), makeRange(cmp), Utf8Encoding(),
-                             flags);
+    return Generic::findNext(makeRange(first, last), makeRange(cmp),
+                             Utf8Encoding(), flags);
 }
 
 StringConstIteratorPair findNext(
-      StringConstIteratorPair str,
-      const std::string& cmp,
-      FindFlags_t flags)
+        std::string::const_iterator first,
+        std::string::const_iterator last,
+        const std::string& cmp,
+        FindFlags_t flags)
 {
-    return Generic::findNext(makeRange(str), makeRange(cmp), Utf8Encoding(),
-                             flags);
+    return Generic::findNext(makeRange(first, last), makeRange(cmp),
+                             Utf8Encoding(), flags);
 }
 
 StringIteratorPair findNextNewline(std::string& str)
@@ -172,14 +179,18 @@ StringConstIteratorPair findNextNewline(const std::string& str)
     return Generic::findNextNewline(makeRange(str), Utf8Encoding());
 }
 
-StringIteratorPair findNextNewline(StringIteratorPair str)
+StringIteratorPair findNextNewline(
+        std::string::iterator first,
+        std::string::iterator last)
 {
-    return Generic::findNextNewline(makeRange(str), Utf8Encoding());
+    return Generic::findNextNewline(makeRange(first, last), Utf8Encoding());
 }
 
-StringConstIteratorPair findNextNewline(StringConstIteratorPair str)
+StringConstIteratorPair findNextNewline(
+        std::string::const_iterator first,
+        std::string::const_iterator last)
 {
-    return Generic::findNextNewline(makeRange(str), Utf8Encoding());
+    return Generic::findNextNewline(makeRange(first, last), Utf8Encoding());
 }
 
 std::string insert(const std::string& str, ptrdiff_t pos,
@@ -193,6 +204,23 @@ std::string insert(const std::string& str, ptrdiff_t pos, uint32_t chr)
 {
     return Generic::insert<std::string>(makeRange(str), pos, chr,
                                         Utf8Encoding());
+}
+
+bool isAlphaNumeric(const std::string& str)
+{
+    return isAlphaNumeric(makeRange(str), Utf8Encoding());
+}
+
+bool isAlphaNumeric(std::string::iterator first,
+                    std::string::iterator last)
+{
+    return isAlphaNumeric(makeRange(first, last), Utf8Encoding());
+}
+
+bool isAlphaNumeric(std::string::const_iterator first,
+                    std::string::const_iterator last)
+{
+    return isAlphaNumeric(makeRange(first, last), Utf8Encoding());
 }
 
 bool isValidUtf8(const std::string& str)

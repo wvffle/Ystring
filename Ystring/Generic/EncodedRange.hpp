@@ -15,7 +15,7 @@
 namespace Ystring { namespace Generic {
 
 template<typename It, typename Enc>
-class EncodedRange
+class EncodedRange132
 {
 public:
     static const Encoding_t encoding = Enc::encoding;

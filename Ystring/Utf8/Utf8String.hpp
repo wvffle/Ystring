@@ -88,12 +88,14 @@ StringConstIteratorPair findLast(
         FindFlags_t flags = FindFlags::DEFAULTS);
 
 StringIteratorPair findLast(
-      StringIteratorPair str,
+      std::string::iterator first,
+      std::string::iterator last,
       const std::string& cmp,
       FindFlags_t flags = FindFlags::DEFAULTS);
 
 StringConstIteratorPair findLast(
-      StringConstIteratorPair str,
+      std::string::const_iterator first,
+      std::string::const_iterator last,
       const std::string& cmp,
       FindFlags_t flags = FindFlags::DEFAULTS);
 
@@ -101,7 +103,8 @@ StringIteratorPair findLastNewline(std::string& str);
 
 StringConstIteratorPair findLastNewline(const std::string& str);
 
-StringIteratorPair findLastNewline(StringIteratorPair str);
+StringIteratorPair findLastNewline(std::string::iterator first,
+                                   std::string::iterator last);
 
 StringConstIteratorPair findLastNewline(StringConstIteratorPair str);
 
@@ -116,28 +119,39 @@ StringConstIteratorPair findNext(
         FindFlags_t flags = FindFlags::DEFAULTS);
 
 StringIteratorPair findNext(
-        StringIteratorPair str,
+        std::string::iterator first,
+        std::string::iterator last,
         const std::string& cmp,
         FindFlags_t flags = FindFlags::DEFAULTS);
 
 StringConstIteratorPair findNext(
-      StringConstIteratorPair str,
-      const std::string& cmp,
-      FindFlags_t flags = FindFlags::DEFAULTS);
+        std::string::const_iterator first,
+        std::string::const_iterator last,
+        const std::string& cmp,
+        FindFlags_t flags = FindFlags::DEFAULTS);
 
 StringIteratorPair findNextNewline(std::string& str);
 
 StringConstIteratorPair findNextNewline(const std::string& str);
 
-StringIteratorPair findNextNewline(StringIteratorPair str);
+StringIteratorPair findNextNewline(std::string::iterator first,
+                                   std::string::iterator last);
 
-StringConstIteratorPair findNextNewline(StringConstIteratorPair str);
+StringConstIteratorPair findNextNewline(
+        std::string::const_iterator first,
+        std::string::const_iterator last);
 
-std::string insert(const std::string& str, ptrdiff_t pos, const std::string& sub);
+std::string insert(const std::string& str,
+                   ptrdiff_t pos,
+                   const std::string& sub);
 
 std::string insert(const std::string& str, ptrdiff_t pos, uint32_t chr);
 
-// bool isAlphaNumeric(const std::string& str);
+bool isAlphaNumeric(const std::string& str);
+bool isAlphaNumeric(std::string::iterator first,
+                    std::string::iterator last);
+bool isAlphaNumeric(std::string::const_iterator first,
+                    std::string::const_iterator last);
 
 /** @brief Returns true if all characters in @a str are valid UTF-8.
   */
