@@ -16,6 +16,12 @@
 
 namespace Ystring { namespace Utf8 {
 
+typedef std::pair<std::string::iterator, std::string::iterator>
+        StringIteratorPair;
+
+typedef std::pair<std::string::const_iterator, std::string::const_iterator>
+        StringConstIteratorPair;
+
 /** @brief Adds @a codePoint encoded as UTF-8 to the end of@a str.
   */
 std::string& append(std::string& str, uint32_t chr);
@@ -71,80 +77,65 @@ bool endsWith(const std::string& str,
 
 // std::string escape(const std::string& str);
 
-std::pair<std::string::iterator, std::string::iterator> findLast(
+StringIteratorPair findLast(
         std::string& str,
         const std::string& cmp,
         FindFlags_t flags = FindFlags::DEFAULTS);
 
-std::pair<std::string::const_iterator, std::string::const_iterator> findLast(
+StringConstIteratorPair findLast(
         const std::string& str,
         const std::string& cmp,
         FindFlags_t flags = FindFlags::DEFAULTS);
 
-std::pair<std::string::iterator, std::string::iterator> findLast(
-      std::pair<std::string::iterator, std::string::iterator> str,
+StringIteratorPair findLast(
+      StringIteratorPair str,
       const std::string& cmp,
       FindFlags_t flags = FindFlags::DEFAULTS);
 
-std::pair<std::string::const_iterator, std::string::const_iterator> findLast(
-      std::pair<std::string::const_iterator, std::string::const_iterator> str,
+StringConstIteratorPair findLast(
+      StringConstIteratorPair str,
       const std::string& cmp,
       FindFlags_t flags = FindFlags::DEFAULTS);
 
-//std::pair<std::string::iterator, std::string::iterator> findLastNewline(
-//        std::string& str);
-//
-//std::pair<std::string::const_iterator, std::string::const_iterator>
-//    findLastNewline(
-//        const std::string& str);
-//
-//std::pair<std::string::iterator, std::string::iterator> findLastNewline(
-//        std::pair<std::string::iterator, std::string::iterator> str);
-//
-//std::pair<std::string::const_iterator, std::string::const_iterator>
-//    findLastNewline(
-//     std::pair<std::string::const_iterator, std::string::const_iterator> str);
+StringIteratorPair findLastNewline(std::string& str);
 
-std::pair<std::string::iterator, std::string::iterator> findNext(
+StringConstIteratorPair findLastNewline(const std::string& str);
+
+StringIteratorPair findLastNewline(StringIteratorPair str);
+
+StringConstIteratorPair findLastNewline(StringConstIteratorPair str);
+
+StringIteratorPair findNext(
         std::string& str,
         const std::string& cmp,
         FindFlags_t flags = FindFlags::DEFAULTS);
 
-std::pair<std::string::const_iterator, std::string::const_iterator> findNext(
+StringConstIteratorPair findNext(
         const std::string& str,
         const std::string& cmp,
         FindFlags_t flags = FindFlags::DEFAULTS);
 
-std::pair<std::string::iterator, std::string::iterator> findNext(
-        std::pair<std::string::iterator, std::string::iterator> str,
+StringIteratorPair findNext(
+        StringIteratorPair str,
         const std::string& cmp,
         FindFlags_t flags = FindFlags::DEFAULTS);
 
-std::pair<std::string::const_iterator, std::string::const_iterator> findNext(
-      std::pair<std::string::const_iterator, std::string::const_iterator> str,
+StringConstIteratorPair findNext(
+      StringConstIteratorPair str,
       const std::string& cmp,
       FindFlags_t flags = FindFlags::DEFAULTS);
 
-std::pair<std::string::iterator, std::string::iterator> findNextNewline(
-        std::string& str);
+StringIteratorPair findNextNewline(std::string& str);
 
-std::pair<std::string::const_iterator, std::string::const_iterator>
-    findNextNewline(
-        const std::string& str);
+StringConstIteratorPair findNextNewline(const std::string& str);
 
-std::pair<std::string::iterator, std::string::iterator> findNextNewline(
-        std::pair<std::string::iterator, std::string::iterator> str);
+StringIteratorPair findNextNewline(StringIteratorPair str);
 
-std::pair<std::string::const_iterator, std::string::const_iterator>
-    findNextNewline(
-     std::pair<std::string::const_iterator, std::string::const_iterator> str);
+StringConstIteratorPair findNextNewline(StringConstIteratorPair str);
 
 std::string insert(const std::string& str, ptrdiff_t pos, const std::string& sub);
 
 std::string insert(const std::string& str, ptrdiff_t pos, uint32_t chr);
-
-// std::string& insertInPlace(std::string& str, ptrdiff_t pos,
-//                            const std::string& sub);
 
 // bool isAlphaNumeric(const std::string& str);
 
@@ -207,11 +198,6 @@ std::string replace(const std::string& str,
                     ptrdiff_t start,
                     ptrdiff_t end,
                     const std::string& repl);
-
-// std::string& replaceInPlace(std::string& str,
-//                             ptrdiff_t start,
-//                             ptrdiff_t end,
-//                             const std::string& repl);
 
 // std::string replaceInvalidUtf8(const std::string& str, uint32_t chr = '?');
 

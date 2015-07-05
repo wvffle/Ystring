@@ -247,6 +247,13 @@ bool endsWith(Range<It1> str,
                 typename SameIteratorValueType<It1, It2>::type());
 }
 
+template <typename It, typename Enc>
+Range<It> findLastNewline(Range<It> str, Enc encoding)
+{
+    auto dec = Encoded::makeReverseDecoder(str, encoding);
+    return Encoded::nextNewline(dec).getRange();
+}
+
 template <typename It1, typename It2, typename Enc>
 Range<It1> findLast(Range<It1> str,
                     Range<It2> cmp,
@@ -255,7 +262,7 @@ Range<It1> findLast(Range<It1> str,
 {
     if (flags == FindFlags::CASE_INSENSITIVE)
         return Details::findLastImpl(str, cmp, encoding, flags,
-                                 std::false_type());
+                                     std::false_type());
     else
         return Details::findLastImpl(
                 str, cmp, encoding, flags,
@@ -278,8 +285,7 @@ Range<It1> findNext(Range<It1> str,
 }
 
 template <typename It, typename Enc>
-Range<It> findNextNewline(Range<It> str,
-                                      Enc encoding)
+Range<It> findNextNewline(Range<It> str, Enc encoding)
 {
     auto dec = Encoded::makeForwardDecoder(str, encoding);
     return Encoded::nextNewline(dec).getRange();

@@ -107,6 +107,23 @@ void test_findLast()
     JT_ASSERT(u.first == u.second && u.first == r.first);
 }
 
+void test_findLastNewline()
+{
+    auto str = std::string("abc\ndef\r\nghi");
+    auto s = make_pair(begin(str), end(str));
+    auto r = Utf8::findLastNewline(str);
+    JT_EQUAL(std::string(r.second, s.second), "ghi");
+    auto t = make_pair(s.first, r.first);
+    r = Utf8::findLastNewline(t);
+    JT_EQUAL(std::string(r.first, r.second), "\n");
+    JT_EQUAL(std::string(r.second, t.second), "def");
+    t.second = r.first;
+    r = Utf8::findLastNewline(t);
+    JT_ASSERT(r.first == r.second);
+    JT_ASSERT(r.first == t.first);
+    JT_EQUAL(std::string(r.first, t.second), "abc");
+}
+
 void test_findNext()
 {
     auto s = std::string("abc_ghIJ_gH" UTF8_GREEK_SMALL_SIGMA "Ij_kLM_nop");
@@ -163,19 +180,6 @@ void test_insertChar()
                 UTF8_COMBINING_DOT_ABOVE ".");
 }
 
-//void test_insertInPlace()
-//{
-//    auto s = std::string("The " UTF8_GREEK_SMALL_OMEGA
-//                         UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
-//                         " and the A" UTF8_COMBINING_INVERTED_BREVE
-//                         UTF8_COMBINING_DOT_ABOVE ".");
-//    insertInPlace(insertInPlace(s, 13, " insanely"), -2, "great ");
-//    JT_EQUAL(s, "The " UTF8_GREEK_SMALL_OMEGA
-//                 UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
-//                 " and the insanely great A" UTF8_COMBINING_INVERTED_BREVE
-//                 UTF8_COMBINING_DOT_ABOVE ".");
-//}
-//
 //void test_isAlphaNumeric()
 //{
 //    JT_ASSERT(isAlphaNumeric("Ab1"));
@@ -184,12 +188,12 @@ void test_insertChar()
 //    std::string s("2v" UTF8_GREEK_SMALL_OMEGA "1A");
 //    JT_ASSERT(isAlphaNumeric(begin(s), end(s)));
 //}
-//
-//void test_isValidUtf8()
-//{
-//    JT_ASSERT(isValidUtf8("AB\xC1\x80"));
-//    JT_ASSERT(!isValidUtf8("AB\xC0\xBF"));
-//}
+
+void test_isValidUtf8()
+{
+    JT_ASSERT(Utf8::isValidUtf8("AB\xC1\x80"));
+    JT_ASSERT(!Utf8::isValidUtf8("AB\xC0\xBF"));
+}
 
 void test_join()
 {
@@ -322,19 +326,6 @@ void test_replace_indexes()
 //             "AB" UTF8_FIGURE_SPACE "D");
 //    JT_EQUAL(replaceCodePoint("ABCDCDECDEFGCD", 'C', '_', 3),
 //             "AB_D_DE_DEFGCD");
-//}
-//
-//void test_replaceInPlace()
-//{
-//    auto s = std::string("The " UTF8_GREEK_SMALL_OMEGA
-//                         UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
-//                         " and the A" UTF8_COMBINING_INVERTED_BREVE
-//                         UTF8_COMBINING_DOT_ABOVE ".");
-//    replaceInPlace(s, 6, -3, "beats no");
-//    JT_EQUAL(s, "The " UTF8_GREEK_SMALL_OMEGA
-//                UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
-//                " beats no A" UTF8_COMBINING_INVERTED_BREVE
-//                UTF8_COMBINING_DOT_ABOVE ".");
 //}
 //
 //void test_replaceInvalidUtf8()
@@ -552,13 +543,13 @@ JT_SUBTEST("Utf8",
            test_endsWith,
 //           test_escape,
            test_findLast,
+           test_findLastNewline,
            test_findNext,
            test_findNextNewline,
            test_insert,
            test_insertChar,
-//           test_insertInPlace,
 //           test_isAlphaNumeric,
-//           test_isValidUtf8,
+           test_isValidUtf8,
            test_join,
            test_lower,
            test_nextCharacter_const,
@@ -569,7 +560,6 @@ JT_SUBTEST("Utf8",
            test_replace_indexes,
 //           test_replace_string,
 //           test_replaceCodePoint,
-//           test_replaceInPlace,
 //           test_replaceInvalidUtf8,
 //           test_replaceInvalidUtf8InPlace,
            test_reverse,
