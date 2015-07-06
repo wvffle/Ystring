@@ -298,26 +298,27 @@ void test_replace_indexes()
              UTF8_COMBINING_DOT_ABOVE ".");
 }
 
-//void test_replace_string()
-//{
-//    auto s = "The " UTF8_GREEK_SMALL_OMEGA " and the A.";
-//    JT_EQUAL(replace(s,
-//                     UTF8_GREEK_SMALL_OMEGA " and",
-//                     UTF8_GREEK_CAPITAL_OMEGA " or"),
-//             "The " UTF8_GREEK_CAPITAL_OMEGA " or the A.");
-//    JT_EQUAL(replace(s,
-//                     UTF8_GREEK_CAPITAL_OMEGA " aNd",
-//                     UTF8_GREEK_CAPITAL_SIGMA " or"),
-//             s);
-//    JT_EQUAL(replace(s,
-//                     UTF8_GREEK_CAPITAL_OMEGA " aNd",
-//                     UTF8_GREEK_CAPITAL_SIGMA " or",
-//                     0, FindFlags::CaseInsensitive),
-//             "The " UTF8_GREEK_CAPITAL_SIGMA " or the A.");
-//    JT_EQUAL(replace(s, UTF8_GREEK_SMALL_OMEGA " and", ""), "The  the A.");
-//    JT_EQUAL(replace(s, "", "foo"), s);
-//}
-//
+void test_replace_string()
+{
+    auto s = "The " UTF8_GREEK_SMALL_OMEGA " and the A.";
+    JT_EQUAL(Utf8::replace(s,
+                           UTF8_GREEK_SMALL_OMEGA " and",
+                           UTF8_GREEK_CAPITAL_OMEGA " or"),
+             "The " UTF8_GREEK_CAPITAL_OMEGA " or the A.");
+    JT_EQUAL(Utf8::replace(s,
+                           UTF8_GREEK_CAPITAL_OMEGA " aNd",
+                           UTF8_GREEK_CAPITAL_SIGMA " or"),
+             s);
+    JT_EQUAL(Utf8::replace(s,
+                           UTF8_GREEK_CAPITAL_OMEGA " aNd",
+                           UTF8_GREEK_CAPITAL_SIGMA " or",
+                           0, FindFlags::CASE_INSENSITIVE),
+             "The " UTF8_GREEK_CAPITAL_SIGMA " or the A.");
+    JT_EQUAL(Utf8::replace(s, UTF8_GREEK_SMALL_OMEGA " and", ""),
+             "The  the A.");
+    JT_EQUAL(Utf8::replace(s, "", "foo"), s);
+}
+
 //void test_replaceCodePoint()
 //{
 //    JT_EQUAL(replaceCodePoint("AB" UTF8_GREEK_SMALL_GAMMA "D",
@@ -558,7 +559,7 @@ JT_SUBTEST("Utf8",
            test_prevCharacter_const,
            test_prevCharacter_mutable,
            test_replace_indexes,
-//           test_replace_string,
+           test_replace_string,
 //           test_replaceCodePoint,
 //           test_replaceInvalidUtf8,
 //           test_replaceInvalidUtf8InPlace,

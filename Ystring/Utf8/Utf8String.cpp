@@ -286,6 +286,17 @@ std::string::const_iterator prevCharacter(std::string::const_iterator& first,
 }
 
 std::string replace(const std::string& str,
+                    const std::string& cmp,
+                    const std::string& repl,
+                    size_t maxReplacements,
+                    FindFlags_t flags)
+{
+    return Generic::replace<std::string>(makeRange(str), makeRange(cmp),
+                                         makeRange(repl), Utf8Encoding(),
+                                         maxReplacements, flags);
+}
+
+std::string replace(const std::string& str,
                     ptrdiff_t start,
                     ptrdiff_t end,
                     const std::string& repl)

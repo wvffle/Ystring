@@ -225,13 +225,6 @@ size_t countCodePoints(Range<It> str, Enc encoding)
     return n;
 }
 
-//template <typename Str, typename It2, typename Enc>
-//void replace(EncodedString<Str, Enc> dst,
-//             EncodedRange<It2, Enc> cmp,)
-//{
-//    Encoded::appendLower(dst.getEncoder(), src.getForwardDecoder());
-//}
-
 template <typename It1, typename It2, typename Enc>
 bool endsWith(Range<It1> str,
               Range<It2> cmp,
@@ -402,6 +395,49 @@ It prevCharacter(Range<It> str, size_t n, Enc encoding)
       throw std::logic_error(
               "can't advance beyond the start of the range");
     return dec.end();
+}
+
+template <typename It1, typename It2, typename Enc>
+std::vector<Range<It1>> findPositions(Range<It1> str, Range<It2> cmp,
+                                      Enc encoding,
+                                      ptrdiff_t maxCount,
+                                      FindFlags_t flags)
+{
+    std::vector<Range<It1>> result;
+    return result;
+}
+
+template <typename Str, typename It1, typename It2, typename Enc>
+Str replace(Range<It1> str, Range<It2> cmp, Range<It2> rep,
+            Enc encoding,
+            ptrdiff_t maxReplacements,
+            FindFlags_t flags)
+{
+    auto result = Str();
+    auto ref = makeStringReference(result);
+    auto appender = ref.getAppender();
+    if (cmp.begin() == cmp.end())
+    {
+        appender.append(str);
+        return result;
+    }
+
+    if (maxReplacements < 0)
+    {
+    }
+
+    auto sub = findNext(str, cmp, encoding, flags);
+    while (sub.begin() != sub.end())
+    {
+        appender.append(makeRange(str.begin(), sub.begin()));
+        appender.append(rep);
+        str.begin() = sub.end();
+        if (--maxReplacements == 0)
+            break;
+        sub = findNext(str, cmp, encoding, flags);
+    }
+    appender.append(str);
+    return result;
 }
 
 template <typename Str, typename It1, typename It2, typename Enc>

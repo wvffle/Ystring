@@ -189,11 +189,11 @@ std::string::const_iterator prevCharacter(std::string::const_iterator& first,
   * @param max The maximum number of replacements that will be performed. All
   *      instances of @a from are replaced if 0.
   */
-// std::string replace(const std::string& str,
-//                     const std::string& from,
-//                     const std::string& to,
-//                     size_t max = 0,
-//                     FindFlags_t flags = FindFlags::Defaults);
+std::string replace(const std::string& str,
+                    const std::string& from,
+                    const std::string& to,
+                    size_t max = 0,
+                    FindFlags_t flags = FindFlags::DEFAULTS);
 
 /** @brief Returns a copy of @a str with instances of @a fromChar replaced
   *      with @a toChar.
