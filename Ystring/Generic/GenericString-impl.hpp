@@ -34,17 +34,17 @@ namespace Details
 
     template <typename It1, typename It2, typename Enc>
     Range<It1> findFirstImpl(Range<It1> str,
-                            Range<It2> cmp,
-                            Enc /*encoding*/,
-                            FindFlags_t /*flags*/,
-                            std::true_type);
+                             Range<It2> cmp,
+                             Enc /*encoding*/,
+                             FindFlags_t /*flags*/,
+                             std::true_type);
 
     template <typename It1, typename It2, typename Enc>
     Range<It1> findFirstImpl(Range<It1> str,
-                            Range<It2> cmp,
-                            Enc encoding,
-                            FindFlags_t flags,
-                            std::false_type);
+                             Range<It2> cmp,
+                             Enc encoding,
+                             FindFlags_t flags,
+                             std::false_type);
 
     template <typename It1, typename It2, typename Enc>
     Range<It1> findLastImpl(Range<It1> str,
@@ -266,13 +266,13 @@ bool endsWith(Range<It1> str,
 
 template <typename It1, typename It2, typename Enc>
 Range<It1> findFirst(Range<It1> str,
-                    Range<It2> cmp,
-                    Enc encoding,
-                    FindFlags_t flags)
+                     Range<It2> cmp,
+                     Enc encoding,
+                     FindFlags_t flags)
 {
     if (flags == FindFlags::CASE_INSENSITIVE)
         return Details::findFirstImpl(str, cmp, encoding, flags,
-                                     std::false_type());
+                                      std::false_type());
     else
         return Details::findFirstImpl(
                 str, cmp, encoding, flags,
@@ -732,20 +732,20 @@ namespace Details
 
     template <typename It1, typename It2, typename Enc>
     Range<It1> findFirstImpl(Range<It1> str,
-                            Range<It2> cmp,
-                            Enc /*encoding*/,
-                            FindFlags_t /*flags*/,
-                            std::true_type)
+                             Range<It2> cmp,
+                             Enc /*encoding*/,
+                             FindFlags_t /*flags*/,
+                             std::true_type)
     {
         return search(str, cmp);
     }
 
     template <typename It1, typename It2, typename Enc>
     Range<It1> findFirstImpl(Range<It1> str,
-                            Range<It2> cmp,
-                            Enc encoding,
-                            FindFlags_t flags,
-                            std::false_type)
+                             Range<It2> cmp,
+                             Enc encoding,
+                             FindFlags_t flags,
+                             std::false_type)
     {
         auto strDec = Encoded::makeForwardDecoder(str, encoding);
         return Encoded::find(strDec,

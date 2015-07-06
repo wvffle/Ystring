@@ -32,7 +32,7 @@ void test_find_different_containers_same_encoding()
     std::string str("Abraham Brorson");
     char cmp[] = "m B";
     auto match = Generic::findFirst(makeRange(str), makeRange(cmp),
-                                   Utf8Encoding());
+                                    Utf8Encoding());
     JT_EQUAL(std::distance(str.begin(), match.begin()), 6);
     JT_ASSERT(match.end() == str.begin() + 9);
 }

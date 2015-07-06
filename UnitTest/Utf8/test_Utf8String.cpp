@@ -128,11 +128,11 @@ void test_findFirst()
 {
     auto s = std::string("abc_ghIJ_gH" UTF8_GREEK_SMALL_SIGMA "Ij_kLM_nop");
     auto r = Utf8::findFirst(s, "gh" UTF8_GREEK_CAPITAL_SIGMA "ij",
-                            FindFlags::CASE_INSENSITIVE);
+                             FindFlags::CASE_INSENSITIVE);
     JT_EQUAL(std::string(r.first, r.second),
              "gH" UTF8_GREEK_SMALL_SIGMA "Ij");
     auto t = Utf8::findFirst(r.first, r.second, UTF8_GREEK_CAPITAL_SIGMA "i",
-                            FindFlags::CASE_INSENSITIVE);
+                             FindFlags::CASE_INSENSITIVE);
     JT_EQUAL(std::string(t.first, t.second), UTF8_GREEK_SMALL_SIGMA "I");
     auto u = Utf8::findFirst(r.first, r.second, UTF8_GREEK_CAPITAL_SIGMA "i");
     JT_ASSERT(u.first == u.second && u.second == r.second);

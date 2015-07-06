@@ -135,7 +135,7 @@ StringIteratorPair findFirstNewline(std::string& str);
 StringConstIteratorPair findFirstNewline(const std::string& str);
 
 StringIteratorPair findFirstNewline(std::string::iterator first,
-                                   std::string::iterator last);
+                                    std::string::iterator last);
 
 StringConstIteratorPair findFirstNewline(
         std::string::const_iterator first,

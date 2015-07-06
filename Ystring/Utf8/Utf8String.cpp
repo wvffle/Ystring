@@ -137,7 +137,7 @@ StringIteratorPair findFirst(
         FindFlags_t flags)
 {
     return Generic::findFirst(makeRange(str), makeRange(cmp), Utf8Encoding(),
-                            flags);
+                              flags);
 }
 
 StringConstIteratorPair findFirst(
@@ -146,7 +146,7 @@ StringConstIteratorPair findFirst(
         FindFlags_t flags)
 {
     return Generic::findFirst(makeRange(str), makeRange(cmp), Utf8Encoding(),
-                             flags);
+                              flags);
 }
 
 StringIteratorPair findFirst(
@@ -156,7 +156,7 @@ StringIteratorPair findFirst(
         FindFlags_t flags)
 {
     return Generic::findFirst(makeRange(first, last), makeRange(cmp),
-                             Utf8Encoding(), flags);
+                              Utf8Encoding(), flags);
 }
 
 StringConstIteratorPair findFirst(
@@ -166,7 +166,7 @@ StringConstIteratorPair findFirst(
         FindFlags_t flags)
 {
     return Generic::findFirst(makeRange(first, last), makeRange(cmp),
-                             Utf8Encoding(), flags);
+                              Utf8Encoding(), flags);
 }
 
 StringIteratorPair findFirstNewline(std::string& str)

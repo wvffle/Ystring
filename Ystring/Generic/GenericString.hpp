@@ -51,13 +51,13 @@ bool endsWith(Range<It1> str,
 
 template <typename It1, typename It2, typename Enc>
 Range<It1> findFirst(Range<It1> str,
-                    Range<It2> cmp,
-                    Enc encoding,
-                    FindFlags_t flags = FindFlags::DEFAULTS);
+                     Range<It2> cmp,
+                     Enc encoding,
+                     FindFlags_t flags = FindFlags::DEFAULTS);
 
 template <typename It1, typename It2, typename Enc>
 Range<It1> findFirstNewline(Range<It1> str,
-                           Enc encoding);
+                            Enc encoding);
 
 template <typename Str, typename It1, typename It2>
 Str join(It1 first, It1 last, Range<It2> delimiter);
