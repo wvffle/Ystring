@@ -33,6 +33,20 @@ namespace Details
                       std::false_type);
 
     template <typename It1, typename It2, typename Enc>
+    Range<It1> findFirstImpl(Range<It1> str,
+                            Range<It2> cmp,
+                            Enc /*encoding*/,
+                            FindFlags_t /*flags*/,
+                            std::true_type);
+
+    template <typename It1, typename It2, typename Enc>
+    Range<It1> findFirstImpl(Range<It1> str,
+                            Range<It2> cmp,
+                            Enc encoding,
+                            FindFlags_t flags,
+                            std::false_type);
+
+    template <typename It1, typename It2, typename Enc>
     Range<It1> findLastImpl(Range<It1> str,
                             Range<It2> cmp,
                             Enc /*encoding*/,
@@ -47,18 +61,28 @@ namespace Details
                             std::false_type);
 
     template <typename It1, typename It2, typename Enc>
-    Range<It1> findNextImpl(Range<It1> str,
-                            Range<It2> cmp,
-                            Enc /*encoding*/,
-                            FindFlags_t /*flags*/,
-                            std::true_type);
+    std::vector<Range<It1>> findPositionsFwd(Range<It1> str, Range<It2> cmp,
+                                             Enc encoding,
+                                             size_t maxCount,
+                                             FindFlags_t flags);
 
     template <typename It1, typename It2, typename Enc>
-    Range<It1> findNextImpl(Range<It1> str,
-                            Range<It2> cmp,
-                            Enc encoding,
-                            FindFlags_t flags,
-                            std::false_type);
+    std::vector<Range<It1>> findPositionsRev(Range<It1> str, Range<It2> cmp,
+                                             Enc encoding,
+                                             size_t maxCount,
+                                             FindFlags_t flags);
+
+    template <typename Str, typename It1, typename It2, typename Enc>
+    Str replaceFwd(Range<It1> str, Range<It2> cmp, Range<It2> rep,
+                   Enc encoding,
+                   size_t maxReplacements,
+                   FindFlags_t flags);
+
+    template <typename Str, typename It1, typename It2, typename Enc>
+    Str replaceRev(Range<It1> str, Range<It2> cmp, Range<It2> rep,
+                   Enc encoding,
+                   size_t maxReplacements,
+                   FindFlags_t flags);
 
     template <typename Str, typename Decoder, typename NextTokenFunc>
     std::vector<Str> splitImpl(
@@ -240,10 +264,25 @@ bool endsWith(Range<It1> str,
                 typename SameIteratorValueType<It1, It2>::type());
 }
 
-template <typename It, typename Enc>
-Range<It> findLastNewline(Range<It> str, Enc encoding)
+template <typename It1, typename It2, typename Enc>
+Range<It1> findFirst(Range<It1> str,
+                    Range<It2> cmp,
+                    Enc encoding,
+                    FindFlags_t flags)
 {
-    auto dec = Encoded::makeReverseDecoder(str, encoding);
+    if (flags == FindFlags::CASE_INSENSITIVE)
+        return Details::findFirstImpl(str, cmp, encoding, flags,
+                                     std::false_type());
+    else
+        return Details::findFirstImpl(
+                str, cmp, encoding, flags,
+                typename CanCompareRawValues<It1, Enc, It2, Enc>::type());
+}
+
+template <typename It, typename Enc>
+Range<It> findFirstNewline(Range<It> str, Enc encoding)
+{
+    auto dec = Encoded::makeForwardDecoder(str, encoding);
     return Encoded::nextNewline(dec).getRange();
 }
 
@@ -262,25 +301,10 @@ Range<It1> findLast(Range<It1> str,
                 typename CanCompareRawValues<It1, Enc, It2, Enc>::type());
 }
 
-template <typename It1, typename It2, typename Enc>
-Range<It1> findNext(Range<It1> str,
-                    Range<It2> cmp,
-                    Enc encoding,
-                    FindFlags_t flags)
-{
-    if (flags == FindFlags::CASE_INSENSITIVE)
-        return Details::findNextImpl(str, cmp, encoding, flags,
-                                     std::false_type());
-    else
-        return Details::findNextImpl(
-                str, cmp, encoding, flags,
-                typename CanCompareRawValues<It1, Enc, It2, Enc>::type());
-}
-
 template <typename It, typename Enc>
-Range<It> findNextNewline(Range<It> str, Enc encoding)
+Range<It> findLastNewline(Range<It> str, Enc encoding)
 {
-    auto dec = Encoded::makeForwardDecoder(str, encoding);
+    auto dec = Encoded::makeReverseDecoder(str, encoding);
     return Encoded::nextNewline(dec).getRange();
 }
 
@@ -403,8 +427,12 @@ std::vector<Range<It1>> findPositions(Range<It1> str, Range<It2> cmp,
                                       ptrdiff_t maxCount,
                                       FindFlags_t flags)
 {
-    std::vector<Range<It1>> result;
-    return result;
+    if (maxCount >= 0)
+        return Details::findPositionsFwd(
+                str, cmp, encoding, static_cast<size_t>(maxCount), flags);
+    else
+        return Details::findPositionsRev(
+                str, cmp, encoding, static_cast<size_t>(-maxCount), flags);
 }
 
 template <typename Str, typename It1, typename It2, typename Enc>
@@ -413,31 +441,17 @@ Str replace(Range<It1> str, Range<It2> cmp, Range<It2> rep,
             ptrdiff_t maxReplacements,
             FindFlags_t flags)
 {
-    auto result = Str();
-    auto ref = makeStringReference(result);
-    auto appender = ref.getAppender();
     if (cmp.begin() == cmp.end())
-    {
-        appender.append(str);
-        return result;
-    }
+        return Str(str.begin(), str.end());
 
-    if (maxReplacements < 0)
-    {
-    }
-
-    auto sub = findNext(str, cmp, encoding, flags);
-    while (sub.begin() != sub.end())
-    {
-        appender.append(makeRange(str.begin(), sub.begin()));
-        appender.append(rep);
-        str.begin() = sub.end();
-        if (--maxReplacements == 0)
-            break;
-        sub = findNext(str, cmp, encoding, flags);
-    }
-    appender.append(str);
-    return result;
+    if (maxReplacements >= 0)
+        return Details::replaceFwd<Str>(
+                str, cmp, rep, encoding,
+                static_cast<size_t>(maxReplacements), flags);
+    else
+        return Details::replaceRev<Str>(
+                str, cmp, rep, encoding,
+                static_cast<size_t>(-maxReplacements), flags);
 }
 
 template <typename Str, typename It1, typename It2, typename Enc>
@@ -717,6 +731,29 @@ namespace Details
     }
 
     template <typename It1, typename It2, typename Enc>
+    Range<It1> findFirstImpl(Range<It1> str,
+                            Range<It2> cmp,
+                            Enc /*encoding*/,
+                            FindFlags_t /*flags*/,
+                            std::true_type)
+    {
+        return search(str, cmp);
+    }
+
+    template <typename It1, typename It2, typename Enc>
+    Range<It1> findFirstImpl(Range<It1> str,
+                            Range<It2> cmp,
+                            Enc encoding,
+                            FindFlags_t flags,
+                            std::false_type)
+    {
+        auto strDec = Encoded::makeForwardDecoder(str, encoding);
+        return Encoded::find(strDec,
+                             Encoded::makeForwardDecoder(cmp, encoding),
+                             flags).getRange();
+    }
+
+    template <typename It1, typename It2, typename Enc>
     Range<It1> findLastImpl(Range<It1> str,
                             Range<It2> cmp,
                             Enc /*encoding*/,
@@ -740,26 +777,85 @@ namespace Details
     }
 
     template <typename It1, typename It2, typename Enc>
-    Range<It1> findNextImpl(Range<It1> str,
-                            Range<It2> cmp,
-                            Enc /*encoding*/,
-                            FindFlags_t /*flags*/,
-                            std::true_type)
+    std::vector<Range<It1>> findPositionsFwd(Range<It1> str, Range<It2> cmp,
+                                             Enc encoding,
+                                             size_t maxCount,
+                                             FindFlags_t flags)
     {
-        return search(str, cmp);
+        std::vector<Range<It1>> result;
+        auto nxt = findFirst(str, cmp, encoding, flags);
+        while (nxt.begin() != nxt.end())
+        {
+            result.push_back(nxt);
+            if (--maxCount == 0)
+                break;
+            str.begin() = nxt.end();
+            nxt = findFirst(str, cmp, encoding, flags);
+        }
+        return result;
     }
 
     template <typename It1, typename It2, typename Enc>
-    Range<It1> findNextImpl(Range<It1> str,
-                            Range<It2> cmp,
-                            Enc encoding,
-                            FindFlags_t flags,
-                            std::false_type)
+    std::vector<Range<It1>> findPositionsRev(Range<It1> str, Range<It2> cmp,
+                                             Enc encoding,
+                                             size_t maxCount,
+                                             FindFlags_t flags)
     {
-        auto strDec = Encoded::makeForwardDecoder(str, encoding);
-        return Encoded::find(strDec,
-                             Encoded::makeForwardDecoder(cmp, encoding),
-                             flags).getRange();
+        std::vector<Range<It1>> result;
+        auto prv = findLast(str, cmp, encoding, flags);
+        while (prv.begin() != prv.end())
+        {
+            result.push_back(prv);
+            if (--maxCount == 0)
+                break;
+            str.end() = prv.begin();
+            prv = findLast(str, cmp, encoding, flags);
+        }
+        return result;
+    }
+
+    template <typename Str, typename It1, typename It2, typename Enc>
+    Str replaceFwd(Range<It1> str, Range<It2> cmp, Range<It2> rep,
+                   Enc encoding,
+                   size_t maxReplacements,
+                   FindFlags_t flags)
+    {
+        auto result = Str();
+        auto ref = makeStringReference(result);
+        auto appender = ref.getAppender();
+        auto sub = findFirst(str, cmp, encoding, flags);
+        while (sub.begin() != sub.end())
+        {
+            appender.append(makeRange(str.begin(), sub.begin()));
+            appender.append(rep);
+            str.begin() = sub.end();
+            if (--maxReplacements == 0)
+                break;
+            sub = findFirst(str, cmp, encoding, flags);
+        }
+        appender.append(str);
+        return result;
+    }
+
+    template <typename Str, typename It1, typename It2, typename Enc>
+    Str replaceRev(Range<It1> str, Range<It2> cmp, Range<It2> rep,
+                   Enc encoding,
+                   size_t maxReplacements,
+                   FindFlags_t flags)
+    {
+        auto positions = findPositionsRev(str, cmp, encoding,
+                                          maxReplacements, flags);
+        auto result = Str();
+        auto ref = makeStringReference(result);
+        auto appender = ref.getAppender();
+        for (auto it = positions.rbegin(); it != positions.rend(); ++it)
+        {
+            appender.append(makeRange(str.begin(), it->begin()));
+            appender.append(rep);
+            str.begin() = it->end();
+        }
+        appender.append(str);
+        return result;
     }
 
     template <typename Str, typename Decoder, typename NextTokenFunc>

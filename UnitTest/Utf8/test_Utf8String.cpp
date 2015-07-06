@@ -124,31 +124,31 @@ void test_findLastNewline()
     JT_EQUAL(std::string(r.first, t.second), "abc");
 }
 
-void test_findNext()
+void test_findFirst()
 {
     auto s = std::string("abc_ghIJ_gH" UTF8_GREEK_SMALL_SIGMA "Ij_kLM_nop");
-    auto r = Utf8::findNext(s, "gh" UTF8_GREEK_CAPITAL_SIGMA "ij",
+    auto r = Utf8::findFirst(s, "gh" UTF8_GREEK_CAPITAL_SIGMA "ij",
                             FindFlags::CASE_INSENSITIVE);
     JT_EQUAL(std::string(r.first, r.second),
              "gH" UTF8_GREEK_SMALL_SIGMA "Ij");
-    auto t = Utf8::findNext(r.first, r.second, UTF8_GREEK_CAPITAL_SIGMA "i",
+    auto t = Utf8::findFirst(r.first, r.second, UTF8_GREEK_CAPITAL_SIGMA "i",
                             FindFlags::CASE_INSENSITIVE);
     JT_EQUAL(std::string(t.first, t.second), UTF8_GREEK_SMALL_SIGMA "I");
-    auto u = Utf8::findNext(r.first, r.second, UTF8_GREEK_CAPITAL_SIGMA "i");
+    auto u = Utf8::findFirst(r.first, r.second, UTF8_GREEK_CAPITAL_SIGMA "i");
     JT_ASSERT(u.first == u.second && u.second == r.second);
 }
 
-void test_findNextNewline()
+void test_findFirstNewline()
 {
     auto str = std::string("abc\ndef\r\nghi");
     auto s = make_pair(begin(str), end(str));
-    auto r = Utf8::findNextNewline(str);
+    auto r = Utf8::findFirstNewline(str);
     JT_EQUAL(std::string(s.first, r.first), "abc");
     auto t = make_pair(r.second, s.second);
-    r = Utf8::findNextNewline(t.first, t.second);
+    r = Utf8::findFirstNewline(t.first, t.second);
     JT_EQUAL(std::string(t.first, r.first), "def");
     t.first = r.second;
-    r = Utf8::findNextNewline(t.first, t.second);
+    r = Utf8::findFirstNewline(t.first, t.second);
     JT_ASSERT(r.first == r.second);
     JT_EQUAL(std::string(t.first, r.first), "ghi");
 }
@@ -317,6 +317,12 @@ void test_replace_string()
     JT_EQUAL(Utf8::replace(s, UTF8_GREEK_SMALL_OMEGA " and", ""),
              "The  the A.");
     JT_EQUAL(Utf8::replace(s, "", "foo"), s);
+}
+
+void test_replace_string_backwards()
+{
+    JT_EQUAL(Utf8::replace("123 foo 456 foo 789 foo 012", "foo", "bar", -2),
+             "123 foo 456 bar 789 bar 012");
 }
 
 //void test_replaceCodePoint()
@@ -545,8 +551,8 @@ JT_SUBTEST("Utf8",
 //           test_escape,
            test_findLast,
            test_findLastNewline,
-           test_findNext,
-           test_findNextNewline,
+           test_findFirst,
+           test_findFirstNewline,
            test_insert,
            test_insertChar,
            test_isAlphaNumeric,
@@ -560,6 +566,7 @@ JT_SUBTEST("Utf8",
            test_prevCharacter_mutable,
            test_replace_indexes,
            test_replace_string,
+           test_replace_string_backwards,
 //           test_replaceCodePoint,
 //           test_replaceInvalidUtf8,
 //           test_replaceInvalidUtf8InPlace,

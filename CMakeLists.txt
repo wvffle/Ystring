@@ -36,7 +36,6 @@ set(PUBLIC_HEADERS
     Ystring/Encoded/Encoder.hpp
     Ystring/Encoded/ForwardDecoder.hpp
     Ystring/Encoded/ReverseDecoder.hpp
-    Ystring/Generic/EncodedRange.hpp
     Ystring/Generic/StringReference.hpp
     Ystring/Generic/GenericString.hpp
     Ystring/Generic/GenericString-impl.hpp

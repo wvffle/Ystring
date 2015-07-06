@@ -131,66 +131,66 @@ StringConstIteratorPair findLastNewline(
     return Generic::findLastNewline(makeRange(first, last), Utf8Encoding());
 }
 
-StringIteratorPair findNext(
+StringIteratorPair findFirst(
         std::string& str,
         const std::string& cmp,
         FindFlags_t flags)
 {
-    return Generic::findNext(makeRange(str), makeRange(cmp), Utf8Encoding(),
+    return Generic::findFirst(makeRange(str), makeRange(cmp), Utf8Encoding(),
                             flags);
 }
 
-StringConstIteratorPair findNext(
+StringConstIteratorPair findFirst(
         const std::string& str,
         const std::string& cmp,
         FindFlags_t flags)
 {
-    return Generic::findNext(makeRange(str), makeRange(cmp), Utf8Encoding(),
+    return Generic::findFirst(makeRange(str), makeRange(cmp), Utf8Encoding(),
                              flags);
 }
 
-StringIteratorPair findNext(
+StringIteratorPair findFirst(
         std::string::iterator first,
         std::string::iterator last,
         const std::string& cmp,
         FindFlags_t flags)
 {
-    return Generic::findNext(makeRange(first, last), makeRange(cmp),
+    return Generic::findFirst(makeRange(first, last), makeRange(cmp),
                              Utf8Encoding(), flags);
 }
 
-StringConstIteratorPair findNext(
+StringConstIteratorPair findFirst(
         std::string::const_iterator first,
         std::string::const_iterator last,
         const std::string& cmp,
         FindFlags_t flags)
 {
-    return Generic::findNext(makeRange(first, last), makeRange(cmp),
+    return Generic::findFirst(makeRange(first, last), makeRange(cmp),
                              Utf8Encoding(), flags);
 }
 
-StringIteratorPair findNextNewline(std::string& str)
+StringIteratorPair findFirstNewline(std::string& str)
 {
-    return Generic::findNextNewline(makeRange(str), Utf8Encoding());
+    return Generic::findFirstNewline(makeRange(str), Utf8Encoding());
 }
 
-StringConstIteratorPair findNextNewline(const std::string& str)
+StringConstIteratorPair findFirstNewline(const std::string& str)
 {
-    return Generic::findNextNewline(makeRange(str), Utf8Encoding());
+    return Generic::findFirstNewline(makeRange(str), Utf8Encoding());
 }
 
-StringIteratorPair findNextNewline(
+StringIteratorPair findFirstNewline(
         std::string::iterator first,
         std::string::iterator last)
 {
-    return Generic::findNextNewline(makeRange(first, last), Utf8Encoding());
+    return Generic::findFirstNewline(makeRange(first, last), Utf8Encoding());
 }
 
-StringConstIteratorPair findNextNewline(
+StringConstIteratorPair findFirstNewline(
         std::string::const_iterator first,
         std::string::const_iterator last)
 {
-    return Generic::findNextNewline(makeRange(first, last), Utf8Encoding());
+    return Generic::findFirstNewline(makeRange(first, last), Utf8Encoding());
 }
 
 std::string insert(const std::string& str, ptrdiff_t pos,

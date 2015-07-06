@@ -108,36 +108,36 @@ StringIteratorPair findLastNewline(std::string::iterator first,
 
 StringConstIteratorPair findLastNewline(StringConstIteratorPair str);
 
-StringIteratorPair findNext(
+StringIteratorPair findFirst(
         std::string& str,
         const std::string& cmp,
         FindFlags_t flags = FindFlags::DEFAULTS);
 
-StringConstIteratorPair findNext(
+StringConstIteratorPair findFirst(
         const std::string& str,
         const std::string& cmp,
         FindFlags_t flags = FindFlags::DEFAULTS);
 
-StringIteratorPair findNext(
+StringIteratorPair findFirst(
         std::string::iterator first,
         std::string::iterator last,
         const std::string& cmp,
         FindFlags_t flags = FindFlags::DEFAULTS);
 
-StringConstIteratorPair findNext(
+StringConstIteratorPair findFirst(
         std::string::const_iterator first,
         std::string::const_iterator last,
         const std::string& cmp,
         FindFlags_t flags = FindFlags::DEFAULTS);
 
-StringIteratorPair findNextNewline(std::string& str);
+StringIteratorPair findFirstNewline(std::string& str);
 
-StringConstIteratorPair findNextNewline(const std::string& str);
+StringConstIteratorPair findFirstNewline(const std::string& str);
 
-StringIteratorPair findNextNewline(std::string::iterator first,
+StringIteratorPair findFirstNewline(std::string::iterator first,
                                    std::string::iterator last);
 
-StringConstIteratorPair findNextNewline(
+StringConstIteratorPair findFirstNewline(
         std::string::const_iterator first,
         std::string::const_iterator last);
 
