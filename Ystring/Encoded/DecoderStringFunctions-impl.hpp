@@ -140,6 +140,21 @@ Decoder1 find(Decoder1& str, Decoder2 sub, FindFlags_t flags)
 }
 
 template <typename Decoder>
+bool isAlphaNumeric(Decoder dec)
+{
+    uint32_t ch;
+    if (!dec.next(ch) || !Unicode::isAlphaNumeric(ch))
+        return false;
+
+    while (dec.next(ch))
+    {
+        if (!Unicode::isAlphaNumeric(ch) && !Unicode::isMark(ch))
+            return false;
+    }
+    return true;
+}
+
+template <typename Decoder>
 Decoder nextLine(Decoder& str)
 {
     auto line = str;

@@ -358,11 +358,7 @@ Str insert(Range<It> str, ptrdiff_t pos, uint32_t chr, Enc encoding)
 template <typename It, typename Enc>
 bool isAlphaNumeric(Range<It> str, Enc encoding)
 {
-    if (str.begin() == str.end())
-        return false;
-
-    auto dec = Encoded::makeForwardDecoder(str, encoding);
-    return advanceWhile(dec, Unicode::isAlphaNumeric);
+    return isAlphaNumeric(Encoded::makeForwardDecoder(str, encoding));
 }
 
 template <typename Str, typename It1, typename It2>

@@ -185,7 +185,7 @@ void test_isAlphaNumeric()
     JT_ASSERT(Utf8::isAlphaNumeric("Ab1"));
     JT_ASSERT(!Utf8::isAlphaNumeric("Ab-1"));
     JT_ASSERT(!Utf8::isAlphaNumeric(""));
-    std::string s("2v" UTF8_GREEK_SMALL_OMEGA "1A");
+    std::string s("2v" UTF8_GREEK_SMALL_OMEGA UTF8_COMBINING_BRIDGE_ABOVE);
     JT_ASSERT(Utf8::isAlphaNumeric(begin(s), end(s)));
 }
 

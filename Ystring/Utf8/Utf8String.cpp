@@ -69,68 +69,6 @@ bool endsWith(const std::string& str,
             flags);
 }
 
-StringIteratorPair findLast(
-        std::string& str,
-        const std::string& cmp,
-        FindFlags_t flags)
-{
-    return Generic::findLast(makeRange(str), makeRange(cmp), Utf8Encoding(),
-                             flags);
-}
-
-StringConstIteratorPair findLast(
-        const std::string& str,
-        const std::string& cmp,
-        FindFlags_t flags)
-{
-    return Generic::findLast(makeRange(str), makeRange(cmp), Utf8Encoding(),
-                             flags);
-}
-
-StringIteratorPair findLast(
-        std::string::iterator first,
-        std::string::iterator last,
-        const std::string& cmp,
-        FindFlags_t flags)
-{
-    return Generic::findLast(makeRange(first, last), makeRange(cmp), Utf8Encoding(),
-                            flags);
-}
-
-StringConstIteratorPair findLast(
-        std::string::const_iterator first,
-        std::string::const_iterator last,
-        const std::string& cmp,
-        FindFlags_t flags)
-{
-    return Generic::findLast(makeRange(first, last), makeRange(cmp),
-                             Utf8Encoding(), flags);
-}
-
-StringIteratorPair findLastNewline(std::string& str)
-{
-    return Generic::findLastNewline(makeRange(str), Utf8Encoding());
-}
-
-StringConstIteratorPair findLastNewline(const std::string& str)
-{
-    return Generic::findLastNewline(makeRange(str), Utf8Encoding());
-}
-
-StringIteratorPair findLastNewline(
-        std::string::iterator first,
-        std::string::iterator last)
-{
-    return Generic::findLastNewline(makeRange(first, last), Utf8Encoding());
-}
-
-StringConstIteratorPair findLastNewline(
-        std::string::const_iterator first,
-        std::string::const_iterator last)
-{
-    return Generic::findLastNewline(makeRange(first, last), Utf8Encoding());
-}
-
 StringIteratorPair findFirst(
         std::string& str,
         const std::string& cmp,
@@ -191,6 +129,68 @@ StringConstIteratorPair findFirstNewline(
         std::string::const_iterator last)
 {
     return Generic::findFirstNewline(makeRange(first, last), Utf8Encoding());
+}
+
+StringIteratorPair findLast(
+        std::string& str,
+        const std::string& cmp,
+        FindFlags_t flags)
+{
+    return Generic::findLast(makeRange(str), makeRange(cmp), Utf8Encoding(),
+                             flags);
+}
+
+StringConstIteratorPair findLast(
+        const std::string& str,
+        const std::string& cmp,
+        FindFlags_t flags)
+{
+    return Generic::findLast(makeRange(str), makeRange(cmp), Utf8Encoding(),
+                             flags);
+}
+
+StringIteratorPair findLast(
+        std::string::iterator first,
+        std::string::iterator last,
+        const std::string& cmp,
+        FindFlags_t flags)
+{
+    return Generic::findLast(makeRange(first, last), makeRange(cmp), Utf8Encoding(),
+                            flags);
+}
+
+StringConstIteratorPair findLast(
+        std::string::const_iterator first,
+        std::string::const_iterator last,
+        const std::string& cmp,
+        FindFlags_t flags)
+{
+    return Generic::findLast(makeRange(first, last), makeRange(cmp),
+                             Utf8Encoding(), flags);
+}
+
+StringIteratorPair findLastNewline(std::string& str)
+{
+    return Generic::findLastNewline(makeRange(str), Utf8Encoding());
+}
+
+StringConstIteratorPair findLastNewline(const std::string& str)
+{
+    return Generic::findLastNewline(makeRange(str), Utf8Encoding());
+}
+
+StringIteratorPair findLastNewline(
+        std::string::iterator first,
+        std::string::iterator last)
+{
+    return Generic::findLastNewline(makeRange(first, last), Utf8Encoding());
+}
+
+StringConstIteratorPair findLastNewline(
+        std::string::const_iterator first,
+        std::string::const_iterator last)
+{
+    return Generic::findLastNewline(makeRange(first, last), Utf8Encoding());
 }
 
 std::string insert(const std::string& str, ptrdiff_t pos,

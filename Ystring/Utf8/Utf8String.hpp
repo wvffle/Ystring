@@ -14,11 +14,21 @@
 #include "../FindFlags.hpp"
 #include "../SplitFlags.hpp"
 
+/** @file
+  * @brief The function library for UTF-8 encoded strings.
+  */
+
 namespace Ystring { namespace Utf8 {
 
+/** @brief The result of certain find-functions that accept mutable
+  *     strings or their iterators.
+  */
 typedef std::pair<std::string::iterator, std::string::iterator>
         StringIteratorPair;
 
+/** @brief The result of certain find-functions that accept immutable
+  *     or their strings.
+  */
 typedef std::pair<std::string::const_iterator, std::string::const_iterator>
         StringConstIteratorPair;
 
@@ -28,15 +38,25 @@ std::string& append(std::string& str, uint32_t chr);
 
 /** @brief Compares @a str and @a cmp, ignoring any differences in
   *     letter casing.
-  *  @returns @arg < 0 if @a str is less than @a cmp
-  *           @arg 0 if @a str is equal to @a cmp
-  *           @arg > 0 if @a str is greater than @a cmp
+  *
+  * @note Composed and decomposed versions of the same characters are treated
+  *     as different characters (the decomposed character is typically "the
+  *     "lesser" one).
+  * @returns @arg < 0 if @a str is less than @a cmp
+  *          @arg 0 if @a str is equal to @a cmp
+  *          @arg > 0 if @a str is greater than @a cmp
+  * @throw runtime_error if str contains an invalid UTF-8 code point.
   */
 int32_t caseInsensitiveCompare(const std::string& str,
                                const std::string& cmp);
 
 /** @brief Returns true if the upper case versions of @a str and @a cmp
   *     are equal.
+  *
+  * @note Composed and decomposed versions of the same characters are treated
+  *     as different characters (the decomposed character is typically "the
+  *     "lesser" one).
+  * @throw runtime_error if str contains an invalid UTF-8 code point.
   */
 bool caseInsensitiveEqual(const std::string& str, const std::string& cmp);
 
@@ -45,11 +65,13 @@ bool caseInsensitiveEqual(const std::string& str, const std::string& cmp);
   *
   * Only a quick comparison of code point values are performed. This
   * function should not be used to sort strings in alphabetical order as
-  * what is alphabetical order varies betweem languages and cultures.
+  * what is alphabetical order varies between languages and cultures.
+  * @throw runtime_error if str contains an invalid UTF-8 code point.
   */
 bool caseInsensitiveLess(const std::string& str, const std::string& cmp);
 
-/** @brief Returns true if @a str contains character (code point) @a chr.
+/** @brief Returns true if @a str contains code point @a chr.
+  * @throw runtime_error if str contains an invalid UTF-8 code point.
   */
 bool contains(const std::string& str, uint32_t chr);
 
@@ -70,6 +92,9 @@ size_t countCharacters(const std::string& str);
 size_t countCodePoints(const std::string& str);
 
 /** @brief Returns true if @a str ends with @a cmp.
+  * @note Composed and decomposed versions of the same characters are treated
+  *     as different characters (the decomposed character is typically "the
+  *     "lesser" one).
   */
 bool endsWith(const std::string& str,
               const std::string& cmp,
@@ -77,69 +102,215 @@ bool endsWith(const std::string& str,
 
 // std::string escape(const std::string& str);
 
-StringIteratorPair findLast(
-        std::string& str,
-        const std::string& cmp,
-        FindFlags_t flags = FindFlags::DEFAULTS);
-
-StringConstIteratorPair findLast(
-        const std::string& str,
-        const std::string& cmp,
-        FindFlags_t flags = FindFlags::DEFAULTS);
-
-StringIteratorPair findLast(
-      std::string::iterator first,
-      std::string::iterator last,
-      const std::string& cmp,
-      FindFlags_t flags = FindFlags::DEFAULTS);
-
-StringConstIteratorPair findLast(
-      std::string::const_iterator first,
-      std::string::const_iterator last,
-      const std::string& cmp,
-      FindFlags_t flags = FindFlags::DEFAULTS);
-
-StringIteratorPair findLastNewline(std::string& str);
-
-StringConstIteratorPair findLastNewline(const std::string& str);
-
-StringIteratorPair findLastNewline(std::string::iterator first,
-                                   std::string::iterator last);
-
-StringConstIteratorPair findLastNewline(StringConstIteratorPair str);
-
+/** @brief Returns the first substring in @a str that matches @a cmp.
+  * @note Composed and decomposed versions of the same characters are treated
+  *     as different characters (the decomposed character is typically "the
+  *     "lesser" one).
+  */
 StringIteratorPair findFirst(
         std::string& str,
         const std::string& cmp,
         FindFlags_t flags = FindFlags::DEFAULTS);
 
+/** @brief Returns the first substring in @a str that matches @a cmp.
+  * @note Composed and decomposed versions of the same characters are treated
+  *     as different characters (the decomposed character is typically "the
+  *     "lesser" one).
+  */
 StringConstIteratorPair findFirst(
         const std::string& str,
         const std::string& cmp,
         FindFlags_t flags = FindFlags::DEFAULTS);
 
+/** @brief Returns the first substring in the range from @a first to @a last
+  *     that matches @a cmp.
+  * @note Composed and decomposed versions of the same characters are treated
+  *     as different characters (the decomposed character is typically "the
+  *     "lesser" one).
+  */
 StringIteratorPair findFirst(
         std::string::iterator first,
         std::string::iterator last,
         const std::string& cmp,
         FindFlags_t flags = FindFlags::DEFAULTS);
 
+/** @brief Returns the first substring in the range from @a first to @a last
+  *     that matches @a cmp.
+  * @note Composed and decomposed versions of the same characters are treated
+  *     as different characters (the decomposed character is typically "the
+  *     "lesser" one).
+  */
 StringConstIteratorPair findFirst(
         std::string::const_iterator first,
         std::string::const_iterator last,
         const std::string& cmp,
         FindFlags_t flags = FindFlags::DEFAULTS);
 
+/** @brief Returns the first substring in @a str that constitutes a newline.
+  *
+  * The following characters are treated as newline characters:
+  *   - \\n Unix
+  *   - \\r Old MacOS
+  *   - \\r\\n Windows
+  *   - \\f Form feed
+  *   - \\v Vertical tab
+  *   - NEXT LINE (code point 133)
+  *   - LINE SEPARATOR (code point 8232)
+  *   - PARAGRAPH SEPARATOR (code poiont 8233)
+  */
 StringIteratorPair findFirstNewline(std::string& str);
 
+/** @brief Returns the first substring in @a str that constitutes a newline.
+  *
+  * The following characters are treated as newline characters:
+  *   - \\n Unix
+  *   - \\r Old MacOS
+  *   - \\r\\n Windows
+  *   - \\f Form feed
+  *   - \\v Vertical tab
+  *   - NEXT LINE (code point 133)
+  *   - LINE SEPARATOR (code point 8232)
+  *   - PARAGRAPH SEPARATOR (code poiont 8233)
+  */
 StringConstIteratorPair findFirstNewline(const std::string& str);
 
+/** @brief Returns the first substring in the range from @a first to @a last
+  *     that constitutes a newline.
+  *
+  * The following characters are treated as newline characters:
+  *   - \\n Unix
+  *   - \\r Old MacOS
+  *   - \\r\\n Windows
+  *   - \\f Form feed
+  *   - \\v Vertical tab
+  *   - NEXT LINE (code point 133)
+  *   - LINE SEPARATOR (code point 8232)
+  *   - PARAGRAPH SEPARATOR (code poiont 8233)
+  */
 StringIteratorPair findFirstNewline(std::string::iterator first,
                                     std::string::iterator last);
 
+/** @brief Returns the first substring in the range from @a first to @a last
+  *     that constitutes a newline.
+  *
+  * The following characters are treated as newline characters:
+  *   - \\n Unix
+  *   - \\r Old MacOS
+  *   - \\r\\n Windows
+  *   - \\f Form feed
+  *   - \\v Vertical tab
+  *   - NEXT LINE (code point 133)
+  *   - LINE SEPARATOR (code point 8232)
+  *   - PARAGRAPH SEPARATOR (code poiont 8233)
+  */
 StringConstIteratorPair findFirstNewline(
         std::string::const_iterator first,
         std::string::const_iterator last);
+
+/** @brief Returns the last substring in @a str that matches @a cmp.
+  * @note Composed and decomposed versions of the same characters are treated
+  *     as different characters (the decomposed character is typically "the
+  *     "lesser" one).
+  */
+StringIteratorPair findLast(
+        std::string& str,
+        const std::string& cmp,
+        FindFlags_t flags = FindFlags::DEFAULTS);
+
+/** @brief Returns the last substring in @a str that matches @a cmp.
+  * @note Composed and decomposed versions of the same characters are treated
+  *     as different characters (the decomposed character is typically "the
+  *     "lesser" one).
+  */
+StringConstIteratorPair findLast(
+        const std::string& str,
+        const std::string& cmp,
+        FindFlags_t flags = FindFlags::DEFAULTS);
+
+/** @brief Returns the last substring in the range from @a first to @a last
+  *     that matches @a cmp.
+  * @note Composed and decomposed versions of the same characters are treated
+  *     as different characters (the decomposed character is typically "the
+  *     "lesser" one).
+  */
+StringIteratorPair findLast(
+      std::string::iterator first,
+      std::string::iterator last,
+      const std::string& cmp,
+      FindFlags_t flags = FindFlags::DEFAULTS);
+
+/** @brief Returns the last substring in the range from @a first to @a last
+  *     that matches @a cmp.
+  * @note Composed and decomposed versions of the same characters are treated
+  *     as different characters (the decomposed character is typically "the
+  *     "lesser" one).
+  */
+StringConstIteratorPair findLast(
+      std::string::const_iterator first,
+      std::string::const_iterator last,
+      const std::string& cmp,
+      FindFlags_t flags = FindFlags::DEFAULTS);
+
+/** @brief Returns the last substring in @a str that constitutes a newline.
+  *
+  * The following characters are treated as newline characters:
+  *   - \\n Unix
+  *   - \\r Old MacOS
+  *   - \\r\\n Windows
+  *   - \\f Form feed
+  *   - \\v Vertical tab
+  *   - NEXT LINE (code point 133)
+  *   - LINE SEPARATOR (code point 8232)
+  *   - PARAGRAPH SEPARATOR (code poiont 8233)
+  */
+StringIteratorPair findLastNewline(std::string& str);
+
+/** @brief Returns the last substring in @a str that constitutes a newline.
+  *
+  * The following characters are treated as newline characters:
+  *   - \\n Unix
+  *   - \\r Old MacOS
+  *   - \\r\\n Windows
+  *   - \\f Form feed
+  *   - \\v Vertical tab
+  *   - NEXT LINE (code point 133)
+  *   - LINE SEPARATOR (code point 8232)
+  *   - PARAGRAPH SEPARATOR (code poiont 8233)
+  */
+StringConstIteratorPair findLastNewline(const std::string& str);
+
+/** @brief Returns the first substring in the range from @a first to @a last
+  *     that constitutes a newline.
+  *
+  * The following characters are treated as newline characters:
+  *   - \\n Unix
+  *   - \\r Old MacOS
+  *   - \\r\\n Windows
+  *   - \\f Form feed
+  *   - \\v Vertical tab
+  *   - NEXT LINE (code point 133)
+  *   - LINE SEPARATOR (code point 8232)
+  *   - PARAGRAPH SEPARATOR (code poiont 8233)
+  */
+StringIteratorPair findLastNewline(std::string::iterator first,
+                                   std::string::iterator last);
+
+/** @brief Returns the first substring in the range from @a first to @a last
+  *     that constitutes a newline.
+  *
+  * The following characters are treated as newline characters:
+  *   - \\n Unix
+  *   - \\r Old MacOS
+  *   - \\r\\n Windows
+  *   - \\f Form feed
+  *   - \\v Vertical tab
+  *   - NEXT LINE (code point 133)
+  *   - LINE SEPARATOR (code point 8232)
+  *   - PARAGRAPH SEPARATOR (code poiont 8233)
+  */
+StringConstIteratorPair findLastNewline(std::string::const_iterator first,
+                                        std::string::const_iterator last);
+
 
 std::string insert(const std::string& str,
                    ptrdiff_t pos,
@@ -147,9 +318,23 @@ std::string insert(const std::string& str,
 
 std::string insert(const std::string& str, ptrdiff_t pos, uint32_t chr);
 
+/** @brief Returns true if all characters in @a str are either
+  *     letters or numbers.
+  * @throw runtime_error if str contains an invalid UTF-8 code point.
+  */
 bool isAlphaNumeric(const std::string& str);
+
+/** @brief Returns true if all characters in the range from @a first
+  *     to @a last are either letters or numbers.
+  * @throw runtime_error if str contains an invalid UTF-8 code point.
+  */
 bool isAlphaNumeric(std::string::iterator first,
                     std::string::iterator last);
+
+/** @brief Returns true if all characters in the range from @a first
+  *     to @a last are either letters or numbers.
+  * @throw runtime_error if str contains an invalid UTF-8 code point.
+  */
 bool isAlphaNumeric(std::string::const_iterator first,
                     std::string::const_iterator last);
 
