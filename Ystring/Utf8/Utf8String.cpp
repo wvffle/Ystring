@@ -288,7 +288,7 @@ std::string::const_iterator prevCharacter(std::string::const_iterator& first,
 std::string replace(const std::string& str,
                     const std::string& cmp,
                     const std::string& repl,
-                    size_t maxReplacements,
+                    ptrdiff_t maxReplacements,
                     FindFlags_t flags)
 {
     return Generic::replace<std::string>(makeRange(str), makeRange(cmp),
@@ -303,6 +303,23 @@ std::string replace(const std::string& str,
 {
     return Generic::replace<std::string>(makeRange(str), start, end,
                                          makeRange(repl), Utf8Encoding());
+}
+
+std::string replaceCodePoint(const std::string& s,
+                             uint32_t from,
+                             uint32_t to,
+                             ptrdiff_t maxReplacements)
+{
+    char fromBuffer[MAX_ENCODED_UTF8_LENGTH];
+    size_t fromSize = encodeUtf8(fromBuffer, from);
+    char toBuffer[MAX_ENCODED_UTF8_LENGTH];
+    auto toSize = encodeUtf8(toBuffer, to);
+    return Generic::replace<std::string>(
+            makeRange(s),
+            makeRange(fromBuffer, fromBuffer + fromSize),
+            makeRange(toBuffer, toBuffer + toSize),
+            Utf8Encoding(),
+            maxReplacements, FindFlags::DEFAULTS);
 }
 
 std::string reverse(const std::string& str)

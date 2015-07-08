@@ -325,16 +325,18 @@ void test_replace_string_backwards()
              "123 foo 456 bar 789 bar 012");
 }
 
-//void test_replaceCodePoint()
-//{
-//    JT_EQUAL(replaceCodePoint("AB" UTF8_GREEK_SMALL_GAMMA "D",
-//                              Unicode::GreekSmallGamma,
-//                              Unicode::FigureSpace),
-//             "AB" UTF8_FIGURE_SPACE "D");
-//    JT_EQUAL(replaceCodePoint("ABCDCDECDEFGCD", 'C', '_', 3),
-//             "AB_D_DE_DEFGCD");
-//}
-//
+void test_replaceCodePoint()
+{
+    JT_EQUAL(Utf8::replaceCodePoint("AB" UTF8_GREEK_SMALL_GAMMA "D",
+                                    Unicode::GREEK_SMALL_GAMMA,
+                                    Unicode::FIGURE_SPACE),
+             "AB" UTF8_FIGURE_SPACE "D");
+    JT_EQUAL(Utf8::replaceCodePoint("ABCDCDECDEFGCD", 'C', '_', 3),
+             "AB_D_DE_DEFGCD");
+    JT_EQUAL(Utf8::replaceCodePoint("ABCDCDECDEFGCD", 'C', '_', -3),
+             "ABCD_DE_DEFG_D");
+}
+
 //void test_replaceInvalidUtf8()
 //{
 //    auto s = "ABC\xC0\xBF" "DEF\xD0\x80\x80" "GH\xE8\x80" "I\xC8";
@@ -567,9 +569,8 @@ JT_SUBTEST("Utf8",
            test_replace_indexes,
            test_replace_string,
            test_replace_string_backwards,
-//           test_replaceCodePoint,
+           test_replaceCodePoint,
 //           test_replaceInvalidUtf8,
-//           test_replaceInvalidUtf8InPlace,
            test_reverse,
            test_split_caseInsensitive,
            test_split_caseInsensitive_reverse,

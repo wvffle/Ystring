@@ -193,7 +193,7 @@ StringConstIteratorPair findFirst(
   *   - \\v Vertical tab
   *   - NEXT LINE (code point 133)
   *   - LINE SEPARATOR (code point 8232)
-  *   - PARAGRAPH SEPARATOR (code poiont 8233)
+  *   - PARAGRAPH SEPARATOR (code point 8233)
   */
 StringIteratorPair findFirstNewline(std::string& str);
 
@@ -207,7 +207,7 @@ StringIteratorPair findFirstNewline(std::string& str);
   *   - \\v Vertical tab
   *   - NEXT LINE (code point 133)
   *   - LINE SEPARATOR (code point 8232)
-  *   - PARAGRAPH SEPARATOR (code poiont 8233)
+  *   - PARAGRAPH SEPARATOR (code point 8233)
   */
 StringConstIteratorPair findFirstNewline(const std::string& str);
 
@@ -222,7 +222,7 @@ StringConstIteratorPair findFirstNewline(const std::string& str);
   *   - \\v Vertical tab
   *   - NEXT LINE (code point 133)
   *   - LINE SEPARATOR (code point 8232)
-  *   - PARAGRAPH SEPARATOR (code poiont 8233)
+  *   - PARAGRAPH SEPARATOR (code point 8233)
   */
 StringIteratorPair findFirstNewline(std::string::iterator first,
                                     std::string::iterator last);
@@ -238,7 +238,7 @@ StringIteratorPair findFirstNewline(std::string::iterator first,
   *   - \\v Vertical tab
   *   - NEXT LINE (code point 133)
   *   - LINE SEPARATOR (code point 8232)
-  *   - PARAGRAPH SEPARATOR (code poiont 8233)
+  *   - PARAGRAPH SEPARATOR (code point 8233)
   */
 StringConstIteratorPair findFirstNewline(
         std::string::const_iterator first,
@@ -298,7 +298,7 @@ StringConstIteratorPair findLast(
   *   - \\v Vertical tab
   *   - NEXT LINE (code point 133)
   *   - LINE SEPARATOR (code point 8232)
-  *   - PARAGRAPH SEPARATOR (code poiont 8233)
+  *   - PARAGRAPH SEPARATOR (code point 8233)
   */
 StringIteratorPair findLastNewline(std::string& str);
 
@@ -312,7 +312,7 @@ StringIteratorPair findLastNewline(std::string& str);
   *   - \\v Vertical tab
   *   - NEXT LINE (code point 133)
   *   - LINE SEPARATOR (code point 8232)
-  *   - PARAGRAPH SEPARATOR (code poiont 8233)
+  *   - PARAGRAPH SEPARATOR (code point 8233)
   */
 StringConstIteratorPair findLastNewline(const std::string& str);
 
@@ -327,7 +327,7 @@ StringConstIteratorPair findLastNewline(const std::string& str);
   *   - \\v Vertical tab
   *   - NEXT LINE (code point 133)
   *   - LINE SEPARATOR (code point 8232)
-  *   - PARAGRAPH SEPARATOR (code poiont 8233)
+  *   - PARAGRAPH SEPARATOR (code point 8233)
   */
 StringIteratorPair findLastNewline(std::string::iterator first,
                                    std::string::iterator last);
@@ -343,7 +343,7 @@ StringIteratorPair findLastNewline(std::string::iterator first,
   *   - \\v Vertical tab
   *   - NEXT LINE (code point 133)
   *   - LINE SEPARATOR (code point 8232)
-  *   - PARAGRAPH SEPARATOR (code poiont 8233)
+  *   - PARAGRAPH SEPARATOR (code point 8233)
   */
 StringConstIteratorPair findLastNewline(std::string::const_iterator first,
                                         std::string::const_iterator last);
@@ -414,26 +414,28 @@ std::string::const_iterator prevCharacter(std::string::const_iterator& first,
 std::string replace(const std::string& str,
                     const std::string& from,
                     const std::string& to,
-                    size_t max = 0,
+                    ptrdiff_t maxReplacements = 0,
                     FindFlags_t flags = FindFlags::DEFAULTS);
-
-/** @brief Returns a copy of @a str with instances of @a fromChar replaced
-  *      with @a toChar.
-  *
-  *  @param fromChar The character to replace
-  *  @param toChar The replacement
-  *  @param max The maximum number of replacements that will be performed. All
-  *      instances of @a from are replaced if 0.
-  */
-// std::string replaceCodePoint(const std::string& s,
-//                              uint32_t fromChar,
-//                              uint32_t toChar,
-//                              size_t max = 0);
 
 std::string replace(const std::string& str,
                     ptrdiff_t start,
                     ptrdiff_t end,
                     const std::string& repl);
+
+/** @brief Returns a copy of @a str with instances of @a from replaced
+  *      with @a to.
+  *
+  * @param fromChar The character to replace
+  * @param toChar The replacement
+  * @param maxReplacement The maximum number of replacements that will be
+  *     performed. All  instances of @a from are replaced if the value is 0.
+  *     If it is negative at most abs(maxReplacements) will be made, starting
+  *     at the end of the string.
+  */
+std::string replaceCodePoint(const std::string& s,
+                             uint32_t from,
+                             uint32_t to,
+                             ptrdiff_t maxReplacements = 0);
 
 // std::string replaceInvalidUtf8(const std::string& str, uint32_t chr = '?');
 
