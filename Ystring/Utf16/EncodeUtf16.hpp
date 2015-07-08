@@ -34,4 +34,4 @@ size_t encodeUtf16BE(FwdIt& begin, FwdIt end, uint32_t codePoint);
 
 }}
 
-#include "EncodeUtf16_impl.hpp"
+#include "EncodeUtf16-impl.hpp"

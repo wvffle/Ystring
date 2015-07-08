@@ -54,11 +54,20 @@ set(PUBLIC_HEADERS
     Ystring/Utf8/Utf8Chars.hpp
     Ystring/Utf8/Utf8Encoding.hpp
     Ystring/Utf8/Utf8String.hpp
+    Ystring/Utf16/DecodeUtf16.hpp
+    Ystring/Utf16/DecodeUtf16-impl.hpp
+    Ystring/Utf16/EncodeUtf16.hpp
+    Ystring/Utf16/EncodeUtf16-impl.hpp
+    Ystring/Utf16/Utf16Encoding.hpp
     Ystring/Utilities/Algorithms.hpp
+    Ystring/Utilities/ArrayOutputIterator.hpp
     Ystring/Utilities/CountingOutputIterator.hpp
+    Ystring/Utilities/Endian.hpp
     Ystring/Utilities/Iterators.hpp
     Ystring/Utilities/KeyFunctionAlgorithms.hpp
-    Ystring/Utilities/ArrayOutputIterator.hpp
+    Ystring/Utilities/Union16.hpp
+    Ystring/Utilities/Union32.hpp
+    Ystring/Utilities/Union64.hpp
     )
 
 set(PRIVATE_HEADERS

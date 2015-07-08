@@ -55,4 +55,4 @@ unsigned prevUtf16BECodePoint(uint32_t& codePoint, BiIt begin, BiIt& it)
 
 }}
 
-#include "DecodeUtf16_impl.hpp"
+#include "DecodeUtf16-impl.hpp"
