@@ -1,4 +1,4 @@
-/* JEBBase: generic algorithms and functions
+/* Ystring: generic algorithms and functions
  * Copyright 2014 Jan Erik Breimo
  * All rights reserved.
  *

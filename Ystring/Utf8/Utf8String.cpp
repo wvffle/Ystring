@@ -9,6 +9,7 @@
 
 #include "Utf8Encoding.hpp"
 #include "../Generic/GenericString.hpp"
+#include "../Utf16/Utf16Encoding.hpp"
 
 namespace Ystring { namespace Utf8 {
 
