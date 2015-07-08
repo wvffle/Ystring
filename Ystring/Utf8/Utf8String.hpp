@@ -32,6 +32,42 @@ typedef std::pair<std::string::iterator, std::string::iterator>
 typedef std::pair<std::string::const_iterator, std::string::const_iterator>
         StringConstIteratorPair;
 
+struct EscapeType
+{
+  enum Type
+  {
+    /** @brief Use backslash-escapes and escape suitable control characters.
+      */
+    BACKSLASH,
+    /** @brief Use percentage-escapes and escape the characters that are
+      *     illegal in XML text.
+      */
+    URL,
+    /** @brief Use ampersand-escapes and escape the characters that are
+      *     illegal in XML text.
+      */
+    XML_TEXT,
+    /** @brief Use ampersand-escapes and escape the characters that are
+      *     illegal in XML attributes.
+      */
+    XML_ATTRIBUTES
+  };
+};
+
+typedef EscapeType::Type EscapeType_t;
+
+struct EscapeMode
+{
+  enum Type
+  {
+    DEFAULT,
+    OCTETS,
+    CODE_POINTS
+  };
+};
+
+typedef EscapeMode::Type EscapeMode_t;
+
 /** @brief Adds @a codePoint encoded as UTF-8 to the end of@a str.
   */
 std::string& append(std::string& str, uint32_t chr);
@@ -100,7 +136,8 @@ bool endsWith(const std::string& str,
               const std::string& cmp,
               FindFlags_t flags = FindFlags::DEFAULTS);
 
-// std::string escape(const std::string& str);
+//std::string escape(const std::string& str, EscapeType_t type,
+//                   EscapeMode_t mode = EscapeMode::DEFAULT);
 
 /** @brief Returns the first substring in @a str that matches @a cmp.
   * @note Composed and decomposed versions of the same characters are treated
@@ -478,7 +515,7 @@ std::string trimStart(const std::string& str);
 std::string trimStart(const std::string& str,
                       std::function<bool(uint32_t)> predicate);
 
-// std::string unescape(const std::string& str);
+// std::string unescape(const std::string& str, EscapeType type);
 
 std::string upper(const std::string& str);
 
