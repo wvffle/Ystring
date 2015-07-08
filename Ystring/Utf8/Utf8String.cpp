@@ -322,6 +322,39 @@ std::string replaceCodePoint(const std::string& s,
             maxReplacements, FindFlags::DEFAULTS);
 }
 
+std::string replaceInvalidUtf8(const std::string& str, uint32_t chr)
+{
+    std::string result;
+    result.reserve(str.size());
+    auto first = str.begin();
+    auto it = str.begin();
+    while (it != str.end())
+    {
+        uint32_t cp;
+        if (nextUtf8CodePoint(cp, it, str.end()) != DecodeResult::OK)
+        {
+            result.append(first, it);
+            first = ++it;
+            append(result, chr);
+        }
+    }
+    result.append(first, str.end());
+    return result;
+}
+
+std::string& replaceInvalidUtf8InPlace(std::string& str, char chr)
+{
+    assert(chr > 0);
+    auto it = str.begin();
+    while (it != str.end())
+    {
+        uint32_t cp;
+        if (nextUtf8CodePoint(cp, it, str.end()) != DecodeResult::OK)
+            *it++ = chr;
+    }
+    return str;
+}
+
 std::string reverse(const std::string& str)
 {
     return Generic::reverse<std::string>(makeRange(str), Utf8Encoding());

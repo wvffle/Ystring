@@ -437,9 +437,9 @@ std::string replaceCodePoint(const std::string& s,
                              uint32_t to,
                              ptrdiff_t maxReplacements = 0);
 
-// std::string replaceInvalidUtf8(const std::string& str, uint32_t chr = '?');
+std::string replaceInvalidUtf8(const std::string& str, uint32_t chr = '?');
 
-// std::string& replaceInvalidUtf8InPlace(std::string& str, char chr = '?');
+std::string& replaceInvalidUtf8InPlace(std::string& str, char chr = '?');
 
 /** @brief Returns a reversed copy of @a str.
   *

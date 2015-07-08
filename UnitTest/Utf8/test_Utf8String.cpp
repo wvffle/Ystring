@@ -337,17 +337,17 @@ void test_replaceCodePoint()
              "ABCD_DE_DEFG_D");
 }
 
-//void test_replaceInvalidUtf8()
-//{
-//    auto s = "ABC\xC0\xBF" "DEF\xD0\x80\x80" "GH\xE8\x80" "I\xC8";
-//    JT_EQUAL(replaceInvalidUtf8(s), "ABC??DEF\xD0\x80?GH??I?");
-//}
-//
-//void test_replaceInvalidUtf8InPlace()
-//{
-//    std::string s("ABC\xC0\xBF" "DEF\xD0\x80\x80" "GH\xE8\x80" "I\xC8");
-//    JT_EQUAL(replaceInvalidUtf8InPlace(s), "ABC??DEF\xD0\x80?GH??I?");
-//}
+void test_replaceInvalidUtf8()
+{
+    auto s = "ABC\xC0\xBF" "DEF\xD0\x80\x80" "GH\xE8\x80" "I\xC8";
+    JT_EQUAL(Utf8::replaceInvalidUtf8(s), "ABC??DEF\xD0\x80?GH??I?");
+}
+
+void test_replaceInvalidUtf8InPlace()
+{
+    std::string s("ABC\xC0\xBF" "DEF\xD0\x80\x80" "GH\xE8\x80" "I\xC8");
+    JT_EQUAL(Utf8::replaceInvalidUtf8InPlace(s), "ABC??DEF\xD0\x80?GH??I?");
+}
 
 void test_reverse()
 {
@@ -570,7 +570,8 @@ JT_SUBTEST("Utf8",
            test_replace_string,
            test_replace_string_backwards,
            test_replaceCodePoint,
-//           test_replaceInvalidUtf8,
+           test_replaceInvalidUtf8,
+           test_replaceInvalidUtf8InPlace,
            test_reverse,
            test_split_caseInsensitive,
            test_split_caseInsensitive_reverse,
