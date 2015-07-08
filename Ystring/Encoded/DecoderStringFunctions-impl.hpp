@@ -93,8 +93,7 @@ void appendUpper(Encoder&& dst, Decoder&& src)
 }
 
 template <typename Decoder1, typename Decoder2>
-int32_t caseInsensitiveCompare(Decoder1 str,
-                               Decoder2 cmp)
+int32_t caseInsensitiveCompare(Decoder1 str, Decoder2 cmp)
 {
     advanceWhileEqual(str, cmp, Unicode::CaseInsensitiveEqual());
     if (str.begin() == str.end() && cmp.begin() == cmp.end())
@@ -110,16 +109,14 @@ int32_t caseInsensitiveCompare(Decoder1 str,
 }
 
 template <typename Decoder1, typename Decoder2>
-bool caseInsensitiveEqual(Decoder1 str,
-                          Decoder2 cmp)
+bool caseInsensitiveEqual(Decoder1 str, Decoder2 cmp)
 {
     advanceWhileEqual(str, cmp, Unicode::CaseInsensitiveEqual());
     return str.begin() == str.end() && cmp.begin() == cmp.end();
 }
 
 template <typename Decoder1, typename Decoder2>
-bool caseInsensitiveLess(Decoder1 str,
-                         Decoder2 cmp)
+bool caseInsensitiveLess(Decoder1 str, Decoder2 cmp)
 {
     advanceWhileEqual(str, cmp, Unicode::CaseInsensitiveEqual());
     if (str.begin() == str.end() || cmp.begin() == cmp.end())
