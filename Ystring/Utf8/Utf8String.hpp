@@ -11,6 +11,7 @@
 #include <functional>
 #include <string>
 #include <vector>
+#include "../Encoding.hpp"
 #include "../FindFlags.hpp"
 #include "../SplitFlags.hpp"
 
@@ -490,7 +491,7 @@ std::string title(const std::string& str);
   *  @throws runtime_error if str contains any characters that aren't encoded
   *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
   */
-// std::string toUtf8(const std::string& str, Encoding_t encoding);
+std::string toUtf8(const std::string& str, Encoding_t encoding);
 
 /** @brief Returns the UTF-8 encoded string that is equivalent to @a str.
   *
@@ -499,8 +500,8 @@ std::string title(const std::string& str);
   *  @throws runtime_error if str contains any characters that aren't encoded
   *     according to @a encoding, or if @a encoding isn't a 16-bit encoding.
   */
-// std::string toUtf8(const std::wstring& str,
-//                    Encoding_t encoding = Encoding::Utf16);
+std::string toUtf8(const std::wstring& str,
+                   Encoding_t encoding = Encoding::UTF_16);
 
 std::string trim(const std::string& str);
 

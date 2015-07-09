@@ -332,7 +332,7 @@ std::string replaceInvalidUtf8(const std::string& str, uint32_t chr)
     while (it != str.end())
     {
         uint32_t cp;
-        if (nextUtf8CodePoint(cp, it, str.end()) != DecodeResult::OK)
+        if (nextUtf8CodePoint(cp, it, str.end()) != DecoderResult::OK)
         {
             result.append(first, it);
             first = ++it;
@@ -350,7 +350,7 @@ std::string& replaceInvalidUtf8InPlace(std::string& str, char chr)
     while (it != str.end())
     {
         uint32_t cp;
-        if (nextUtf8CodePoint(cp, it, str.end()) != DecodeResult::OK)
+        if (nextUtf8CodePoint(cp, it, str.end()) != DecoderResult::OK)
             *it++ = chr;
     }
     return str;
@@ -419,6 +419,44 @@ std::string substring(const std::string& str,
 std::string title(const std::string& str)
 {
     return Generic::title<std::string>(makeRange(str), Utf8Encoding());
+}
+
+std::string toUtf8(const std::string& str, Encoding_t encoding)
+{
+    std::string result;
+    result.reserve(str.size());
+    switch (encoding)
+    {
+    case Encoding::UTF_8:
+        return str;
+//    case Encoding::Latin_1:
+//        EncodedStrings::copy(
+//                makeEncodedRange(str, EncodedStrings::Latin1Encoding()),
+//                utf8Encoder(result));
+//        break;
+//    case Encoding::Windows1252:
+//        EncodedStrings::copy(
+//                makeEncodedRange(str, EncodedStrings::Windows1252Encoding()),
+//                utf8Encoder(result));
+//        break;
+    default:
+        throw std::logic_error("toUtf8: unsupported encoding " +
+                               std::to_string(int64_t(encoding)));
+    }
+}
+
+std::string toUtf8(const std::wstring& str, Encoding_t encoding)
+{
+    switch (encoding)
+    {
+    case Encoding::UTF_16:
+        return Generic::translate<std::string>(makeRange(str),
+                                               Utf8Encoding(),
+                                               Utf16::Utf16Encoding());
+    default:
+        throw std::logic_error("toUtf8: unsupported encoding " +
+                               std::to_string(int64_t(encoding)));
+    }
 }
 
 std::string trim(const std::string& str)

@@ -53,4 +53,12 @@ struct CanCompareRawValues
                                 SameIteratorValueType<It1, It2>::value>
 {};
 
+template <typename Char1, typename Enc1,
+          typename Char2, typename Enc2>
+struct CanCopyRawValues
+    : std::integral_constant<bool,
+                             SameEncoding<Enc1, Enc2>::value &&
+                                std::is_same<Char1, Char2>()>
+{};
+
 }}

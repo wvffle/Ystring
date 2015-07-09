@@ -20,8 +20,8 @@ class Range
 {
 public:
     typedef IteratorT Iterator;
-//    typedef std::iterator_traits<Iterator> IteratorTraits;
-//    typedef typename IteratorTraits::value_type ValueType;
+    typedef std::iterator_traits<Iterator> IteratorTraits;
+    typedef typename IteratorTraits::value_type ValueType;
 //    typedef typename IteratorTraits::difference_type DifferenceType;
 //    typedef typename IteratorTraits::pointer Pointer;
 //    typedef typename IteratorTraits::reference Reference;

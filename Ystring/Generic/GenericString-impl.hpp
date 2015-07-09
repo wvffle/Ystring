@@ -231,6 +231,65 @@ bool contains(Range<It> str, uint32_t chr, Enc encoding)
     return Encoded::advanceUntil(dec, [=](uint32_t c){return c == chr;});
 }
 
+template <typename Str, typename It, typename Enc1, typename Enc2>
+void appendImpl(StringReference<Str> dst, Range<It> src,
+                Enc1 dstEncoding, Enc2 srcEncoding,
+                std::true_type)
+{
+    auto appender = dst.getAppender();
+    appender.append(src);
+    dst.terminate();
+//    if (src.encoding().encoding == dst.encoding().encoding)
+//        std::copy(begin(src), end(src), dst.iterator());
+//    else
+//        copy(makeForwardIterator(src), dst);
+}
+
+template <typename Str, typename It, typename Enc1, typename Enc2>
+void appendImpl(StringReference<Str> dst, Range<It> src,
+                Enc1 dstEncoding, Enc2 srcEncoding,
+                std::false_type)
+{
+    append(dst.getEncoder(dstEncoding),
+           Encoded::makeForwardDecoder(src, srcEncoding));
+}
+
+template <typename Str, typename It, typename Enc1, typename Enc2>
+void append(StringReference<Str> dst, Range<It> src,
+            Enc1 dstEncoding, Enc2 srcEncoding)
+{
+    appendImpl(
+            dst, src, dstEncoding, srcEncoding,
+            CanCopyRawValues<typename StringReference<Str>::ValueType, Enc1,
+                             typename Range<It>::ValueType, Enc2>());
+//    if (dstEncoding.encoding == srcEncoding.encoding)
+//    {
+//        auto appender = dst.getAppender();
+//        appender.append(src);
+//        dst.terminate();
+//    }
+//    if (src.encoding().encoding == dst.encoding().encoding)
+//        std::copy(begin(src), end(src), dst.iterator());
+//    else
+//        copy(makeForwardIterator(src), dst);
+}
+
+template <typename Str, typename It, typename Enc1, typename Enc2>
+Str translate(Range<It> str, Enc1 fromEncoding, Enc2 toEncoding)
+{
+    auto result = Str();
+    append(makeStringReference(result), str, fromEncoding, toEncoding);
+    return result;
+//    if (fromEncoding.encoding == toEncoding.encoding)
+//    {
+//        auto appender = Encoded::makeAppender(result);
+//    }
+//    if (src.encoding().encoding == dst.encoding().encoding)
+//        std::copy(begin(src), end(src), dst.iterator());
+//    else
+//        copy(makeForwardIterator(src), dst);
+}
+
 template <typename It, typename Enc>
 size_t countCharacters(Range<It> str, Enc encoding)
 {

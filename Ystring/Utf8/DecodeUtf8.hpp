@@ -34,15 +34,15 @@ bool isValidUtf8(FwdIt begin, FwdIt end, bool acceptIncompleteAtEnd = false);
   * @param end       the end of the string.
   */
 template <typename FwdIt>
-DecodeResult_t nextUtf8CodePoint(uint32_t& codePoint, FwdIt& it, FwdIt end);
-
-template <typename FwdIt>
-bool skipNextUtf8CodePoint(FwdIt& it, FwdIt end);
+DecoderResult_t nextUtf8CodePoint(uint32_t& codePoint, FwdIt& it, FwdIt end);
 
 /** @brief Assigns the code point ending at @a it to @a codePoint.
   */
 template <typename BiIt>
-DecodeResult_t prevUtf8CodePoint(uint32_t& codePoint, BiIt begin, BiIt& it);
+DecoderResult_t prevUtf8CodePoint(uint32_t& codePoint, BiIt begin, BiIt& it);
+
+template <typename FwdIt>
+bool skipNextUtf8CodePoint(FwdIt& it, FwdIt end);
 
 template <typename BiIt>
 bool skipPrevUtf8CodePoint(BiIt begin, BiIt& it);

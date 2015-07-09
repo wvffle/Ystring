@@ -31,8 +31,8 @@ bool isValidUtf8(FwdIt begin, FwdIt end, bool acceptIncompleteAtEnd)
     while ((result = nextUtf8CodePoint(cp, begin, end)) == 0)
     {
     }
-    return (result == DecodeResult::END_OF_STRING) ||
-           (acceptIncompleteAtEnd && (result & DecodeResult::END_OF_STRING));
+    return (result == DecoderResult::END_OF_STRING) ||
+           (acceptIncompleteAtEnd && (result & DecoderResult::END_OF_STRING));
 }
 
 template <typename FwdIt>
@@ -51,19 +51,19 @@ bool skipNextUtf8CodePoint(FwdIt& it, FwdIt end)
 }
 
 template <typename FwdIt>
-DecodeResult_t nextUtf8CodePoint(uint32_t& codePoint, FwdIt& it, FwdIt end)
+DecoderResult_t nextUtf8CodePoint(uint32_t& codePoint, FwdIt& it, FwdIt end)
 {
     if (it == end)
-        return DecodeResult::END_OF_STRING;
+        return DecoderResult::END_OF_STRING;
 
     if (internal::isAscii(*it))
     {
         codePoint = (uint8_t)*it++;
-        return DecodeResult::OK;
+        return DecoderResult::OK;
     }
 
     if (internal::isContinuation(*it) || uint8_t(*it) >= 0xFE)
-        return DecodeResult::INVALID;
+        return DecoderResult::INVALID;
 
     size_t count = 1;
     unsigned bit = 0x20;
@@ -77,7 +77,7 @@ DecodeResult_t nextUtf8CodePoint(uint32_t& codePoint, FwdIt& it, FwdIt end)
     codePoint &= bit - 1;
 
     if (!codePoint)
-        return DecodeResult::INVALID;
+        return DecoderResult::INVALID;
 
     FwdIt initialIt = it;
     while (++it != end && count && internal::isContinuation(*it))
@@ -90,24 +90,24 @@ DecodeResult_t nextUtf8CodePoint(uint32_t& codePoint, FwdIt& it, FwdIt end)
     if (count)
     {
         it = initialIt;
-        return DecodeResult::INCOMPLETE;
+        return DecoderResult::INCOMPLETE;
     }
 
-    return DecodeResult::OK;
+    return DecoderResult::OK;
 }
 
 template <typename BiIt>
-DecodeResult_t prevUtf8CodePoint(uint32_t& codePoint, BiIt begin, BiIt& it)
+DecoderResult_t prevUtf8CodePoint(uint32_t& codePoint, BiIt begin, BiIt& it)
 {
     if (it == begin)
-        return DecodeResult::END_OF_STRING;
+        return DecoderResult::END_OF_STRING;
 
     BiIt initialIt = it;
     --it;
     if (internal::isAscii(*it))
     {
         codePoint = (uint8_t)*it;
-        return DecodeResult::OK;
+        return DecoderResult::OK;
     }
 
     codePoint = 0;
@@ -119,7 +119,7 @@ DecodeResult_t prevUtf8CodePoint(uint32_t& codePoint, BiIt begin, BiIt& it)
         if (bit == 1 || it == begin)
         {
             it = initialIt;
-            return DecodeResult::INVALID;
+            return DecoderResult::INVALID;
         }
         mask |= bit;
         bit >>= 1;
@@ -133,20 +133,20 @@ DecodeResult_t prevUtf8CodePoint(uint32_t& codePoint, BiIt begin, BiIt& it)
     {
         it = initialIt;
         if ((byte & mask) != mask)
-            return DecodeResult::INVALID;
+            return DecoderResult::INVALID;
         else
-            return DecodeResult::INCOMPLETE;
+            return DecoderResult::INCOMPLETE;
     }
 
     if ((byte & ~mask) == 0)
     {
         it = initialIt;
-        return DecodeResult::INVALID;
+        return DecoderResult::INVALID;
     }
 
     codePoint |= (byte & ~mask) << shift;
 
-    return DecodeResult::OK;
+    return DecoderResult::OK;
 }
 
 template <typename BiIt>

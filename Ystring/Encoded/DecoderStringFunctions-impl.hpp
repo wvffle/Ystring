@@ -53,6 +53,14 @@ size_t advanceCharacters(Decoder& it, size_t n)
 }
 
 template <typename Encoder, typename Decoder>
+void append(Encoder&& dst, Decoder&& src)
+{
+    uint32_t ch;
+    while (src.next(ch))
+        dst.encode(ch);
+}
+
+template <typename Encoder, typename Decoder>
 void appendLower(Encoder&& dst, Decoder&& src)
 {
     uint32_t ch;

@@ -11,24 +11,42 @@
 #include "DecodeUtf16.hpp"
 #include "EncodeUtf16.hpp"
 
-namespace Ystring { namespace Utf8 {
+namespace Ystring { namespace Utf16 {
 
-class Utf16Encoding
+template <bool SwapBytes>
+class Utf16EncodingImpl
 {
 public:
     static const Encoding_t encoding = Encoding::UTF_8;
-    typedef char CanonicalType;
+    typedef wchar_t CanonicalType;
 
     template <typename FwdIt>
     bool next(uint32_t& codePoint, FwdIt& it, FwdIt last)
     {
-        switch (nextUtf16CodePoint(codePoint, it, last))
+        switch (nextUtf16CodePoint<FwdIt, SwapBytes>(codePoint, it, last))
         {
-            case DecodeResult::END_OF_STRING:
+            case DecoderResult::END_OF_STRING:
                 return false;
-            case DecodeResult::INCOMPLETE:
+            case DecoderResult::INCOMPLETE:
                 throw std::logic_error("Incomplete character.");
-            case DecodeResult::INVALID:
+            case DecoderResult::INVALID:
+                throw std::logic_error("Invalid character.");
+            default:
+                break;
+        }
+        return true;
+    }
+
+    template <typename BiIt>
+    bool prev(uint32_t& codePoint, BiIt first, BiIt& it)
+    {
+        switch (prevUtf16CodePoint<BiIt, SwapBytes>(codePoint, first, it))
+        {
+            case DecoderResult::END_OF_STRING:
+                return false;
+            case DecoderResult::INCOMPLETE:
+                throw std::logic_error("Incomplete character.");
+            case DecoderResult::INVALID:
                 throw std::logic_error("Invalid character.");
             default:
                 break;
@@ -39,30 +57,13 @@ public:
     template <typename FwdIt>
     bool skipNext(FwdIt& it, FwdIt last)
     {
-        return skipNextUtf16CodePoint(it, last);
-    }
-
-    template <typename BiIt>
-    bool prev(uint32_t& codePoint, BiIt first, BiIt& it)
-    {
-        switch (prevUtf16CodePoint(codePoint, first, it))
-        {
-            case DecodeResult::END_OF_STRING:
-                return false;
-            case DecodeResult::INCOMPLETE:
-                throw std::logic_error("Incomplete character.");
-            case DecodeResult::INVALID:
-                throw std::logic_error("Invalid character.");
-            default:
-                break;
-        }
-        return true;
+        return skipNextUtf16CodePoint<FwdIt, SwapBytes>(it, last);
     }
 
     template <typename BiIt>
     bool skipPrev(BiIt first, BiIt& it)
     {
-        return skipPrevUtf16CodePoint(first, it);
+        return skipPrevUtf16CodePoint<BiIt, SwapBytes>(first, it);
     }
 
     template <typename OutIt>
@@ -71,5 +72,9 @@ public:
         return addUtf16(dst, codePoint);
     }
 };
+
+typedef Utf16EncodingImpl<false> Utf16Encoding;
+typedef Utf16EncodingImpl<Utilities::IsBigEndian> Utf16LEEncoding;
+typedef Utf16EncodingImpl<Utilities::IsLittleEndian> Utf16BEEncoding;
 
 }}

@@ -9,7 +9,7 @@
 
 namespace Ystring {
 
-struct DecodeResult
+struct DecoderResult
 {
     enum Type
     {
@@ -20,6 +20,6 @@ struct DecodeResult
     };
 };
 
-typedef DecodeResult::Type DecodeResult_t;
+typedef DecoderResult::Type DecoderResult_t;
 
 }

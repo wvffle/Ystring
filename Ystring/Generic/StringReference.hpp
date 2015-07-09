@@ -18,6 +18,7 @@ template <typename String>
 class StringReference
 {
 public:
+    typedef typename String::value_type ValueType;
     typedef std::back_insert_iterator<String> BackInsertIterator;
 
     StringReference(String& str)
@@ -51,6 +52,7 @@ template <typename T>
 class StringReference<T*>
 {
 public:
+    typedef T ValueType;
     typedef Utilities::ArrayOutputIterator<T*> BackInsertIterator;
 
     StringReference(T* str, size_t size, size_t capacity)

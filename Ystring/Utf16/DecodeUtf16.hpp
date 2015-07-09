@@ -10,47 +10,72 @@
 #include <cstdint>
 #include <limits>
 #include <string>
+#include "../DecoderResult.hpp"
 #include "../Utilities/Endian.hpp"
 
 namespace Ystring { namespace Utf16 {
 
-using Ystring::Utilities::IsBigEndian;
-using Ystring::Utilities::IsLittleEndian;
+using Utilities::IsBigEndian;
+using Utilities::IsLittleEndian;
 
-template <typename FwdIt, bool SwapBytes>
-unsigned nextUtf16CodePoint(uint32_t& codePoint, FwdIt& it, FwdIt end);
-
-template <typename FwdIt>
-unsigned nextUtf16CodePoint(uint32_t& codePoint, FwdIt& it, FwdIt end);
-
-template <typename BiIt, bool SwapBytes>
-unsigned prevUtf16CodePoint(uint32_t& codePoint, BiIt begin, BiIt& it);
-
-template <typename BiIt>
-unsigned prevUtf16CodePoint(uint32_t& codePoint, BiIt begin, BiIt& it);
+template <typename FwdIt, bool SwapBytes = false>
+DecoderResult_t nextUtf16CodePoint(uint32_t& codePoint, FwdIt& it, FwdIt end);
 
 template <typename FwdIt>
-unsigned nextUtf16LECodePoint(uint32_t& codePoint, FwdIt& it, FwdIt end)
+DecoderResult_t nextUtf16LECodePoint(uint32_t& codePoint, FwdIt& it, FwdIt end)
 {
     return nextUtf16CodePoint<FwdIt, IsBigEndian>(codePoint, it, end);
 }
 
 template <typename FwdIt>
-unsigned nextUtf16BECodePoint(uint32_t& codePoint, FwdIt& it, FwdIt end)
+DecoderResult_t nextUtf16BECodePoint(uint32_t& codePoint, FwdIt& it, FwdIt end)
 {
     return nextUtf16CodePoint<FwdIt, IsLittleEndian>(codePoint, it, end);
 }
 
+template <typename BiIt, bool SwapBytes = false>
+DecoderResult_t prevUtf16CodePoint(uint32_t& codePoint, BiIt begin, BiIt& it);
+
 template <typename BiIt>
-unsigned prevUtf16LECodePoint(uint32_t& codePoint, BiIt begin, BiIt& it)
+DecoderResult_t prevUtf16LECodePoint(uint32_t& codePoint, BiIt begin, BiIt& it)
 {
     return prevUtf16CodePoint<BiIt, IsBigEndian>(codePoint, begin, it);
 }
 
 template <typename BiIt>
-unsigned prevUtf16BECodePoint(uint32_t& codePoint, BiIt begin, BiIt& it)
+DecoderResult_t prevUtf16BECodePoint(uint32_t& codePoint, BiIt begin, BiIt& it)
 {
     return prevUtf16CodePoint<BiIt, IsLittleEndian>(codePoint, begin, it);
+}
+
+template <typename FwdIt, bool SwapBytes = false>
+bool skipNextUtf16CodePoint(FwdIt& it, FwdIt end);
+
+template <typename FwdIt>
+bool skipNextUtf16LECodePoint(FwdIt& it, FwdIt end)
+{
+    return skipNextUtf16CodePoint<FwdIt, IsBigEndian>(it, end);
+}
+
+template <typename FwdIt>
+bool skipNextUtf16BECodePoint(FwdIt& it, FwdIt end)
+{
+    return skipNextUtf16CodePoint<FwdIt, IsLittleEndian>(it, end);
+}
+
+template <typename BiIt, bool SwapBytes = false>
+bool skipPrevUtf16CodePoint(BiIt begin, BiIt& it);
+
+template <typename BiIt>
+bool skipPrevUtf16LECodePoint(BiIt begin, BiIt& it)
+{
+    return skipPrevUtf16CodePoint<BiIt, IsBigEndian>(begin, it);
+}
+
+template <typename BiIt>
+bool skipPrevUtf16BECodePoint(BiIt begin, BiIt& it)
+{
+    return skipPrevUtf16CodePoint<BiIt, IsLittleEndian>(begin, it);
 }
 
 }}

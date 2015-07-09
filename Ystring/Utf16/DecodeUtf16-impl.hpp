@@ -13,67 +13,15 @@ namespace Ystring { namespace Utf16 {
 
 typedef std::make_unsigned<wchar_t>::type UnsignedWChar;
 
-namespace internal
+namespace Details
 {
     using Utilities::swapEndianness;
 
     template <typename FwdIt, bool SwapBytes>
-    unsigned nextWord(uint16_t& word, FwdIt& it, FwdIt end, uint32_t)
+    DecoderResult_t nextWord(uint16_t& word, FwdIt& it, FwdIt end, uint8_t)
     {
         if (it == end)
-            return DecodeResult::END_OF_STRING;
-        else if (*it > 0xFFFFu)
-            return DecodeResult::INVALID;
-
-        word = *it++;
-        swapEndianness<SwapBytes>(word);
-
-        return DecodeResult::OK;
-    }
-
-    template <typename BiIt, bool SwapBytes>
-    unsigned prevWord(uint16_t& word, BiIt begin, BiIt& it, uint32_t)
-    {
-        if (it == begin)
-            return DecodeResult::END_OF_STRING;
-        else if (*it > 0xFFFFu)
-            return DecodeResult::INVALID;
-
-        word = *(--it);
-        swapEndianness<SwapBytes>(word);
-
-        return DecodeResult::OK;
-    }
-
-    template <typename FwdIt, bool SwapBytes>
-    unsigned nextWord(uint16_t& word, FwdIt& it, FwdIt end, uint16_t)
-    {
-        if (it == end)
-            return DecodeResult::END_OF_STRING;
-
-        word = *it++;
-        swapEndianness<SwapBytes>(word);
-
-        return DecodeResult::OK;
-    }
-
-    template <typename BiIt, bool SwapBytes>
-    unsigned prevWord(uint16_t& word, BiIt begin, BiIt& it, uint16_t)
-    {
-        if (it == begin)
-            return DecodeResult::END_OF_STRING;
-
-        word = *(--it);
-        swapEndianness<SwapBytes>(word);
-
-        return DecodeResult::OK;
-    }
-
-    template <typename FwdIt, bool SwapBytes>
-    unsigned nextWord(uint16_t& word, FwdIt& it, FwdIt end, char)
-    {
-        if (it == end)
-            return DecodeResult::END_OF_STRING;
+            return DecoderResult::END_OF_STRING;
 
         FwdIt initialIt = it;
         Utilities::Union16 chr;
@@ -82,146 +30,237 @@ namespace internal
         if (it == end)
         {
             it = initialIt;
-            return DecodeResult::INCOMPLETE | DecodeResult::END_OF_STRING;
+            return DecoderResult::INCOMPLETE;
         }
 
         chr.u8[SwapBytes ? 0 : 1] = *it++;
 
         word = chr.u16;
-        return DecodeResult::OK;
-    }
-
-    template <typename BiIt, bool SwapBytes>
-    unsigned prevWord(uint16_t& word, BiIt begin, BiIt& it, char)
-    {
-        if (it == begin)
-            return DecodeResult::END_OF_STRING;
-
-        BiIt initialIt = it;
-        Utilities::Union16 chr;
-        chr.u8[SwapBytes ? 0 : 1] = *(--it);
-
-        if (it == begin)
-        {
-            it = initialIt;
-            return DecodeResult::INCOMPLETE | DecodeResult::END_OF_STRING;
-        }
-
-        chr.u8[SwapBytes ? 1 : 0] = *(--it);
-
-        word = chr.u16;
-        return DecodeResult::OK;
+        return DecoderResult::OK;
     }
 
     template <typename FwdIt, bool SwapBytes>
-    unsigned nextWord(uint16_t& word, FwdIt& it, FwdIt end, wchar_t)
+    DecoderResult_t nextWord(uint16_t& word, FwdIt& it, FwdIt end, uint16_t)
+    {
+        if (it == end)
+            return DecoderResult::END_OF_STRING;
+
+        word = *it++;
+        swapEndianness<SwapBytes>(word);
+
+        return DecoderResult::OK;
+    }
+
+    template <typename FwdIt, bool SwapBytes>
+    DecoderResult_t nextWord(uint16_t& word, FwdIt& it, FwdIt end, uint32_t)
+    {
+        if (it == end)
+            return DecoderResult::END_OF_STRING;
+        else if (*it > 0xFFFFu)
+            return DecoderResult::INVALID;
+
+        word = *it++;
+        swapEndianness<SwapBytes>(word);
+
+        return DecoderResult::OK;
+    }
+
+    template <typename FwdIt, bool SwapBytes>
+    DecoderResult_t nextWord(uint16_t& word, FwdIt& it, FwdIt end, char)
+    {
+        return nextWord<FwdIt, SwapBytes>(word, it, end, uint8_t());
+    }
+
+    template <typename FwdIt, bool SwapBytes>
+    DecoderResult_t nextWord(uint16_t& word, FwdIt& it, FwdIt end, wchar_t)
     {
         return nextWord<FwdIt, SwapBytes>(word, it, end, UnsignedWChar());
     }
 
     template <typename BiIt, bool SwapBytes>
-    unsigned prevWord(uint16_t& word, BiIt begin, BiIt& it, wchar_t)
+    DecoderResult_t prevWord(uint16_t& word, BiIt begin, BiIt& it, uint8_t)
+    {
+        if (it == begin)
+            return DecoderResult::END_OF_STRING;
+
+        BiIt initialIt = it;
+        Utilities::Union16 chr;
+        chr.u8[SwapBytes ? 0 : 1] = uint8_t(*(--it));
+
+        if (it == begin)
+        {
+            it = initialIt;
+            return DecoderResult::INCOMPLETE;
+        }
+
+        chr.u8[SwapBytes ? 1 : 0] = uint8_t(*(--it));
+
+        word = chr.u16;
+        return DecoderResult::OK;
+    }
+
+    template <typename BiIt, bool SwapBytes>
+    DecoderResult_t prevWord(uint16_t& word, BiIt begin, BiIt& it, uint16_t)
+    {
+        if (it == begin)
+            return DecoderResult::END_OF_STRING;
+
+        word = *(--it);
+        swapEndianness<SwapBytes>(word);
+
+        return DecoderResult::OK;
+    }
+
+    template <typename BiIt, bool SwapBytes>
+    DecoderResult_t prevWord(uint16_t& word, BiIt begin, BiIt& it, uint32_t)
+    {
+        if (it == begin)
+            return DecoderResult::END_OF_STRING;
+        else if (*it > 0xFFFFu)
+            return DecoderResult::INVALID;
+
+        word = *(--it);
+        swapEndianness<SwapBytes>(word);
+
+        return DecoderResult::OK;
+    }
+
+    template <typename BiIt, bool SwapBytes>
+    DecoderResult_t prevWord(uint16_t& word, BiIt begin, BiIt& it, char)
+    {
+        return prevWord<BiIt, SwapBytes>(word, begin, it, uint8_t());
+    }
+
+    template <typename BiIt, bool SwapBytes>
+    DecoderResult_t prevWord(uint16_t& word, BiIt begin, BiIt& it, wchar_t)
     {
         return prevWord<BiIt, SwapBytes>(word, begin, it, UnsignedWChar());
+    }
+
+    template <typename FwdIt, bool SwapBytes>
+    DecoderResult_t skipNextWord(uint16_t& word, FwdIt& it, FwdIt end)
+    {
+        typedef typename std::iterator_traits<FwdIt>::value_type ValueType;
+        auto res = nextWord<FwdIt, SwapBytes>(word, it, end, ValueType());
+        if (res != DecoderResult::OK && res != DecoderResult::END_OF_STRING)
+            ++it;
+        return res;
+    }
+
+    template <typename BiIt, bool SwapBytes>
+    DecoderResult_t skipPrevWord(uint16_t& word, BiIt begin, BiIt it)
+    {
+        typedef typename std::iterator_traits<BiIt>::value_type ValueType;
+        auto res = prevWord<BiIt, SwapBytes>(word, begin, it, ValueType());
+        if (res != DecoderResult::OK && res != DecoderResult::END_OF_STRING)
+            --it;
+        return res;
     }
 }
 
 template <typename FwdIt, bool SwapBytes>
-unsigned nextUtf16CodePoint(uint32_t& codePoint, FwdIt& it, FwdIt end)
+DecoderResult_t nextUtf16CodePoint(uint32_t& codePoint, FwdIt& it, FwdIt end)
 {
     uint16_t chr;
-    unsigned nwResult = internal::nextWord<FwdIt, SwapBytes>(
-            chr, it, end,
-            typename std::iterator_traits<FwdIt>::value_type());
-    if (nwResult != DecodeResult::OK)
-        return nwResult;
+    typedef typename std::iterator_traits<FwdIt>::value_type ValueType;
+    auto res = Details::nextWord<FwdIt, SwapBytes>(chr, it, end, ValueType());
+    if (res != DecoderResult::OK)
+        return res;
 
     if (chr < 0xD800 || 0xE000 <= chr)
     {
         codePoint = chr;
-        return DecodeResult::OK;
+        return DecoderResult::OK;
     }
     else if (0xDC00 <= chr)
     {
         codePoint = chr;
-        return DecodeResult::INVALID;
+        return DecoderResult::INVALID;
     }
 
-    codePoint = (chr & 0x3FF) << 10;
+    codePoint = uint32_t(chr & 0x3FF) << 10;
 
-    nwResult = internal::nextWord<FwdIt, SwapBytes>(
-            chr, it, end,
-            typename std::iterator_traits<FwdIt>::value_type());
-    if (nwResult == DecodeResult::END_OF_STRING)
-        return DecodeResult::END_OF_STRING | DecodeResult::INCOMPLETE;
-    else if (nwResult != DecodeResult::OK)
-        return nwResult;
+    res = Details::nextWord<FwdIt, SwapBytes>(chr, it, end, ValueType());
+    if (res == DecoderResult::END_OF_STRING)
+        return DecoderResult::INCOMPLETE;
+    else if (res != DecoderResult::OK)
+        return res;
 
     if (chr < 0xDC00 || 0xE000 <= chr)
     {
         codePoint |= chr;
-        return DecodeResult::INVALID;
+        return DecoderResult::INVALID;
     }
 
     codePoint |= chr & 0x3FF;
     codePoint += 0x10000;
 
-    return DecodeResult::OK;
-}
-
-template <typename FwdIt>
-unsigned nextUtf16CodePoint(uint32_t& codePoint, FwdIt& it, FwdIt end)
-{
-    return nextUtf16CodePoint<FwdIt, false>(codePoint, it, end);
+    return DecoderResult::OK;
 }
 
 template <typename BiIt, bool SwapBytes>
-unsigned prevUtf16CodePoint(uint32_t& codePoint, BiIt begin, BiIt& it)
+DecoderResult_t prevUtf16CodePoint(uint32_t& codePoint, BiIt begin, BiIt& it)
 {
     uint16_t chr;
-    unsigned pwResult = internal::prevWord<BiIt, SwapBytes>(
-            chr, begin, it,
-            typename std::iterator_traits<BiIt>::value_type());
-    if (pwResult != DecodeResult::OK)
-        return pwResult;
+    typedef typename std::iterator_traits<BiIt>::value_type ValueType;
+    auto res = Details::prevWord<BiIt, SwapBytes>(chr, begin, it,
+                                                  ValueType());
+    if (res != DecoderResult::OK)
+        return res;
 
     if (chr < 0xD800 || 0xE000 <= chr)
     {
         codePoint = chr;
-        return DecodeResult::OK;
+        return DecoderResult::OK;
     }
     else if (chr < 0xDC00)
     {
         codePoint = chr;
-        return DecodeResult::INVALID;
+        return DecoderResult::INVALID;
     }
 
-    codePoint = chr & 0x3FF;
+    codePoint = uint32_t(chr) & 0x3FF;
 
-    pwResult = internal::prevWord<BiIt, SwapBytes>(
-            chr, begin, it,
-            typename std::iterator_traits<BiIt>::value_type());
-    if (pwResult == DecodeResult::END_OF_STRING)
-        return DecodeResult::END_OF_STRING | DecodeResult::INCOMPLETE;
-    else if (pwResult != DecodeResult::OK)
-        return pwResult;
+    res = Details::prevWord<BiIt, SwapBytes>(chr, begin, it, ValueType());
+    if (res == DecoderResult::END_OF_STRING)
+        return DecoderResult::INCOMPLETE;
+    else if (res != DecoderResult::OK)
+        return res;
 
     if (chr < 0xD800 || 0xDC00 <= chr)
     {
         codePoint |= chr << 10;
-        return DecodeResult::INVALID;
+        return DecoderResult::INVALID;
     }
 
     codePoint |= (chr & 0x3FF) << 10;
     codePoint += 0x10000;
 
-    return DecodeResult::OK;
+    return DecoderResult::OK;
 }
 
-template <typename BiIt>
-unsigned prevUtf16CodePoint(uint32_t& codePoint, BiIt begin, BiIt& it)
+template <typename FwdIt, bool SwapBytes>
+bool skipNextUtf16CodePoint(FwdIt& it, FwdIt end)
 {
-    return prevUtf16CodePoint<BiIt, false>(codePoint, begin, it);
+    uint16_t chr;
+    auto res = Details::skipNextWord<FwdIt, SwapBytes>(chr, it, end);
+    if (res != DecoderResult::OK)
+        return res != DecoderResult::END_OF_STRING;
+    if (0xD800 <= chr && chr < 0xDC00)
+        Details::skipNextWord<FwdIt, SwapBytes>(chr, it, end);
+    return true;
+}
+
+template <typename BiIt, bool SwapBytes>
+bool skipPrevUtf16CodePoint(BiIt begin, BiIt& it)
+{
+    uint16_t chr;
+    auto res = Details::skipPrevWord<BiIt, SwapBytes>(chr, begin, it);
+    if (res != DecoderResult::OK)
+        return res != DecoderResult::END_OF_STRING;
+    if (0xD800 <= chr && chr < 0xDC00)
+        Details::skipPrevWord<BiIt, SwapBytes>(chr, begin, it);
+    return true;
 }
 
 }}
