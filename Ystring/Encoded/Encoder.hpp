@@ -28,6 +28,11 @@ public:
         m_Encoding.encode(m_Destination, codePoint);
     }
 
+    void encodeAsBytes(uint32_t codePoint)
+    {
+        m_Encoding.encodeAsBytes(m_Destination, codePoint);
+    }
+
     Encoding getEncoding() const
     {
         return m_Encoding;

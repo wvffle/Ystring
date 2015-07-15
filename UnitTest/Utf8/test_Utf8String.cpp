@@ -192,7 +192,10 @@ void test_isAlphaNumeric()
 void test_isValidUtf8()
 {
     JT_ASSERT(Utf8::isValidUtf8("AB\xC1\x80"));
-    JT_ASSERT(!Utf8::isValidUtf8("AB\xC0\xBF"));
+    JT_ASSERT(!Utf8::isValidUtf8("AB\xC0\x7F"));
+    JT_ASSERT(!Utf8::isValidUtf8("\xC0\xFF"));
+    JT_ASSERT(Utf8::isValidUtf8("\xE2\xBF\x80"));
+    JT_ASSERT(!Utf8::isValidUtf8("\xE2\xBF\xC0"));
 }
 
 void test_join()
@@ -339,13 +342,13 @@ void test_replaceCodePoint()
 
 void test_replaceInvalidUtf8()
 {
-    auto s = "ABC\xC0\xBF" "DEF\xD0\x80\x80" "GH\xE8\x80" "I\xC8";
+    auto s = "ABC\xC0\xDF" "DEF\xD0\x80\x80" "GH\xE8\x80" "I\xC8";
     JT_EQUAL(Utf8::replaceInvalidUtf8(s), "ABC??DEF\xD0\x80?GH??I?");
 }
 
 void test_replaceInvalidUtf8InPlace()
 {
-    std::string s("ABC\xC0\xBF" "DEF\xD0\x80\x80" "GH\xE8\x80" "I\xC8");
+    std::string s("ABC\xC0\xDF" "DEF\xD0\x80\x80" "GH\xE8\x80" "I\xC8");
     JT_EQUAL(Utf8::replaceInvalidUtf8InPlace(s), "ABC??DEF\xD0\x80?GH??I?");
 }
 

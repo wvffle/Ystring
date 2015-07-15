@@ -9,10 +9,10 @@
 
 namespace Ystring { namespace Utf8 {
 
-namespace
+namespace Detail
 {
     template <typename OutputIt>
-    OutputIt addUtf8_impl(OutputIt it, uint32_t c, size_t length)
+    OutputIt addUtf8(OutputIt it, uint32_t c, size_t length)
     {
         if (length == 1)
         {
@@ -38,7 +38,7 @@ namespace
 template <typename OutputIt>
 OutputIt addUtf8(OutputIt it, uint32_t c)
 {
-    return addUtf8_impl(it, c, utf8EncodedLength(c));
+    return Detail::addUtf8(it, c, utf8EncodedLength(c));
 }
 
 template <typename RndIt>
@@ -47,7 +47,7 @@ size_t encodeUtf8(RndIt& begin, RndIt end, uint32_t c)
     size_t length = utf8EncodedLength(c);
     if (length > (size_t)std::distance(begin, end))
         return 0;
-    begin = addUtf8_impl(begin, c, length);
+    begin = Detail::addUtf8(begin, c, length);
     return length;
 }
 

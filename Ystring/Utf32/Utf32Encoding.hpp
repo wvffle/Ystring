@@ -71,7 +71,13 @@ public:
     template <typename OutIt>
     OutIt encode(OutIt dst, uint32_t codePoint)
     {
-        return addUtf32(dst, codePoint);
+        return addUtf32<SwapBytes>(dst, codePoint);
+    }
+
+    template <typename OutIt>
+    OutIt encodeAsBytes(OutIt dst, uint32_t codePoint)
+    {
+        return addUtf32AsBytes<SwapBytes>(dst, codePoint);
     }
 };
 

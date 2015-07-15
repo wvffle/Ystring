@@ -70,6 +70,13 @@ public:
     {
         return addUtf8(dst, codePoint);
     }
+
+
+    template <typename OutIt>
+    OutIt encodeAsBytes(OutIt dst, uint32_t codePoint)
+    {
+        return addUtf8(dst, codePoint);
+    }
 };
 
 }}

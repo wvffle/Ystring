@@ -14,6 +14,7 @@ namespace Ystring { namespace Utf16 {
 using Ystring::Utilities::IsBigEndian;
 using Ystring::Utilities::IsLittleEndian;
 using Ystring::Utilities::swapEndianness;
+using Ystring::Utilities::Union16;
 
 template <typename OutIt, bool SwapBytes>
 OutIt addUtf16(OutIt out, uint32_t codePoint)
@@ -56,6 +57,32 @@ OutIt addUtf16BE(OutIt out, uint32_t codePoint)
     return addUtf16<OutIt, IsLittleEndian>(out, codePoint);
 }
 
+template <typename OutIt, bool SwapBytes>
+OutIt addUtf16AsBytes(OutIt out, uint32_t codePoint)
+{
+    if (codePoint <= 0xFFFF)
+    {
+        Union16 word((uint16_t)codePoint);
+        swapEndianness<SwapBytes>(word);
+        *out++ = word.u8[0];
+        *out++ = word.u8[1];
+        return out;
+    }
+    else
+    {
+        codePoint -= 0x10000;
+        Union16 word1(uint16_t(0xD800 | (codePoint >> 10)));
+        Union16 word2(uint16_t(0xDC00 | (codePoint & 0x3FF)));
+        swapEndianness<SwapBytes>(word1);
+        swapEndianness<SwapBytes>(word2);
+        *out++ = word1.u8[0];
+        *out++ = word1.u8[1];
+        *out++ = word2.u8[0];
+        *out++ = word2.u8[1];
+        return out;
+    }
+}
+
 template <bool SwapBytes, typename FwdIt, typename ChrType>
 size_t encodeUtf16(FwdIt& begin, FwdIt end, uint32_t codePoint, ChrType)
 {
@@ -63,7 +90,7 @@ size_t encodeUtf16(FwdIt& begin, FwdIt end, uint32_t codePoint, ChrType)
     {
         if (begin == end)
             return 0;
-        Ystring::Utilities::Union16 word((uint16_t)codePoint);
+        Union16 word((uint16_t)codePoint);
         swapEndianness<SwapBytes>(word);
         *begin++ = word.u16;
         return 1;
@@ -73,8 +100,8 @@ size_t encodeUtf16(FwdIt& begin, FwdIt end, uint32_t codePoint, ChrType)
         if (std::distance(begin, end) < 2)
             return 0;
         codePoint -= 0x10000;
-        Ystring::Utilities::Union16 word1(uint16_t(0xD800 | (codePoint >> 10)));
-        Ystring::Utilities::Union16 word2(uint16_t(0xDC00 | (codePoint & 0x3FF)));
+        Union16 word1(uint16_t(0xD800 | (codePoint >> 10)));
+        Union16 word2(uint16_t(0xDC00 | (codePoint & 0x3FF)));
         swapEndianness<SwapBytes>(word1);
         swapEndianness<SwapBytes>(word2);
         *begin++ = word1.u16;
@@ -90,7 +117,7 @@ size_t encodeUtf16(FwdIt& begin, FwdIt end, uint32_t codePoint, uint8_t)
     {
         if (std::distance(begin, end) < 2)
             return 0;
-        Ystring::Utilities::Union16 word((uint16_t)codePoint);
+        Union16 word((uint16_t)codePoint);
         swapEndianness<SwapBytes>(word);
         *begin++ = word.i8[0];
         *begin++ = word.i8[1];
@@ -101,8 +128,8 @@ size_t encodeUtf16(FwdIt& begin, FwdIt end, uint32_t codePoint, uint8_t)
         if (std::distance(begin, end) < 4)
             return 0;
         codePoint -= 0x10000;
-        Ystring::Utilities::Union16 word1((uint16_t)(0xD800 | (codePoint >> 10)));
-        Ystring::Utilities::Union16 word2((uint16_t)(0xDC00 | (codePoint & 0x3FF)));
+        Union16 word1((uint16_t)(0xD800 | (codePoint >> 10)));
+        Union16 word2((uint16_t)(0xDC00 | (codePoint & 0x3FF)));
         swapEndianness<SwapBytes>(word1);
         swapEndianness<SwapBytes>(word2);
         *begin++ = word1.i8[0];

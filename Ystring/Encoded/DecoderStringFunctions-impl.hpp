@@ -61,6 +61,14 @@ void append(Encoder&& dst, Decoder&& src)
 }
 
 template <typename Encoder, typename Decoder>
+void appendBytes(Encoder&& dst, Decoder&& src)
+{
+    uint32_t ch;
+    while (src.next(ch))
+        dst.encodeAsBytes(ch);
+}
+
+template <typename Encoder, typename Decoder>
 void appendLower(Encoder&& dst, Decoder&& src)
 {
     uint32_t ch;

@@ -16,7 +16,7 @@
 
 namespace Ystring { namespace Generic {
 
-namespace Details
+namespace Detail
 {
     template <typename Str, typename It, typename Enc1, typename Enc2>
     void appendImpl(StringReference<Str> dst, Range<It> src,
@@ -27,6 +27,16 @@ namespace Details
     void appendImpl(StringReference<Str> dst, Range<It> src,
                     Enc1 dstEncoding, Enc2 srcEncoding,
                     std::false_type);
+
+    template <typename Str, typename It, typename Enc1, typename Enc2>
+    void appendWithEncoder(StringReference<Str> dst, Range<It> src,
+                           Enc1 dstEncoding, Enc2 srcEncoding,
+                           std::true_type);
+
+    template <typename Str, typename It, typename Enc1, typename Enc2>
+    void appendWithEncoder(StringReference<Str> dst, Range<It> src,
+                           Enc1 dstEncoding, Enc2 srcEncoding,
+                           std::false_type);
 
     template <typename It1, typename It2, typename Enc>
     bool endsWithImpl(Range<It1> str,
@@ -151,7 +161,7 @@ template <typename Str, typename It, typename Enc1, typename Enc2>
 void append(StringReference<Str> dst, Range<It> src,
             Enc1 dstEncoding, Enc2 srcEncoding)
 {
-    Details::appendImpl(
+    Detail::appendImpl(
             dst, src, dstEncoding, srcEncoding,
             CanCopyRawValues<typename StringReference<Str>::ValueType, Enc1,
                              typename Range<It>::ValueType, Enc2>());
@@ -284,10 +294,10 @@ bool endsWith(Range<It1> str,
               FindFlags_t flags)
 {
     if (flags == FindFlags::CASE_INSENSITIVE)
-        return Details::endsWithImpl(str, cmp, encoding, flags,
-                                     std::false_type());
+        return Detail::endsWithImpl(str, cmp, encoding, flags,
+                                    std::false_type());
     else
-        return Details::endsWithImpl(
+        return Detail::endsWithImpl(
                 str, cmp, encoding, flags,
                 SameIteratorValueType<It1, It2>());
 }
@@ -299,10 +309,10 @@ Range<It1> findFirst(Range<It1> str,
                      FindFlags_t flags)
 {
     if (flags == FindFlags::CASE_INSENSITIVE)
-        return Details::findFirstImpl(str, cmp, encoding, flags,
-                                      std::false_type());
+        return Detail::findFirstImpl(str, cmp, encoding, flags,
+                                     std::false_type());
     else
-        return Details::findFirstImpl(
+        return Detail::findFirstImpl(
                 str, cmp, encoding, flags,
                 CanCompareRawValues<It1, Enc, It2, Enc>());
 }
@@ -321,10 +331,10 @@ Range<It1> findLast(Range<It1> str,
                     FindFlags_t flags)
 {
     if (flags == FindFlags::CASE_INSENSITIVE)
-        return Details::findLastImpl(str, cmp, encoding, flags,
-                                     std::false_type());
+        return Detail::findLastImpl(str, cmp, encoding, flags,
+                                    std::false_type());
     else
-        return Details::findLastImpl(
+        return Detail::findLastImpl(
                 str, cmp, encoding, flags,
                 CanCompareRawValues<It1, Enc, It2, Enc>());
 }
@@ -452,10 +462,10 @@ std::vector<Range<It1>> findPositions(Range<It1> str, Range<It2> cmp,
                                       FindFlags_t flags)
 {
     if (maxCount >= 0)
-        return Details::findPositionsFwd(
+        return Detail::findPositionsFwd(
                 str, cmp, encoding, static_cast<size_t>(maxCount), flags);
     else
-        return Details::findPositionsRev(
+        return Detail::findPositionsRev(
                 str, cmp, encoding, static_cast<size_t>(-maxCount), flags);
 }
 
@@ -469,11 +479,11 @@ Str replace(Range<It1> str, Range<It2> cmp, Range<It2> rep,
         return Str(str.begin(), str.end());
 
     if (maxReplacements >= 0)
-        return Details::replaceFwd<Str>(
+        return Detail::replaceFwd<Str>(
                 str, cmp, rep, encoding,
                 static_cast<size_t>(maxReplacements), flags);
     else
-        return Details::replaceRev<Str>(
+        return Detail::replaceRev<Str>(
                 str, cmp, rep, encoding,
                 static_cast<size_t>(-maxReplacements), flags);
 }
@@ -568,11 +578,11 @@ std::vector<Str> split(Range<It1> str,
                        SplitFlags_t flags)
 {
     if (SplitFlags::isCaseInsensitive(flags) || maxParts < 0)
-        return Details::splitImpl<Str>(str, cmp, encoding, maxParts, flags,
-                                       std::false_type());
+        return Detail::splitImpl<Str>(str, cmp, encoding, maxParts, flags,
+                                      std::false_type());
     else
-        return Details::splitImpl<Str>(str, cmp, encoding, maxParts, flags,
-                                       SameIteratorValueType<It1, It2>());
+        return Detail::splitImpl<Str>(str, cmp, encoding, maxParts, flags,
+                                      SameIteratorValueType<It1, It2>());
 }
 
 template <typename Str, typename It, typename Enc, typename Predicate>
@@ -583,13 +593,13 @@ std::vector<Str> splitIf(Range<It> str,
                          SplitFlags_t flags)
 {
     if (maxParts >= 0)
-        return Details::splitImpl<Str>(
+        return Detail::splitImpl<Str>(
                 Encoded::makeForwardDecoder(str, encoding),
                 [&](Encoded::ForwardDecoder<It, Enc>& d)
                    {return nextToken(d, predicate);},
                 maxParts, flags);
     else
-        return Details::splitImpl<Str>(
+        return Detail::splitImpl<Str>(
                 Encoded::makeReverseDecoder(str, encoding),
                 [&](Encoded::ReverseDecoder<It, Enc>& d)
                    {return nextToken(d, predicate);},
@@ -603,13 +613,13 @@ std::vector<Str> splitLines(Range<It> str,
                             SplitFlags_t flags)
 {
     if (maxParts >= 0)
-        return Details::splitImpl<Str>(
+        return Detail::splitImpl<Str>(
                 Encoded::makeForwardDecoder(str, encoding),
                 [&](Encoded::ForwardDecoder<It, Enc>& d)
                    {return nextLine(d);},
                 maxParts, flags);
     else
-        return Details::splitImpl<Str>(
+        return Detail::splitImpl<Str>(
                 Encoded::makeReverseDecoder(str, encoding),
                 [&](Encoded::ReverseDecoder<It, Enc>& d)
                    {return nextLine(d);},
@@ -623,10 +633,10 @@ bool startsWith(Range<It1> str,
                 FindFlags_t flags)
 {
     if (flags == FindFlags::CASE_INSENSITIVE)
-        return Details::startsWithImpl(str, cmp, encoding, flags,
-                                       std::false_type());
+        return Detail::startsWithImpl(str, cmp, encoding, flags,
+                                      std::false_type());
     else
-        return Details::startsWithImpl(
+        return Detail::startsWithImpl(
                 str, cmp, encoding, flags,
                 SameIteratorValueType<It1, It2>());
 }
@@ -727,7 +737,7 @@ Str upper(Range<It> src, Enc encoding)
     return str;
 }
 
-namespace Details
+namespace Detail
 {
     template <typename Str, typename It, typename Enc1, typename Enc2>
     void appendImpl(StringReference<Str> dst, Range<It> src,
@@ -743,6 +753,26 @@ namespace Details
     void appendImpl(StringReference<Str> dst, Range<It> src,
                     Enc1 dstEncoding, Enc2 srcEncoding,
                     std::false_type)
+    {
+        appendWithEncoder(dst, src, dstEncoding, srcEncoding,
+                          IsByteString<Str>());
+        dst.terminate();
+    }
+
+    template <typename Str, typename It, typename Enc1, typename Enc2>
+    void appendWithEncoder(StringReference<Str> dst, Range<It> src,
+                           Enc1 dstEncoding, Enc2 srcEncoding,
+                           std::true_type)
+    {
+        appendBytes(dst.getEncoder(dstEncoding),
+                    Encoded::makeForwardDecoder(src, srcEncoding));
+        dst.terminate();
+    }
+
+    template <typename Str, typename It, typename Enc1, typename Enc2>
+    void appendWithEncoder(StringReference<Str> dst, Range<It> src,
+                           Enc1 dstEncoding, Enc2 srcEncoding,
+                           std::false_type)
     {
         append(dst.getEncoder(dstEncoding),
                Encoded::makeForwardDecoder(src, srcEncoding));

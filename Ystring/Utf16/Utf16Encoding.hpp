@@ -71,6 +71,12 @@ public:
     {
         return addUtf16(dst, codePoint);
     }
+
+    template <typename OutIt>
+    OutIt encodeAsBytes(OutIt dst, uint32_t codePoint)
+    {
+        return addUtf16AsBytes<SwapBytes>(dst, codePoint);
+    }
 };
 
 typedef Utf16EncodingImpl<false> Utf16Encoding;
