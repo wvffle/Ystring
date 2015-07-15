@@ -159,43 +159,7 @@ auto makeRange(Container& c) -> Range<decltype(begin(c))>
 template <typename T, size_t N>
 Range<T*> makeRange(T (&a)[N])
 {
-    return makeRange<T*>(a, a + N);
-}
-
-template <typename T, size_t N>
-Range<const T*> makeRange(const T (&a)[N])
-{
-    return makeRange<const T*>(a, a + N);
-}
-
-template <size_t N>
-Range<char*> makeRange(char (&s)[N])
-{
-    return makeRange(&s[0], s + std::strlen(s));
-}
-
-template <size_t N>
-Range<const char*> makeRange(const char (&s)[N])
-{
-    if (s[N - 1])
-        return makeRange<const char*>(s, s + N);
-    else
-        return makeRange<const char*>(s, s + (N - 1));
-}
-
-template <size_t N>
-Range<wchar_t*> makeRange(wchar_t (&s)[N])
-{
-    return makeRange(&s[0], s + std::wcslen(s));
-}
-
-template <size_t N>
-Range<const wchar_t*> makeRange(const wchar_t (&s)[N])
-{
-    if (s[N - 1])
-        return makeRange<const wchar_t*>(s, s + N);
-    else
-        return makeRange<const wchar_t*>(s, s + (N - 1));
+    return makeRange<T*>(a, a + N - (a[N - 1] ? 0 : 1));
 }
 
 inline Range<const char*> makeRange(const char* s)
