@@ -61,8 +61,8 @@ size_t encodeUtf16(FwdIt& begin, FwdIt end, uint32_t codePoint, ChrType)
 {
     if (codePoint <= 0xFFFF)
     {
-        if (std::distance(begin, end) < 1)
-            return false;
+        if (begin == end)
+            return 0;
         Ystring::Utilities::Union16 word((uint16_t)codePoint);
         swapEndianness<SwapBytes>(word);
         *begin++ = word.u16;
@@ -71,7 +71,7 @@ size_t encodeUtf16(FwdIt& begin, FwdIt end, uint32_t codePoint, ChrType)
     else
     {
         if (std::distance(begin, end) < 2)
-            return false;
+            return 0;
         codePoint -= 0x10000;
         Ystring::Utilities::Union16 word1(uint16_t(0xD800 | (codePoint >> 10)));
         Ystring::Utilities::Union16 word2(uint16_t(0xDC00 | (codePoint & 0x3FF)));
@@ -84,12 +84,12 @@ size_t encodeUtf16(FwdIt& begin, FwdIt end, uint32_t codePoint, ChrType)
 }
 
 template <bool SwapBytes, typename FwdIt>
-size_t encodeUtf16(FwdIt& begin, FwdIt end, uint32_t codePoint, char)
+size_t encodeUtf16(FwdIt& begin, FwdIt end, uint32_t codePoint, uint8_t)
 {
     if (codePoint <= 0xFFFF)
     {
         if (std::distance(begin, end) < 2)
-            return false;
+            return 0;
         Ystring::Utilities::Union16 word((uint16_t)codePoint);
         swapEndianness<SwapBytes>(word);
         *begin++ = word.i8[0];
@@ -99,7 +99,7 @@ size_t encodeUtf16(FwdIt& begin, FwdIt end, uint32_t codePoint, char)
     else
     {
         if (std::distance(begin, end) < 4)
-            return false;
+            return 0;
         codePoint -= 0x10000;
         Ystring::Utilities::Union16 word1((uint16_t)(0xD800 | (codePoint >> 10)));
         Ystring::Utilities::Union16 word2((uint16_t)(0xDC00 | (codePoint & 0x3FF)));
@@ -111,6 +111,12 @@ size_t encodeUtf16(FwdIt& begin, FwdIt end, uint32_t codePoint, char)
         *begin++ = word2.i8[1];
         return 4;
     }
+}
+
+template <bool SwapBytes, typename FwdIt>
+size_t encodeUtf16(FwdIt& begin, FwdIt end, uint32_t codePoint, char)
+{
+    return encodeUtf16<SwapBytes>(begin, end, codePoint, uint8_t());
 }
 
 template <typename FwdIt>
