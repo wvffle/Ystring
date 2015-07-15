@@ -22,6 +22,7 @@ include_directories(
 
 set(SOURCE_FILES
     main.cpp
+    Generic/test_Convert.cpp
     Generic/test_GenericString.cpp
     Unicode/test_CaseConverter.cpp
     Unicode/test_CaseInsensitive.cpp
@@ -32,8 +33,7 @@ set(SOURCE_FILES
     )
 
 add_executable(${PROJECT_NAME}
-               ${SOURCE_FILES}
-               )
+               ${SOURCE_FILES})
 
 message("${PARENT_PROJECT} ${JEBTEST_LIBRARIES}")
 
