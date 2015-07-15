@@ -69,7 +69,7 @@ struct EscapeMode
 
 typedef EscapeMode::Type EscapeMode_t;
 
-/** @brief Adds @a codePoint encoded as UTF-8 to the end of@a str.
+/** @brief Adds @a codePoint encoded as UTF-8 to the end of @a str.
   */
 std::string& append(std::string& str, uint32_t chr);
 
@@ -482,9 +482,9 @@ std::string title(const std::string& str);
 
 /** @brief Returns a UTF-8 encoded string representing @a chr
   */
-// std::string toUtf8(uint32_t chr);
+std::string toUtf8(uint32_t chr);
 
-/** @brief Returns the UTF-8 encoded string that is equivalent to @a str.
+/** @brief Returns an UTF-8 encoded string equivalent to @a str.
   *
   *  @param str The string to convert from.
   *  @param encoding The encoding of @a str.
@@ -493,7 +493,7 @@ std::string title(const std::string& str);
   */
 std::string toUtf8(const std::string& str, Encoding_t encoding);
 
-/** @brief Returns the UTF-8 encoded string that is equivalent to @a str.
+/** @brief Returns an UTF-8 encoded string equivalent to @a str.
   *
   *  @param str The string to convert from.
   *  @param encoding The encoding of @a str.

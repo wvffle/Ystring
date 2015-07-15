@@ -421,6 +421,13 @@ std::string title(const std::string& str)
     return Generic::title<std::string>(makeRange(str), Utf8Encoding());
 }
 
+std::string toUtf8(uint32_t chr)
+{
+    std::string s;
+    append(s, chr);
+    return s;
+}
+
 std::string toUtf8(const std::string& str, Encoding_t encoding)
 {
     std::string result;
@@ -450,9 +457,9 @@ std::string toUtf8(const std::wstring& str, Encoding_t encoding)
     switch (encoding)
     {
     case Encoding::UTF_16:
-        return Generic::translate<std::string>(makeRange(str),
-                                               Utf8Encoding(),
-                                               Utf16::Utf16Encoding());
+        return Generic::convert<std::string>(makeRange(str),
+                                             Utf16::Utf16Encoding(),
+                                             Utf8Encoding());
     default:
         throw std::logic_error("toUtf8: unsupported encoding " +
                                std::to_string(int64_t(encoding)));

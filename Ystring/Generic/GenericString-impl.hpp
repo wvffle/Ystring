@@ -18,6 +18,16 @@ namespace Ystring { namespace Generic {
 
 namespace Details
 {
+    template <typename Str, typename It, typename Enc1, typename Enc2>
+    void appendImpl(StringReference<Str> dst, Range<It> src,
+                    Enc1 dstEncoding, Enc2 srcEncoding,
+                    std::true_type);
+
+    template <typename Str, typename It, typename Enc1, typename Enc2>
+    void appendImpl(StringReference<Str> dst, Range<It> src,
+                    Enc1 dstEncoding, Enc2 srcEncoding,
+                    std::false_type);
+
     template <typename It1, typename It2, typename Enc>
     bool endsWithImpl(Range<It1> str,
                       Range<It2> cmp,
@@ -137,6 +147,16 @@ void append(StringReference<Str>&& dst, uint32_t chr, Enc encoding)
     append(dst, chr, encoding);
 }
 
+template <typename Str, typename It, typename Enc1, typename Enc2>
+void append(StringReference<Str> dst, Range<It> src,
+            Enc1 dstEncoding, Enc2 srcEncoding)
+{
+    Details::appendImpl(
+            dst, src, dstEncoding, srcEncoding,
+            CanCopyRawValues<typename StringReference<Str>::ValueType, Enc1,
+                             typename Range<It>::ValueType, Enc2>());
+}
+
 template <typename Str, typename It1, typename It2>
 void appendJoin(StringReference<Str>& dst, It1 first, It1 last,
                 Range<It2> delimiter)
@@ -232,62 +252,11 @@ bool contains(Range<It> str, uint32_t chr, Enc encoding)
 }
 
 template <typename Str, typename It, typename Enc1, typename Enc2>
-void appendImpl(StringReference<Str> dst, Range<It> src,
-                Enc1 dstEncoding, Enc2 srcEncoding,
-                std::true_type)
-{
-    auto appender = dst.getAppender();
-    appender.append(src);
-    dst.terminate();
-//    if (src.encoding().encoding == dst.encoding().encoding)
-//        std::copy(begin(src), end(src), dst.iterator());
-//    else
-//        copy(makeForwardIterator(src), dst);
-}
-
-template <typename Str, typename It, typename Enc1, typename Enc2>
-void appendImpl(StringReference<Str> dst, Range<It> src,
-                Enc1 dstEncoding, Enc2 srcEncoding,
-                std::false_type)
-{
-    append(dst.getEncoder(dstEncoding),
-           Encoded::makeForwardDecoder(src, srcEncoding));
-}
-
-template <typename Str, typename It, typename Enc1, typename Enc2>
-void append(StringReference<Str> dst, Range<It> src,
-            Enc1 dstEncoding, Enc2 srcEncoding)
-{
-    appendImpl(
-            dst, src, dstEncoding, srcEncoding,
-            CanCopyRawValues<typename StringReference<Str>::ValueType, Enc1,
-                             typename Range<It>::ValueType, Enc2>());
-//    if (dstEncoding.encoding == srcEncoding.encoding)
-//    {
-//        auto appender = dst.getAppender();
-//        appender.append(src);
-//        dst.terminate();
-//    }
-//    if (src.encoding().encoding == dst.encoding().encoding)
-//        std::copy(begin(src), end(src), dst.iterator());
-//    else
-//        copy(makeForwardIterator(src), dst);
-}
-
-template <typename Str, typename It, typename Enc1, typename Enc2>
-Str translate(Range<It> str, Enc1 fromEncoding, Enc2 toEncoding)
+Str convert(Range<It> str, Enc1 fromEncoding, Enc2 toEncoding)
 {
     auto result = Str();
-    append(makeStringReference(result), str, fromEncoding, toEncoding);
+    append(makeStringReference(result), str, toEncoding, fromEncoding);
     return result;
-//    if (fromEncoding.encoding == toEncoding.encoding)
-//    {
-//        auto appender = Encoded::makeAppender(result);
-//    }
-//    if (src.encoding().encoding == dst.encoding().encoding)
-//        std::copy(begin(src), end(src), dst.iterator());
-//    else
-//        copy(makeForwardIterator(src), dst);
 }
 
 template <typename It, typename Enc>
@@ -320,7 +289,7 @@ bool endsWith(Range<It1> str,
     else
         return Details::endsWithImpl(
                 str, cmp, encoding, flags,
-                typename SameIteratorValueType<It1, It2>::type());
+                SameIteratorValueType<It1, It2>());
 }
 
 template <typename It1, typename It2, typename Enc>
@@ -335,7 +304,7 @@ Range<It1> findFirst(Range<It1> str,
     else
         return Details::findFirstImpl(
                 str, cmp, encoding, flags,
-                typename CanCompareRawValues<It1, Enc, It2, Enc>::type());
+                CanCompareRawValues<It1, Enc, It2, Enc>());
 }
 
 template <typename It, typename Enc>
@@ -357,7 +326,7 @@ Range<It1> findLast(Range<It1> str,
     else
         return Details::findLastImpl(
                 str, cmp, encoding, flags,
-                typename CanCompareRawValues<It1, Enc, It2, Enc>::type());
+                CanCompareRawValues<It1, Enc, It2, Enc>());
 }
 
 template <typename It, typename Enc>
@@ -602,9 +571,8 @@ std::vector<Str> split(Range<It1> str,
         return Details::splitImpl<Str>(str, cmp, encoding, maxParts, flags,
                                        std::false_type());
     else
-        return Details::splitImpl<Str>(
-                str, cmp, encoding, maxParts, flags,
-                typename SameIteratorValueType<It1, It2>::type());
+        return Details::splitImpl<Str>(str, cmp, encoding, maxParts, flags,
+                                       SameIteratorValueType<It1, It2>());
 }
 
 template <typename Str, typename It, typename Enc, typename Predicate>
@@ -660,7 +628,7 @@ bool startsWith(Range<It1> str,
     else
         return Details::startsWithImpl(
                 str, cmp, encoding, flags,
-                typename SameIteratorValueType<It1, It2>::type());
+                SameIteratorValueType<It1, It2>());
 }
 
 template <typename It, typename Enc>
@@ -761,6 +729,26 @@ Str upper(Range<It> src, Enc encoding)
 
 namespace Details
 {
+    template <typename Str, typename It, typename Enc1, typename Enc2>
+    void appendImpl(StringReference<Str> dst, Range<It> src,
+                    Enc1 dstEncoding, Enc2 srcEncoding,
+                    std::true_type)
+    {
+        auto appender = dst.getAppender();
+        appender.append(src);
+        dst.terminate();
+    }
+
+    template <typename Str, typename It, typename Enc1, typename Enc2>
+    void appendImpl(StringReference<Str> dst, Range<It> src,
+                    Enc1 dstEncoding, Enc2 srcEncoding,
+                    std::false_type)
+    {
+        append(dst.getEncoder(dstEncoding),
+               Encoded::makeForwardDecoder(src, srcEncoding));
+        dst.terminate();
+    }
+
     template <typename It1, typename It2, typename Enc>
     bool endsWithImpl(Range<It1> str,
                       Range<It2> cmp,

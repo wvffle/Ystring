@@ -21,6 +21,10 @@ void append(StringReference<Str>& dst, uint32_t chr, Enc encoding);
 template <typename Str, typename Enc>
 void append(StringReference<Str>&& dst, uint32_t chr, Enc encoding);
 
+template <typename Str, typename It, typename Enc1, typename Enc2>
+void append(StringReference<Str> dst, Range<It> src,
+            Enc1 dstEncoding, Enc2 srcEncoding);
+
 template <typename Str, typename It1, typename It2>
 void appendJoin(StringReference<Str>& dst, It1 first, It1 last,
                 Range<It2> delimiter);
@@ -42,6 +46,9 @@ template <typename Str, typename It, typename Enc>
 void appendUpper(StringReference<Str>& dst,
                  Range<It> src,
                  Enc encoding);
+
+template <typename Str, typename It, typename Enc1, typename Enc2>
+Str convert(Range<It> str, Enc1 fromEncoding, Enc2 toEncoding);
 
 template <typename It1, typename It2, typename Enc>
 bool endsWith(Range<It1> str,
