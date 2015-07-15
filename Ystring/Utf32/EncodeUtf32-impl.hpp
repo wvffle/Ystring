@@ -18,24 +18,9 @@ using Ystring::Utilities::swapEndianness;
 template <typename OutIt, bool SwapBytes>
 OutIt addUtf32(OutIt out, uint32_t codePoint)
 {
-    if (codePoint <= 0xFFFF)
-    {
-        uint32_t word = (uint32_t)codePoint;
-        swapEndianness<SwapBytes>(word);
-        *out = word;
-        return ++out;
-    }
-    else
-    {
-        codePoint -= 0x10000;
-        uint32_t word1 = uint32_t(0xD800 | (codePoint >> 10));
-        uint32_t word2 = uint32_t(0xDC00 | (codePoint & 0x3FF));
-        swapEndianness<SwapBytes>(word1);
-        swapEndianness<SwapBytes>(word2);
-        *out = word1;
-        *++out = word2;
-        return ++out;
-    }
+    swapEndianness<SwapBytes>(codePoint);
+    *out = codePoint;
+    return ++out;
 }
 
 template <typename OutIt>
@@ -59,58 +44,31 @@ OutIt addUtf32BE(OutIt out, uint32_t codePoint)
 template <bool SwapBytes, typename FwdIt, typename ChrType>
 size_t encodeUtf32(FwdIt& begin, FwdIt end, uint32_t codePoint, ChrType)
 {
-    if (codePoint <= 0xFFFF)
-    {
-        if (std::distance(begin, end) < 1)
-            return false;
-        Ystring::Utilities::Union32 word((uint32_t)codePoint);
-        swapEndianness<SwapBytes>(word);
-        *begin++ = word.u32;
-        return 1;
-    }
-    else
-    {
-        if (std::distance(begin, end) < 2)
-            return false;
-        codePoint -= 0x10000;
-        Ystring::Utilities::Union32 word1(uint32_t(0xD800 | (codePoint >> 10)));
-        Ystring::Utilities::Union32 word2(uint32_t(0xDC00 | (codePoint & 0x3FF)));
-        swapEndianness<SwapBytes>(word1);
-        swapEndianness<SwapBytes>(word2);
-        *begin++ = word1.u32;
-        *begin++ = word2.u32;
-        return 2;
-    }
+    if (begin == end)
+        return 0;
+    swapEndianness<SwapBytes>(codePoint);
+    *begin++ = codePoint;
+    return 1;
+}
+
+template <bool SwapBytes, typename FwdIt>
+size_t encodeUtf32(FwdIt& begin, FwdIt end, uint32_t codePoint, uint8_t)
+{
+    if (std::distance(begin, end) < 4)
+        return 0;
+    Ystring::Utilities::Union32 word(codePoint);
+    swapEndianness<SwapBytes>(word);
+    *begin++ = word.i8[0];
+    *begin++ = word.i8[1];
+    *begin++ = word.i8[2];
+    *begin++ = word.i8[3];
+    return 4;
 }
 
 template <bool SwapBytes, typename FwdIt>
 size_t encodeUtf32(FwdIt& begin, FwdIt end, uint32_t codePoint, char)
 {
-    if (codePoint <= 0xFFFF)
-    {
-        if (std::distance(begin, end) < 2)
-            return false;
-        Ystring::Utilities::Union32 word((uint32_t)codePoint);
-        swapEndianness<SwapBytes>(word);
-        *begin++ = word.i8[0];
-        *begin++ = word.i8[1];
-        return 2;
-    }
-    else
-    {
-        if (std::distance(begin, end) < 4)
-            return false;
-        codePoint -= 0x10000;
-        Ystring::Utilities::Union32 word1((uint32_t)(0xD800 | (codePoint >> 10)));
-        Ystring::Utilities::Union32 word2((uint32_t)(0xDC00 | (codePoint & 0x3FF)));
-        swapEndianness<SwapBytes>(word1);
-        swapEndianness<SwapBytes>(word2);
-        *begin++ = word1.i8[0];
-        *begin++ = word1.i8[1];
-        *begin++ = word2.i8[0];
-        *begin++ = word2.i8[1];
-        return 4;
-    }
+    return encodeUtf32<SwapBytes>(begin, end, codePoint, uint8_t());
 }
 
 template <typename FwdIt>

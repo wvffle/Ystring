@@ -59,6 +59,11 @@ set(PUBLIC_HEADERS
     Ystring/Utf16/EncodeUtf16.hpp
     Ystring/Utf16/EncodeUtf16-impl.hpp
     Ystring/Utf16/Utf16Encoding.hpp
+    Ystring/Utf32/DecodeUtf32.hpp
+    Ystring/Utf32/DecodeUtf32-impl.hpp
+    Ystring/Utf32/EncodeUtf32.hpp
+    Ystring/Utf32/EncodeUtf32-impl.hpp
+    Ystring/Utf32/Utf32Encoding.hpp
     Ystring/Utilities/Algorithms.hpp
     Ystring/Utilities/ArrayOutputIterator.hpp
     Ystring/Utilities/CountingOutputIterator.hpp

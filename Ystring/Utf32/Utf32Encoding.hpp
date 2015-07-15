@@ -10,7 +10,7 @@
 #include <_types/_uint32_t.h>
 #include "../Encoding.hpp"
 #include "DecodeUtf32.hpp"
-//#include "EncodeUtf32.hpp"
+#include "EncodeUtf32.hpp"
 
 namespace Ystring { namespace Utf32 {
 
@@ -71,8 +71,7 @@ public:
     template <typename OutIt>
     OutIt encode(OutIt dst, uint32_t codePoint)
     {
-        return dst;
-//        return addUtf32(dst, codePoint);
+        return addUtf32(dst, codePoint);
     }
 };
 
