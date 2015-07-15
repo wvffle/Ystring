@@ -148,7 +148,7 @@ namespace Details
     }
 
     template <typename BiIt, bool SwapBytes>
-    DecoderResult_t skipPrevWord(uint16_t& word, BiIt begin, BiIt it)
+    DecoderResult_t skipPrevWord(uint16_t& word, BiIt begin, BiIt& it)
     {
         typedef typename std::iterator_traits<BiIt>::value_type ValueType;
         auto res = prevWord<BiIt, SwapBytes>(word, begin, it, ValueType());
