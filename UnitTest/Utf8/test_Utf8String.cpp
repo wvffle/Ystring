@@ -523,8 +523,8 @@ void test_trimEnd()
 
 void test_trimStart()
 {
-    JT_EQUAL(Utf8::trimStart(" \n\t" UTF8_PARAGRAPH_SEPARATOR " foo bar \f\r"),
-             "foo bar \f\r");
+    JT_EQUAL(Utf8::trimStart(" \n\t" UTF8_PARAGRAPH_SEPARATOR " foo bar \f "),
+             "foo bar \f ");
     JT_EQUAL(Utf8::trimStart(":--." UTF8_GREEK_SMALL_SIGMA "foo bar:--",
                              Unicode::isPunctuation),
              UTF8_GREEK_SMALL_SIGMA "foo bar:--");
