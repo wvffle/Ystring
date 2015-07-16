@@ -100,6 +100,12 @@ inline Union32 reverseBytes(Union32 value)
     return value;
 }
 
+inline Union64 reverseBytes(Union64 value)
+{
+    value.reverse();
+    return value;
+}
+
 inline Union64 swap(Union64 value)
 {
     value.reverse();
@@ -145,6 +151,94 @@ T fromLittleEndian(T value)
 {
     EndianSwapper<IsBigEndian, T>::swap(value);
     return value;
+}
+
+inline int16_t bigI16(int8_t a, int8_t b)
+{
+    Union16 u(a, b);
+    swapEndianness<IsBigEndian>(u);
+    return u.i16;
+}
+
+inline uint16_t bigU16(uint8_t a, uint8_t b)
+{
+    Union16 u(a, b);
+    swapEndianness<IsBigEndian>(u);
+    return u.u16;
+}
+
+inline uint32_t bigI32(int8_t a, int8_t b, int8_t c, int8_t d)
+{
+    Union32 u(a, b, c, d);
+    swapEndianness<IsBigEndian>(u);
+    return u.i32;
+}
+
+inline uint32_t bigU32(uint8_t a, uint8_t b, uint8_t c, uint8_t d)
+{
+    Union32 u(a, b, c, d);
+    swapEndianness<IsBigEndian>(u);
+    return u.u32;
+}
+
+inline int64_t bigI64(int8_t a, int8_t b, int8_t c, int8_t d,
+                      int8_t e, int8_t f, int8_t g, int8_t h)
+{
+    Union64 u(a, b, c, d, e, f, g, h);
+    swapEndianness<IsBigEndian>(u);
+    return u.i64;
+}
+
+inline uint64_t bigU64(uint8_t a, uint8_t b, uint8_t c, uint8_t d,
+                       uint8_t e, uint8_t f, uint8_t g, uint8_t h)
+{
+    Union64 u(a, b, c, d, e, f, g, h);
+    swapEndianness<IsBigEndian>(u);
+    return u.u64;
+}
+
+inline int16_t littleI16(int8_t a, int8_t b)
+{
+    Union16 u(b, a);
+    swapEndianness<IsBigEndian>(u);
+    return u.i16;
+}
+
+inline uint16_t littleU16(uint8_t a, uint8_t b)
+{
+    Union16 u(b, a);
+    swapEndianness<IsBigEndian>(u);
+    return u.u16;
+}
+
+inline uint32_t littleI32(int8_t a, int8_t b, int8_t c, int8_t d)
+{
+    Union32 u(d, c, b, a);
+    swapEndianness<IsBigEndian>(u);
+    return u.i32;
+}
+
+inline uint32_t littleU32(uint8_t a, uint8_t b, uint8_t c, uint8_t d)
+{
+    Union32 u(d, c, b, a);
+    swapEndianness<IsBigEndian>(u);
+    return u.u32;
+}
+
+inline int64_t littleI64(int8_t a, int8_t b, int8_t c, int8_t d,
+                        int8_t e, int8_t f, int8_t g, int8_t h)
+{
+    Union64 u(h, g, f, e, d, c, b, a);
+    swapEndianness<IsBigEndian>(u);
+    return u.i64;
+}
+
+inline uint64_t littleU64(uint8_t a, uint8_t b, uint8_t c, uint8_t d,
+                          uint8_t e, uint8_t f, uint8_t g, uint8_t h)
+{
+    Union64 u(h, g, f, e, d, c, b, a);
+    swapEndianness<IsBigEndian>(u);
+    return u.u64;
 }
 
 }}

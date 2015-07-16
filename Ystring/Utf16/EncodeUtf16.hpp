@@ -13,7 +13,7 @@
 
 namespace Ystring { namespace Utf16 {
 
-template <typename OutIt, bool SwapBytes>
+template <bool SwapBytes, typename OutIt>
 OutIt addUtf16(OutIt out, uint32_t codePoint);
 
 template <typename OutIt>

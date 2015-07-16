@@ -16,7 +16,7 @@ using Ystring::Utilities::IsLittleEndian;
 using Ystring::Utilities::swapEndianness;
 using Ystring::Utilities::Union16;
 
-template <typename OutIt, bool SwapBytes>
+template <bool SwapBytes, typename OutIt>
 OutIt addUtf16(OutIt out, uint32_t codePoint)
 {
     if (codePoint <= 0xFFFF)
@@ -42,22 +42,22 @@ OutIt addUtf16(OutIt out, uint32_t codePoint)
 template <typename OutIt>
 OutIt addUtf16(OutIt out, uint32_t codePoint)
 {
-    return addUtf16<OutIt, false>(out, codePoint);
+    return addUtf16<false>(out, codePoint);
 }
 
 template <typename OutIt>
 OutIt addUtf16LE(OutIt out, uint32_t codePoint)
 {
-    return addUtf16<OutIt, IsBigEndian>(out, codePoint);
+    return addUtf16<IsBigEndian>(out, codePoint);
 }
 
 template <typename OutIt>
 OutIt addUtf16BE(OutIt out, uint32_t codePoint)
 {
-    return addUtf16<OutIt, IsLittleEndian>(out, codePoint);
+    return addUtf16<IsLittleEndian>(out, codePoint);
 }
 
-template <typename OutIt, bool SwapBytes>
+template <bool SwapBytes, typename OutIt>
 OutIt addUtf16AsBytes(OutIt out, uint32_t codePoint)
 {
     if (codePoint <= 0xFFFF)
