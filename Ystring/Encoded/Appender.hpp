@@ -13,10 +13,13 @@
 
 namespace Ystring { namespace Encoded {
 
-template <typename String>
+template <typename StringT>
 class Appender
 {
 public:
+    typedef StringT String;
+    typedef typename String::value_type ValueType;
+
     Appender(String& str)
         : m_String(str)
     {}
@@ -26,15 +29,23 @@ public:
     {
         m_String.insert(end(m_String), str.begin(), str.end());
     }
+
+    void append(ValueType c)
+    {
+        m_String.push_back(c);
+    }
 private:
     String& m_String;
 };
 
-template <typename Char>
-class Appender<Char*>
+template <typename CharT>
+class Appender<CharT*>
 {
 public:
-    Appender(Char* str, size_t* size, size_t capacity)
+    typedef CharT* String;
+    typedef CharT ValueType;
+
+    Appender(ValueType* str, size_t* size, size_t capacity)
         : m_String(str),
           m_Size(size),
           m_Capacity(capacity)
@@ -53,44 +64,70 @@ public:
         }
         *m_Size = its.second - m_String;
     }
+
+    void append(ValueType c)
+    {
+        if (*m_Size + 1 >= m_Capacity)
+        {
+            throw std::runtime_error(
+                    "Attempt to write beyond the end of string.");
+        }
+        *m_Size++ = c;
+    }
 private:
-    Char* m_String;
+    String m_String;
     size_t* m_Size;
     size_t m_Capacity;
 };
 
-template <>
-class Appender<std::string>
-{
-public:
-    Appender(std::string& str)
-        : m_String(str)
-    {}
-
-    template <typename It>
-    void append(Generic::Range<It> str)
-    {
-        m_String.append(str.begin(), str.end());
-    }
-private:
-    std::string& m_String;
-};
-
-template <>
-class Appender<std::wstring>
-{
-public:
-    Appender(std::wstring& str)
-        : m_String(str)
-    {}
-
-    template <typename It>
-    void append(Generic::Range<It> str)
-    {
-        m_String.append(str.begin(), str.end());
-    }
-private:
-    std::wstring& m_String;
-};
+//template <>
+//class Appender<std::string>
+//{
+//public:
+//    typedef std::string String;
+//    typedef typename std::string::value_type Char;
+//
+//    Appender(std::string& str)
+//        : m_String(str)
+//    {}
+//
+//    template <typename It>
+//    void append(Generic::Range<It> str)
+//    {
+//        m_String.append(str.begin(), str.end());
+//    }
+//
+//    void append(Char c)
+//    {
+//        m_String.push_back(c);
+//    }
+//private:
+//    std::string& m_String;
+//};
+//
+//template <>
+//class Appender<std::wstring>
+//{
+//public:
+//    typedef std::wstring String;
+//    typedef typename std::wstring::value_type Char;
+//
+//    Appender(std::wstring& str)
+//        : m_String(str)
+//    {}
+//
+//    template <typename It>
+//    void append(Generic::Range<It> str)
+//    {
+//        m_String.append(str.begin(), str.end());
+//    }
+//
+//    void append(Char c)
+//    {
+//        m_String.push_back(c);
+//    }
+//private:
+//    std::wstring& m_String;
+//};
 
 }}

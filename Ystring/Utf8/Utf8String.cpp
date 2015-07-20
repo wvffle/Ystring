@@ -70,6 +70,11 @@ bool endsWith(const std::string& str,
             flags);
 }
 
+std::string escape(const std::string& str, EscapeType_t mode)
+{
+    return Generic::escape<std::string>(makeRange(str), mode, Utf8Encoding());
+}
+
 StringIteratorPair findFirst(
         std::string& str,
         const std::string& cmp,

@@ -8,6 +8,7 @@
 #pragma once
 
 #include <vector>
+#include "../EscapeType.hpp"
 #include "../FindFlags.hpp"
 #include "../SplitFlags.hpp"
 #include "RangeAlgorithms.hpp"
@@ -24,6 +25,12 @@ void append(StringReference<Str>&& dst, uint32_t chr, Enc encoding);
 template <typename Str, typename It, typename Enc1, typename Enc2>
 void append(StringReference<Str> dst, Range<It> src,
             Enc1 dstEncoding, Enc2 srcEncoding);
+
+template <typename Str, typename It, typename Enc>
+void appendEscaped(StringReference<Str>& dst,
+                   Range<It> src,
+                   EscapeType_t type,
+                   Enc encoding);
 
 template <typename Str, typename It1, typename It2>
 void appendJoin(StringReference<Str>& dst, It1 first, It1 last,
@@ -55,6 +62,9 @@ bool endsWith(Range<It1> str,
               Range<It2> cmp,
               Enc encoding,
               FindFlags_t flags = FindFlags::DEFAULTS);
+
+template <typename Str, typename It, typename Enc>
+Str escape(Range<It> src, EscapeType_t type, Enc encoding);
 
 template <typename It1, typename It2, typename Enc>
 Range<It1> findFirst(Range<It1> str,

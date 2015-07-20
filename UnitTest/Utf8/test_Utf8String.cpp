@@ -86,11 +86,11 @@ void test_endsWith()
                              "c" UTF8_GREEK_SMALL_SIGMA "D"));
 }
 
-//void test_escape()
-//{
-//    const char str[] = "ab\x01""cd\nef\x7Fgh\x80";
-//    JT_EQUAL(escape(str), "ab\\x01cd\\nef\\x7Fgh\\x80");
-//}
+void test_escape_BACKSLASH()
+{
+    const char str[] = "ab\x01""cd\nef\x7Fgh\x80";
+    JT_EQUAL(Utf8::escape(str), "ab\\x01cd\\nef\\x7Fgh\\x80");
+}
 
 void test_findLast()
 {
@@ -554,7 +554,7 @@ JT_SUBTEST("Utf8",
            test_countCharacters,
            test_countCodePoints,
            test_endsWith,
-//           test_escape,
+           test_escape_BACKSLASH,
            test_findLast,
            test_findLastNewline,
            test_findFirst,

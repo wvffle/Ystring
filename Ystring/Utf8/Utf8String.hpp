@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include "../Encoding.hpp"
+#include "../EscapeType.hpp"
 #include "../FindFlags.hpp"
 #include "../SplitFlags.hpp"
 
@@ -32,42 +33,6 @@ typedef std::pair<std::string::iterator, std::string::iterator>
   */
 typedef std::pair<std::string::const_iterator, std::string::const_iterator>
         StringConstIteratorPair;
-
-struct EscapeType
-{
-  enum Type
-  {
-    /** @brief Use backslash-escapes and escape suitable control characters.
-      */
-    BACKSLASH,
-    /** @brief Use percentage-escapes and escape the characters that are
-      *     illegal in XML text.
-      */
-    URL,
-    /** @brief Use ampersand-escapes and escape the characters that are
-      *     illegal in XML text.
-      */
-    XML_TEXT,
-    /** @brief Use ampersand-escapes and escape the characters that are
-      *     illegal in XML attributes.
-      */
-    XML_ATTRIBUTES
-  };
-};
-
-typedef EscapeType::Type EscapeType_t;
-
-struct EscapeMode
-{
-  enum Type
-  {
-    DEFAULT,
-    OCTETS,
-    CODE_POINTS
-  };
-};
-
-typedef EscapeMode::Type EscapeMode_t;
 
 /** @brief Adds @a codePoint encoded as UTF-8 to the end of @a str.
   */
@@ -137,8 +102,11 @@ bool endsWith(const std::string& str,
               const std::string& cmp,
               FindFlags_t flags = FindFlags::DEFAULTS);
 
-//std::string escape(const std::string& str, EscapeType_t type,
-//                   EscapeMode_t mode = EscapeMode::DEFAULT);
+/**
+  * The function does not support octal codes apart from \\0 for value 0.
+  */
+std::string escape(const std::string& str,
+                   EscapeType_t type = EscapeType::BACKSLASH);
 
 /** @brief Returns the first substring in @a str that matches @a cmp.
   * @note Composed and decomposed versions of the same characters are treated

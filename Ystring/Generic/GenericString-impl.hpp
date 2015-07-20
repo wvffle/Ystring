@@ -7,12 +7,15 @@
 //****************************************************************************
 #pragma once
 
+#include "../Encoded/AppendEscaped.hpp"
 #include "../Encoded/DecoderStringFunctions.hpp"
 #include "../Encoded/Encoder.hpp"
 #include "../Encoded/ForwardDecoder.hpp"
 #include "../Encoded/ReverseDecoder.hpp"
 #include "../Utilities/CountingOutputIterator.hpp"
 #include "StringTraits.hpp"
+#include "FixedLengthBackslashEscaper.hpp"
+#include "VariableLengthBackslashEscaper.hpp"
 
 namespace Ystring { namespace Generic {
 
@@ -167,6 +170,45 @@ void append(StringReference<Str> dst, Range<It> src,
                              typename Range<It>::ValueType, Enc2>());
 }
 
+inline FixedLengthBackslashEscaper makeFixedLengthBackslashEscaper(
+        size_t charSize)
+{
+    if (charSize == 1)
+        return FixedLengthBackslashEscaper('x', 2);
+    if (charSize == 2)
+        return FixedLengthBackslashEscaper('u', 4);
+    return FixedLengthBackslashEscaper('U', 8);
+}
+
+template <typename Str, typename It, typename Enc>
+void appendEscaped(StringReference<Str>& dst,
+                   Range<It> src,
+                   EscapeType_t type,
+                   Enc encoding)
+{
+    typedef typename StringReference<Str>::ValueType Char;
+    switch (type)
+    {
+    case EscapeType::BACKSLASH:
+        Encoded::appendEscaped(
+                dst.getAppender(),
+                src,
+                Encoded::isMandatoryEscape,
+                makeFixedLengthBackslashEscaper(sizeof(Char)));
+        break;
+    case EscapeType::BACKSLASH_ASCII_SMART:
+        Encoded::appendEscaped(
+                dst.getAppender(),
+                Encoded::makeForwardDecoder(src, encoding),
+                Encoded::isNonAsciiEscape,
+                VariableLengthBackslashEscaper());
+        break;
+    default:
+        throw std::logic_error("Unsupported escape type " +
+                               std::to_string(uint64_t(type)));
+    }
+}
+
 template <typename Str, typename It1, typename It2>
 void appendJoin(StringReference<Str>& dst, It1 first, It1 last,
                 Range<It2> delimiter)
@@ -300,6 +342,15 @@ bool endsWith(Range<It1> str,
         return Detail::endsWithImpl(
                 str, cmp, encoding, flags,
                 SameIteratorValueType<It1, It2>());
+}
+
+template <typename Str, typename It, typename Enc>
+Str escape(Range<It> src, EscapeType_t type, Enc encoding)
+{
+    auto str = Str();
+    auto ref = makeStringReference(str);
+    appendEscaped(ref, src, type, encoding);
+    return str;
 }
 
 template <typename It1, typename It2, typename Enc>
