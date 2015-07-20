@@ -196,12 +196,33 @@ void appendEscaped(StringReference<Str>& dst,
                 Encoded::isMandatoryEscape,
                 makeFixedLengthBackslashEscaper(sizeof(Char)));
         break;
+    case EscapeType::BACKSLASH_ASCII:
+        Encoded::appendEscaped(
+                dst.getAppender(),
+                src,
+                Encoded::isNonAsciiEscape,
+                makeFixedLengthBackslashEscaper(sizeof(Char)));
+        break;
     case EscapeType::BACKSLASH_ASCII_SMART:
         Encoded::appendEscaped(
                 dst.getAppender(),
                 Encoded::makeForwardDecoder(src, encoding),
                 Encoded::isNonAsciiEscape,
                 VariableLengthBackslashEscaper());
+        break;
+    case EscapeType::JSON:
+        Encoded::appendEscaped(
+                dst.getAppender(),
+                Encoded::makeForwardDecoder(src, encoding),
+                Encoded::isMandatoryEscape,
+                FixedLengthBackslashEscaper('u', 4));
+        break;
+    case EscapeType::JSON_ASCII:
+        Encoded::appendEscaped(
+                dst.getAppender(),
+                Encoded::makeForwardDecoder(src, encoding),
+                Encoded::isNonAsciiEscape,
+                FixedLengthBackslashEscaper('u', 4));
         break;
     default:
         throw std::logic_error("Unsupported escape type " +

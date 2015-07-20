@@ -90,6 +90,54 @@ void test_escape_BACKSLASH()
 {
     const char str[] = "ab\x01""cd\nef\x7Fgh\x80";
     JT_EQUAL(Utf8::escape(str), "ab\\x01cd\\nef\\x7Fgh\\x80");
+    JT_EQUAL(Utf8::escape("\xef\xbf\xbf"), "\xef\xbf\xbf");
+}
+
+void test_escape_BACKSLASH_ASCII()
+{
+    JT_EQUAL(Utf8::escape("\xef\xbf\xbf", EscapeType::BACKSLASH_ASCII),
+             "\\xEF\\xBF\\xBF");
+}
+
+void test_escape_BACKSLASH_ASCII_SMART()
+{
+    JT_EQUAL(Utf8::escape("\n\tABCD", EscapeType::BACKSLASH_ASCII_SMART),
+             "\\n\\tABCD");
+    JT_EQUAL(Utf8::escape("\x7f", EscapeType::BACKSLASH_ASCII_SMART),
+             "\\x7F");
+    JT_EQUAL(Utf8::escape("\xc2\x80", EscapeType::BACKSLASH_ASCII_SMART),
+             "\\x80");
+    JT_EQUAL(Utf8::escape("\xc4\x80", EscapeType::BACKSLASH_ASCII_SMART),
+             "\\u0100");
+    JT_EQUAL(Utf8::escape("\xef\xbf\xbf", EscapeType::BACKSLASH_ASCII_SMART),
+             "\\uFFFF");
+    JT_EQUAL(Utf8::escape("\xf0\x90\x80\x80",
+                          EscapeType::BACKSLASH_ASCII_SMART),
+             "\\U00010000");
+    JT_EQUAL(Utf8::escape("\xF3\xBF\xBF\xBF",
+                          EscapeType::BACKSLASH_ASCII_SMART),
+             "\\U000FFFFF");
+}
+
+void test_escape_JSON()
+{
+    JT_EQUAL(Utf8::escape("\n\tABCD", EscapeType::JSON), "\\n\\tABCD");
+    JT_EQUAL(Utf8::escape("\x7f", EscapeType::JSON), "\\u007F");
+    JT_EQUAL(Utf8::escape("\xc2\x80", EscapeType::JSON), "\\u0080");
+}
+
+void test_escape_JSON_ASCII()
+{
+    JT_EQUAL(Utf8::escape("\n\tABCD", EscapeType::JSON_ASCII),
+             "\\n\\tABCD");
+    JT_EQUAL(Utf8::escape("\x7f", EscapeType::JSON_ASCII),
+             "\\u007F");
+    JT_EQUAL(Utf8::escape("\xc2\x80", EscapeType::JSON_ASCII),
+             "\\u0080");
+    JT_EQUAL(Utf8::escape("\xc4\x80", EscapeType::JSON_ASCII),
+             "\\u0100");
+    JT_EQUAL(Utf8::escape("\xef\xbf\xbf", EscapeType::JSON_ASCII),
+             "\\uFFFF");
 }
 
 void test_findLast()
@@ -555,6 +603,10 @@ JT_SUBTEST("Utf8",
            test_countCodePoints,
            test_endsWith,
            test_escape_BACKSLASH,
+           test_escape_BACKSLASH_ASCII,
+           test_escape_BACKSLASH_ASCII_SMART,
+           test_escape_JSON,
+           test_escape_JSON_ASCII,
            test_findLast,
            test_findLastNewline,
            test_findFirst,
