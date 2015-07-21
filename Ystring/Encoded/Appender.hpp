@@ -25,14 +25,16 @@ public:
     {}
 
     template <typename It>
-    void append(Generic::Range<It> str)
+    Appender& append(Generic::Range<It> str)
     {
         m_String.insert(end(m_String), str.begin(), str.end());
+        return *this;
     }
 
-    void append(ValueType c)
+    Appender& append(ValueType c)
     {
         m_String.push_back(c);
+        return *this;
     }
 private:
     String& m_String;
@@ -52,27 +54,29 @@ public:
     {}
 
     template <typename It>
-    void append(Generic::Range<It> str)
+    Appender& append(Generic::Range<It> str)
     {
         auto its = Utilities::copy(str.begin(), str.end(),
                                    &m_String[*m_Size], &m_String[m_Capacity]);
         if (its.second == &m_String[m_Capacity])
         {
             m_String[m_Capacity - 1] = 0;
-            throw std::runtime_error(
+            throw std::logic_error(
                     "Attempt to write beyond the end of string.");
         }
         *m_Size = its.second - m_String;
+        return *this;
     }
 
-    void append(ValueType c)
+    Appender& append(ValueType c)
     {
         if (*m_Size + 1 >= m_Capacity)
         {
-            throw std::runtime_error(
+            throw std::logic_error(
                     "Attempt to write beyond the end of string.");
         }
         *m_Size++ = c;
+        return *this;
     }
 private:
     String m_String;

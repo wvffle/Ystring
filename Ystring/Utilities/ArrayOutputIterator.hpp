@@ -33,7 +33,7 @@ public:
     ArrayOutputIterator& operator=(const Value& value)
     {
         if (*m_Size == m_Capacity)
-            throw std::runtime_error(
+            throw std::logic_error(
                     "Attempt to write after the final iterator position.");
         *m_It = value;
         ++*m_Size;

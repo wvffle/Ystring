@@ -50,6 +50,12 @@ void appendTitle(StringReference<Str>& dst,
                  Enc encoding);
 
 template <typename Str, typename It, typename Enc>
+void appendUnescaped(StringReference<Str>& dst,
+                     Range<It> src,
+                     EscapeType_t type,
+                     Enc encoding);
+
+template <typename Str, typename It, typename Enc>
 void appendUpper(StringReference<Str>& dst,
                  Range<It> src,
                  Enc encoding);
@@ -150,6 +156,9 @@ template <typename It, typename Enc, typename UnaryPred>
 Range<It> trimStart(Range<It> str,
                     Enc encoding,
                     UnaryPred trimChar);
+
+template <typename Str, typename It, typename Enc>
+Str unescape(Range<It> src, EscapeType_t type, Enc encoding);
 
 template <typename Str, typename It, typename Enc>
 Str upper(Range<It> src, Enc encoding);

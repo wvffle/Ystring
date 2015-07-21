@@ -30,8 +30,8 @@ public:
         return Encoded::Appender<String>(m_String);
     }
 
-    template <typename Encoding>
-    Encoded::Encoder<BackInsertIterator, Encoding> getEncoder(Encoding encoding)
+    template <typename Enc>
+    Encoded::Encoder<BackInsertIterator, Enc> getEncoder(Enc encoding)
     {
         return Encoded::makeEncoder(std::back_inserter(m_String), encoding);
     }

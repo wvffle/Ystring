@@ -8,14 +8,17 @@
 #pragma once
 
 #include "../Encoded/AppendEscaped.hpp"
+#include "../Encoded/AppendUnescaped.hpp"
+#include "../Encoded/BackslashUnescaper.hpp"
 #include "../Encoded/DecoderStringFunctions.hpp"
 #include "../Encoded/Encoder.hpp"
+#include "../Encoded/FixedLengthBackslashEscaper.hpp"
 #include "../Encoded/ForwardDecoder.hpp"
 #include "../Encoded/ReverseDecoder.hpp"
+#include "../Encoded/VariableLengthBackslashEscaper.hpp"
+#include "../Encoded/XmlEscaper.hpp"
 #include "../Utilities/CountingOutputIterator.hpp"
-#include "StringTraits.hpp"
-#include "FixedLengthBackslashEscaper.hpp"
-#include "VariableLengthBackslashEscaper.hpp"
+#include "StringTypeTraits.hpp"
 
 namespace Ystring { namespace Generic {
 
@@ -95,6 +98,9 @@ namespace Detail
                                              size_t maxCount,
                                              FindFlags_t flags);
 
+    Encoded::FixedLengthBackslashEscaper makeFixedLengthBackslashEscaper(
+            size_t charSize);
+
     template <typename Str, typename It1, typename It2, typename Enc>
     Str replaceFwd(Range<It1> str, Range<It2> cmp, Range<It2> rep,
                    Enc encoding,
@@ -170,16 +176,6 @@ void append(StringReference<Str> dst, Range<It> src,
                              typename Range<It>::ValueType, Enc2>());
 }
 
-inline FixedLengthBackslashEscaper makeFixedLengthBackslashEscaper(
-        size_t charSize)
-{
-    if (charSize == 1)
-        return FixedLengthBackslashEscaper('x', 2);
-    if (charSize == 2)
-        return FixedLengthBackslashEscaper('u', 4);
-    return FixedLengthBackslashEscaper('U', 8);
-}
-
 template <typename Str, typename It, typename Enc>
 void appendEscaped(StringReference<Str>& dst,
                    Range<It> src,
@@ -194,35 +190,49 @@ void appendEscaped(StringReference<Str>& dst,
                 dst.getAppender(),
                 src,
                 Encoded::isMandatoryEscape,
-                makeFixedLengthBackslashEscaper(sizeof(Char)));
+                Detail::makeFixedLengthBackslashEscaper(sizeof(Char)));
         break;
     case EscapeType::BACKSLASH_ASCII:
         Encoded::appendEscaped(
                 dst.getAppender(),
                 src,
                 Encoded::isNonAsciiEscape,
-                makeFixedLengthBackslashEscaper(sizeof(Char)));
+                Detail::makeFixedLengthBackslashEscaper(sizeof(Char)));
         break;
     case EscapeType::BACKSLASH_ASCII_SMART:
         Encoded::appendEscaped(
                 dst.getAppender(),
                 Encoded::makeForwardDecoder(src, encoding),
                 Encoded::isNonAsciiEscape,
-                VariableLengthBackslashEscaper());
+                Encoded::VariableLengthBackslashEscaper());
         break;
     case EscapeType::JSON:
         Encoded::appendEscaped(
                 dst.getAppender(),
                 Encoded::makeForwardDecoder(src, encoding),
                 Encoded::isMandatoryEscape,
-                FixedLengthBackslashEscaper('u', 4));
+                Encoded::FixedLengthBackslashEscaper('u', 4));
         break;
     case EscapeType::JSON_ASCII:
         Encoded::appendEscaped(
                 dst.getAppender(),
                 Encoded::makeForwardDecoder(src, encoding),
                 Encoded::isNonAsciiEscape,
-                FixedLengthBackslashEscaper('u', 4));
+                Encoded::FixedLengthBackslashEscaper('u', 4));
+        break;
+    case EscapeType::XML_ATTRIBUTE:
+        Encoded::appendEscaped(
+                dst.getAppender(),
+                Encoded::makeForwardDecoder(src, encoding),
+                Encoded::isXmlAttributeEscape,
+                Encoded::XmlEscaper());
+        break;
+    case EscapeType::XML_TEXT:
+        Encoded::appendEscaped(
+                dst.getAppender(),
+                Encoded::makeForwardDecoder(src, encoding),
+                Encoded::isXmlTextEscape,
+                Encoded::XmlEscaper());
         break;
     default:
         throw std::logic_error("Unsupported escape type " +
@@ -276,6 +286,42 @@ void appendTitle(StringReference<Str>& dst,
             dst.getEncoder(encoding),
             Encoded::makeForwardDecoder(src, encoding));
     dst.terminate();
+}
+
+template <typename Str, typename It, typename Enc>
+void appendUnescaped(StringReference<Str>& dst,
+                     Range<It> src,
+                     EscapeType_t type,
+                     Enc encoding)
+{
+    typedef typename StringReference<Str>::ValueType Char;
+    switch (type)
+    {
+    case EscapeType::BACKSLASH:
+    case EscapeType::BACKSLASH_ASCII:
+    case EscapeType::BACKSLASH_ASCII_SMART:
+        Encoded::appendUnescaped(
+                dst,
+                src,
+                encoding,
+                Encoded::isBackslash,
+                Encoded::BackslashUnescaper(true));
+        break;
+    case EscapeType::JSON:
+    case EscapeType::JSON_ASCII:
+        Encoded::appendUnescaped(
+                dst,
+                src,
+                encoding,
+                Encoded::isBackslash,
+                Encoded::BackslashUnescaper(false));
+        break;
+    case EscapeType::XML_ATTRIBUTE:
+    case EscapeType::XML_TEXT:
+    default:
+        throw std::logic_error("Unsupported escape type " +
+                               std::to_string(uint64_t(type)));
+    }
 }
 
 template <typename Str, typename It, typename Enc>
@@ -801,6 +847,15 @@ Range<It> trimStart(Range<It> str,
 }
 
 template <typename Str, typename It, typename Enc>
+Str unescape(Range<It> src, EscapeType_t type, Enc encoding)
+{
+    auto str = Str();
+    auto ref = makeStringReference(str);
+    appendUnescaped(ref, src, type, encoding);
+    return str;
+}
+
+template <typename Str, typename It, typename Enc>
 Str upper(Range<It> src, Enc encoding)
 {
     auto str = Str();
@@ -957,6 +1012,17 @@ namespace Detail
             prv = findLast(str, cmp, encoding, flags);
         }
         return result;
+    }
+
+    inline
+    Encoded::FixedLengthBackslashEscaper makeFixedLengthBackslashEscaper(
+            size_t charSize)
+    {
+        if (charSize == 1)
+            return Encoded::FixedLengthBackslashEscaper('x', 2);
+        if (charSize == 2)
+            return Encoded::FixedLengthBackslashEscaper('u', 4);
+        return Encoded::FixedLengthBackslashEscaper('U', 8);
     }
 
     template <typename Str, typename It1, typename It2, typename Enc>

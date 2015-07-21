@@ -9,9 +9,7 @@
 
 #include "../Utilities/Utilities.hpp"
 
-namespace Ystring { namespace Generic {
-
-using Utilities::toCharDigit;
+namespace Ystring { namespace Encoded {
 
 class FixedLengthBackslashEscaper
 {
@@ -25,10 +23,10 @@ public:
     template <typename Appender>
     void escape(Appender dst, uint32_t chr)
     {
+        using Utilities::toCharDigit;
         dst.append('\\');
         switch (chr)
         {
-        case '\0': dst.append('0'); break;
         case '\a': dst.append('a'); break;
         case '\b': dst.append('b'); break;
         case '\t': dst.append('t'); break;

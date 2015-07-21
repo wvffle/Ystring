@@ -128,8 +128,8 @@ void test_escape_JSON()
 
 void test_escape_JSON_ASCII()
 {
-    JT_EQUAL(Utf8::escape("\n\tABCD", EscapeType::JSON_ASCII),
-             "\\n\\tABCD");
+    JT_EQUAL(Utf8::escape("\n\t\"ABCD", EscapeType::JSON_ASCII),
+             "\\n\\t\\\"ABCD");
     JT_EQUAL(Utf8::escape("\x7f", EscapeType::JSON_ASCII),
              "\\u007F");
     JT_EQUAL(Utf8::escape("\xc2\x80", EscapeType::JSON_ASCII),
@@ -138,6 +138,18 @@ void test_escape_JSON_ASCII()
              "\\u0100");
     JT_EQUAL(Utf8::escape("\xef\xbf\xbf", EscapeType::JSON_ASCII),
              "\\uFFFF");
+}
+
+void test_escape_XML_ATTRIBUTE()
+{
+    JT_EQUAL(Utf8::escape("\n\tA&\"'<B>", EscapeType::XML_ATTRIBUTE),
+             "&#xA;&#x9;A&amp;&quot;&apos;&lt;B&gt;");
+}
+
+void test_escape_XML_TEXT()
+{
+    JT_EQUAL(Utf8::escape("\n\tA&\"'<B>", EscapeType::XML_TEXT),
+             "\n\tA&amp;\"\'&lt;B&gt;");
 }
 
 void test_findLast()
@@ -581,11 +593,21 @@ void test_trimStart()
              UTF8_GREEK_SMALL_SIGMA "foo bar:--");
 }
 
-//void test_unescape()
-//{
-//    JT_EQUAL(unescape("\\u00C6\\n\\t\\\\\\x41"),
-//                      UTF8_LATIN_CAPITAL_AE "\n\t\\A");
-//}
+void test_unescape_BACKSLASH()
+{
+    JT_EQUAL(Utf8::unescape("\\u00C6\\n\\t\\\\\\x41"),
+                            UTF8_LATIN_CAPITAL_AE "\n\t\\A");
+    JT_EQUAL(Utf8::unescape("\\1A"), "\x01""A");
+    JT_EQUAL(Utf8::unescape("\\01A"), "\x01""A");
+    JT_EQUAL(Utf8::unescape("\\1234"), "\x53""4");
+}
+
+void test_unescape_JSON()
+{
+    JT_EQUAL(Utf8::unescape("\\u00C6\\n\\t\\\\\\x41", EscapeType::JSON),
+                            UTF8_LATIN_CAPITAL_AE "\n\t\\A");
+    JT_EQUAL(Utf8::unescape("\\1A", EscapeType::JSON), "1A");
+}
 
 void test_upper()
 {
@@ -607,6 +629,8 @@ JT_SUBTEST("Utf8",
            test_escape_BACKSLASH_ASCII_SMART,
            test_escape_JSON,
            test_escape_JSON_ASCII,
+           test_escape_XML_ATTRIBUTE,
+           test_escape_XML_TEXT,
            test_findLast,
            test_findLastNewline,
            test_findFirst,
@@ -645,6 +669,7 @@ JT_SUBTEST("Utf8",
            test_trim,
            test_trimEnd,
            test_trimStart,
-//           test_unescape,
+           test_unescape_BACKSLASH,
+           test_unescape_JSON,
            test_upper);
 }

@@ -523,6 +523,14 @@ std::string trimStart(const std::string& str,
             predicate));
 }
 
+std::string unescape(const std::string& str, EscapeType_t type)
+{
+    return Generic::unescape<std::string>(
+            makeRange(str),
+            type,
+            Utf8Encoding());
+}
+
 std::string upper(const std::string& str)
 {
     return Generic::upper<std::string>(makeRange(str), Utf8Encoding());

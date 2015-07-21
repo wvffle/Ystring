@@ -22,6 +22,17 @@ inline bool isNonAsciiEscape(uint32_t c)
     return c < 32 || c == '"' || c == '\\' || 127 <= c;
 }
 
+inline bool isXmlAttributeEscape(uint32_t c)
+{
+    return c < 32 || c == '"' || c == '&' || c == '\'' ||
+           c == '<' || c == '>';
+}
+
+inline bool isXmlTextEscape(uint32_t c)
+{
+    return c == '&' || c == '<' || c == '>';
+}
+
 template <typename Appender, typename It, typename Escaper>
 void appendEscaped(Appender dst, Generic::Range<It> src,
                    bool (*isEscapable)(uint32_t), Escaper escaper)
@@ -42,10 +53,9 @@ void appendEscaped(Appender dst, Generic::Range<It> src,
     dst.append(Generic::makeRange(first, src.end()));
 };
 
-template <typename Appender, typename It, typename Enc,
-          typename Predicate, typename Escaper>
+template <typename Appender, typename It, typename Enc, typename Escaper>
 void appendEscaped(Appender dst, ForwardDecoder<It, Enc> src,
-                   Predicate isEscapable, Escaper escaper)
+                   bool (*isEscapable)(uint32_t), Escaper escaper)
 {
     auto first = src.begin();
     while (advanceUntil(src, isEscapable))

@@ -41,7 +41,7 @@ set(PUBLIC_HEADERS
     Ystring/Generic/GenericString-impl.hpp
     Ystring/Generic/Range.hpp
     Ystring/Generic/RangeAlgorithms.hpp
-    Ystring/Generic/StringTraits.hpp
+    Ystring/Generic/StringTypeTraits.hpp
     Ystring/Unicode/CaseConverter.hpp
     Ystring/Unicode/CaseInsensitive.hpp
     Ystring/Unicode/CharClass.hpp

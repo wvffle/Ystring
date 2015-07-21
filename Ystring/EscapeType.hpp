@@ -40,7 +40,7 @@ struct EscapeType
         /** @brief Escape characters that are illegal in XML attributes
           *     with ampersands.
           */
-        XML_ATTRIBUTES
+        XML_ATTRIBUTE
     };
 };
 

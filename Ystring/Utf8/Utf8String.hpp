@@ -47,7 +47,7 @@ std::string& append(std::string& str, uint32_t chr);
   * @returns @arg < 0 if @a str is less than @a cmp
   *          @arg 0 if @a str is equal to @a cmp
   *          @arg > 0 if @a str is greater than @a cmp
-  * @throw runtime_error if str contains an invalid UTF-8 code point.
+  * @throw logic_error if str contains an invalid UTF-8 code point.
   */
 int32_t caseInsensitiveCompare(const std::string& str,
                                const std::string& cmp);
@@ -58,7 +58,7 @@ int32_t caseInsensitiveCompare(const std::string& str,
   * @note Composed and decomposed versions of the same characters are treated
   *     as different characters (the decomposed character is typically "the
   *     "lesser" one).
-  * @throw runtime_error if str contains an invalid UTF-8 code point.
+  * @throw logic_error if str contains an invalid UTF-8 code point.
   */
 bool caseInsensitiveEqual(const std::string& str, const std::string& cmp);
 
@@ -68,12 +68,12 @@ bool caseInsensitiveEqual(const std::string& str, const std::string& cmp);
   * Only a quick comparison of code point values are performed. This
   * function should not be used to sort strings in alphabetical order as
   * what is alphabetical order varies between languages and cultures.
-  * @throw runtime_error if str contains an invalid UTF-8 code point.
+  * @throw logic_error if str contains an invalid UTF-8 code point.
   */
 bool caseInsensitiveLess(const std::string& str, const std::string& cmp);
 
 /** @brief Returns true if @a str contains code point @a chr.
-  * @throw runtime_error if str contains an invalid UTF-8 code point.
+  * @throw logic_error if str contains an invalid UTF-8 code point.
   */
 bool contains(const std::string& str, uint32_t chr);
 
@@ -81,7 +81,7 @@ bool contains(const std::string& str, uint32_t chr);
   *
   * @note A composed character can consist of multiple code points.
   * @return the number of characters.
-  * @throw runtime_error if str contains an invalid UTF-8 code point.
+  * @throw logic_error if str contains an invalid UTF-8 code point.
   */
 size_t countCharacters(const std::string& str);
 
@@ -89,7 +89,7 @@ size_t countCharacters(const std::string& str);
   *
   * @note A composed character can consist of multiple code points.
   * @return the number of code points.
-  * @throw runtime_error if str contains an invalid UTF-8 code point.
+  * @throw logic_error if str contains an invalid UTF-8 code point.
   */
 size_t countCodePoints(const std::string& str);
 
@@ -326,20 +326,20 @@ std::string insert(const std::string& str, ptrdiff_t pos, uint32_t chr);
 
 /** @brief Returns true if all characters in @a str are either
   *     letters or numbers.
-  * @throw runtime_error if str contains an invalid UTF-8 code point.
+  * @throw logic_error if str contains an invalid UTF-8 code point.
   */
 bool isAlphaNumeric(const std::string& str);
 
 /** @brief Returns true if all characters in the range from @a first
   *     to @a last are either letters or numbers.
-  * @throw runtime_error if str contains an invalid UTF-8 code point.
+  * @throw logic_error if str contains an invalid UTF-8 code point.
   */
 bool isAlphaNumeric(std::string::iterator first,
                     std::string::iterator last);
 
 /** @brief Returns true if all characters in the range from @a first
   *     to @a last are either letters or numbers.
-  * @throw runtime_error if str contains an invalid UTF-8 code point.
+  * @throw logic_error if str contains an invalid UTF-8 code point.
   */
 bool isAlphaNumeric(std::string::const_iterator first,
                     std::string::const_iterator last);
@@ -456,7 +456,7 @@ std::string toUtf8(uint32_t chr);
   *
   *  @param str The string to convert from.
   *  @param encoding The encoding of @a str.
-  *  @throws runtime_error if str contains any characters that aren't encoded
+  *  @throws logic_error if str contains any characters that aren't encoded
   *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
   */
 std::string toUtf8(const std::string& str, Encoding_t encoding);
@@ -465,7 +465,7 @@ std::string toUtf8(const std::string& str, Encoding_t encoding);
   *
   *  @param str The string to convert from.
   *  @param encoding The encoding of @a str.
-  *  @throws runtime_error if str contains any characters that aren't encoded
+  *  @throws logic_error if str contains any characters that aren't encoded
   *     according to @a encoding, or if @a encoding isn't a 16-bit encoding.
   */
 std::string toUtf8(const std::wstring& str,
@@ -486,7 +486,12 @@ std::string trimStart(const std::string& str);
 std::string trimStart(const std::string& str,
                       std::function<bool(uint32_t)> predicate);
 
-// std::string unescape(const std::string& str, EscapeType type);
+/** @brief Returns a copy of @a str where all escape sequences have been
+  *     translated to the characters they represent.
+  * @throws logic_error if @a str contains an invalid escape sequence.
+  */
+std::string unescape(const std::string& str,
+                     EscapeType_t type = EscapeType::BACKSLASH);
 
 std::string upper(const std::string& str);
 
