@@ -13,3 +13,8 @@ Features
 * Conversion between common encodings (UTF-8, UTF-16, UTF-32, iso-8859-*, cp1252 etc.).
 * No third-party dependencies. The only requirements are partial support for C++11 and its standard library.
 * Fast algorithms, for instance avoid decoding/encoding steps unless they are necessary.
+
+Examples
+--------
+
+### Convert UTF-8 string to upper case

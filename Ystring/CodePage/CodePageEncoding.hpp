@@ -72,7 +72,6 @@ public:
         return encodeAsBytes(dst, codePoint);
     }
 
-
     template <typename OutIt>
     OutIt encodeAsBytes(OutIt dst, uint32_t codePoint)
     {

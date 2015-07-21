@@ -62,8 +62,8 @@ int32_t caseInsensitiveCompare(const std::string& str,
   */
 bool caseInsensitiveEqual(const std::string& str, const std::string& cmp);
 
-/** @brief Returns true if the upper case version of @a str is less than
-  *     @a cmp.
+/** @brief Returns true if the upper case version of @a str is less
+  *     than @a cmp.
   *
   * Only a quick comparison of code point values are performed. This
   * function should not be used to sort strings in alphabetical order as
@@ -102,8 +102,11 @@ bool endsWith(const std::string& str,
               const std::string& cmp,
               FindFlags_t flags = FindFlags::DEFAULTS);
 
-/**
-  * The function does not support octal codes apart from \\0 for value 0.
+/** @brief Returns a copy of @a str where control character etc. have been
+  *     escaped.
+  *
+  * When escaping with backslashes the function does not use octal codes,
+  * not even \\0 for value 0 as these are too easy to mis-interprete.
   */
 std::string escape(const std::string& str,
                    EscapeType_t type = EscapeType::BACKSLASH);
@@ -317,29 +320,44 @@ StringIteratorPair findLastNewline(std::string::iterator first,
 StringConstIteratorPair findLastNewline(std::string::const_iterator first,
                                         std::string::const_iterator last);
 
-
+/** @brief Inserts string @a sub into @a str at position @a pos.
+  *
+  * @param pos The insert position in complete characters (i.e. not bytes, not
+  *     even code points if the string has decomposed characters) from the
+  *     start of the string. If @a pos is negative it's from the end of the
+  *     string instead.
+  * @throw std::logic_error if @a str isn't a valid UTF-8 string.
+  */
 std::string insert(const std::string& str,
                    ptrdiff_t pos,
                    const std::string& sub);
 
+/** @brief Inserts character @a chr into @a str at position @a pos.
+  *
+  * @param pos The insert position in complete characters (i.e. not bytes, not
+  *     even code points if the string has decomposed characters) from the
+  *     start of the string. If @a pos is negative it's from the end of the
+  *     string instead.
+  * @throw std::logic_error if @a str isn't a valid UTF-8 string.
+  */
 std::string insert(const std::string& str, ptrdiff_t pos, uint32_t chr);
 
 /** @brief Returns true if all characters in @a str are either
   *     letters or numbers.
-  * @throw logic_error if str contains an invalid UTF-8 code point.
+  * @throw std::logic_error if str contains an invalid UTF-8 code point.
   */
 bool isAlphaNumeric(const std::string& str);
 
 /** @brief Returns true if all characters in the range from @a first
   *     to @a last are either letters or numbers.
-  * @throw logic_error if str contains an invalid UTF-8 code point.
+  * @throw std::logic_error if str contains an invalid UTF-8 code point.
   */
 bool isAlphaNumeric(std::string::iterator first,
                     std::string::iterator last);
 
 /** @brief Returns true if all characters in the range from @a first
   *     to @a last are either letters or numbers.
-  * @throw logic_error if str contains an invalid UTF-8 code point.
+  * @throw std::logic_error if str contains an invalid UTF-8 code point.
   */
 bool isAlphaNumeric(std::string::const_iterator first,
                     std::string::const_iterator last);
@@ -348,28 +366,59 @@ bool isAlphaNumeric(std::string::const_iterator first,
   */
 bool isValidUtf8(const std::string& str);
 
+/** @brief Returns the concatenation of the strings in @a strings delimited
+  * by @a delimiter.
+  */
 std::string join(const std::vector<std::string>& strings,
                  std::string delimiter = std::string());
 
+/** @brief Returns a lower case copy of @a str.
+  */
 std::string lower(const std::string& str);
 
+/** @brief Returns an iterator to the start of character number @a n
+  *     starting at @a first.
+  */
 std::string::iterator nextCharacter(std::string::iterator& first,
                                     std::string::iterator& last,
                                     size_t n = 1);
 
+/** @brief Returns an iterator to the start of character number @a n
+  *     starting at @a first.
+  */
 std::string::const_iterator nextCharacter(std::string::const_iterator& first,
                                           std::string::const_iterator& last,
                                           size_t n = 1);
 
+/** @brief Returns an iterator to the start of character number @a n
+  *     from the start of string @a str.
+  * @param n The number of complete characters (i.e. not bytes, not
+  *     even code points if the string has decomposed characters) from the
+  *     start of the string. If @a pos is negative it's from the end of the
+  *     string instead.
+  */
 std::string::iterator nthCharacter(std::string& str, ptrdiff_t n);
 
+/** @brief Returns an iterator to the start of character number @a n
+  *     from the start of string @a str.
+  * @param n The number of complete characters (i.e. not bytes, not
+  *     even code points if the string has decomposed characters) from the
+  *     start of the string. If @a pos is negative it's from the end of the
+  *     string instead.
+  */
 std::string::const_iterator nthCharacter(const std::string& str,
                                          ptrdiff_t n);
 
+/** @brief Returns an iterator to the start of character number @a n
+  *     counting backwards from @a last.
+  */
 std::string::iterator prevCharacter(std::string::iterator& first,
                                     std::string::iterator& last,
                                     size_t n = 1);
 
+/** @brief Returns an iterator to the start of character number @a n
+  *     counting backwards from @a last.
+  */
 std::string::const_iterator prevCharacter(std::string::const_iterator& first,
                                           std::string::const_iterator& last,
                                           size_t n = 1);
