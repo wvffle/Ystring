@@ -8,6 +8,7 @@
 #pragma once
 
 #include "../Encoding.hpp"
+#include "../YstringDefinitions.hpp"
 #include "CodePage.hpp"
 
 namespace Ystring { namespace CodePage {
@@ -68,16 +69,21 @@ public:
     template <typename OutIt>
     OutIt encode(OutIt dst, uint32_t codePoint)
     {
-        auto chr = m_CodePage.fromCodePoint(codePoint);
-        *dst = char(chr);
-        return ++dst;
+        return encodeAsBytes(dst, codePoint);
     }
 
 
     template <typename OutIt>
     OutIt encodeAsBytes(OutIt dst, uint32_t codePoint)
     {
-        return encode(dst, codePoint);
+        auto chr = m_CodePage.fromCodePoint(codePoint);
+        if (chr == INVALID_CHAR)
+            throw std::logic_error(
+                    "Encoding " + std::to_string(int64_t(encoding)) +
+                    " doesn't support code point " +
+                    std::to_string(int64_t(codePoint)));
+        *dst = char(chr);
+        return ++dst;
     }
 private:
     CodePage m_CodePage;

@@ -6,8 +6,9 @@
 // License text is included with the source distribution.
 //****************************************************************************
 #include "CodePage.hpp"
-#include <vector>
 #include <stdexcept>
+#include <vector>
+#include "../YstringDefinitions.hpp"
 #include "../Utilities/KeyFunctionAlgorithms.hpp"
 
 namespace Ystring { namespace CodePage {
@@ -105,7 +106,7 @@ uint32_t CodePage::fromCodePoint(uint32_t c) const
         [](const std::pair<uint32_t, char>& p){return p.first;});
     if (it != m_LastFromCodePoints)
         return it->second;
-    return ~(uint32_t)0;
+    return INVALID_CHAR;
 }
 
 Encoding_t CodePage::encoding() const
