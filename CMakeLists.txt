@@ -42,6 +42,8 @@ set(PUBLIC_HEADERS
     Ystring/Generic/Range.hpp
     Ystring/Generic/RangeAlgorithms.hpp
     Ystring/Generic/StringTypeTraits.hpp
+    Ystring/CodePage/CodePage.hpp
+    Ystring/CodePage/CodePageEncoding.hpp
     Ystring/Unicode/CaseConverter.hpp
     Ystring/Unicode/CaseInsensitive.hpp
     Ystring/Unicode/CharClass.hpp
@@ -84,6 +86,7 @@ set(PRIVATE_HEADERS
     )
 
 set(SOURCE_FILES
+    Ystring/CodePage/CodePage.cpp
     Ystring/Unicode/CaseConverter.cpp
     Ystring/Unicode/CharClass.cpp
     Ystring/Unicode/CharMap.cpp

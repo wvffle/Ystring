@@ -17,7 +17,8 @@ struct Encoding
 
         ASCII,
         UTF_8,
-        LATIN_1,
+        ISO_8859_1,
+        LATIN_1 = ISO_8859_1,
         WINDOWS_1252,
         UTF_16_BE,
         UTF_16_LE,

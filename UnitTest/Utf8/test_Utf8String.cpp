@@ -540,12 +540,12 @@ void test_title()
              "Abc " UTF8_GREEK_CAPITAL_SIGMA "de.Foob");
 }
 
-//void test_toUtf8_fromLatin1()
-//{
-//    JT_EQUAL(toUtf8("\xC5rb\xF8ker", Encoding::Latin1),
-//             UTF8_LATIN_CAPITAL_A_WITH_RING_ABOVE "rb"
-//             UTF8_LATIN_SMALL_O_WITH_STROKE "ker");
-//}
+void test_toUtf8_fromLatin1()
+{
+    JT_EQUAL(Utf8::toUtf8("\xC5rb\xF8ker", Encoding::LATIN_1),
+             UTF8_LATIN_CAPITAL_A_WITH_RING_ABOVE "rb"
+             UTF8_LATIN_SMALL_O_WITH_STROKE "ker");
+}
 
 void test_toUtf8_fromUtf8()
 {
@@ -561,6 +561,14 @@ void test_toUtf8_fromUtf16()
     JT_EQUAL(Utf8::toUtf8(L"\u00C5rb\u00F8ker"),
              UTF8_LATIN_CAPITAL_A_WITH_RING_ABOVE "rb"
              UTF8_LATIN_SMALL_O_WITH_STROKE "ker");
+}
+
+void test_toUtf8_fromWindows1252()
+{
+    JT_EQUAL(Utf8::toUtf8("\xC5rb\xF8ker", Encoding::WINDOWS_1252),
+             UTF8_LATIN_CAPITAL_A_WITH_RING_ABOVE "rb"
+             UTF8_LATIN_SMALL_O_WITH_STROKE "ker");
+    JT_EQUAL(Utf8::toUtf8("\x94", Encoding::WINDOWS_1252), "\xE2\x80\x9D");
 }
 
 void test_trim()
@@ -663,9 +671,10 @@ JT_SUBTEST("Utf8",
            test_startsWith,
            test_substring,
            test_title,
-//           test_toUtf8_fromLatin1,
+           test_toUtf8_fromLatin1,
            test_toUtf8_fromUtf8,
            test_toUtf8_fromUtf16,
+           test_toUtf8_fromWindows1252,
            test_trim,
            test_trimEnd,
            test_trimStart,

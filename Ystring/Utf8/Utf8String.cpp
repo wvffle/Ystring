@@ -9,6 +9,7 @@
 
 #include "Utf8Encoding.hpp"
 #include "../Generic/GenericString.hpp"
+#include "../CodePage/CodePageEncoding.hpp"
 #include "../Utf16/Utf16Encoding.hpp"
 
 namespace Ystring { namespace Utf8 {
@@ -441,16 +442,16 @@ std::string toUtf8(const std::string& str, Encoding_t encoding)
     {
     case Encoding::UTF_8:
         return str;
-//    case Encoding::Latin_1:
-//        EncodedStrings::copy(
-//                makeEncodedRange(str, EncodedStrings::Latin1Encoding()),
-//                utf8Encoder(result));
-//        break;
-//    case Encoding::Windows1252:
-//        EncodedStrings::copy(
-//                makeEncodedRange(str, EncodedStrings::Windows1252Encoding()),
-//                utf8Encoder(result));
-//        break;
+    case Encoding::LATIN_1:
+        return Generic::convert<std::string>(
+                makeRange(str),
+                CodePage::Latin1Encoding(),
+                Utf8Encoding());
+    case Encoding::WINDOWS_1252:
+        return Generic::convert<std::string>(
+                makeRange(str),
+                CodePage::Windows1252Encoding(),
+                Utf8Encoding());
     default:
         throw std::logic_error("toUtf8: unsupported encoding " +
                                std::to_string(int64_t(encoding)));
