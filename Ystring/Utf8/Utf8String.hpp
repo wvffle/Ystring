@@ -15,6 +15,7 @@
 #include "../EscapeType.hpp"
 #include "../FindFlags.hpp"
 #include "../SplitFlags.hpp"
+#include "../YstringDefinitions.hpp"
 
 /** @file
   * @brief The function library for UTF-8 encoded strings.
@@ -36,7 +37,7 @@ typedef std::pair<std::string::const_iterator, std::string::const_iterator>
 
 /** @brief Adds @a codePoint encoded as UTF-8 to the end of @a str.
   */
-std::string& append(std::string& str, uint32_t chr);
+YSTRING_API std::string& append(std::string& str, uint32_t chr);
 
 /** @brief Compares @a str and @a cmp, ignoring any differences in
   *     letter casing.
@@ -49,8 +50,8 @@ std::string& append(std::string& str, uint32_t chr);
   *          @arg > 0 if @a str is greater than @a cmp
   * @throw logic_error if str contains an invalid UTF-8 code point.
   */
-int32_t caseInsensitiveCompare(const std::string& str,
-                               const std::string& cmp);
+YSTRING_API int32_t caseInsensitiveCompare(const std::string& str,
+                                           const std::string& cmp);
 
 /** @brief Returns true if the upper case versions of @a str and @a cmp
   *     are equal.
@@ -60,7 +61,8 @@ int32_t caseInsensitiveCompare(const std::string& str,
   *     "lesser" one).
   * @throw logic_error if str contains an invalid UTF-8 code point.
   */
-bool caseInsensitiveEqual(const std::string& str, const std::string& cmp);
+YSTRING_API bool caseInsensitiveEqual(const std::string& str,
+                                      const std::string& cmp);
 
 /** @brief Returns true if the upper case version of @a str is less
   *     than @a cmp.
@@ -70,12 +72,13 @@ bool caseInsensitiveEqual(const std::string& str, const std::string& cmp);
   * what is alphabetical order varies between languages and cultures.
   * @throw logic_error if str contains an invalid UTF-8 code point.
   */
-bool caseInsensitiveLess(const std::string& str, const std::string& cmp);
+YSTRING_API bool caseInsensitiveLess(const std::string& str,
+                                     const std::string& cmp);
 
 /** @brief Returns true if @a str contains code point @a chr.
   * @throw logic_error if str contains an invalid UTF-8 code point.
   */
-bool contains(const std::string& str, uint32_t chr);
+YSTRING_API bool contains(const std::string& str, uint32_t chr);
 
 /** @brief Returns the number of characters in @a str.
   *
@@ -83,7 +86,7 @@ bool contains(const std::string& str, uint32_t chr);
   * @return the number of characters.
   * @throw logic_error if str contains an invalid UTF-8 code point.
   */
-size_t countCharacters(const std::string& str);
+YSTRING_API size_t countCharacters(const std::string& str);
 
 /** @brief Returns the number of code points in @a str.
   *
@@ -91,16 +94,16 @@ size_t countCharacters(const std::string& str);
   * @return the number of code points.
   * @throw logic_error if str contains an invalid UTF-8 code point.
   */
-size_t countCodePoints(const std::string& str);
+YSTRING_API size_t countCodePoints(const std::string& str);
 
 /** @brief Returns true if @a str ends with @a cmp.
   * @note Composed and decomposed versions of the same characters are treated
   *     as different characters (the decomposed character is typically "the
   *     "lesser" one).
   */
-bool endsWith(const std::string& str,
-              const std::string& cmp,
-              FindFlags_t flags = FindFlags::DEFAULTS);
+YSTRING_API bool endsWith(const std::string& str,
+                          const std::string& cmp,
+                          FindFlags_t flags = FindFlags::DEFAULTS);
 
 /** @brief Returns a copy of @a str where control character etc. have been
   *     escaped.
@@ -108,15 +111,15 @@ bool endsWith(const std::string& str,
   * When escaping with backslashes the function does not use octal codes,
   * not even \\0 for value 0 as these are too easy to mis-interprete.
   */
-std::string escape(const std::string& str,
-                   EscapeType_t type = EscapeType::BACKSLASH);
+YSTRING_API std::string escape(const std::string& str,
+                               EscapeType_t type = EscapeType::BACKSLASH);
 
 /** @brief Returns the first substring in @a str that matches @a cmp.
   * @note Composed and decomposed versions of the same characters are treated
   *     as different characters (the decomposed character is typically "the
   *     "lesser" one).
   */
-StringIteratorPair findFirst(
+YSTRING_API StringIteratorPair findFirst(
         std::string& str,
         const std::string& cmp,
         FindFlags_t flags = FindFlags::DEFAULTS);
@@ -126,7 +129,7 @@ StringIteratorPair findFirst(
   *     as different characters (the decomposed character is typically "the
   *     "lesser" one).
   */
-StringConstIteratorPair findFirst(
+YSTRING_API StringConstIteratorPair findFirst(
         const std::string& str,
         const std::string& cmp,
         FindFlags_t flags = FindFlags::DEFAULTS);
@@ -137,7 +140,7 @@ StringConstIteratorPair findFirst(
   *     as different characters (the decomposed character is typically "the
   *     "lesser" one).
   */
-StringIteratorPair findFirst(
+YSTRING_API StringIteratorPair findFirst(
         std::string::iterator first,
         std::string::iterator last,
         const std::string& cmp,
@@ -149,7 +152,7 @@ StringIteratorPair findFirst(
   *     as different characters (the decomposed character is typically "the
   *     "lesser" one).
   */
-StringConstIteratorPair findFirst(
+YSTRING_API StringConstIteratorPair findFirst(
         std::string::const_iterator first,
         std::string::const_iterator last,
         const std::string& cmp,
@@ -167,7 +170,7 @@ StringConstIteratorPair findFirst(
   *   - LINE SEPARATOR (code point 8232)
   *   - PARAGRAPH SEPARATOR (code point 8233)
   */
-StringIteratorPair findFirstNewline(std::string& str);
+YSTRING_API StringIteratorPair findFirstNewline(std::string& str);
 
 /** @brief Returns the first substring in @a str that constitutes a newline.
   *
@@ -181,7 +184,7 @@ StringIteratorPair findFirstNewline(std::string& str);
   *   - LINE SEPARATOR (code point 8232)
   *   - PARAGRAPH SEPARATOR (code point 8233)
   */
-StringConstIteratorPair findFirstNewline(const std::string& str);
+YSTRING_API StringConstIteratorPair findFirstNewline(const std::string& str);
 
 /** @brief Returns the first substring in the range from @a first to @a last
   *     that constitutes a newline.
@@ -196,8 +199,8 @@ StringConstIteratorPair findFirstNewline(const std::string& str);
   *   - LINE SEPARATOR (code point 8232)
   *   - PARAGRAPH SEPARATOR (code point 8233)
   */
-StringIteratorPair findFirstNewline(std::string::iterator first,
-                                    std::string::iterator last);
+YSTRING_API StringIteratorPair findFirstNewline(std::string::iterator first,
+                                                std::string::iterator last);
 
 /** @brief Returns the first substring in the range from @a first to @a last
   *     that constitutes a newline.
@@ -212,7 +215,7 @@ StringIteratorPair findFirstNewline(std::string::iterator first,
   *   - LINE SEPARATOR (code point 8232)
   *   - PARAGRAPH SEPARATOR (code point 8233)
   */
-StringConstIteratorPair findFirstNewline(
+YSTRING_API StringConstIteratorPair findFirstNewline(
         std::string::const_iterator first,
         std::string::const_iterator last);
 
@@ -221,7 +224,7 @@ StringConstIteratorPair findFirstNewline(
   *     as different characters (the decomposed character is typically "the
   *     "lesser" one).
   */
-StringIteratorPair findLast(
+YSTRING_API StringIteratorPair findLast(
         std::string& str,
         const std::string& cmp,
         FindFlags_t flags = FindFlags::DEFAULTS);
@@ -231,7 +234,7 @@ StringIteratorPair findLast(
   *     as different characters (the decomposed character is typically "the
   *     "lesser" one).
   */
-StringConstIteratorPair findLast(
+YSTRING_API StringConstIteratorPair findLast(
         const std::string& str,
         const std::string& cmp,
         FindFlags_t flags = FindFlags::DEFAULTS);
@@ -242,7 +245,7 @@ StringConstIteratorPair findLast(
   *     as different characters (the decomposed character is typically "the
   *     "lesser" one).
   */
-StringIteratorPair findLast(
+YSTRING_API StringIteratorPair findLast(
       std::string::iterator first,
       std::string::iterator last,
       const std::string& cmp,
@@ -254,7 +257,7 @@ StringIteratorPair findLast(
   *     as different characters (the decomposed character is typically "the
   *     "lesser" one).
   */
-StringConstIteratorPair findLast(
+YSTRING_API StringConstIteratorPair findLast(
       std::string::const_iterator first,
       std::string::const_iterator last,
       const std::string& cmp,
@@ -272,7 +275,7 @@ StringConstIteratorPair findLast(
   *   - LINE SEPARATOR (code point 8232)
   *   - PARAGRAPH SEPARATOR (code point 8233)
   */
-StringIteratorPair findLastNewline(std::string& str);
+YSTRING_API StringIteratorPair findLastNewline(std::string& str);
 
 /** @brief Returns the last substring in @a str that constitutes a newline.
   *
@@ -286,7 +289,7 @@ StringIteratorPair findLastNewline(std::string& str);
   *   - LINE SEPARATOR (code point 8232)
   *   - PARAGRAPH SEPARATOR (code point 8233)
   */
-StringConstIteratorPair findLastNewline(const std::string& str);
+YSTRING_API StringConstIteratorPair findLastNewline(const std::string& str);
 
 /** @brief Returns the first substring in the range from @a first to @a last
   *     that constitutes a newline.
@@ -301,8 +304,8 @@ StringConstIteratorPair findLastNewline(const std::string& str);
   *   - LINE SEPARATOR (code point 8232)
   *   - PARAGRAPH SEPARATOR (code point 8233)
   */
-StringIteratorPair findLastNewline(std::string::iterator first,
-                                   std::string::iterator last);
+YSTRING_API StringIteratorPair findLastNewline(std::string::iterator first,
+                                               std::string::iterator last);
 
 /** @brief Returns the first substring in the range from @a first to @a last
   *     that constitutes a newline.
@@ -317,8 +320,9 @@ StringIteratorPair findLastNewline(std::string::iterator first,
   *   - LINE SEPARATOR (code point 8232)
   *   - PARAGRAPH SEPARATOR (code point 8233)
   */
-StringConstIteratorPair findLastNewline(std::string::const_iterator first,
-                                        std::string::const_iterator last);
+YSTRING_API StringConstIteratorPair findLastNewline(
+        std::string::const_iterator first,
+        std::string::const_iterator last);
 
 /** @brief Inserts string @a sub into @a str at position @a pos.
   *
@@ -328,9 +332,9 @@ StringConstIteratorPair findLastNewline(std::string::const_iterator first,
   *     string instead.
   * @throw std::logic_error if @a str isn't a valid UTF-8 string.
   */
-std::string insert(const std::string& str,
-                   ptrdiff_t pos,
-                   const std::string& sub);
+YSTRING_API std::string insert(const std::string& str,
+                               ptrdiff_t pos,
+                               const std::string& sub);
 
 /** @brief Inserts character @a chr into @a str at position @a pos.
   *
@@ -340,55 +344,58 @@ std::string insert(const std::string& str,
   *     string instead.
   * @throw std::logic_error if @a str isn't a valid UTF-8 string.
   */
-std::string insert(const std::string& str, ptrdiff_t pos, uint32_t chr);
+YSTRING_API std::string insert(const std::string& str,
+                               ptrdiff_t pos,
+                               uint32_t chr);
 
 /** @brief Returns true if all characters in @a str are either
   *     letters or numbers.
   * @throw std::logic_error if str contains an invalid UTF-8 code point.
   */
-bool isAlphaNumeric(const std::string& str);
+YSTRING_API bool isAlphaNumeric(const std::string& str);
 
 /** @brief Returns true if all characters in the range from @a first
   *     to @a last are either letters or numbers.
   * @throw std::logic_error if str contains an invalid UTF-8 code point.
   */
-bool isAlphaNumeric(std::string::iterator first,
-                    std::string::iterator last);
+YSTRING_API bool isAlphaNumeric(std::string::iterator first,
+                                std::string::iterator last);
 
 /** @brief Returns true if all characters in the range from @a first
   *     to @a last are either letters or numbers.
   * @throw std::logic_error if str contains an invalid UTF-8 code point.
   */
-bool isAlphaNumeric(std::string::const_iterator first,
-                    std::string::const_iterator last);
+YSTRING_API bool isAlphaNumeric(std::string::const_iterator first,
+                                std::string::const_iterator last);
 
 /** @brief Returns true if all characters in @a str are valid UTF-8.
   */
-bool isValidUtf8(const std::string& str);
+YSTRING_API bool isValidUtf8(const std::string& str);
 
 /** @brief Returns the concatenation of the strings in @a strings delimited
   * by @a delimiter.
   */
-std::string join(const std::vector<std::string>& strings,
-                 std::string delimiter = std::string());
+YSTRING_API std::string join(const std::vector<std::string>& strings,
+                             std::string delimiter = std::string());
 
 /** @brief Returns a lower case copy of @a str.
   */
-std::string lower(const std::string& str);
+YSTRING_API std::string lower(const std::string& str);
 
 /** @brief Returns an iterator to the start of character number @a n
   *     starting at @a first.
   */
-std::string::iterator nextCharacter(std::string::iterator& first,
-                                    std::string::iterator& last,
-                                    size_t n = 1);
+YSTRING_API std::string::iterator nextCharacter(std::string::iterator& first,
+                                                std::string::iterator& last,
+                                                size_t n = 1);
 
 /** @brief Returns an iterator to the start of character number @a n
   *     starting at @a first.
   */
-std::string::const_iterator nextCharacter(std::string::const_iterator& first,
-                                          std::string::const_iterator& last,
-                                          size_t n = 1);
+YSTRING_API std::string::const_iterator nextCharacter(
+        std::string::const_iterator& first,
+        std::string::const_iterator& last,
+        size_t n = 1);
 
 /** @brief Returns an iterator to the start of character number @a n
   *     from the start of string @a str.
@@ -397,7 +404,7 @@ std::string::const_iterator nextCharacter(std::string::const_iterator& first,
   *     start of the string. If @a pos is negative it's from the end of the
   *     string instead.
   */
-std::string::iterator nthCharacter(std::string& str, ptrdiff_t n);
+YSTRING_API std::string::iterator nthCharacter(std::string& str, ptrdiff_t n);
 
 /** @brief Returns an iterator to the start of character number @a n
   *     from the start of string @a str.
@@ -406,22 +413,23 @@ std::string::iterator nthCharacter(std::string& str, ptrdiff_t n);
   *     start of the string. If @a pos is negative it's from the end of the
   *     string instead.
   */
-std::string::const_iterator nthCharacter(const std::string& str,
-                                         ptrdiff_t n);
+YSTRING_API std::string::const_iterator nthCharacter(const std::string& str,
+                                                     ptrdiff_t n);
 
 /** @brief Returns an iterator to the start of character number @a n
   *     counting backwards from @a last.
   */
-std::string::iterator prevCharacter(std::string::iterator& first,
-                                    std::string::iterator& last,
-                                    size_t n = 1);
+YSTRING_API std::string::iterator prevCharacter(std::string::iterator& first,
+                                                std::string::iterator& last,
+                                                size_t n = 1);
 
 /** @brief Returns an iterator to the start of character number @a n
   *     counting backwards from @a last.
   */
-std::string::const_iterator prevCharacter(std::string::const_iterator& first,
-                                          std::string::const_iterator& last,
-                                          size_t n = 1);
+YSTRING_API std::string::const_iterator prevCharacter(
+        std::string::const_iterator& first,
+        std::string::const_iterator& last,
+        size_t n = 1);
 
 /** @brief Returns a copy of @a str where instances of @a from are replaced
   *     with @a to.
@@ -431,11 +439,11 @@ std::string::const_iterator prevCharacter(std::string::const_iterator& first,
   *     If it is negative at most abs(maxReplacements) will be made, starting
   *     at the end of the string.
   */
-std::string replace(const std::string& str,
-                    const std::string& from,
-                    const std::string& to,
-                    ptrdiff_t maxReplacements = 0,
-                    FindFlags_t flags = FindFlags::DEFAULTS);
+YSTRING_API std::string replace(const std::string& str,
+                                const std::string& from,
+                                const std::string& to,
+                                ptrdiff_t maxReplacements = 0,
+                                FindFlags_t flags = FindFlags::DEFAULTS);
 
 /** @brief Returns a copy of @a str where the substring between @a start and
   *     @a end has been replaced with @a repl.
@@ -445,10 +453,10 @@ std::string replace(const std::string& str,
   *     If it is negative at most abs(maxReplacements) will be made, starting
   *     at the end of the string.
   */
-std::string replace(const std::string& str,
-                    ptrdiff_t start,
-                    ptrdiff_t end,
-                    const std::string& repl);
+YSTRING_API std::string replace(const std::string& str,
+                                ptrdiff_t start,
+                                ptrdiff_t end,
+                                const std::string& repl);
 
 /** @brief Returns a copy of @a str with instances of @a from replaced
   *     with @a to.
@@ -460,25 +468,27 @@ std::string replace(const std::string& str,
   *     If it is negative at most abs(maxReplacements) will be made, starting
   *     at the end of the string.
   */
-std::string replaceCodePoint(const std::string& s,
-                             uint32_t from,
-                             uint32_t to,
-                             ptrdiff_t maxReplacements = 0);
+YSTRING_API std::string replaceCodePoint(const std::string& s,
+                                         uint32_t from,
+                                         uint32_t to,
+                                         ptrdiff_t maxReplacements = 0);
 
 /** @brief Returns a copy of @a str where all invalid code points have been
   *     replaced with @a chr.
   */
-std::string replaceInvalidUtf8(const std::string& str, uint32_t chr = '?');
+YSTRING_API std::string replaceInvalidUtf8(const std::string& str,
+                                           uint32_t chr = '?');
 
 /** @brief Replaces all invalid code points in @a str with @a chr.
   */
-std::string& replaceInvalidUtf8InPlace(std::string& str, char chr = '?');
+YSTRING_API std::string& replaceInvalidUtf8InPlace(std::string& str,
+                                                   char chr = '?');
 
 /** @brief Returns a reversed copy of @a str.
   *
   * Characters with combining marks are left intact.
   */
-std::string reverse(const std::string& str);
+YSTRING_API std::string reverse(const std::string& str);
 
 /** @brief Splits @a str where it contains whitespace characters and returns
   *     a list of the parts.
@@ -488,7 +498,7 @@ std::string reverse(const std::string& str);
   *     the result will have parts in reverse order (i.e. the last part is
   *     first, the second to last is second and so on).
   */
-std::vector<std::string> split(
+YSTRING_API std::vector<std::string> split(
         const std::string& str,
         ptrdiff_t maxSplits = 0,
         SplitFlags_t flags = SplitFlags::IGNORE_EMPTY);
@@ -501,7 +511,7 @@ std::vector<std::string> split(
   *     the result will have parts in reverse order (i.e. the last part is
   *     first, the second to last is second and so on).
   */
-std::vector<std::string> split(
+YSTRING_API std::vector<std::string> split(
         const std::string& str,
         const std::string& sep,
         ptrdiff_t maxSplits = 0,
@@ -515,7 +525,7 @@ std::vector<std::string> split(
   *     the result will have parts in reverse order (i.e. the last part is
   *     first, the second to last is second and so on).
   */
-std::vector<std::string> splitIf(
+YSTRING_API std::vector<std::string> splitIf(
         const std::string& str,
         std::function<bool(uint32_t)> predicate,
         ptrdiff_t maxSplits = 0,
@@ -529,7 +539,7 @@ std::vector<std::string> splitIf(
   *     the result will have parts in reverse order (i.e. the last part is
   *     first, the second to last is second and so on).
   */
-std::vector<std::string> splitLines(
+YSTRING_API std::vector<std::string> splitLines(
         const std::string& str,
         ptrdiff_t maxSplits = 0,
         SplitFlags_t flags = SplitFlags::DEFAULTS);
@@ -538,9 +548,9 @@ std::vector<std::string> splitLines(
   * @throw logic_error if @a str or @a cmp contain any invalid UTF-8
   *     code points.
   */
-bool startsWith(const std::string& str,
-                const std::string& cmp,
-                FindFlags_t flags = FindFlags::DEFAULTS);
+YSTRING_API bool startsWith(const std::string& str,
+                            const std::string& cmp,
+                            FindFlags_t flags = FindFlags::DEFAULTS);
 
 /** @brief Returns the substring of of @a str that starts at character number
   *     @a startIndex and ends at character number @a endIndex.
@@ -554,17 +564,17 @@ bool startsWith(const std::string& str,
   *     the end of the string instead.
   * @throw logic_error if str contains an invalid UTF-8 code point.
   */
-std::string substring(const std::string& str,
-                      ptrdiff_t startIndex,
-                      ptrdiff_t endIndex = PTRDIFF_MAX);
+YSTRING_API std::string substring(const std::string& str,
+                                  ptrdiff_t startIndex,
+                                  ptrdiff_t endIndex = PTRDIFF_MAX);
 
 /** @brief Returns a titlecased copy of @a str.
   */
-std::string title(const std::string& str);
+YSTRING_API std::string title(const std::string& str);
 
 /** @brief Returns a UTF-8 encoded string representing @a chr
   */
-std::string toUtf8(uint32_t chr);
+YSTRING_API std::string toUtf8(uint32_t chr);
 
 /** @brief Returns an UTF-8 encoded string equivalent to @a str.
   *
@@ -573,7 +583,7 @@ std::string toUtf8(uint32_t chr);
   *  @throws logic_error if str contains any characters that aren't encoded
   *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
   */
-std::string toUtf8(const std::string& str, Encoding_t encoding);
+YSTRING_API std::string toUtf8(const std::string& str, Encoding_t encoding);
 
 /** @brief Returns an UTF-8 encoded string equivalent to @a str.
   *
@@ -582,51 +592,51 @@ std::string toUtf8(const std::string& str, Encoding_t encoding);
   *  @throws logic_error if str contains any characters that aren't encoded
   *     according to @a encoding, or if @a encoding isn't a 16-bit encoding.
   */
-std::string toUtf8(const std::wstring& str,
-                   Encoding_t encoding = Encoding::UTF_16);
+YSTRING_API std::string toUtf8(const std::wstring& str,
+                               Encoding_t encoding = Encoding::UTF_16);
 
 /** @brief Returns a copy of @a str where all whitespace characters at the
   *     start and end of the string have been removed.
   */
-std::string trim(const std::string& str);
+YSTRING_API std::string trim(const std::string& str);
 
 /** @brief Returns a copy of @a str where all characters staisfying
  *      @a predicate at the start and end of the string have been removed.
   */
-std::string trim(const std::string& str,
-                 std::function<bool(uint32_t)> predicate);
+YSTRING_API std::string trim(const std::string& str,
+                             std::function<bool(uint32_t)> predicate);
 
 /** @brief Returns a copy of @a str where all whitespace characters at the
   *     end of the string have been removed.
   */
-std::string trimEnd(const std::string& str);
+YSTRING_API std::string trimEnd(const std::string& str);
 
 /** @brief Returns a copy of @a str where all characters staisfying
  *      @a predicate at the end of the string have been removed.
   */
-std::string trimEnd(const std::string& str,
-                    std::function<bool(uint32_t)> predicate);
+YSTRING_API std::string trimEnd(const std::string& str,
+                                std::function<bool(uint32_t)> predicate);
 
 /** @brief Returns a copy of @a str where all whitespace characters at the
   *     start of the string have been removed.
   */
-std::string trimStart(const std::string& str);
+YSTRING_API std::string trimStart(const std::string& str);
 
 /** @brief Returns a copy of @a str where all characters that satisfy
  *      @a predicate at the start of the string have been removed.
   */
-std::string trimStart(const std::string& str,
-                      std::function<bool(uint32_t)> predicate);
+YSTRING_API std::string trimStart(const std::string& str,
+                                  std::function<bool(uint32_t)> predicate);
 
 /** @brief Returns a copy of @a str where all escape sequences have been
   *     translated to the characters they represent.
   * @throws logic_error if @a str contains an invalid escape sequence.
   */
-std::string unescape(const std::string& str,
-                     EscapeType_t type = EscapeType::BACKSLASH);
+YSTRING_API std::string unescape(const std::string& str,
+                                 EscapeType_t type = EscapeType::BACKSLASH);
 
 /** @brief Returns a upper case copy of @a str.
   */
-std::string upper(const std::string& str);
+YSTRING_API std::string upper(const std::string& str);
 
 }}
