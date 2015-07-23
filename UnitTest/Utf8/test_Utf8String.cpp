@@ -432,7 +432,7 @@ void test_split_caseInsensitive()
             UTF8_GREEK_SMALL_OMEGA "Q:bor:"
             UTF8_GREEK_SMALL_OMEGA "q:",
             ":" UTF8_GREEK_SMALL_OMEGA "q:",
-            4,
+            3,
             SplitFlags::CASE_INSENSITIVE);
     JT_EQUAL(parts.size(), 4);
     JT_EQUAL(parts[0], "");
@@ -443,7 +443,7 @@ void test_split_caseInsensitive()
 
 void test_split_caseInsensitive_reverse()
 {
-    auto parts = Utf8::split("1234ab4567AB8901aB2345", "AB", -3,
+    auto parts = Utf8::split("1234ab4567AB8901aB2345", "AB", -2,
                              SplitFlags::CASE_INSENSITIVE |
                              SplitFlags::IGNORE_REMAINDER);
     JT_EQUAL(parts.size(), 2);
@@ -473,7 +473,7 @@ void test_split_whitespace()
 
 void test_split_whitespace_backwards()
 {
-    auto parts = Utf8::split("haa baa ett yui ert swr", -3);
+    auto parts = Utf8::split("haa baa ett yui ert swr", -2);
     JT_EQUAL(parts.size(), 3);
     JT_EQUAL(parts[0], "swr");
     JT_EQUAL(parts[1], "ert");

@@ -117,7 +117,7 @@ namespace Detail
     std::vector<Str> splitImpl(
             Decoder str,
             NextTokenFunc nextTokenFunc,
-            size_t maxParts,
+            size_t maxSplits,
             SplitFlags_t flags);
 
     template <typename Str, typename It1, typename It2, typename Enc>
@@ -125,7 +125,7 @@ namespace Detail
             Range<It1> str,
             Range<It2> cmp,
             Enc encoding,
-            ptrdiff_t maxParts,
+            ptrdiff_t maxSplits,
             SplitFlags_t flags,
             std::true_type);
 
@@ -134,7 +134,7 @@ namespace Detail
             Range<It1> str,
             Range<It2> cmp,
             Enc encoding,
-            ptrdiff_t maxParts,
+            ptrdiff_t maxSplits,
             SplitFlags_t flags,
             std::false_type);
 
@@ -681,25 +681,25 @@ size_t sizeOfUpper(Range<It> src, Enc encoding)
 template <typename Str, typename It, typename Enc>
 std::vector<Str> split(Range<It> str,
                        Enc encoding,
-                       ptrdiff_t maxParts,
+                       ptrdiff_t maxSplits,
                        SplitFlags_t flags)
 {
     return splitIf<Str>(str, encoding, Unicode::isWhitespace,
-                        maxParts, flags);
+                        maxSplits, flags);
 }
 
 template <typename Str, typename It1, typename It2, typename Enc>
 std::vector<Str> split(Range<It1> str,
                        Range<It2> cmp,
                        Enc encoding,
-                       ptrdiff_t maxParts,
+                       ptrdiff_t maxSplits,
                        SplitFlags_t flags)
 {
-    if (SplitFlags::isCaseInsensitive(flags) || maxParts < 0)
-        return Detail::splitImpl<Str>(str, cmp, encoding, maxParts, flags,
+    if (SplitFlags::isCaseInsensitive(flags) || maxSplits < 0)
+        return Detail::splitImpl<Str>(str, cmp, encoding, maxSplits, flags,
                                       std::false_type());
     else
-        return Detail::splitImpl<Str>(str, cmp, encoding, maxParts, flags,
+        return Detail::splitImpl<Str>(str, cmp, encoding, maxSplits, flags,
                                       SameIteratorValueType<It1, It2>());
 }
 
@@ -707,41 +707,41 @@ template <typename Str, typename It, typename Enc, typename Predicate>
 std::vector<Str> splitIf(Range<It> str,
                          Enc encoding,
                          Predicate predicate,
-                         ptrdiff_t maxParts,
+                         ptrdiff_t maxSplits,
                          SplitFlags_t flags)
 {
-    if (maxParts >= 0)
+    if (maxSplits >= 0)
         return Detail::splitImpl<Str>(
                 Encoded::makeForwardDecoder(str, encoding),
                 [&](Encoded::ForwardDecoder<It, Enc>& d)
                    {return nextToken(d, predicate);},
-                maxParts, flags);
+                maxSplits, flags);
     else
         return Detail::splitImpl<Str>(
                 Encoded::makeReverseDecoder(str, encoding),
                 [&](Encoded::ReverseDecoder<It, Enc>& d)
                    {return nextToken(d, predicate);},
-                -maxParts, flags);
+                -maxSplits, flags);
 }
 
 template <typename Str, typename It, typename Enc>
 std::vector<Str> splitLines(Range<It> str,
                             Enc encoding,
-                            ptrdiff_t maxParts,
+                            ptrdiff_t maxSplits,
                             SplitFlags_t flags)
 {
-    if (maxParts >= 0)
+    if (maxSplits >= 0)
         return Detail::splitImpl<Str>(
                 Encoded::makeForwardDecoder(str, encoding),
                 [&](Encoded::ForwardDecoder<It, Enc>& d)
                    {return nextLine(d);},
-                maxParts, flags);
+                maxSplits, flags);
     else
         return Detail::splitImpl<Str>(
                 Encoded::makeReverseDecoder(str, encoding),
                 [&](Encoded::ReverseDecoder<It, Enc>& d)
                    {return nextLine(d);},
-                -maxParts, flags);
+                -maxSplits, flags);
 }
 
 template <typename It1, typename It2, typename Enc>
@@ -1072,17 +1072,19 @@ namespace Detail
     template <typename Str, typename Decoder, typename NextTokenFunc>
     std::vector<Str> splitImpl(Decoder str,
                                NextTokenFunc nextTokenFunc,
-                               size_t maxParts,
+                               size_t maxSplits,
                                SplitFlags_t flags)
     {
+        if (maxSplits == 0)
+            --maxSplits;
         std::vector<Str> result;
-        while (maxParts != 1 && str.begin() != str.end())
+        while (maxSplits != 0 && str.begin() != str.end())
         {
             auto token = nextTokenFunc(str);
             if (!SplitFlags::ignoreEmpty(flags) || token.begin() != token.end())
             {
                 result.emplace_back(token.begin(), token.end());
-                --maxParts;
+                --maxSplits;
             }
             if (token.end() == str.end())
                 return result;
@@ -1099,18 +1101,20 @@ namespace Detail
     std::vector<Str> splitImpl(Range<It1> str,
                                Range<It2> cmp,
                                Enc encoding,
-                               ptrdiff_t maxParts,
+                               ptrdiff_t maxSplits,
                                SplitFlags_t flags,
                                std::true_type)
     {
+        auto tmpSplits = size_t(maxSplits == 0 ? maxSplits - 1 : maxSplits);
         std::vector<Str> result;
-        while (maxParts != 1 && str.begin() != str.end())
+        while (tmpSplits != 0 && str.begin() != str.end())
         {
             auto token = search(str, cmp);
-            if (!SplitFlags::ignoreEmpty(flags) || str.begin() != token.begin())
+            if (!SplitFlags::ignoreEmpty(flags) ||
+                str.begin() != token.begin())
             {
                 result.emplace_back(str.begin(), token.begin());
-                --maxParts;
+                --tmpSplits;
             }
             str.begin() = token.end();
         }
@@ -1126,19 +1130,19 @@ namespace Detail
     std::vector<Str> splitImpl(Range<It1> str,
                                Range<It2> cmp,
                                Enc encoding,
-                               ptrdiff_t maxParts,
+                               ptrdiff_t maxSplits,
                                SplitFlags_t flags,
                                std::false_type)
     {
         auto findFlags = SplitFlags::toFindFlags(flags);
-        if (maxParts >= 0)
+        if (maxSplits >= 0)
         {
             auto cmpDec = Encoded::makeForwardDecoder(cmp, encoding);
             return splitImpl<Str>(
                     Encoded::makeForwardDecoder(str, encoding),
                     [=](Encoded::ForwardDecoder<It1, Enc>& d)
                        {return nextToken(d, cmpDec, findFlags);},
-                    maxParts, flags);
+                    size_t(maxSplits), flags);
         }
         else
         {
@@ -1147,7 +1151,7 @@ namespace Detail
                     Encoded::makeReverseDecoder(str, encoding),
                     [=](Encoded::ReverseDecoder<It1, Enc>& d)
                        {return nextToken(d, cmpDec, findFlags);},
-                    -maxParts, flags);
+                    size_t(-maxSplits), flags);
         }
     }
 

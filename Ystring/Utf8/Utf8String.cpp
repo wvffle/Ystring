@@ -369,41 +369,41 @@ std::string reverse(const std::string& str)
 
 std::vector<std::string> split(
         const std::string& str,
-        ptrdiff_t maxParts,
+        ptrdiff_t maxSplits,
         SplitFlags_t flags)
 {
     return Generic::split<std::string>(
             makeRange(str), Utf8Encoding(),
-            maxParts, flags);
+            maxSplits, flags);
 }
 
 std::vector<std::string> split(
         const std::string& str,
         const std::string& sep,
-        ptrdiff_t maxParts,
+        ptrdiff_t maxSplits,
         SplitFlags_t flags)
 {
   return Generic::split<std::string>(
-          makeRange(str), makeRange(sep), Utf8Encoding(), maxParts, flags);
+          makeRange(str), makeRange(sep), Utf8Encoding(), maxSplits, flags);
 }
 
 std::vector<std::string> splitIf(
         const std::string& str,
         std::function<bool(uint32_t)> predicate,
-        ptrdiff_t maxParts,
+        ptrdiff_t maxSplits,
         SplitFlags_t flags)
 {
     return Generic::splitIf<std::string>(
-            makeRange(str), Utf8Encoding(), predicate, maxParts, flags);
+            makeRange(str), Utf8Encoding(), predicate, maxSplits, flags);
 }
 
 std::vector<std::string> splitLines(
         const std::string& str,
-        ptrdiff_t maxParts,
+        ptrdiff_t maxSplits,
         SplitFlags_t flags)
 {
     return Generic::splitLines<std::string>(makeRange(str), Utf8Encoding(),
-                                            maxParts, flags);
+                                            maxSplits, flags);
 }
 
 bool startsWith(const std::string& str,

@@ -107,7 +107,7 @@ template <typename Str, typename It, typename Enc>
 std::vector<Str> split(
         Range<It> str,
         Enc encoding,
-        ptrdiff_t maxParts = 0,
+        ptrdiff_t maxSplits = 0,
         SplitFlags_t flags = SplitFlags::IGNORE_EMPTY);
 
 template <typename Str, typename It1, typename It2, typename Enc>
@@ -115,7 +115,7 @@ std::vector<Str> split(
         Range<It1> str,
         Range<It2> cmp,
         Enc encoding,
-        ptrdiff_t maxParts = 0,
+        ptrdiff_t maxSplits = 0,
         SplitFlags_t flags = SplitFlags::IGNORE_EMPTY);
 
 template <typename Str, typename It, typename Enc, typename Predicate>
@@ -123,7 +123,7 @@ std::vector<Str> splitIf(
         Range<It> str,
         Enc encoding,
         Predicate predicate,
-        ptrdiff_t maxParts,
+        ptrdiff_t maxSplits,
         SplitFlags_t flags);
 
 template <typename It1, typename It2, typename Enc>

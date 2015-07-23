@@ -424,10 +424,12 @@ std::string::const_iterator prevCharacter(std::string::const_iterator& first,
                                           size_t n = 1);
 
 /** @brief Returns a copy of @a str where instances of @a from are replaced
-  *      with @a to.
+  *     with @a to.
   *
-  * @param max The maximum number of replacements that will be performed. All
-  *      instances of @a from are replaced if 0.
+  * @param maxReplacements The maximum number of replacements that will be
+  *     performed. All  instances of @a from are replaced if the value is 0.
+  *     If it is negative at most abs(maxReplacements) will be made, starting
+  *     at the end of the string.
   */
 std::string replace(const std::string& str,
                     const std::string& from,
@@ -435,17 +437,25 @@ std::string replace(const std::string& str,
                     ptrdiff_t maxReplacements = 0,
                     FindFlags_t flags = FindFlags::DEFAULTS);
 
+/** @brief Returns a copy of @a str where the substring between @a start and
+  *     @a end has been replaced with @a repl.
+  *
+  * @param maxReplacements The maximum number of replacements that will be
+  *     performed. All  instances of @a from are replaced if the value is 0.
+  *     If it is negative at most abs(maxReplacements) will be made, starting
+  *     at the end of the string.
+  */
 std::string replace(const std::string& str,
                     ptrdiff_t start,
                     ptrdiff_t end,
                     const std::string& repl);
 
 /** @brief Returns a copy of @a str with instances of @a from replaced
-  *      with @a to.
+  *     with @a to.
   *
   * @param fromChar The character to replace
   * @param toChar The replacement
-  * @param maxReplacement The maximum number of replacements that will be
+  * @param maxReplacements The maximum number of replacements that will be
   *     performed. All  instances of @a from are replaced if the value is 0.
   *     If it is negative at most abs(maxReplacements) will be made, starting
   *     at the end of the string.
@@ -455,8 +465,13 @@ std::string replaceCodePoint(const std::string& s,
                              uint32_t to,
                              ptrdiff_t maxReplacements = 0);
 
+/** @brief Returns a copy of @a str where all invalid code points have been
+  *     replaced with @a chr.
+  */
 std::string replaceInvalidUtf8(const std::string& str, uint32_t chr = '?');
 
+/** @brief Replaces all invalid code points in @a str with @a chr.
+  */
 std::string& replaceInvalidUtf8InPlace(std::string& str, char chr = '?');
 
 /** @brief Returns a reversed copy of @a str.
@@ -465,36 +480,86 @@ std::string& replaceInvalidUtf8InPlace(std::string& str, char chr = '?');
   */
 std::string reverse(const std::string& str);
 
+/** @brief Splits @a str where it contains whitespace characters and returns
+  *     a list of the parts.
+  * @param maxSplits The maximum number of times @a str will be split. If the
+  *     value is 0 @a str wil be split at every newline character. If the
+  *     value is negative the splitting will start from the end of @a str,
+  *     the result will have parts in reverse order (i.e. the last part is
+  *     first, the second to last is second and so on).
+  */
 std::vector<std::string> split(
         const std::string& str,
-        ptrdiff_t maxParts = 0,
+        ptrdiff_t maxSplits = 0,
         SplitFlags_t flags = SplitFlags::IGNORE_EMPTY);
 
+/** @brief Splits @a str where it matches @a sep and returns a list of
+  *     the parts.
+  * @param maxSplits The maximum number of times @a str will be split. If the
+  *     value is 0 @a str wil be split at every newline character. If the
+  *     value is negative the splitting will start from the end of @a str,
+  *     the result will have parts in reverse order (i.e. the last part is
+  *     first, the second to last is second and so on).
+  */
 std::vector<std::string> split(
         const std::string& str,
         const std::string& sep,
-        ptrdiff_t maxParts = 0,
+        ptrdiff_t maxSplits = 0,
         SplitFlags_t flags = SplitFlags::DEFAULTS);
 
- std::vector<std::string> splitIf(
-         const std::string& str,
-         std::function<bool(uint32_t)> predicate,
-         ptrdiff_t maxParts = 0,
-         SplitFlags_t flags = SplitFlags::DEFAULTS);
+/** @brief Splits @a str at characters that satisfy predicate and returns a
+  *     list of the parts.
+  * @param maxSplits The maximum number of times @a str will be split. If the
+  *     value is 0 @a str wil be split at every newline character. If the
+  *     value is negative the splitting will start from the end of @a str,
+  *     the result will have parts in reverse order (i.e. the last part is
+  *     first, the second to last is second and so on).
+  */
+std::vector<std::string> splitIf(
+        const std::string& str,
+        std::function<bool(uint32_t)> predicate,
+        ptrdiff_t maxSplits = 0,
+        SplitFlags_t flags = SplitFlags::DEFAULTS);
 
- std::vector<std::string> splitLines(
-         const std::string& str,
-         ptrdiff_t maxParts = 0,
-         SplitFlags_t flags = SplitFlags::DEFAULTS);
+/** @brief Splits @a str at newline characters and returns a list
+  *     of the parts.
+  * @param maxSplits The maximum number of times @a str will be split. If the
+  *     value is 0 @a str wil be split at every newline character. If the
+  *     value is negative the splitting will start from the end of @a str,
+  *     the result will have parts in reverse order (i.e. the last part is
+  *     first, the second to last is second and so on).
+  */
+std::vector<std::string> splitLines(
+        const std::string& str,
+        ptrdiff_t maxSplits = 0,
+        SplitFlags_t flags = SplitFlags::DEFAULTS);
 
+/** @brief Returns true if @a str starts with substring @a cmp.
+  * @throw logic_error if @a str or @a cmp contain any invalid UTF-8
+  *     code points.
+  */
 bool startsWith(const std::string& str,
                 const std::string& cmp,
                 FindFlags_t flags = FindFlags::DEFAULTS);
 
+/** @brief Returns the substring of of @a str that starts at character number
+  *     @a startIndex and ends at character number @a endIndex.
+  * @param startIndex The start position in complete characters (i.e. not
+  *     bytes, not even code points if the string has decomposed characters)
+  *     from the start of the string. If @a startIndex is negative it's from
+  *     the end of the string instead.
+  * @param endIndex The end position in complete characters (i.e. not
+  *     bytes, not even code points if the string has decomposed characters)
+  *     from the start of the string. If @a startIndex is negative it's from
+  *     the end of the string instead.
+  * @throw logic_error if str contains an invalid UTF-8 code point.
+  */
 std::string substring(const std::string& str,
                       ptrdiff_t startIndex,
                       ptrdiff_t endIndex = PTRDIFF_MAX);
 
+/** @brief Returns a titlecased copy of @a str.
+  */
 std::string title(const std::string& str);
 
 /** @brief Returns a UTF-8 encoded string representing @a chr
@@ -520,18 +585,36 @@ std::string toUtf8(const std::string& str, Encoding_t encoding);
 std::string toUtf8(const std::wstring& str,
                    Encoding_t encoding = Encoding::UTF_16);
 
+/** @brief Returns a copy of @a str where all whitespace characters at the
+  *     start and end of the string have been removed.
+  */
 std::string trim(const std::string& str);
 
+/** @brief Returns a copy of @a str where all characters staisfying
+ *      @a predicate at the start and end of the string have been removed.
+  */
 std::string trim(const std::string& str,
                  std::function<bool(uint32_t)> predicate);
 
+/** @brief Returns a copy of @a str where all whitespace characters at the
+  *     end of the string have been removed.
+  */
 std::string trimEnd(const std::string& str);
 
+/** @brief Returns a copy of @a str where all characters staisfying
+ *      @a predicate at the end of the string have been removed.
+  */
 std::string trimEnd(const std::string& str,
                     std::function<bool(uint32_t)> predicate);
 
+/** @brief Returns a copy of @a str where all whitespace characters at the
+  *     start of the string have been removed.
+  */
 std::string trimStart(const std::string& str);
 
+/** @brief Returns a copy of @a str where all characters that satisfy
+ *      @a predicate at the start of the string have been removed.
+  */
 std::string trimStart(const std::string& str,
                       std::function<bool(uint32_t)> predicate);
 
@@ -542,6 +625,8 @@ std::string trimStart(const std::string& str,
 std::string unescape(const std::string& str,
                      EscapeType_t type = EscapeType::BACKSLASH);
 
+/** @brief Returns a upper case copy of @a str.
+  */
 std::string upper(const std::string& str);
 
 }}
