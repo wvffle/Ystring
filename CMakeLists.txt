@@ -24,11 +24,26 @@ if(JEBDEBUG_FOUND)
     include_directories(${JEBDEBUG_INCLUDE_DIRS})
 endif(JEBDEBUG_FOUND)
 
-set(PUBLIC_HEADERS
-    Ystring/DecoderResult.hpp
+set(PUBLIC_HEADERS_ROOT
     Ystring/Encoding.hpp
+    Ystring/EscapeType.hpp
     Ystring/FindFlags.hpp
     Ystring/SplitFlags.hpp
+    Ystring/Utf8.hpp
+    Ystring/YstringDefinitions.hpp
+    )
+
+set(PUBLIC_HEADERS_UTF8
+    Ystring/Utf8/Utf8String.hpp
+    )
+
+set(PUBLIC_HEADERS
+    ${PUBLIC_HEADERS_ROOT}
+    ${PUBLIC_HEADERS_UTF8}
+    )
+
+set(PRIVATE_HEADERS
+    Ystring/DecoderResult.hpp
     Ystring/Encoded/Appender.hpp
     Ystring/Encoded/DecoderAlgorithms.hpp
     Ystring/Encoded/DecoderStringFunctions.hpp
@@ -47,6 +62,11 @@ set(PUBLIC_HEADERS
     Ystring/Unicode/CaseConverter.hpp
     Ystring/Unicode/CaseInsensitive.hpp
     Ystring/Unicode/CharClass.hpp
+    Ystring/Unicode/CharMap.hpp
+    Ystring/Unicode/CharMappingTypes.hpp
+    Ystring/Unicode/StandardLowerCase.hpp
+    Ystring/Unicode/StandardTitleCase.hpp
+    Ystring/Unicode/StandardUpperCase.hpp
     Ystring/Unicode/UnicodeChars.hpp
     Ystring/Unicode/UnicodePredicates.hpp
     Ystring/Utf8/DecodeUtf8.hpp
@@ -55,7 +75,6 @@ set(PUBLIC_HEADERS
     Ystring/Utf8/EncodeUtf8-impl.hpp
     Ystring/Utf8/Utf8Chars.hpp
     Ystring/Utf8/Utf8Encoding.hpp
-    Ystring/Utf8/Utf8String.hpp
     Ystring/Utf16/DecodeUtf16.hpp
     Ystring/Utf16/DecodeUtf16-impl.hpp
     Ystring/Utf16/EncodeUtf16.hpp
@@ -75,14 +94,6 @@ set(PUBLIC_HEADERS
     Ystring/Utilities/Union16.hpp
     Ystring/Utilities/Union32.hpp
     Ystring/Utilities/Union64.hpp
-    )
-
-set(PRIVATE_HEADERS
-    Ystring/Unicode/CharMap.hpp
-    Ystring/Unicode/CharMappingTypes.hpp
-    Ystring/Unicode/StandardLowerCase.hpp
-    Ystring/Unicode/StandardTitleCase.hpp
-    Ystring/Unicode/StandardUpperCase.hpp
     )
 
 set(SOURCE_FILES
@@ -110,6 +121,10 @@ elseif(WIN32)
 		${SOURCE_FILES}
 		)
 endif(APPLE)
+
+install(TARGETS ${PROJECT_NAME} DESTINATION lib)
+install(FILES ${PUBLIC_HEADERS_ROOT} DESTINATION include/${PROJECT_NAME})
+install(FILES ${PUBLIC_HEADERS_UTF8} DESTINATION include/${PROJECT_NAME}/Utf8)
 
 set(CTEST_OUTPUT_ON_FAILURE 1)
 add_subdirectory(UnitTest)
