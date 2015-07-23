@@ -5,7 +5,7 @@
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
-#include "Ystring/Utf8/Utf8String.hpp"
+#include "Ystring/Utf8.hpp"
 
 #include "Ystring/Unicode/UnicodePredicates.hpp"
 #include "Ystring/Utf8/Utf8Chars.hpp"

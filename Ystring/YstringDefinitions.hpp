@@ -32,7 +32,7 @@
 
 /// @endcond
 
-/** @brief The top-level namespace for all published functions and classes
+/** @brief The top-level namespace for all functions and classes
   *     in @a Ystring.
   */
 namespace Ystring
