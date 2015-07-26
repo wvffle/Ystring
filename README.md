@@ -32,9 +32,11 @@ int main()
 
 Compile and run (in a shell that uses UTF-8, e.g. Terminal under Mac OS X): 
 
-    $ c++ -std=c++11 Upper.cpp -lYstring -o Upper
-    $ ./Upper
-    Köztársaság -> KÖZTÁRSASÁG
+```console
+$ c++ -std=c++11 Upper.cpp -lYstring -o Upper
+$ ./Upper
+Köztársaság -> KÖZTÁRSASÁG
+```
 
 ### Convert string to title case
 
@@ -50,9 +52,11 @@ int main()
 
 Compile and run: 
 
-    $ c++ -std=c++11 Title.cpp -lYstring -o Title
-    $ ./Title
-    Still Pumped From Using The Mouse
+```console
+$ c++ -std=c++11 Title.cpp -lYstring -o Title
+$ ./Title
+Still Pumped From Using The Mouse
+```
 
 ### Pretty-print colon-separated paths
 
@@ -72,16 +76,18 @@ int main(int argc, char* argv[])
 
 Compile and run: 
 
-    <strong>$ c++ -std=c++11 PrintPath.cpp -lYstring -o PrintPath</strong>
-    $ echo $PATH
-    /opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:~/bin
-    $ ./PrintPath $PATH
-    /opt/local/bin
-    /opt/local/sbin
-    /usr/local/bin
-    /usr/bin
-    /bin
-    /usr/sbin
-    /sbin
-    /opt/local/bin
-    ~/bin
+```console
+$ c++ -std=c++11 PrintPath.cpp -lYstring -o PrintPath
+$ echo $PATH
+/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:~/bin
+$ ./PrintPath $PATH
+/opt/local/bin
+/opt/local/sbin
+/usr/local/bin
+/usr/bin
+/bin
+/usr/sbin
+/sbin
+/opt/local/bin
+~/bin
+```
