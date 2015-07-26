@@ -7,7 +7,6 @@
 //****************************************************************************
 
 #include "../../Ystring/Generic/GenericString.hpp"
-#include "../../Ystring/Unicode/UnicodeChars.hpp"
 #include "../../Ystring/Utf8/Utf8Chars.hpp"
 #include "../../Ystring/Utf8/Utf8Encoding.hpp"
 #include "../../Ystring/Utf16/Utf16Encoding.hpp"

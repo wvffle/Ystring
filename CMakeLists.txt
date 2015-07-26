@@ -122,9 +122,9 @@ elseif(WIN32)
 		)
 endif(APPLE)
 
+set(CTEST_OUTPUT_ON_FAILURE 1)
+add_subdirectory(UnitTest)
+
 install(TARGETS ${PROJECT_NAME} DESTINATION lib)
 install(FILES ${PUBLIC_HEADERS_ROOT} DESTINATION include/${PROJECT_NAME})
 install(FILES ${PUBLIC_HEADERS_UTF8} DESTINATION include/${PROJECT_NAME}/Utf8)
-
-set(CTEST_OUTPUT_ON_FAILURE 1)
-add_subdirectory(UnitTest)

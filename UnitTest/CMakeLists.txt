@@ -1,6 +1,6 @@
 ##****************************************************************************
 ## Copyright © 2015 Jan Erik Breimo. All rights reserved.
-## Created by Jan Erik Breimo on 31.05.15
+## Created by Jan Erik Breimo on 2015-05-31
 ##
 ## This file is distributed under the Simplified BSD License.
 ## License text is included with the source distribution.
@@ -15,10 +15,7 @@ endif(NOT JEBTEST_FOUND)
 set(PARENT_PROJECT Ystring)
 project(${PARENT_PROJECT}Test)
 
-include_directories(
-    ${CMAKE_SOURCE_DIR}
-    ${JEBTEST_INCLUDE_DIRS}
-    )
+include_directories(${JEBTEST_INCLUDE_DIRS})
 
 set(SOURCE_FILES
     main.cpp

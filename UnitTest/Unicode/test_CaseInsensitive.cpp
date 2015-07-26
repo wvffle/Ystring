@@ -5,8 +5,8 @@
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
-#include "Ystring/Unicode/CaseInsensitive.hpp"
-#include "Ystring/Unicode/UnicodeChars.hpp"
+#include "../../Ystring/Unicode/CaseInsensitive.hpp"
+#include "../../Ystring/Unicode/UnicodeChars.hpp"
 
 #include <JEBTest/JEBTest.hpp>
 

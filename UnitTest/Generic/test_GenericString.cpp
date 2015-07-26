@@ -5,8 +5,8 @@
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
-#include "Ystring/Generic/GenericString.hpp"
-#include "Ystring/Utf8/Utf8Encoding.hpp"
+#include "../../Ystring/Generic/GenericString.hpp"
+#include "../../Ystring/Utf8/Utf8Encoding.hpp"
 #include <JEBTest/JEBTest.hpp>
 
 namespace {
