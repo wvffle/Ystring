@@ -64,12 +64,12 @@ public:
         return Generic::makeRange(m_First, m_Last);
     }
 
-    FwdIt begin()
+    FwdIt begin() const
     {
         return m_First;
     }
 
-    FwdIt end()
+    FwdIt end() const
     {
         return m_Last;
     }
@@ -96,6 +96,12 @@ ForwardDecoder<FwdIt, Encoding> makeForwardDecoder(
 {
     return ForwardDecoder<FwdIt, Encoding>(range.begin(), range.end(),
                                            encoding);
+}
+
+template <typename FwdIt, typename Encoding>
+bool empty(const ForwardDecoder<FwdIt, Encoding>& dec)
+{
+    return dec.begin() == dec.end();
 }
 
 }}

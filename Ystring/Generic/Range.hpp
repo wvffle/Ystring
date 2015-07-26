@@ -107,13 +107,13 @@ Iterator end(Range<Iterator> range)
 //{
 //    return nth(begin(range), end(range), index);
 //}
-//
-//template <typename Iterator>
-//bool empty(const Range<Iterator>& range)
-//{
-//    return begin(range) == end(range);
-//}
-//
+
+template <typename Iterator>
+bool empty(const Range<Iterator>& range)
+{
+    return begin(range) == end(range);
+}
+
 //template <typename Iterator>
 //auto front(Range<Iterator> range) -> decltype(*range.begin())
 //{

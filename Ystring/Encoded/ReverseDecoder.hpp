@@ -64,12 +64,12 @@ public:
         return Generic::makeRange(m_First, m_Last);
     }
 
-    BiIt begin()
+    BiIt begin() const
     {
         return m_First;
     }
 
-    BiIt end()
+    BiIt end() const
     {
         return m_Last;
     }
@@ -96,6 +96,12 @@ ReverseDecoder<BiIt, Encoding> makeReverseDecoder(
 {
     return ReverseDecoder<BiIt, Encoding>(range.begin(), range.end(),
                                           encoding);
+}
+
+template <typename BiIt, typename Encoding>
+bool empty(const ReverseDecoder<BiIt, Encoding>& dec)
+{
+    return dec.begin() == dec.end();
 }
 
 }}

@@ -5,10 +5,10 @@
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
-#include "Ystring/Utf8.hpp"
+#include "../../Ystring/Utf8.hpp"
 
-#include "Ystring/Unicode/UnicodePredicates.hpp"
-#include "Ystring/Utf8/Utf8Chars.hpp"
+#include "../../Ystring/Unicode/UnicodePredicates.hpp"
+#include "../../Ystring/Utf8/Utf8Chars.hpp"
 #include <JEBTest/JEBTest.hpp>
 
 namespace {
@@ -26,32 +26,37 @@ void test_append()
 
 void test_caseInsensitiveCompare()
 {
-    JT_LESS(Utf8::caseInsensitiveCompare("aBc" UTF8_GREEK_SMALL_SIGMA,
-                                    "AbC" UTF8_GREEK_CAPITAL_SIGMA "d"), 0);
-    JT_LESS(Utf8::caseInsensitiveCompare("aBc" UTF8_GREEK_SMALL_SIGMA "d",
-                                    "AbC" UTF8_GREEK_CAPITAL_TAU), 0);
-    JT_EQUAL(Utf8::caseInsensitiveCompare("aBc" UTF8_GREEK_SMALL_SIGMA,
-                                    "AbC" UTF8_GREEK_CAPITAL_SIGMA), 0);
-    JT_GREATER(Utf8::caseInsensitiveCompare("aBc" UTF8_GREEK_SMALL_SIGMA "a",
-                                      "AbC" UTF8_GREEK_CAPITAL_SIGMA), 0);
-    JT_GREATER(Utf8::caseInsensitiveCompare("aBc" UTF8_GREEK_SMALL_PSI "d",
-                                      "AbC" UTF8_GREEK_CAPITAL_TAU), 0);
+    JT_LESS(Utf8::caseInsensitiveCompare(
+            "aBc" UTF8_GREEK_SMALL_SIGMA,
+            "AbC" UTF8_GREEK_CAPITAL_SIGMA "d"), 0);
+    JT_LESS(Utf8::caseInsensitiveCompare(
+            "aBc" UTF8_GREEK_SMALL_SIGMA "d",
+            "AbC" UTF8_GREEK_CAPITAL_TAU), 0);
+    JT_EQUAL(Utf8::caseInsensitiveCompare(
+            "aBc" UTF8_GREEK_SMALL_SIGMA,
+            "AbC" UTF8_GREEK_CAPITAL_SIGMA), 0);
+    JT_GREATER(Utf8::caseInsensitiveCompare(
+            "aBc" UTF8_GREEK_SMALL_SIGMA "a",
+            "AbC" UTF8_GREEK_CAPITAL_SIGMA), 0);
+    JT_GREATER(Utf8::caseInsensitiveCompare(
+            "aBc" UTF8_GREEK_SMALL_PSI "d",
+            "AbC" UTF8_GREEK_CAPITAL_TAU), 0);
 }
 
 void test_caseInsensitiveEqual()
 {
     JT_ASSERT(Utf8::caseInsensitiveEqual("aBc" UTF8_GREEK_SMALL_SIGMA,
-                                   "AbC" UTF8_GREEK_CAPITAL_SIGMA));
+                                         "AbC" UTF8_GREEK_CAPITAL_SIGMA));
     JT_ASSERT(!Utf8::caseInsensitiveEqual("aBc&8q" UTF8_GREEK_SMALL_SIGMA,
-                                    "AbC&8p" UTF8_GREEK_CAPITAL_SIGMA));
+                                          "AbC&8p" UTF8_GREEK_CAPITAL_SIGMA));
 }
 
 void test_caseInsensitiveLess()
 {
     JT_ASSERT(!Utf8::caseInsensitiveLess("aBc" UTF8_GREEK_SMALL_SIGMA "D",
-                                   "AbC" UTF8_GREEK_CAPITAL_SIGMA "d"));
+                                         "AbC" UTF8_GREEK_CAPITAL_SIGMA "d"));
     JT_ASSERT(Utf8::caseInsensitiveLess("aBc" UTF8_GREEK_SMALL_SIGMA "d",
-                                  "AbC" UTF8_GREEK_CAPITAL_TAU));
+                                        "AbC" UTF8_GREEK_CAPITAL_TAU));
 }
 
 void test_contains()
@@ -260,7 +265,7 @@ void test_isValidUtf8()
 
 void test_join()
 {
-    auto strings = std::vector<std::string>{"foo", "faa", "fii", "fee", "fuu"};
+    std::vector<std::string> strings{"foo", "faa", "fii", "fee", "fuu"};
     auto result1 = Utf8::join(strings);
     JT_EQUAL(result1, "foofaafiifeefuu");
     auto result2 = Utf8::join(strings, ":-:");
@@ -424,7 +429,7 @@ void test_reverse()
              UTF8_COMBINING_TILDE " ehT");
 }
 
-void test_split_caseInsensitive()
+void test_split_caseInsensitive_NonASCII()
 {
     auto parts = Utf8::split(
             ":" UTF8_GREEK_CAPITAL_OMEGA "Q:foo:"
@@ -441,6 +446,17 @@ void test_split_caseInsensitive()
     JT_EQUAL(parts[3], "bor:" UTF8_GREEK_SMALL_OMEGA "q:");
 }
 
+void test_split_caseInsensitive_NoTail()
+{
+    auto parts = Utf8::split("123:aB:321:AB:234:ab:", ":ab:", 0,
+                             SplitFlags::CASE_INSENSITIVE);
+    JT_EQUAL(parts.size(), 4);
+    JT_EQUAL(parts[0], "123");
+    JT_EQUAL(parts[1], "321");
+    JT_EQUAL(parts[2], "234");
+    JT_EQUAL(parts[3], "");
+}
+
 void test_split_caseInsensitive_reverse()
 {
     auto parts = Utf8::split("1234ab4567AB8901aB2345", "AB", -2,
@@ -451,7 +467,27 @@ void test_split_caseInsensitive_reverse()
     JT_EQUAL(parts[1], "8901");
 }
 
-void test_split_caseSensitive_sameEncoding()
+void test_split_caseInsensitive_Tail()
+{
+    auto parts = Utf8::split("123:aB:321:AB:234:Ab:432", ":ab:", 0,
+                             SplitFlags::CASE_INSENSITIVE);
+    JT_EQUAL(parts.size(), 4);
+    JT_EQUAL(parts[0], "123");
+    JT_EQUAL(parts[1], "321");
+    JT_EQUAL(parts[2], "234");
+    JT_EQUAL(parts[3], "432");
+}
+
+void test_split_caseSensitive_Tail()
+{
+    auto parts = Utf8::split("123:aB:321:AB:234:AB:432", ":AB:");
+    JT_EQUAL(parts.size(), 3);
+    JT_EQUAL(parts[0], "123:aB:321");
+    JT_EQUAL(parts[1], "234");
+    JT_EQUAL(parts[2], "432");
+}
+
+void test_split_caseSensitive_NoTail()
 {
     auto parts = Utf8::split("123:aB:321:AB:234:AB:", ":AB:");
     JT_EQUAL(parts.size(), 3);
@@ -491,6 +527,51 @@ void test_splitIf()
     JT_EQUAL(parts[2], "fee");
     JT_EQUAL(parts[3], "bar");
     JT_EQUAL(parts[4], "bor");
+}
+
+void do_test_splitIf(const std::string& s,
+                     SplitFlags_t flags, ptrdiff_t count,
+                     const std::string& expected)
+{
+    auto parts = Utf8::splitIf(s, [](uint32_t c){return c == ':';},
+                               count, flags);
+    JT_EQUAL(parts.size(), expected.size());
+    for (auto i = 0u; i < parts.size(); ++i)
+    {
+        auto expect = expected[i] == ' ' ? std::string()
+                                         : expected.substr(i, 1);
+        JT_EQUAL(parts[i], expect);
+    }
+}
+
+
+void test_splitIf_flags()
+{
+    auto D = SplitFlags::DEFAULTS;
+    auto IF = SplitFlags::IGNORE_EMPTY_FRONT;
+    auto II = SplitFlags::IGNORE_EMPTY_INTERMEDIATES;
+    auto IB = SplitFlags::IGNORE_EMPTY_BACK;
+    auto IE = SplitFlags::IGNORE_EMPTY;
+    auto IR = SplitFlags::IGNORE_REMAINDER;
+    JT_CALL(do_test_splitIf("", D, 0, " "));
+    JT_CALL(do_test_splitIf("", IF, 0, ""));
+    JT_CALL(do_test_splitIf("", II + IB, 0, " "));
+    JT_CALL(do_test_splitIf(":", D, 0, "  "));
+    JT_CALL(do_test_splitIf(":", IF, 0, " "));
+    JT_CALL(do_test_splitIf(":", IB, 0, " "));
+    JT_CALL(do_test_splitIf(":", IF + IB, 0, ""));
+    JT_CALL(do_test_splitIf(":", IF + II + IB, 0, ""));
+    JT_CALL(do_test_splitIf(":", IR, 1, " "));
+    JT_CALL(do_test_splitIf("a:", IR, 1, "a"));
+    JT_CALL(do_test_splitIf("a:a", IR, 1, "a"));
+    JT_CALL(do_test_splitIf("::", D, 0, "   "));
+    JT_CALL(do_test_splitIf("::", IF + II + IB, 0, ""));
+    JT_CALL(do_test_splitIf("::", II, 0, "  "));
+    JT_CALL(do_test_splitIf(":a", IF, 0, "a"));
+    JT_CALL(do_test_splitIf("a::b", II, 1, "ab"));
+    JT_CALL(do_test_splitIf("a:b::c", IR, -1, "c"));
+    JT_CALL(do_test_splitIf("a:b::", IR, -1, " "));
+    JT_CALL(do_test_splitIf("a:b::", IE, -1, "ba"));
 }
 
 void test_splitLines()
@@ -661,12 +742,16 @@ JT_SUBTEST("Utf8",
            test_replaceInvalidUtf8,
            test_replaceInvalidUtf8InPlace,
            test_reverse,
-           test_split_caseInsensitive,
+           test_split_caseInsensitive_NonASCII,
+           test_split_caseInsensitive_NoTail,
            test_split_caseInsensitive_reverse,
-           test_split_caseSensitive_sameEncoding,
+           test_split_caseInsensitive_Tail,
+           test_split_caseSensitive_Tail,
+           test_split_caseSensitive_NoTail,
            test_split_whitespace,
            test_split_whitespace_backwards,
            test_splitIf,
+           test_splitIf_flags,
            test_splitLines,
            test_startsWith,
            test_substring,

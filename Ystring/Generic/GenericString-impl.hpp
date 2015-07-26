@@ -20,6 +20,8 @@
 #include "../Utilities/CountingOutputIterator.hpp"
 #include "StringTypeTraits.hpp"
 
+#include "JEBDebug/Debug.hpp"
+
 namespace Ystring { namespace Generic {
 
 namespace Detail
@@ -465,7 +467,8 @@ Range<It> findLastNewline(Range<It> str, Enc encoding)
 }
 
 template <typename It, typename Enc>
-std::pair<Range<It>, Range<It>> findInsertPosition(Range<It> str, ptrdiff_t pos,
+std::pair<Range<It>, Range<It>> findInsertPosition(Range<It> str,
+                                                   ptrdiff_t pos,
                                                    Enc encoding)
 {
     Range<It> range1 = str;
@@ -1069,60 +1072,152 @@ namespace Detail
         return result;
     }
 
+    template <typename Decoder, typename NextTokenFunc>
+    Decoder nextNonEmptyToken(Decoder& str, NextTokenFunc nextTokenFunc)
+    {
+        while (!empty(str))
+        {
+            auto token = nextTokenFunc(str);
+            if (!empty(token))
+                return token;
+        }
+        return str;
+    }
+
     template <typename Str, typename Decoder, typename NextTokenFunc>
     std::vector<Str> splitImpl(Decoder str,
                                NextTokenFunc nextTokenFunc,
                                size_t maxSplits,
                                SplitFlags_t flags)
     {
+        std::vector<Str> result;
         if (maxSplits == 0)
             --maxSplits;
-        std::vector<Str> result;
-        while (maxSplits != 0 && str.begin() != str.end())
+
+        auto token = nextTokenFunc(str);
+        if (!SplitFlags::ignoreEmptyFront(flags) || !empty(token))
         {
-            auto token = nextTokenFunc(str);
-            if (!SplitFlags::ignoreEmpty(flags) || token.begin() != token.end())
-            {
-                result.emplace_back(token.begin(), token.end());
-                --maxSplits;
-            }
+            result.emplace_back(token.begin(), token.end());
+            --maxSplits;
+        }
+        if (token.end() == str.end())
+            return result;
+
+        while (maxSplits != 0 && !empty(str))
+        {
+            token = SplitFlags::ignoreEmptyIntermediates(flags)
+                  ? nextNonEmptyToken(str, nextTokenFunc)
+                  : nextTokenFunc(str);
             if (token.end() == str.end())
-                return result;
+            {
+                str = token;
+                break;
+            }
+            result.emplace_back(token.begin(), token.end());
+            --maxSplits;
+        }
+
+        if (SplitFlags::ignoreEmptyIntermediates(flags) && maxSplits == 0)
+        {
+            token = nextNonEmptyToken(str, nextTokenFunc);
+            str.setLogicalBegin(token.getLogicalBegin());
         }
         if ((!SplitFlags::ignoreRemainder(flags)) &&
-            (!SplitFlags::ignoreEmpty(flags) || str.begin() != str.end()))
+            (!SplitFlags::ignoreEmptyBack(flags) || !empty(str)))
         {
             result.emplace_back(str.begin(), str.end());
         }
         return result;
     }
 
+    template <typename It1, typename It2>
+    Range<It1> nextToken(Range<It1>& str, Range<It2> cmp)
+    {
+        auto sep = search(str, cmp);
+        auto token = !empty(sep) ? makeRange(str.begin(), sep.begin())
+                                 : str;
+        str.begin() = sep.end();
+        return token;
+    }
+
+    template <typename It1, typename It2>
+    Range<It1> nextNonEmptyToken(Range<It1>& str, Range<It2> cmp)
+    {
+        while (!empty(str))
+        {
+            auto token = nextToken(str, cmp);
+            if (!empty(token))
+                return token;
+        }
+        return str;
+    }
+
     template <typename Str, typename It1, typename It2, typename Enc>
     std::vector<Str> splitImpl(Range<It1> str,
                                Range<It2> cmp,
-                               Enc encoding,
+                               Enc /*encoding*/,
                                ptrdiff_t maxSplits,
                                SplitFlags_t flags,
                                std::true_type)
     {
-        auto tmpSplits = size_t(maxSplits == 0 ? maxSplits - 1 : maxSplits);
         std::vector<Str> result;
-        while (tmpSplits != 0 && str.begin() != str.end())
+        if (maxSplits == 0)
+            --maxSplits;
+
+        auto token = nextToken(str, cmp);
+        if (!SplitFlags::ignoreEmptyFront(flags) || !empty(token))
         {
-            auto token = search(str, cmp);
-            if (!SplitFlags::ignoreEmpty(flags) ||
-                str.begin() != token.begin())
+            result.emplace_back(token.begin(), token.end());
+            --maxSplits;
+        }
+        if (token.end() == str.end())
+            return result;
+
+        while (maxSplits != 0 && !empty(str))
+        {
+            token = SplitFlags::ignoreEmptyIntermediates(flags)
+                  ? nextNonEmptyToken(str, cmp)
+                  : nextToken(str, cmp);
+            if (token.end() == str.end())
             {
-                result.emplace_back(str.begin(), token.begin());
-                --tmpSplits;
+                str = token;
+                break;
             }
-            str.begin() = token.end();
+            result.emplace_back(token.begin(), token.end());
+            --maxSplits;
+        }
+
+        if (SplitFlags::ignoreEmptyIntermediates(flags) && maxSplits == 0)
+        {
+            token = nextNonEmptyToken(str, cmp);
+            str.begin() = token.begin();
         }
         if ((!SplitFlags::ignoreRemainder(flags)) &&
-            (!SplitFlags::ignoreEmpty(flags) || str.begin() != str.end()))
+            (!SplitFlags::ignoreEmptyBack(flags) || !empty(str)))
         {
             result.emplace_back(str.begin(), str.end());
         }
+//        if (maxSplits == 0)
+//            --maxSplits;
+//        std::vector<Str> result;
+//        while (maxSplits != 0 && str.begin() != str.end())
+//        {
+//            auto token = search(str, cmp);
+//            if (!SplitFlags::ignoreEmpty(flags) ||
+//                str.begin() != token.begin())
+//            {
+//                result.emplace_back(str.begin(), token.begin());
+//                --maxSplits;
+//            }
+//            if (token.end() == str.end())
+////                return result;
+//            str.begin() = token.end();
+//        }
+//        if ((!SplitFlags::ignoreRemainder(flags)) &&
+//            (!SplitFlags::ignoreEmpty(flags) || str.begin() != str.end()))
+//        {
+//            result.emplace_back(str.begin(), str.end());
+//        }
         return result;
     }
 
