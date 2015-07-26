@@ -19,6 +19,7 @@ Examples
 
 ### Convert UTF-8 string to upper case
 
+    ```cpp
     #include <iostream>
     #include <Ystring/Utf8.hpp>
     
@@ -27,6 +28,7 @@ Examples
         std::string s = u8"Köztársaság";
         std::cout << s << " -> " << Ystring::Utf8::upper(s) << "\n";
     }
+    ```
 
 Compile and run (in a shell that uses UTF-8, e.g. Terminal under Mac OS X): 
 
@@ -36,6 +38,7 @@ Compile and run (in a shell that uses UTF-8, e.g. Terminal under Mac OS X):
 
 ### Convert string to title case
 
+    ```cpp
     #include <iostream>
     #include <Ystring/Utf8.hpp>
     
@@ -43,6 +46,7 @@ Compile and run (in a shell that uses UTF-8, e.g. Terminal under Mac OS X):
     {
         std::cout << Ystring::Utf8::title("still pumped from using the mouse\n");
     }
+    ```
 
 Compile and run: 
 
@@ -52,6 +56,7 @@ Compile and run:
 
 ### Pretty-print colon-separated paths
 
+    ```cpp
     #include <iostream>
     #include <Ystring/Utf8.hpp>
     
@@ -63,9 +68,20 @@ Compile and run:
             return 1;
         std::cout << join(split(argv[1], ":"), "\n") << "\n";
     }
+    ```
 
 Compile and run: 
 
-    $ c++ -std=c++11 PrintPath.cpp -lYstring -o PrintPath
+    <strong>$ c++ -std=c++11 PrintPath.cpp -lYstring -o PrintPath</strong>
     $ echo $PATH
+    /opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:~/bin
     $ ./PrintPath $PATH
+    /opt/local/bin
+    /opt/local/sbin
+    /usr/local/bin
+    /usr/bin
+    /bin
+    /usr/sbin
+    /sbin
+    /opt/local/bin
+    ~/bin
