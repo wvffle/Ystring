@@ -17,7 +17,8 @@ template <bool SwapBytes>
 class Utf16EncodingImpl
 {
 public:
-    static const Encoding_t encoding = Encoding::UTF_8;
+    static const auto encoding = SwapBytes ? Encoding::UTF_16_BE
+                                           : Encoding::UTF_16_LE;
     typedef wchar_t CanonicalType;
 
     template <typename FwdIt>
