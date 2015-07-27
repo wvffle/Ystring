@@ -88,6 +88,5 @@ $ ./PrintPath $PATH
 /bin
 /usr/sbin
 /sbin
-/opt/local/bin
 ~/bin
 ```
