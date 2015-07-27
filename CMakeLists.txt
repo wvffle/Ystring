@@ -44,21 +44,29 @@ set(PUBLIC_HEADERS
 
 set(PRIVATE_HEADERS
     Ystring/DecoderResult.hpp
+    Ystring/CodePage/CodePage.hpp
+    Ystring/CodePage/CodePageEncoding.hpp
+    Ystring/CodePage/Iso8859_1.hpp
+    Ystring/CodePage/Windows1252.hpp
     Ystring/Encoded/Appender.hpp
+    Ystring/Encoded/AppendEscaped.hpp
+    Ystring/Encoded/AppendUnescaped.hpp
+    Ystring/Encoded/BackslashUnescaper.hpp
     Ystring/Encoded/DecoderAlgorithms.hpp
     Ystring/Encoded/DecoderStringFunctions.hpp
     Ystring/Encoded/DecoderStringFunctions-impl.hpp
     Ystring/Encoded/Encoder.hpp
+    Ystring/Encoded/FixedLengthBackslashEscaper.hpp
     Ystring/Encoded/ForwardDecoder.hpp
     Ystring/Encoded/ReverseDecoder.hpp
+    Ystring/Encoded/VariableLengthBackslashEscaper.hpp
+    Ystring/Encoded/XmlEscaper.hpp
     Ystring/Generic/StringReference.hpp
     Ystring/Generic/GenericString.hpp
     Ystring/Generic/GenericString-impl.hpp
     Ystring/Generic/Range.hpp
     Ystring/Generic/RangeAlgorithms.hpp
     Ystring/Generic/StringTypeTraits.hpp
-    Ystring/CodePage/CodePage.hpp
-    Ystring/CodePage/CodePageEncoding.hpp
     Ystring/Unicode/CaseConverter.hpp
     Ystring/Unicode/CaseInsensitive.hpp
     Ystring/Unicode/CharClass.hpp
@@ -94,10 +102,13 @@ set(PRIVATE_HEADERS
     Ystring/Utilities/Union16.hpp
     Ystring/Utilities/Union32.hpp
     Ystring/Utilities/Union64.hpp
+    Ystring/Utilities/Utilities.hpp
     )
 
 set(SOURCE_FILES
     Ystring/CodePage/CodePage.cpp
+    Ystring/CodePage/Iso8859_1.cpp
+    Ystring/CodePage/Windows1252.cpp
     Ystring/Unicode/CaseConverter.cpp
     Ystring/Unicode/CharClass.cpp
     Ystring/Unicode/CharMap.cpp
