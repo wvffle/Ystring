@@ -442,6 +442,11 @@ std::string toUtf8(const std::string& str, Encoding_t encoding)
     {
     case Encoding::UTF_8:
         return str;
+    case Encoding::CP_437:
+        return Generic::convert<std::string>(
+                makeRange(str),
+                CodePage::Cp437Encoding(),
+                Utf8Encoding());
     case Encoding::LATIN_1:
         return Generic::convert<std::string>(
                 makeRange(str),

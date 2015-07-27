@@ -7,6 +7,8 @@
 //****************************************************************************
 #pragma once
 
+#include <stdexcept>
+#include <string>
 #include "../Encoding.hpp"
 #include "../YstringDefinitions.hpp"
 #include "CodePage.hpp"
@@ -88,6 +90,7 @@ private:
     CodePage m_CodePage;
 };
 
+typedef CodePageEncoding<Encoding::CP_437> Cp437Encoding;
 typedef CodePageEncoding<Encoding::LATIN_1> Latin1Encoding;
 typedef CodePageEncoding<Encoding::WINDOWS_1252> Windows1252Encoding;
 
