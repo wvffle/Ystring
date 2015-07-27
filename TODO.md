@@ -8,7 +8,6 @@ TODO
 * Add interfaces similar to Utf8String.hpp for std::wstring, std::u16string and std::u32string.
 * Support more of the iso-8859 character sets.
 * Support more of the Windows code pages.
-* Support some of the DOS OEM code pages.
 * Implement unescape XML_TEXT and XML_ATTRIBUTE.
 * Implement escape URL
 * Implement unescape URL

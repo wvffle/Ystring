@@ -36,6 +36,9 @@ struct Encoding
         /** @brief The Windows version of ISO 8859.
           */
         WINDOWS_1252,
+        /** @brief The most common MS DOS encoding.
+          */
+        CP_437,
         /** @brief Big Endian UTF-16.
           */
         UTF_16_BE,

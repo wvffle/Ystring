@@ -10,6 +10,7 @@
 #include <vector>
 #include "../YstringDefinitions.hpp"
 #include "../Utilities/KeyFunctionAlgorithms.hpp"
+#include "Cp437.hpp"
 #include "Iso8859_1.hpp"
 #include "Windows1252.hpp"
 
@@ -55,6 +56,8 @@ CodePage makeCodePage(Encoding_t encoding)
         return makeIso8859_1();
     case Encoding::WINDOWS_1252:
         return makeWindows1252();
+    case Encoding::CP_437:
+        return makeCp437();
     default:
         break;
     }

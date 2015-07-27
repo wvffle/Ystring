@@ -46,6 +46,7 @@ set(PRIVATE_HEADERS
     Ystring/DecoderResult.hpp
     Ystring/CodePage/CodePage.hpp
     Ystring/CodePage/CodePageEncoding.hpp
+    Ystring/CodePage/Cp437.hpp
     Ystring/CodePage/Iso8859_1.hpp
     Ystring/CodePage/Windows1252.hpp
     Ystring/Encoded/Appender.hpp
@@ -107,6 +108,7 @@ set(PRIVATE_HEADERS
 
 set(SOURCE_FILES
     Ystring/CodePage/CodePage.cpp
+    Ystring/CodePage/Cp437.cpp
     Ystring/CodePage/Iso8859_1.cpp
     Ystring/CodePage/Windows1252.cpp
     Ystring/Unicode/CaseConverter.cpp
