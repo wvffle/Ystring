@@ -12,9 +12,9 @@ import sys
 import codegen
 
 AlternativeIndexes = {
-    "Upper": -1,
+    "Upper": -3,
     "Lower": -2,
-    "Title": -3
+    "Title": -1
 }
 
 def getMostPrevalentDiff(values):
