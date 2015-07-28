@@ -1,8 +1,6 @@
 TODO
 ====
-* Update unicode tables with most recent standard.
-* Add the python scripts that generates unicode tables to the repository.
-* Make python scripts produce complete C++ files rather than text that must be copied and pasted.
+* Update unicode tables with most recent standard (6.3 is supported, 8.0 is current).
 * Add functions that converts between composed and decomposed characters.
 * Add conversion to/from std::u16string and std::u32string.
 * Add interfaces similar to Utf8String.hpp for std::wstring, std::u16string and std::u32string.
