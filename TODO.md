@@ -1,6 +1,5 @@
 TODO
 ====
-* Update unicode tables with most recent standard (6.3 is supported, 8.0 is current).
 * Add functions that converts between composed and decomposed characters.
 * Add conversion to/from std::u16string and std::u32string.
 * Add interfaces similar to Utf8String.hpp for std::wstring, std::u16string and std::u32string.
