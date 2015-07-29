@@ -76,7 +76,7 @@ struct Encoding
         /** @brief This encoding is recognized by determineEncoding, but
           *     otherwise unsupported.
           */
-        BOCU1,
+        BOCU_1,
         /** @brief This encoding is recognized by determineEncoding, but
           *     otherwise unsupported.
           */
