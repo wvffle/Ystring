@@ -16,7 +16,7 @@
 /// @cond
 
 #ifdef _WIN32
-    #ifdef NROADREFTOOLS_EXPORTS
+    #ifdef YSTRING_EXPORTS
         #define YSTRING_API __declspec(dllexport)
     #else
         #define YSTRING_API
