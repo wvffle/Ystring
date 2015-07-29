@@ -7,10 +7,12 @@
 //****************************************************************************
 #include "Utf8String.hpp"
 
-#include "Utf8Encoding.hpp"
+#include "../PlatformDetails.hpp"
 #include "../Generic/GenericString.hpp"
 #include "../CodePage/CodePageEncoding.hpp"
 #include "../Utf16/Utf16Encoding.hpp"
+#include "../Utf32/Utf32Encoding.hpp"
+#include "Utf8Encoding.hpp"
 
 namespace Ystring { namespace Utf8 {
 
@@ -436,26 +438,54 @@ std::string toUtf8(uint32_t chr)
 
 std::string toUtf8(const std::string& str, Encoding_t encoding)
 {
-    std::string result;
-    result.reserve(str.size());
+    return toUtf8(str.data(), str.size(), encoding);
+}
+
+std::string toUtf8(const std::wstring& str, Encoding_t encoding)
+{
+    return toUtf8(str.data(), str.size(), encoding);
+}
+
+std::string toUtf8(const char* str, size_t length, Encoding_t encoding)
+{
     switch (encoding)
     {
     case Encoding::UTF_8:
         return str;
     case Encoding::CP_437:
         return Generic::convert<std::string>(
-                makeRange(str),
+                makeRange(str, str + length),
                 CodePage::Cp437Encoding(),
                 Utf8Encoding());
     case Encoding::LATIN_1:
         return Generic::convert<std::string>(
-                makeRange(str),
+                makeRange(str, str + length),
                 CodePage::Latin1Encoding(),
                 Utf8Encoding());
     case Encoding::WINDOWS_1252:
         return Generic::convert<std::string>(
-                makeRange(str),
+                makeRange(str, str + length),
                 CodePage::Windows1252Encoding(),
+                Utf8Encoding());
+    case Encoding::UTF_16_BE:
+        return Generic::convert<std::string>(
+                makeRange(str, str + length),
+                Utf16::Utf16BEEncoding(),
+                Utf8Encoding());
+    case Encoding::UTF_16_LE:
+        return Generic::convert<std::string>(
+                makeRange(str, str + length),
+                Utf16::Utf16LEEncoding(),
+                Utf8Encoding());
+    case Encoding::UTF_32_BE:
+        return Generic::convert<std::string>(
+                makeRange(str, str + length),
+                Utf32::Utf32BEEncoding(),
+                Utf8Encoding());
+    case Encoding::UTF_32_LE:
+        return Generic::convert<std::string>(
+                makeRange(str, str + length),
+                Utf32::Utf32LEEncoding(),
                 Utf8Encoding());
     default:
         throw std::logic_error("toUtf8: unsupported encoding " +
@@ -463,18 +493,79 @@ std::string toUtf8(const std::string& str, Encoding_t encoding)
     }
 }
 
-std::string toUtf8(const std::wstring& str, Encoding_t encoding)
+std::string toUtf8(const uint16_t* str, size_t length, Encoding_t encoding)
 {
     switch (encoding)
     {
-    case Encoding::UTF_16:
-        return Generic::convert<std::string>(makeRange(str),
-                                             Utf16::Utf16Encoding(),
-                                             Utf8Encoding());
+    case Encoding::UTF_16_BE:
+        return Generic::convert<std::string>(
+                makeRange(str, str + length),
+                Utf16::Utf16BEEncoding(),
+                Utf8Encoding());
+    case Encoding::UTF_16_LE:
+        return Generic::convert<std::string>(
+                makeRange(str, str + length),
+                Utf16::Utf16LEEncoding(),
+                Utf8Encoding());
     default:
         throw std::logic_error("toUtf8: unsupported encoding " +
                                std::to_string(int64_t(encoding)));
     }
+}
+
+std::string toUtf8(const uint32_t* str, size_t length, Encoding_t encoding)
+{
+    switch (encoding)
+    {
+    case Encoding::UTF_16_BE:
+        return Generic::convert<std::string>(
+                makeRange(str, str + length),
+                Utf16::Utf16BEEncoding(),
+                Utf8Encoding());
+    case Encoding::UTF_16_LE:
+        return Generic::convert<std::string>(
+                makeRange(str, str + length),
+                Utf16::Utf16LEEncoding(),
+                Utf8Encoding());
+    case Encoding::UTF_32_BE:
+        return Generic::convert<std::string>(
+                makeRange(str, str + length),
+                Utf32::Utf32BEEncoding(),
+                Utf8Encoding());
+    case Encoding::UTF_32_LE:
+        return Generic::convert<std::string>(
+                makeRange(str, str + length),
+                Utf32::Utf32LEEncoding(),
+                Utf8Encoding());
+    default:
+        throw std::logic_error("toUtf8: unsupported encoding " +
+                               std::to_string(int64_t(encoding)));
+    }
+}
+
+std::string toUtf8(const std::u16string& str, Encoding_t encoding)
+{
+    return toUtf8(str.data(), str.size(), encoding);
+}
+
+std::string toUtf8(const std::u32string& str, Encoding_t encoding)
+{
+    return toUtf8(str.data(), str.size(), encoding);
+}
+
+std::string toUtf8(const wchar_t* str, size_t length, Encoding_t encoding)
+{
+    return toUtf8(internal_char_type_cast(str), length, encoding);
+}
+
+std::string toUtf8(const char16_t* str, size_t length, Encoding_t encoding)
+{
+    return toUtf8(internal_char_type_cast(str), length, encoding);
+}
+
+std::string toUtf8(const char32_t* str, size_t length, Encoding_t encoding)
+{
+    return toUtf8(internal_char_type_cast(str), length, encoding);
 }
 
 std::string trim(const std::string& str)

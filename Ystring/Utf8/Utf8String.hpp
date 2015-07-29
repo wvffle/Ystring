@@ -585,6 +585,30 @@ YSTRING_API std::string toUtf8(uint32_t chr);
   */
 YSTRING_API std::string toUtf8(const std::string& str, Encoding_t encoding);
 
+YSTRING_API std::string toUtf8(const char* str, size_t length,
+                               Encoding_t encoding);
+
+YSTRING_API std::string toUtf8(const wchar_t* str, size_t length,
+                               Encoding_t encoding);
+
+YSTRING_API std::string toUtf8(const uint16_t* str, size_t length,
+                               Encoding_t encoding);
+
+YSTRING_API std::string toUtf8(const uint32_t* str, size_t length,
+                               Encoding_t encoding);
+
+YSTRING_API std::string toUtf8(const std::u16string& str,
+                               Encoding_t encoding = Encoding::UTF_16);
+
+YSTRING_API std::string toUtf8(const std::u32string& str,
+                               Encoding_t encoding = Encoding::UTF_32);
+
+YSTRING_API std::string toUtf8(const char16_t* str, size_t length,
+                               Encoding_t encoding);
+
+YSTRING_API std::string toUtf8(const char32_t* str, size_t length,
+                               Encoding_t encoding);
+
 /** @brief Returns an UTF-8 encoded string equivalent to @a str.
   *
   *  @param str The string to convert from.
@@ -592,8 +616,7 @@ YSTRING_API std::string toUtf8(const std::string& str, Encoding_t encoding);
   *  @throws logic_error if str contains any characters that aren't encoded
   *     according to @a encoding, or if @a encoding isn't a 16-bit encoding.
   */
-YSTRING_API std::string toUtf8(const std::wstring& str,
-                               Encoding_t encoding = Encoding::UTF_16);
+YSTRING_API std::string toUtf8(const std::wstring& str, Encoding_t encoding);
 
 /** @brief Returns a copy of @a str where all whitespace characters at the
   *     start and end of the string have been removed.

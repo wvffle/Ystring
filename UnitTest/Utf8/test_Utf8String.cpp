@@ -637,9 +637,9 @@ void test_toUtf8_fromUtf8()
              UTF8_LATIN_SMALL_O_WITH_STROKE "ker");
 }
 
-void test_toUtf8_fromUtf16()
+void test_toUtf8_fromUtf16_wstring()
 {
-    JT_EQUAL(Utf8::toUtf8(L"\u00C5rb\u00F8ker"),
+    JT_EQUAL(Utf8::toUtf8(L"\u00C5rb\u00F8ker", Encoding::UTF_16_LE),
              UTF8_LATIN_CAPITAL_A_WITH_RING_ABOVE "rb"
              UTF8_LATIN_SMALL_O_WITH_STROKE "ker");
 }
@@ -758,7 +758,7 @@ JT_SUBTEST("Utf8",
            test_title,
            test_toUtf8_fromLatin1,
            test_toUtf8_fromUtf8,
-           test_toUtf8_fromUtf16,
+           test_toUtf8_fromUtf16_wstring,
            test_toUtf8_fromWindows1252,
            test_trim,
            test_trimEnd,
