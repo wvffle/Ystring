@@ -7,13 +7,13 @@
 ##****************************************************************************
 cmake_minimum_required(VERSION 3.2)
 
-find_package(JEBTest)
-if(NOT JEBTEST_FOUND)
-    MESSAGE(FATAL_ERRORO "Could not find JEBTest.")
-endif(NOT JEBTEST_FOUND)
-
 set(PARENT_PROJECT Ystring)
 project(${PARENT_PROJECT}Test)
+
+find_package(JEBTest)
+if(NOT JEBTEST_FOUND)
+    message(FATAL_ERRORO "Could not find JEBTest.")
+endif(NOT JEBTEST_FOUND)
 
 include_directories(${JEBTEST_INCLUDE_DIRS})
 
@@ -32,8 +32,6 @@ set(SOURCE_FILES
 
 add_executable(${PROJECT_NAME}
                ${SOURCE_FILES})
-
-message("${PARENT_PROJECT} ${JEBTEST_LIBRARIES}")
 
 target_link_libraries(${PROJECT_NAME}
                       ${PARENT_PROJECT}

@@ -136,6 +136,8 @@ elseif(WIN32)
 		)
 endif(APPLE)
 
+add_subdirectory(Examples)
+
 set(CTEST_OUTPUT_ON_FAILURE 1)
 add_subdirectory(UnitTest)
 
