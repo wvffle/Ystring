@@ -265,10 +265,16 @@ void test_isValidUtf8()
 
 void test_join()
 {
-    std::vector<std::string> strings{"foo", "faa", "fii", "fee", "fuu"};
-    auto result1 = Utf8::join(strings);
+    std::string rawStrings[] = {"foo", "faa", "fii", "fee", "fuu"};
+    auto result1 = Utf8::join(rawStrings, 5);
     JT_EQUAL(result1, "foofaafiifeefuu");
-    auto result2 = Utf8::join(strings, ":-:");
+    auto result2 = Utf8::join(rawStrings, 5, ":-:");
+    JT_EQUAL(result2, "foo:-:faa:-:fii:-:fee:-:fuu");
+    std::vector<std::string> strings(std::begin(rawStrings),
+                                     std::end(rawStrings));
+    result1 = Utf8::join(strings);
+    JT_EQUAL(result1, "foofaafiifeefuu");
+    result2 = Utf8::join(strings, ":-:");
     JT_EQUAL(result2, "foo:-:faa:-:fii:-:fee:-:fuu");
 }
 

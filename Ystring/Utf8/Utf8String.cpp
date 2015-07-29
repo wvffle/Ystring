@@ -238,11 +238,18 @@ bool isValidUtf8(const std::string& str)
 }
 
 std::string join(const std::vector<std::string>& strings,
-                 std::string delimiter)
+                 const std::string& delimiter)
+{
+    return join(strings.data(), strings.size(), delimiter);
+}
+
+std::string join(const std::string* strings,
+                 size_t count,
+                 const std::string& delimiter)
 {
     return delimiter.empty() ?
-           Generic::join<std::string>(begin(strings), end(strings)) :
-           Generic::join<std::string>(begin(strings), end(strings),
+           Generic::join<std::string>(strings, strings + count) :
+           Generic::join<std::string>(strings, strings + count,
                                       makeRange(delimiter));
 }
 

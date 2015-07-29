@@ -376,7 +376,14 @@ YSTRING_API bool isValidUtf8(const std::string& str);
   * by @a delimiter.
   */
 YSTRING_API std::string join(const std::vector<std::string>& strings,
-                             std::string delimiter = std::string());
+                             const std::string& delimiter = std::string());
+
+/** @brief Returns the concatenation of the strings in @a strings delimited
+  * by @a delimiter.
+  */
+YSTRING_API std::string join(const std::string* strings,
+                             size_t count,
+                             const std::string& delimiter = std::string());
 
 /** @brief Returns a lower case copy of @a str.
   */
@@ -578,43 +585,99 @@ YSTRING_API std::string toUtf8(uint32_t chr);
 
 /** @brief Returns an UTF-8 encoded string equivalent to @a str.
   *
-  *  @param str The string to convert from.
-  *  @param encoding The encoding of @a str.
-  *  @throws logic_error if str contains any characters that aren't encoded
+  * @param str The string to convert from.
+  * @param encoding The encoding of @a str.
+  * @throws logic_error if str contains any characters that aren't encoded
   *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
   */
 YSTRING_API std::string toUtf8(const std::string& str, Encoding_t encoding);
 
+/** @brief Returns an UTF-8 encoded string equivalent to @a str.
+  *
+  * @param str The string to convert from.
+  * @param encoding The encoding of @a str.
+  * @throws logic_error if str contains any characters that aren't encoded
+  *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
+  */
 YSTRING_API std::string toUtf8(const char* str, size_t length,
                                Encoding_t encoding);
 
+/** @brief Returns an UTF-8 encoded string equivalent to @a str.
+  *
+  * @param str The string to convert from.
+  * @param encoding The encoding of @a str.
+  * @throws logic_error if str contains any characters that aren't encoded
+  *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
+  */
 YSTRING_API std::string toUtf8(const wchar_t* str, size_t length,
                                Encoding_t encoding);
 
+/** @brief Returns an UTF-8 encoded string equivalent to @a str.
+  *
+  * @param str The string to convert from.
+  * @param encoding The encoding of @a str.
+  * @throws logic_error if str contains any characters that aren't encoded
+  *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
+  */
 YSTRING_API std::string toUtf8(const uint16_t* str, size_t length,
                                Encoding_t encoding);
 
+/** @brief Returns an UTF-8 encoded string equivalent to @a str.
+  *
+  * @param str The string to convert from.
+  * @param encoding The encoding of @a str.
+  * @throws logic_error if str contains any characters that aren't encoded
+  *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
+  */
 YSTRING_API std::string toUtf8(const uint32_t* str, size_t length,
                                Encoding_t encoding);
 
+/** @brief Returns an UTF-8 encoded string equivalent to @a str.
+  *
+  * @param str The string to convert from.
+  * @param encoding The encoding of @a str.
+  * @throws logic_error if str contains any characters that aren't encoded
+  *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
+  */
 YSTRING_API std::string toUtf8(const std::u16string& str,
                                Encoding_t encoding = Encoding::UTF_16);
 
+/** @brief Returns an UTF-8 encoded string equivalent to @a str.
+  *
+  * @param str The string to convert from.
+  * @param encoding The encoding of @a str.
+  * @throws logic_error if str contains any characters that aren't encoded
+  *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
+  */
 YSTRING_API std::string toUtf8(const std::u32string& str,
                                Encoding_t encoding = Encoding::UTF_32);
 
+/** @brief Returns an UTF-8 encoded string equivalent to @a str.
+  *
+  * @param str The string to convert from.
+  * @param encoding The encoding of @a str.
+  * @throws logic_error if str contains any characters that aren't encoded
+  *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
+  */
 YSTRING_API std::string toUtf8(const char16_t* str, size_t length,
                                Encoding_t encoding);
 
+/** @brief Returns an UTF-8 encoded string equivalent to @a str.
+  *
+  * @param str The string to convert from.
+  * @param encoding The encoding of @a str.
+  * @throws logic_error if str contains any characters that aren't encoded
+  *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
+  */
 YSTRING_API std::string toUtf8(const char32_t* str, size_t length,
                                Encoding_t encoding);
 
 /** @brief Returns an UTF-8 encoded string equivalent to @a str.
   *
-  *  @param str The string to convert from.
-  *  @param encoding The encoding of @a str.
-  *  @throws logic_error if str contains any characters that aren't encoded
-  *     according to @a encoding, or if @a encoding isn't a 16-bit encoding.
+  * @param str The string to convert from.
+  * @param encoding The encoding of @a str.
+  * @throws logic_error if str contains any characters that aren't encoded
+  *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
   */
 YSTRING_API std::string toUtf8(const std::wstring& str, Encoding_t encoding);
 
