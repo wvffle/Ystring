@@ -26,6 +26,7 @@ endif(JEBDEBUG_FOUND)
 
 set(PUBLIC_HEADERS_ROOT
     Ystring/Encoding.hpp
+    Ystring/EncodingInfo.hpp
     Ystring/EscapeType.hpp
     Ystring/FindFlags.hpp
     Ystring/SplitFlags.hpp
@@ -108,6 +109,7 @@ set(PRIVATE_HEADERS
     )
 
 set(SOURCE_FILES
+    Ystring/EncodingInfo.cpp
     Ystring/CodePage/CodePage.cpp
     Ystring/CodePage/Cp437.cpp
     Ystring/CodePage/Iso8859_1.cpp

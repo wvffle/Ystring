@@ -19,6 +19,7 @@ include_directories(${JEBTEST_INCLUDE_DIRS})
 
 set(SOURCE_FILES
     main.cpp
+    test_EncodingInfo.cpp
     Generic/test_Convert.cpp
     Generic/test_GenericString.cpp
     Unicode/test_CaseConverter.cpp
