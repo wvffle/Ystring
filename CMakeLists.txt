@@ -24,6 +24,22 @@ if(JEBDEBUG_FOUND)
     include_directories(${JEBDEBUG_INCLUDE_DIRS})
 endif(JEBDEBUG_FOUND)
 
+if(MSVC)
+    set(PUBLIC_HEADERS_ROOT_PLATFORM_SPECIFIC
+        Ystring/Utf16W.hpp
+        )
+    set(PUBLIC_HEADERS_UTF16_PLATFORM_SPECIFIC
+        Ystring/Utf16/Utf16WString.cpp
+        )
+    set(SOURCE_FILES_PLATFORM_SPECIFIC
+        Ystring/Utf16/Utf16WString.cpp
+        )
+else(MSVC)
+    set(PUBLIC_HEADERS_ROOT_PLATFORM_SPECIFIC)
+    set(PUBLIC_HEADERS_UTF16_PLATFORM_SPECIFIC)
+    set(SOURCE_FILES_PLATFORM_SPECIFIC)
+endif(MSVC)
+
 set(PUBLIC_HEADERS_ROOT
     Ystring/Encoding.hpp
     Ystring/EncodingInfo.hpp
@@ -32,15 +48,21 @@ set(PUBLIC_HEADERS_ROOT
     Ystring/SplitFlags.hpp
     Ystring/Utf8.hpp
     Ystring/YstringDefinitions.hpp
+    ${PUBLIC_HEADERS_ROOT_PLATFORM_SPECIFIC}
     )
 
 set(PUBLIC_HEADERS_UTF8
     Ystring/Utf8/Utf8String.hpp
     )
 
+set(PUBLIC_HEADERS_UTF16
+    ${PUBLIC_HEADERS_UTF16_PLATFORM_SPECIFIC}
+    )
+
 set(PUBLIC_HEADERS
     ${PUBLIC_HEADERS_ROOT}
     ${PUBLIC_HEADERS_UTF8}
+    ${PUBLIC_HEADERS_UTF16}
     )
 
 set(PRIVATE_HEADERS
@@ -120,29 +142,41 @@ set(SOURCE_FILES
     Ystring/Unicode/CharMappingTypes.cpp
     Ystring/Utf8/EncodeUtf8.cpp
     Ystring/Utf8/Utf8String.cpp
+    ${SOURCE_FILES_PLATFORM_SPECIFIC}
     )
 
-if(APPLE)
-	add_library(
-		${PROJECT_NAME} SHARED
-		${PUBLIC_HEADERS}
-	    ${PRIVATE_HEADERS}
-	    ${SOURCE_FILES}
-	    )
-elseif(WIN32)
-	add_library(
-		${PROJECT_NAME} STATIC
-		${PUBLIC_HEADERS}
-		${PRIVATE_HEADERS}
-		${SOURCE_FILES}
-		)
-endif(APPLE)
+# if(APPLE)
+# 	add_library(
+# 		${PROJECT_NAME} SHARED
+# 		${PUBLIC_HEADERS}
+# 	    ${PRIVATE_HEADERS}
+# 	    ${SOURCE_FILES}
+# 	    )
+# elseif(WIN32)
+# 	add_library(
+# 		${PROJECT_NAME} STATIC
+# 		${PUBLIC_HEADERS}
+# 		${PRIVATE_HEADERS}
+# 		${SOURCE_FILES}
+# 		)
+# endif(APPLE)
 
-add_subdirectory(Examples)
+add_library(
+    ${PROJECT_NAME} SHARED
+    ${PUBLIC_HEADERS}
+    ${PRIVATE_HEADERS}
+    ${SOURCE_FILES}
+    )
 
 set(CTEST_OUTPUT_ON_FAILURE 1)
 add_subdirectory(UnitTest)
 
+add_subdirectory(Examples)
+
 install(TARGETS ${PROJECT_NAME} DESTINATION lib)
-install(FILES ${PUBLIC_HEADERS_ROOT} DESTINATION include/${PROJECT_NAME})
-install(FILES ${PUBLIC_HEADERS_UTF8} DESTINATION include/${PROJECT_NAME}/Utf8)
+install(FILES ${PUBLIC_HEADERS_ROOT}
+        DESTINATION include/${PROJECT_NAME})
+install(FILES ${PUBLIC_HEADERS_UTF8}
+        DESTINATION include/${PROJECT_NAME}/Utf8)
+install(FILES ${PUBLIC_HEADERS_UTF16}
+        DESTINATION include/${PROJECT_NAME}/Utf16)

@@ -6,10 +6,18 @@
 // License text is included with the source distribution.
 //****************************************************************************
 #pragma once
+#include <cstddef>
 #include <cstdint>
 
 namespace Ystring
 {
+
+#ifdef _MSC_VER
+#define WCHAR_IS_2_BYTES
+#else
+    static_assert(sizeof(wchar_t) == 4, "Size of wchar_t isn't 4 bytes.");
+    #define WCHAR_IS_4_BYTES
+#endif
 
 template <size_t>
 struct InternalCharType;

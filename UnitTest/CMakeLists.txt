@@ -17,6 +17,14 @@ endif(NOT JEBTEST_FOUND)
 
 include_directories(${JEBTEST_INCLUDE_DIRS})
 
+if(MSVC)
+    set(SOURCE_FILES_PLATFORM_SPECIFIC
+        Utf16/test_Utf16WString.cpp
+        )
+else(MSVC)
+    set(SOURCE_FILES_PLATFORM_SPECIFIC)
+endif(MSVC)
+
 set(SOURCE_FILES
     main.cpp
     test_EncodingInfo.cpp
@@ -29,6 +37,7 @@ set(SOURCE_FILES
     Unicode/test_CharMappingTypes.cpp
     Utf8/test_Utf8String.cpp
     Utf8/test_Utf8StringCpp11.cpp
+    ${SOURCE_FILES_PLATFORM_SPECIFIC}
     )
 
 add_executable(${PROJECT_NAME}
