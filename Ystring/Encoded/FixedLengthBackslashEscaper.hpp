@@ -17,6 +17,8 @@ public:
     FixedLengthBackslashEscaper(uint32_t unicodeChar,
                                 int unicodeHexDigits)
         : m_UnicodeChar(unicodeChar),
+          m_MaxChar(unicodeHexDigits >= 8 ?
+                    ~0u : (1u << (unicodeHexDigits * 4u)) - 1u),
           m_UnicodeHexDigits(unicodeHexDigits)
     {}
 
@@ -38,12 +40,14 @@ public:
         case '\\': dst.append('\\'); break;
         default:
             {
-                if (chr > (1u << (m_UnicodeHexDigits * 4)))
+                if (chr > m_MaxChar)
+                {
                     throw std::logic_error(
                             "Character " + std::to_string(int64_t(chr)) +
                             " has more than " +
                             std::to_string(int64_t(m_UnicodeHexDigits)) +
                             " hex digits.");
+                }
                 dst.append(m_UnicodeChar);
                 for (auto i = 0; i < m_UnicodeHexDigits; ++i)
                 {
@@ -56,6 +60,7 @@ public:
     }
 private:
     uint32_t m_UnicodeChar;
+    uint32_t m_MaxChar;
     int m_UnicodeHexDigits;
 };
 
