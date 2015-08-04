@@ -8,7 +8,7 @@
 #include "CodePage.hpp"
 #include <stdexcept>
 #include <vector>
-#include "../YstringDefinitions.hpp"
+#include "../YstringException.hpp"
 #include "../Utilities/KeyFunctionAlgorithms.hpp"
 #include "Cp437.hpp"
 #include "Iso8859_1.hpp"
@@ -61,7 +61,7 @@ CodePage makeCodePage(Encoding_t encoding)
     default:
         break;
     }
-    throw std::logic_error("Unsupported code page encoding.");
+    YSTRING_THROW("Unsupported code page encoding.");
 }
 
 }}

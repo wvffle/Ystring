@@ -1,6 +1,6 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 29.07.15
+// Created by Jan Erik Breimo on 2015-07-29
 //
 // This file is distributed under the BSD License.
 // License text is included with the source distribution.
@@ -503,7 +503,7 @@ std::wstring toUtf16(const char* str, size_t length, Encoding_t encoding)
                 Utf32::Utf32LEEncoding(),
                 Utf16Encoding());
     default:
-        throw std::logic_error("toUtf16: unsupported encoding " +
+        YSTRING_THROW("toUtf16: unsupported encoding " +
                                std::to_string(int64_t(encoding)));
     }
 }
@@ -523,7 +523,7 @@ std::wstring toUtf16(const uint16_t* str, size_t length, Encoding_t encoding)
                 Utf16::Utf16LEEncoding(),
                 Utf16Encoding());
     default:
-        throw std::logic_error("toUtf16: unsupported encoding " +
+        YSTRING_THROW("toUtf16: unsupported encoding " +
                                std::to_string(int64_t(encoding)));
     }
 }
@@ -553,7 +553,7 @@ std::wstring toUtf16(const uint32_t* str, size_t length, Encoding_t encoding)
                 Utf32::Utf32LEEncoding(),
                 Utf16Encoding());
     default:
-        throw std::logic_error("toUtf16: unsupported encoding " +
+        YSTRING_THROW("toUtf16: unsupported encoding " +
                                std::to_string(int64_t(encoding)));
     }
 }

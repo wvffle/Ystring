@@ -296,7 +296,7 @@ void test_nextCharacter_const()
     JT_EQUAL(distance(str.begin(), Utf8::nextCharacter(b, e, 2)), 2);
     JT_EQUAL(distance(str.begin(), Utf8::nextCharacter(b, e, 3)), 8);
     JT_EQUAL(distance(str.begin(), Utf8::nextCharacter(b, e, 4)), 9);
-    JT_THROWS(Utf8::nextCharacter(b, e, 5), std::logic_error);
+    JT_THROWS(Utf8::nextCharacter(b, e, 5), YstringException);
 }
 
 void test_nextCharacter_mutable()
@@ -310,7 +310,7 @@ void test_nextCharacter_mutable()
     JT_EQUAL(distance(str.begin(), Utf8::nextCharacter(b, e, 2)), 2);
     JT_EQUAL(distance(str.begin(), Utf8::nextCharacter(b, e, 3)), 8);
     JT_EQUAL(distance(str.begin(), Utf8::nextCharacter(b, e, 4)), 9);
-    JT_THROWS(Utf8::nextCharacter(b, e, 5), std::logic_error);
+    JT_THROWS(Utf8::nextCharacter(b, e, 5), YstringException);
 }
 
 void test_nthCharacter()
@@ -326,8 +326,8 @@ void test_nthCharacter()
     JT_EQUAL(distance(str.begin(), Utf8::nthCharacter(str, -2)), 2);
     JT_EQUAL(distance(str.begin(), Utf8::nthCharacter(str, -3)), 1);
     JT_EQUAL(distance(str.begin(), Utf8::nthCharacter(str, -4)), 0);
-    JT_THROWS(Utf8::nthCharacter(str, 5), std::logic_error);
-    JT_THROWS(Utf8::nthCharacter(str, -5), std::logic_error);
+    JT_THROWS(Utf8::nthCharacter(str, 5), YstringException);
+    JT_THROWS(Utf8::nthCharacter(str, -5), YstringException);
 }
 
 void test_prevCharacter_const()
@@ -342,7 +342,7 @@ void test_prevCharacter_const()
     JT_EQUAL(distance(str.begin(), Utf8::prevCharacter(b, e, 2)), 2);
     JT_EQUAL(distance(str.begin(), Utf8::prevCharacter(b, e, 3)), 1);
     JT_EQUAL(distance(str.begin(), Utf8::prevCharacter(b, e, 4)), 0);
-    JT_THROWS(Utf8::prevCharacter(b, e, 5), std::logic_error);
+    JT_THROWS(Utf8::prevCharacter(b, e, 5), YstringException);
 }
 
 void test_prevCharacter_mutable()
@@ -356,7 +356,7 @@ void test_prevCharacter_mutable()
     JT_EQUAL(distance(str.begin(), Utf8::prevCharacter(b, e, 2)), 2);
     JT_EQUAL(distance(str.begin(), Utf8::prevCharacter(b, e, 3)), 1);
     JT_EQUAL(distance(str.begin(), Utf8::prevCharacter(b, e, 4)), 0);
-    JT_THROWS(Utf8::prevCharacter(b, e, 5), std::logic_error);
+    JT_THROWS(Utf8::prevCharacter(b, e, 5), YstringException);
 }
 
 void test_replace_indexes()

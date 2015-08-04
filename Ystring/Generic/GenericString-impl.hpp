@@ -237,7 +237,7 @@ void appendEscaped(StringReference<Str>& dst,
                 Encoded::XmlEscaper());
         break;
     default:
-        throw std::logic_error("Unsupported escape type " +
+        YSTRING_THROW("Unsupported escape type " +
                                std::to_string(uint64_t(type)));
     }
 }
@@ -321,7 +321,7 @@ void appendUnescaped(StringReference<Str>& dst,
     case EscapeType::XML_ATTRIBUTE:
     case EscapeType::XML_TEXT:
     default:
-        throw std::logic_error("Unsupported escape type " +
+        YSTRING_THROW("Unsupported escape type " +
                                std::to_string(uint64_t(type)));
     }
 }
@@ -552,7 +552,7 @@ It nextCharacter(Range<It> str, size_t n, Enc encoding)
 {
     auto dec = Encoded::makeForwardDecoder(str, encoding);
     if (advanceCharacters(dec, n) != n)
-      throw std::logic_error(
+      YSTRING_THROW(
               "can't advance beyond the end of the range");
     return dec.begin();
 }
@@ -571,7 +571,7 @@ It prevCharacter(Range<It> str, size_t n, Enc encoding)
 {
     auto dec = Encoded::makeReverseDecoder(str, encoding);
     if (advanceCharacters(dec, n) != n)
-      throw std::logic_error(
+      YSTRING_THROW(
               "can't advance beyond the start of the range");
     return dec.end();
 }

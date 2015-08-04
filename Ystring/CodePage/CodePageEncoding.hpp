@@ -10,7 +10,7 @@
 #include <stdexcept>
 #include <string>
 #include "../Encoding.hpp"
-#include "../YstringDefinitions.hpp"
+#include "../YstringException.hpp"
 #include "CodePage.hpp"
 
 namespace Ystring { namespace CodePage {
@@ -79,7 +79,7 @@ public:
     {
         auto chr = m_CodePage.fromCodePoint(codePoint);
         if (chr == INVALID_CHAR)
-            throw std::logic_error(
+            YSTRING_THROW(
                     "Encoding " + std::to_string(int64_t(encoding)) +
                     " doesn't support code point " +
                     std::to_string(int64_t(codePoint)));

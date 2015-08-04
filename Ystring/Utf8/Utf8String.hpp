@@ -15,7 +15,7 @@
 #include "../EscapeType.hpp"
 #include "../FindFlags.hpp"
 #include "../SplitFlags.hpp"
-#include "../YstringDefinitions.hpp"
+#include "../YstringException.hpp"
 
 /** @file
   * @brief The function library for UTF-8 encoded strings.
@@ -48,7 +48,7 @@ YSTRING_API std::string& append(std::string& str, uint32_t chr);
   * @returns @arg < 0 if @a str is less than @a cmp
   *          @arg 0 if @a str is equal to @a cmp
   *          @arg > 0 if @a str is greater than @a cmp
-  * @throw logic_error if str contains an invalid UTF-8 code point.
+  * @throw YstringException if str contains an invalid UTF-8 code point.
   */
 YSTRING_API int32_t caseInsensitiveCompare(const std::string& str,
                                            const std::string& cmp);
@@ -59,7 +59,7 @@ YSTRING_API int32_t caseInsensitiveCompare(const std::string& str,
   * @note Composed and decomposed versions of the same characters are treated
   *     as different characters (the decomposed character is typically "the
   *     "lesser" one).
-  * @throw logic_error if str contains an invalid UTF-8 code point.
+  * @throw YstringException if str contains an invalid UTF-8 code point.
   */
 YSTRING_API bool caseInsensitiveEqual(const std::string& str,
                                       const std::string& cmp);
@@ -70,13 +70,13 @@ YSTRING_API bool caseInsensitiveEqual(const std::string& str,
   * Only a quick comparison of code point values are performed. This
   * function should not be used to sort strings in alphabetical order as
   * what is alphabetical order varies between languages and cultures.
-  * @throw logic_error if str contains an invalid UTF-8 code point.
+  * @throw YstringException if str contains an invalid UTF-8 code point.
   */
 YSTRING_API bool caseInsensitiveLess(const std::string& str,
                                      const std::string& cmp);
 
 /** @brief Returns true if @a str contains code point @a chr.
-  * @throw logic_error if str contains an invalid UTF-8 code point.
+  * @throw YstringException if str contains an invalid UTF-8 code point.
   */
 YSTRING_API bool contains(const std::string& str, uint32_t chr);
 
@@ -84,7 +84,7 @@ YSTRING_API bool contains(const std::string& str, uint32_t chr);
   *
   * @note A composed character can consist of multiple code points.
   * @return the number of characters.
-  * @throw logic_error if str contains an invalid UTF-8 code point.
+  * @throw YstringException if str contains an invalid UTF-8 code point.
   */
 YSTRING_API size_t countCharacters(const std::string& str);
 
@@ -92,7 +92,7 @@ YSTRING_API size_t countCharacters(const std::string& str);
   *
   * @note A composed character can consist of multiple code points.
   * @return the number of code points.
-  * @throw logic_error if str contains an invalid UTF-8 code point.
+  * @throw YstringException if str contains an invalid UTF-8 code point.
   */
 YSTRING_API size_t countCodePoints(const std::string& str);
 
@@ -330,7 +330,7 @@ YSTRING_API StringConstIteratorPair findLastNewline(
   *     even code points if the string has decomposed characters) from the
   *     start of the string. If @a pos is negative it's from the end of the
   *     string instead.
-  * @throw std::logic_error if @a str isn't a valid UTF-8 string.
+  * @YSTRING_THROW if @a str isn't a valid UTF-8 string.
   */
 YSTRING_API std::string insert(const std::string& str,
                                ptrdiff_t pos,
@@ -342,7 +342,7 @@ YSTRING_API std::string insert(const std::string& str,
   *     even code points if the string has decomposed characters) from the
   *     start of the string. If @a pos is negative it's from the end of the
   *     string instead.
-  * @throw std::logic_error if @a str isn't a valid UTF-8 string.
+  * @YSTRING_THROW if @a str isn't a valid UTF-8 string.
   */
 YSTRING_API std::string insert(const std::string& str,
                                ptrdiff_t pos,
@@ -350,20 +350,20 @@ YSTRING_API std::string insert(const std::string& str,
 
 /** @brief Returns true if all characters in @a str are either
   *     letters or numbers.
-  * @throw std::logic_error if str contains an invalid UTF-8 code point.
+  * @YSTRING_THROW if str contains an invalid UTF-8 code point.
   */
 YSTRING_API bool isAlphaNumeric(const std::string& str);
 
 /** @brief Returns true if all characters in the range from @a first
   *     to @a last are either letters or numbers.
-  * @throw std::logic_error if str contains an invalid UTF-8 code point.
+  * @YSTRING_THROW if str contains an invalid UTF-8 code point.
   */
 YSTRING_API bool isAlphaNumeric(std::string::iterator first,
                                 std::string::iterator last);
 
 /** @brief Returns true if all characters in the range from @a first
   *     to @a last are either letters or numbers.
-  * @throw std::logic_error if str contains an invalid UTF-8 code point.
+  * @YSTRING_THROW if str contains an invalid UTF-8 code point.
   */
 YSTRING_API bool isAlphaNumeric(std::string::const_iterator first,
                                 std::string::const_iterator last);
@@ -552,7 +552,7 @@ YSTRING_API std::vector<std::string> splitLines(
         SplitFlags_t flags = SplitFlags::DEFAULTS);
 
 /** @brief Returns true if @a str starts with substring @a cmp.
-  * @throw logic_error if @a str or @a cmp contain any invalid UTF-8
+  * @throw YstringException if @a str or @a cmp contain any invalid UTF-8
   *     code points.
   */
 YSTRING_API bool startsWith(const std::string& str,
@@ -569,7 +569,7 @@ YSTRING_API bool startsWith(const std::string& str,
   *     bytes, not even code points if the string has decomposed characters)
   *     from the start of the string. If @a startIndex is negative it's from
   *     the end of the string instead.
-  * @throw logic_error if str contains an invalid UTF-8 code point.
+  * @throw YstringException if str contains an invalid UTF-8 code point.
   */
 YSTRING_API std::string substring(const std::string& str,
                                   ptrdiff_t startIndex,
@@ -587,7 +587,7 @@ YSTRING_API std::string toUtf8(uint32_t chr);
   *
   * @param str The string to convert from.
   * @param encoding The encoding of @a str.
-  * @throws logic_error if str contains any characters that aren't encoded
+  * @throws YstringException if str contains any characters that aren't encoded
   *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
   */
 YSTRING_API std::string toUtf8(const std::string& str, Encoding_t encoding);
@@ -596,7 +596,7 @@ YSTRING_API std::string toUtf8(const std::string& str, Encoding_t encoding);
   *
   * @param str The string to convert from.
   * @param encoding The encoding of @a str.
-  * @throws logic_error if str contains any characters that aren't encoded
+  * @throws YstringException if str contains any characters that aren't encoded
   *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
   */
 YSTRING_API std::string toUtf8(const char* str, size_t length,
@@ -606,7 +606,7 @@ YSTRING_API std::string toUtf8(const char* str, size_t length,
   *
   * @param str The string to convert from.
   * @param encoding The encoding of @a str.
-  * @throws logic_error if str contains any characters that aren't encoded
+  * @throws YstringException if str contains any characters that aren't encoded
   *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
   */
 YSTRING_API std::string toUtf8(const wchar_t* str, size_t length,
@@ -616,7 +616,7 @@ YSTRING_API std::string toUtf8(const wchar_t* str, size_t length,
   *
   * @param str The string to convert from.
   * @param encoding The encoding of @a str.
-  * @throws logic_error if str contains any characters that aren't encoded
+  * @throws YstringException if str contains any characters that aren't encoded
   *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
   */
 YSTRING_API std::string toUtf8(const uint16_t* str, size_t length,
@@ -626,7 +626,7 @@ YSTRING_API std::string toUtf8(const uint16_t* str, size_t length,
   *
   * @param str The string to convert from.
   * @param encoding The encoding of @a str.
-  * @throws logic_error if str contains any characters that aren't encoded
+  * @throws YstringException if str contains any characters that aren't encoded
   *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
   */
 YSTRING_API std::string toUtf8(const uint32_t* str, size_t length,
@@ -636,7 +636,7 @@ YSTRING_API std::string toUtf8(const uint32_t* str, size_t length,
   *
   * @param str The string to convert from.
   * @param encoding The encoding of @a str.
-  * @throws logic_error if str contains any characters that aren't encoded
+  * @throws YstringException if str contains any characters that aren't encoded
   *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
   */
 YSTRING_API std::string toUtf8(const std::u16string& str,
@@ -646,7 +646,7 @@ YSTRING_API std::string toUtf8(const std::u16string& str,
   *
   * @param str The string to convert from.
   * @param encoding The encoding of @a str.
-  * @throws logic_error if str contains any characters that aren't encoded
+  * @throws YstringException if str contains any characters that aren't encoded
   *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
   */
 YSTRING_API std::string toUtf8(const std::u32string& str,
@@ -656,7 +656,7 @@ YSTRING_API std::string toUtf8(const std::u32string& str,
   *
   * @param str The string to convert from.
   * @param encoding The encoding of @a str.
-  * @throws logic_error if str contains any characters that aren't encoded
+  * @throws YstringException if str contains any characters that aren't encoded
   *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
   */
 YSTRING_API std::string toUtf8(const char16_t* str, size_t length,
@@ -666,7 +666,7 @@ YSTRING_API std::string toUtf8(const char16_t* str, size_t length,
   *
   * @param str The string to convert from.
   * @param encoding The encoding of @a str.
-  * @throws logic_error if str contains any characters that aren't encoded
+  * @throws YstringException if str contains any characters that aren't encoded
   *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
   */
 YSTRING_API std::string toUtf8(const char32_t* str, size_t length,
@@ -676,7 +676,7 @@ YSTRING_API std::string toUtf8(const char32_t* str, size_t length,
   *
   * @param str The string to convert from.
   * @param encoding The encoding of @a str.
-  * @throws logic_error if str contains any characters that aren't encoded
+  * @throws YstringException if str contains any characters that aren't encoded
   *     according to @a encoding, or if @a encoding isn't an 8-bit encoding.
   */
 YSTRING_API std::string toUtf8(const std::wstring& str, Encoding_t encoding);
@@ -716,7 +716,7 @@ YSTRING_API std::string trimStart(const std::string& str,
 
 /** @brief Returns a copy of @a str where all escape sequences have been
   *     translated to the characters they represent.
-  * @throws logic_error if @a str contains an invalid escape sequence.
+  * @throws YstringException if @a str contains an invalid escape sequence.
   */
 YSTRING_API std::string unescape(const std::string& str,
                                  EscapeType_t type = EscapeType::BACKSLASH);

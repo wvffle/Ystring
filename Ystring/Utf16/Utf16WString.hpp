@@ -15,7 +15,7 @@
 #include "../EscapeType.hpp"
 #include "../FindFlags.hpp"
 #include "../SplitFlags.hpp"
-#include "../YstringDefinitions.hpp"
+#include "../YstringException.hpp"
 
 /** @file
   * @brief The function library for UTF-16 encoded wstrings.
@@ -330,7 +330,7 @@ YSTRING_API StringConstIteratorPair findLastNewline(
   *     even code points if the string has decomposed characters) from the
   *     start of the string. If @a pos is negative it's from the end of the
   *     string instead.
-  * @throw std::logic_error if @a str isn't a valid UTF-16 string.
+  * @YSTRING_THROW if @a str isn't a valid UTF-16 string.
   */
 YSTRING_API std::wstring insert(const std::wstring& str,
                                 ptrdiff_t pos,
@@ -342,7 +342,7 @@ YSTRING_API std::wstring insert(const std::wstring& str,
   *     even code points if the string has decomposed characters) from the
   *     start of the string. If @a pos is negative it's from the end of the
   *     string instead.
-  * @throw std::logic_error if @a str isn't a valid UTF-16 string.
+  * @YSTRING_THROW if @a str isn't a valid UTF-16 string.
   */
 YSTRING_API std::wstring insert(const std::wstring& str,
                                 ptrdiff_t pos,
@@ -350,20 +350,20 @@ YSTRING_API std::wstring insert(const std::wstring& str,
 
 /** @brief Returns true if all characters in @a str are either
   *     letters or numbers.
-  * @throw std::logic_error if str contains an invalid UTF-16 code point.
+  * @YSTRING_THROW if str contains an invalid UTF-16 code point.
   */
 YSTRING_API bool isAlphaNumeric(const std::wstring& str);
 
 /** @brief Returns true if all characters in the range from @a first
   *     to @a last are either letters or numbers.
-  * @throw std::logic_error if str contains an invalid UTF-16 code point.
+  * @YSTRING_THROW if str contains an invalid UTF-16 code point.
   */
 YSTRING_API bool isAlphaNumeric(std::wstring::iterator first,
                                 std::wstring::iterator last);
 
 /** @brief Returns true if all characters in the range from @a first
   *     to @a last are either letters or numbers.
-  * @throw std::logic_error if str contains an invalid UTF-16 code point.
+  * @YSTRING_THROW if str contains an invalid UTF-16 code point.
   */
 YSTRING_API bool isAlphaNumeric(std::wstring::const_iterator first,
                                 std::wstring::const_iterator last);

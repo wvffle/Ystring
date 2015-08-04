@@ -495,7 +495,7 @@ std::string toUtf8(const char* str, size_t length, Encoding_t encoding)
                 Utf32::Utf32LEEncoding(),
                 Utf8Encoding());
     default:
-        throw std::logic_error("toUtf8: unsupported encoding " +
+        YSTRING_THROW("toUtf8: unsupported encoding " +
                                std::to_string(int64_t(encoding)));
     }
 }
@@ -515,7 +515,7 @@ std::string toUtf8(const uint16_t* str, size_t length, Encoding_t encoding)
                 Utf16::Utf16LEEncoding(),
                 Utf8Encoding());
     default:
-        throw std::logic_error("toUtf8: unsupported encoding " +
+        YSTRING_THROW("toUtf8: unsupported encoding " +
                                std::to_string(int64_t(encoding)));
     }
 }
@@ -545,7 +545,7 @@ std::string toUtf8(const uint32_t* str, size_t length, Encoding_t encoding)
                 Utf32::Utf32LEEncoding(),
                 Utf8Encoding());
     default:
-        throw std::logic_error("toUtf8: unsupported encoding " +
+        YSTRING_THROW("toUtf8: unsupported encoding " +
                                std::to_string(int64_t(encoding)));
     }
 }

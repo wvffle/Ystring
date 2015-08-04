@@ -42,7 +42,7 @@ public:
             {
                 if (chr > m_MaxChar)
                 {
-                    throw std::logic_error(
+                    YSTRING_THROW(
                             "Character " + std::to_string(int64_t(chr)) +
                             " has more than " +
                             std::to_string(int64_t(m_UnicodeHexDigits)) +

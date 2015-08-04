@@ -48,6 +48,7 @@ set(PUBLIC_HEADERS_ROOT
     Ystring/SplitFlags.hpp
     Ystring/Utf8.hpp
     Ystring/YstringDefinitions.hpp
+    Ystring/YstringException.hpp
     ${PUBLIC_HEADERS_ROOT_PLATFORM_SPECIFIC}
     )
 
@@ -132,6 +133,7 @@ set(PRIVATE_HEADERS
 
 set(SOURCE_FILES
     Ystring/EncodingInfo.cpp
+    Ystring/YstringException.cpp
     Ystring/CodePage/CodePage.cpp
     Ystring/CodePage/Cp437.cpp
     Ystring/CodePage/Iso8859_1.cpp

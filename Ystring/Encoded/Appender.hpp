@@ -8,6 +8,7 @@
 #pragma once
 
 #include <string>
+#include "../YstringException.hpp"
 #include "../Utilities/Algorithms.hpp"
 #include "../Generic/Range.hpp"
 
@@ -61,7 +62,7 @@ public:
         if (its.second == &m_String[m_Capacity])
         {
             m_String[m_Capacity - 1] = 0;
-            throw std::logic_error(
+            YSTRING_THROW(
                     "Attempt to write beyond the end of string.");
         }
         *m_Size = its.second - m_String;
@@ -72,7 +73,7 @@ public:
     {
         if (*m_Size + 1 >= m_Capacity)
         {
-            throw std::logic_error(
+            YSTRING_THROW(
                     "Attempt to write beyond the end of string.");
         }
         *m_Size++ = c;
