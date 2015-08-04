@@ -8,4 +8,3 @@ TODO
 * Implement unescape XML_TEXT and XML_ATTRIBUTE.
 * Implement escape URL.
 * Implement unescape URL.
-* Replace std-exceptions with custom exception class.
