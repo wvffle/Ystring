@@ -5,7 +5,7 @@
 ## This file is distributed under the Simplified BSD License.
 ## License text is included with the source distribution.
 ##****************************************************************************
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 2.8)
 project(Ystring)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
@@ -45,11 +45,18 @@ set(PUBLIC_HEADERS_ROOT
     Ystring/EncodingInfo.hpp
     Ystring/EscapeType.hpp
     Ystring/FindFlags.hpp
+    Ystring/Predicates.hpp
     Ystring/SplitFlags.hpp
     Ystring/Utf8.hpp
     Ystring/YstringDefinitions.hpp
     Ystring/YstringException.hpp
     ${PUBLIC_HEADERS_ROOT_PLATFORM_SPECIFIC}
+    )
+
+set(PUBLIC_HEADERS_UNICODE
+    Ystring/Unicode/CharClass.hpp
+    Ystring/Unicode/UnicodeChars.hpp
+    Ystring/Unicode/UnicodePredicates.hpp
     )
 
 set(PUBLIC_HEADERS_UTF8
@@ -95,14 +102,11 @@ set(PRIVATE_HEADERS
     Ystring/Generic/StringTypeTraits.hpp
     Ystring/Unicode/CaseConverter.hpp
     Ystring/Unicode/CaseInsensitive.hpp
-    Ystring/Unicode/CharClass.hpp
     Ystring/Unicode/CharMap.hpp
     Ystring/Unicode/CharMappingTypes.hpp
     Ystring/Unicode/StandardLowerCase.hpp
     Ystring/Unicode/StandardTitleCase.hpp
     Ystring/Unicode/StandardUpperCase.hpp
-    Ystring/Unicode/UnicodeChars.hpp
-    Ystring/Unicode/UnicodePredicates.hpp
     Ystring/Utf8/DecodeUtf8.hpp
     Ystring/Utf8/DecodeUtf8-impl.hpp
     Ystring/Utf8/EncodeUtf8.hpp
@@ -170,6 +174,8 @@ add_library(
     ${SOURCE_FILES}
     )
 
+set_property(TARGET ${PROJECT_NAME} PROPERTY MACOSX_RPATH ON)
+
 set(CTEST_OUTPUT_ON_FAILURE 1)
 add_subdirectory(UnitTest)
 
@@ -178,6 +184,8 @@ add_subdirectory(Examples)
 install(TARGETS ${PROJECT_NAME} DESTINATION lib)
 install(FILES ${PUBLIC_HEADERS_ROOT}
         DESTINATION include/${PROJECT_NAME})
+install(FILES ${PUBLIC_HEADERS_UNICODE}
+        DESTINATION include/${PROJECT_NAME}/Unicode)
 install(FILES ${PUBLIC_HEADERS_UTF8}
         DESTINATION include/${PROJECT_NAME}/Utf8)
 install(FILES ${PUBLIC_HEADERS_UTF16}
