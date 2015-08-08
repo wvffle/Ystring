@@ -8,8 +8,6 @@
 #pragma once
 #include "FindFlags.hpp"
 
-#include <JEBDebug/Debug.hpp>
-
 namespace Ystring {
 
 struct SplitFlags
@@ -35,7 +33,6 @@ struct SplitFlags
 
     static bool ignoreEmpty(Flags flags)
     {
-        JEB_SHOW3(flags, IGNORE_EMPTY, flags & IGNORE_EMPTY);
         return (flags & IGNORE_EMPTY) == IGNORE_EMPTY;
     }
 

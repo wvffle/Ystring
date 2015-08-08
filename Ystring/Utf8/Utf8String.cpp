@@ -617,7 +617,6 @@ std::string trimStart(const std::string& str)
             Unicode::isWhitespace));
 }
 
-
 std::string trimStart(const std::string& str,
                       std::function<bool(uint32_t)> predicate)
 {

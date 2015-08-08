@@ -20,8 +20,6 @@
 #include "../Utilities/CountingOutputIterator.hpp"
 #include "StringTypeTraits.hpp"
 
-#include "JEBDebug/Debug.hpp"
-
 namespace Ystring { namespace Generic {
 
 namespace Detail
