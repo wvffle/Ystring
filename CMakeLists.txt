@@ -16,7 +16,7 @@ set(CMAKE_MODULE_PATH
 if(APPLE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall")
 elseif(WIN32)
-    add_definitions(-D_SCL_SECURE_NO_WARNINGS)
+    add_definitions(-D_SCL_SECURE_NO_WARNINGS -DYSTRING_EXPORTS)
 endif(APPLE)
 
 find_package(JEBDebug)
@@ -29,7 +29,7 @@ if(MSVC)
         Ystring/Utf16W.hpp
         )
     set(PUBLIC_HEADERS_UTF16_PLATFORM_SPECIFIC
-        Ystring/Utf16/Utf16WString.cpp
+        Ystring/Utf16/Utf16WString.hpp
         )
     set(SOURCE_FILES_PLATFORM_SPECIFIC
         Ystring/Utf16/Utf16WString.cpp
@@ -76,6 +76,7 @@ set(PUBLIC_HEADERS
 set(PRIVATE_HEADERS
     Ystring/DecoderResult.hpp
     Ystring/PlatformDetails.hpp
+    Ystring/PrivatePlatformDetails.hpp
     Ystring/CodePage/CodePage.hpp
     Ystring/CodePage/CodePageEncoding.hpp
     Ystring/CodePage/Cp437.hpp

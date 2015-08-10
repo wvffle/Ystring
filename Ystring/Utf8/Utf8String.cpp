@@ -7,7 +7,7 @@
 //****************************************************************************
 #include "Utf8String.hpp"
 
-#include "../PlatformDetails.hpp"
+#include "../PrivatePlatformDetails.hpp"
 #include "../Generic/GenericString.hpp"
 #include "../CodePage/CodePageEncoding.hpp"
 #include "../Utf16/Utf16Encoding.hpp"
@@ -565,6 +565,8 @@ std::string toUtf8(const wchar_t* str, size_t length, Encoding_t encoding)
     return toUtf8(internal_char_type_cast(str), length, encoding);
 }
 
+#ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
+
 std::string toUtf8(const char16_t* str, size_t length, Encoding_t encoding)
 {
     return toUtf8(internal_char_type_cast(str), length, encoding);
@@ -574,6 +576,8 @@ std::string toUtf8(const char32_t* str, size_t length, Encoding_t encoding)
 {
     return toUtf8(internal_char_type_cast(str), length, encoding);
 }
+
+#endif
 
 std::string trim(const std::string& str)
 {

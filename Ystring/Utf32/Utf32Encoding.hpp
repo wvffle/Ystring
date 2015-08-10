@@ -7,7 +7,7 @@
 //****************************************************************************
 #pragma once
 
-#include <_types/_uint32_t.h>
+//#include <cstdint>
 #include "../Encoding.hpp"
 #include "DecodeUtf32.hpp"
 #include "EncodeUtf32.hpp"

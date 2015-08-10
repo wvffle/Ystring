@@ -7,7 +7,7 @@
 //****************************************************************************
 #include "Utf16WString.hpp"
 
-#include "../PlatformDetails.hpp"
+#include "../PrivatePlatformDetails.hpp"
 #include "../Generic/GenericString.hpp"
 #include "../CodePage/CodePageEncoding.hpp"
 #include "../Utf8/Utf8Encoding.hpp"
@@ -573,6 +573,8 @@ std::wstring toUtf16(const wchar_t* str, size_t length, Encoding_t encoding)
     return toUtf16(internal_char_type_cast(str), length, encoding);
 }
 
+#ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
+
 std::wstring toUtf16(const char16_t* str, size_t length, Encoding_t encoding)
 {
     return toUtf16(internal_char_type_cast(str), length, encoding);
@@ -582,6 +584,8 @@ std::wstring toUtf16(const char32_t* str, size_t length, Encoding_t encoding)
 {
     return toUtf16(internal_char_type_cast(str), length, encoding);
 }
+
+#endif
 
 std::wstring trim(const std::wstring& str)
 {
