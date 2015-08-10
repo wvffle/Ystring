@@ -69,7 +69,7 @@ struct EscapeMode
 
 typedef EscapeMode::Type EscapeMode_t;
 
-/** @brief Adds @a codePoint encoded as UTF-8 to the end of@a str.
+/** @brief Adds @a codePoint encoded as UTF-8 to the end of @a str.
   */
 std::string& append(std::string& str, uint32_t chr);
 
