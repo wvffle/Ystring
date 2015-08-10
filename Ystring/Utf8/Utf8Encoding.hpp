@@ -27,9 +27,9 @@ public:
             case DecoderResult::END_OF_STRING:
                 return false;
             case DecoderResult::INCOMPLETE:
-                throw std::logic_error("Incomplete character.");
+                YSTRING_THROW("Incomplete character.");
             case DecoderResult::INVALID:
-                throw std::logic_error("Invalid character.");
+                YSTRING_THROW("Invalid character.");
             default:
                 break;
         }
@@ -50,9 +50,9 @@ public:
             case DecoderResult::END_OF_STRING:
                 return false;
             case DecoderResult::INCOMPLETE:
-                throw std::logic_error("Incomplete character.");
+                YSTRING_THROW("Incomplete character.");
             case DecoderResult::INVALID:
-                throw std::logic_error("Invalid character.");
+                YSTRING_THROW("Invalid character.");
             default:
                 break;
         }
@@ -67,6 +67,13 @@ public:
 
     template <typename OutIt>
     OutIt encode(OutIt dst, uint32_t codePoint)
+    {
+        return addUtf8(dst, codePoint);
+    }
+
+
+    template <typename OutIt>
+    OutIt encodeAsBytes(OutIt dst, uint32_t codePoint)
     {
         return addUtf8(dst, codePoint);
     }

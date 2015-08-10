@@ -5,7 +5,7 @@
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
-#include "Ystring/Unicode/CharMap.hpp"
+#include "../../Ystring/Unicode/CharMap.hpp"
 
 #include <type_traits>
 #include <JEBTest/JEBTest.hpp>

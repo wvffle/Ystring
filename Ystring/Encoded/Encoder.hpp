@@ -1,6 +1,6 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 05.06.15
+// Created by Jan Erik Breimo on 2015-06-05
 //
 // This file is distributed under the BSD License.
 // License text is included with the source distribution.
@@ -26,6 +26,11 @@ public:
     void encode(uint32_t codePoint)
     {
         m_Encoding.encode(m_Destination, codePoint);
+    }
+
+    void encodeAsBytes(uint32_t codePoint)
+    {
+        m_Encoding.encodeAsBytes(m_Destination, codePoint);
     }
 
     Encoding getEncoding() const

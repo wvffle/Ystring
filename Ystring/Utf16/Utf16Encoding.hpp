@@ -17,7 +17,8 @@ template <bool SwapBytes>
 class Utf16EncodingImpl
 {
 public:
-    static const Encoding_t encoding = Encoding::UTF_8;
+    static const auto encoding = SwapBytes ? Encoding::UTF_16_BE
+                                           : Encoding::UTF_16_LE;
     typedef wchar_t CanonicalType;
 
     template <typename FwdIt>
@@ -28,9 +29,9 @@ public:
             case DecoderResult::END_OF_STRING:
                 return false;
             case DecoderResult::INCOMPLETE:
-                throw std::logic_error("Incomplete character.");
+                YSTRING_THROW("Incomplete character.");
             case DecoderResult::INVALID:
-                throw std::logic_error("Invalid character.");
+                YSTRING_THROW("Invalid character.");
             default:
                 break;
         }
@@ -45,9 +46,9 @@ public:
             case DecoderResult::END_OF_STRING:
                 return false;
             case DecoderResult::INCOMPLETE:
-                throw std::logic_error("Incomplete character.");
+                YSTRING_THROW("Incomplete character.");
             case DecoderResult::INVALID:
-                throw std::logic_error("Invalid character.");
+                YSTRING_THROW("Invalid character.");
             default:
                 break;
         }
@@ -70,6 +71,12 @@ public:
     OutIt encode(OutIt dst, uint32_t codePoint)
     {
         return addUtf16(dst, codePoint);
+    }
+
+    template <typename OutIt>
+    OutIt encodeAsBytes(OutIt dst, uint32_t codePoint)
+    {
+        return addUtf16AsBytes<SwapBytes>(dst, codePoint);
     }
 };
 

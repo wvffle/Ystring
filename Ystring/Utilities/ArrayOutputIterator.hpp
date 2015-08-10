@@ -1,6 +1,6 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 06.06.15
+// Created by Jan Erik Breimo on 2015-06-06
 //
 // This file is distributed under the BSD License.
 // License text is included with the source distribution.
@@ -33,7 +33,7 @@ public:
     ArrayOutputIterator& operator=(const Value& value)
     {
         if (*m_Size == m_Capacity)
-            throw std::runtime_error(
+            YSTRING_THROW(
                     "Attempt to write after the final iterator position.");
         *m_It = value;
         ++*m_Size;

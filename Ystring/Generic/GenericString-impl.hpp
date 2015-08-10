@@ -1,23 +1,51 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 02.06.15
+// Created by Jan Erik Breimo on 2015-06-02
 //
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
 #pragma once
 
+#include "../Encoded/AppendEscaped.hpp"
+#include "../Encoded/AppendUnescaped.hpp"
+#include "../Encoded/BackslashUnescaper.hpp"
 #include "../Encoded/DecoderStringFunctions.hpp"
 #include "../Encoded/Encoder.hpp"
+#include "../Encoded/FixedLengthBackslashEscaper.hpp"
 #include "../Encoded/ForwardDecoder.hpp"
 #include "../Encoded/ReverseDecoder.hpp"
+#include "../Encoded/VariableLengthBackslashEscaper.hpp"
+#include "../Encoded/XmlEscaper.hpp"
 #include "../Utilities/CountingOutputIterator.hpp"
-#include "StringTraits.hpp"
+#include "StringTypeTraits.hpp"
+
+#include "JEBDebug/Debug.hpp"
 
 namespace Ystring { namespace Generic {
 
-namespace Details
+namespace Detail
 {
+    template <typename Str, typename It, typename Enc1, typename Enc2>
+    void appendImpl(StringReference<Str> dst, Range<It> src,
+                    Enc1 dstEncoding, Enc2 srcEncoding,
+                    std::true_type);
+
+    template <typename Str, typename It, typename Enc1, typename Enc2>
+    void appendImpl(StringReference<Str> dst, Range<It> src,
+                    Enc1 dstEncoding, Enc2 srcEncoding,
+                    std::false_type);
+
+    template <typename Str, typename It, typename Enc1, typename Enc2>
+    void appendWithEncoder(StringReference<Str> dst, Range<It> src,
+                           Enc1 dstEncoding, Enc2 srcEncoding,
+                           std::true_type);
+
+    template <typename Str, typename It, typename Enc1, typename Enc2>
+    void appendWithEncoder(StringReference<Str> dst, Range<It> src,
+                           Enc1 dstEncoding, Enc2 srcEncoding,
+                           std::false_type);
+
     template <typename It1, typename It2, typename Enc>
     bool endsWithImpl(Range<It1> str,
                       Range<It2> cmp,
@@ -72,6 +100,9 @@ namespace Details
                                              size_t maxCount,
                                              FindFlags_t flags);
 
+    Encoded::FixedLengthBackslashEscaper makeFixedLengthBackslashEscaper(
+            size_t charSize);
+
     template <typename Str, typename It1, typename It2, typename Enc>
     Str replaceFwd(Range<It1> str, Range<It2> cmp, Range<It2> rep,
                    Enc encoding,
@@ -88,7 +119,7 @@ namespace Details
     std::vector<Str> splitImpl(
             Decoder str,
             NextTokenFunc nextTokenFunc,
-            size_t maxParts,
+            size_t maxSplits,
             SplitFlags_t flags);
 
     template <typename Str, typename It1, typename It2, typename Enc>
@@ -96,7 +127,7 @@ namespace Details
             Range<It1> str,
             Range<It2> cmp,
             Enc encoding,
-            ptrdiff_t maxParts,
+            ptrdiff_t maxSplits,
             SplitFlags_t flags,
             std::true_type);
 
@@ -105,7 +136,7 @@ namespace Details
             Range<It1> str,
             Range<It2> cmp,
             Enc encoding,
-            ptrdiff_t maxParts,
+            ptrdiff_t maxSplits,
             SplitFlags_t flags,
             std::false_type);
 
@@ -135,6 +166,80 @@ template <typename Str, typename Enc>
 void append(StringReference<Str>&& dst, uint32_t chr, Enc encoding)
 {
     append(dst, chr, encoding);
+}
+
+template <typename Str, typename It, typename Enc1, typename Enc2>
+void append(StringReference<Str> dst, Range<It> src,
+            Enc1 dstEncoding, Enc2 srcEncoding)
+{
+    Detail::appendImpl(
+            dst, src, dstEncoding, srcEncoding,
+            CanCopyRawValues<typename StringReference<Str>::ValueType, Enc1,
+                             typename Range<It>::ValueType, Enc2>());
+}
+
+template <typename Str, typename It, typename Enc>
+void appendEscaped(StringReference<Str>& dst,
+                   Range<It> src,
+                   EscapeType_t type,
+                   Enc encoding)
+{
+    typedef typename StringReference<Str>::ValueType Char;
+    switch (type)
+    {
+    case EscapeType::BACKSLASH:
+        Encoded::appendEscaped(
+                dst.getAppender(),
+                src,
+                Encoded::isMandatoryEscape,
+                Detail::makeFixedLengthBackslashEscaper(sizeof(Char)));
+        break;
+    case EscapeType::BACKSLASH_ASCII:
+        Encoded::appendEscaped(
+                dst.getAppender(),
+                src,
+                Encoded::isNonAsciiEscape,
+                Detail::makeFixedLengthBackslashEscaper(sizeof(Char)));
+        break;
+    case EscapeType::BACKSLASH_ASCII_SMART:
+        Encoded::appendEscaped(
+                dst.getAppender(),
+                Encoded::makeForwardDecoder(src, encoding),
+                Encoded::isNonAsciiEscape,
+                Encoded::VariableLengthBackslashEscaper());
+        break;
+    case EscapeType::JSON:
+        Encoded::appendEscaped(
+                dst.getAppender(),
+                Encoded::makeForwardDecoder(src, encoding),
+                Encoded::isMandatoryEscape,
+                Encoded::FixedLengthBackslashEscaper('u', 4));
+        break;
+    case EscapeType::JSON_ASCII:
+        Encoded::appendEscaped(
+                dst.getAppender(),
+                Encoded::makeForwardDecoder(src, encoding),
+                Encoded::isNonAsciiEscape,
+                Encoded::FixedLengthBackslashEscaper('u', 4));
+        break;
+    case EscapeType::XML_ATTRIBUTE:
+        Encoded::appendEscaped(
+                dst.getAppender(),
+                Encoded::makeForwardDecoder(src, encoding),
+                Encoded::isXmlAttributeEscape,
+                Encoded::XmlEscaper());
+        break;
+    case EscapeType::XML_TEXT:
+        Encoded::appendEscaped(
+                dst.getAppender(),
+                Encoded::makeForwardDecoder(src, encoding),
+                Encoded::isXmlTextEscape,
+                Encoded::XmlEscaper());
+        break;
+    default:
+        YSTRING_THROW("Unsupported escape type " +
+                               std::to_string(uint64_t(type)));
+    }
 }
 
 template <typename Str, typename It1, typename It2>
@@ -186,6 +291,42 @@ void appendTitle(StringReference<Str>& dst,
 }
 
 template <typename Str, typename It, typename Enc>
+void appendUnescaped(StringReference<Str>& dst,
+                     Range<It> src,
+                     EscapeType_t type,
+                     Enc encoding)
+{
+    typedef typename StringReference<Str>::ValueType Char;
+    switch (type)
+    {
+    case EscapeType::BACKSLASH:
+    case EscapeType::BACKSLASH_ASCII:
+    case EscapeType::BACKSLASH_ASCII_SMART:
+        Encoded::appendUnescaped(
+                dst,
+                src,
+                encoding,
+                Encoded::isBackslash,
+                Encoded::BackslashUnescaper(true));
+        break;
+    case EscapeType::JSON:
+    case EscapeType::JSON_ASCII:
+        Encoded::appendUnescaped(
+                dst,
+                src,
+                encoding,
+                Encoded::isBackslash,
+                Encoded::BackslashUnescaper(false));
+        break;
+    case EscapeType::XML_ATTRIBUTE:
+    case EscapeType::XML_TEXT:
+    default:
+        YSTRING_THROW("Unsupported escape type " +
+                               std::to_string(uint64_t(type)));
+    }
+}
+
+template <typename Str, typename It, typename Enc>
 void appendUpper(StringReference<Str>& dst,
                  Range<It> src,
                  Enc encoding)
@@ -232,62 +373,11 @@ bool contains(Range<It> str, uint32_t chr, Enc encoding)
 }
 
 template <typename Str, typename It, typename Enc1, typename Enc2>
-void appendImpl(StringReference<Str> dst, Range<It> src,
-                Enc1 dstEncoding, Enc2 srcEncoding,
-                std::true_type)
-{
-    auto appender = dst.getAppender();
-    appender.append(src);
-    dst.terminate();
-//    if (src.encoding().encoding == dst.encoding().encoding)
-//        std::copy(begin(src), end(src), dst.iterator());
-//    else
-//        copy(makeForwardIterator(src), dst);
-}
-
-template <typename Str, typename It, typename Enc1, typename Enc2>
-void appendImpl(StringReference<Str> dst, Range<It> src,
-                Enc1 dstEncoding, Enc2 srcEncoding,
-                std::false_type)
-{
-    append(dst.getEncoder(dstEncoding),
-           Encoded::makeForwardDecoder(src, srcEncoding));
-}
-
-template <typename Str, typename It, typename Enc1, typename Enc2>
-void append(StringReference<Str> dst, Range<It> src,
-            Enc1 dstEncoding, Enc2 srcEncoding)
-{
-    appendImpl(
-            dst, src, dstEncoding, srcEncoding,
-            CanCopyRawValues<typename StringReference<Str>::ValueType, Enc1,
-                             typename Range<It>::ValueType, Enc2>());
-//    if (dstEncoding.encoding == srcEncoding.encoding)
-//    {
-//        auto appender = dst.getAppender();
-//        appender.append(src);
-//        dst.terminate();
-//    }
-//    if (src.encoding().encoding == dst.encoding().encoding)
-//        std::copy(begin(src), end(src), dst.iterator());
-//    else
-//        copy(makeForwardIterator(src), dst);
-}
-
-template <typename Str, typename It, typename Enc1, typename Enc2>
-Str translate(Range<It> str, Enc1 fromEncoding, Enc2 toEncoding)
+Str convert(Range<It> str, Enc1 fromEncoding, Enc2 toEncoding)
 {
     auto result = Str();
-    append(makeStringReference(result), str, fromEncoding, toEncoding);
+    append(makeStringReference(result), str, toEncoding, fromEncoding);
     return result;
-//    if (fromEncoding.encoding == toEncoding.encoding)
-//    {
-//        auto appender = Encoded::makeAppender(result);
-//    }
-//    if (src.encoding().encoding == dst.encoding().encoding)
-//        std::copy(begin(src), end(src), dst.iterator());
-//    else
-//        copy(makeForwardIterator(src), dst);
 }
 
 template <typename It, typename Enc>
@@ -315,12 +405,21 @@ bool endsWith(Range<It1> str,
               FindFlags_t flags)
 {
     if (flags == FindFlags::CASE_INSENSITIVE)
-        return Details::endsWithImpl(str, cmp, encoding, flags,
-                                     std::false_type());
+        return Detail::endsWithImpl(str, cmp, encoding, flags,
+                                    std::false_type());
     else
-        return Details::endsWithImpl(
+        return Detail::endsWithImpl(
                 str, cmp, encoding, flags,
-                typename SameIteratorValueType<It1, It2>::type());
+                SameIteratorValueType<It1, It2>());
+}
+
+template <typename Str, typename It, typename Enc>
+Str escape(Range<It> src, EscapeType_t type, Enc encoding)
+{
+    auto str = Str();
+    auto ref = makeStringReference(str);
+    appendEscaped(ref, src, type, encoding);
+    return str;
 }
 
 template <typename It1, typename It2, typename Enc>
@@ -330,12 +429,12 @@ Range<It1> findFirst(Range<It1> str,
                      FindFlags_t flags)
 {
     if (flags == FindFlags::CASE_INSENSITIVE)
-        return Details::findFirstImpl(str, cmp, encoding, flags,
-                                      std::false_type());
+        return Detail::findFirstImpl(str, cmp, encoding, flags,
+                                     std::false_type());
     else
-        return Details::findFirstImpl(
+        return Detail::findFirstImpl(
                 str, cmp, encoding, flags,
-                typename CanCompareRawValues<It1, Enc, It2, Enc>::type());
+                CanCompareRawValues<It1, Enc, It2, Enc>());
 }
 
 template <typename It, typename Enc>
@@ -352,12 +451,12 @@ Range<It1> findLast(Range<It1> str,
                     FindFlags_t flags)
 {
     if (flags == FindFlags::CASE_INSENSITIVE)
-        return Details::findLastImpl(str, cmp, encoding, flags,
-                                     std::false_type());
+        return Detail::findLastImpl(str, cmp, encoding, flags,
+                                    std::false_type());
     else
-        return Details::findLastImpl(
+        return Detail::findLastImpl(
                 str, cmp, encoding, flags,
-                typename CanCompareRawValues<It1, Enc, It2, Enc>::type());
+                CanCompareRawValues<It1, Enc, It2, Enc>());
 }
 
 template <typename It, typename Enc>
@@ -368,7 +467,8 @@ Range<It> findLastNewline(Range<It> str, Enc encoding)
 }
 
 template <typename It, typename Enc>
-std::pair<Range<It>, Range<It>> findInsertPosition(Range<It> str, ptrdiff_t pos,
+std::pair<Range<It>, Range<It>> findInsertPosition(Range<It> str,
+                                                   ptrdiff_t pos,
                                                    Enc encoding)
 {
     Range<It> range1 = str;
@@ -452,7 +552,7 @@ It nextCharacter(Range<It> str, size_t n, Enc encoding)
 {
     auto dec = Encoded::makeForwardDecoder(str, encoding);
     if (advanceCharacters(dec, n) != n)
-      throw std::logic_error(
+      YSTRING_THROW(
               "can't advance beyond the end of the range");
     return dec.begin();
 }
@@ -471,7 +571,7 @@ It prevCharacter(Range<It> str, size_t n, Enc encoding)
 {
     auto dec = Encoded::makeReverseDecoder(str, encoding);
     if (advanceCharacters(dec, n) != n)
-      throw std::logic_error(
+      YSTRING_THROW(
               "can't advance beyond the start of the range");
     return dec.end();
 }
@@ -483,10 +583,10 @@ std::vector<Range<It1>> findPositions(Range<It1> str, Range<It2> cmp,
                                       FindFlags_t flags)
 {
     if (maxCount >= 0)
-        return Details::findPositionsFwd(
+        return Detail::findPositionsFwd(
                 str, cmp, encoding, static_cast<size_t>(maxCount), flags);
     else
-        return Details::findPositionsRev(
+        return Detail::findPositionsRev(
                 str, cmp, encoding, static_cast<size_t>(-maxCount), flags);
 }
 
@@ -500,11 +600,11 @@ Str replace(Range<It1> str, Range<It2> cmp, Range<It2> rep,
         return Str(str.begin(), str.end());
 
     if (maxReplacements >= 0)
-        return Details::replaceFwd<Str>(
+        return Detail::replaceFwd<Str>(
                 str, cmp, rep, encoding,
                 static_cast<size_t>(maxReplacements), flags);
     else
-        return Details::replaceRev<Str>(
+        return Detail::replaceRev<Str>(
                 str, cmp, rep, encoding,
                 static_cast<size_t>(-maxReplacements), flags);
 }
@@ -584,68 +684,67 @@ size_t sizeOfUpper(Range<It> src, Enc encoding)
 template <typename Str, typename It, typename Enc>
 std::vector<Str> split(Range<It> str,
                        Enc encoding,
-                       ptrdiff_t maxParts,
+                       ptrdiff_t maxSplits,
                        SplitFlags_t flags)
 {
     return splitIf<Str>(str, encoding, Unicode::isWhitespace,
-                        maxParts, flags);
+                        maxSplits, flags);
 }
 
 template <typename Str, typename It1, typename It2, typename Enc>
 std::vector<Str> split(Range<It1> str,
                        Range<It2> cmp,
                        Enc encoding,
-                       ptrdiff_t maxParts,
+                       ptrdiff_t maxSplits,
                        SplitFlags_t flags)
 {
-    if (SplitFlags::isCaseInsensitive(flags) || maxParts < 0)
-        return Details::splitImpl<Str>(str, cmp, encoding, maxParts, flags,
-                                       std::false_type());
+    if (SplitFlags::isCaseInsensitive(flags) || maxSplits < 0)
+        return Detail::splitImpl<Str>(str, cmp, encoding, maxSplits, flags,
+                                      std::false_type());
     else
-        return Details::splitImpl<Str>(
-                str, cmp, encoding, maxParts, flags,
-                typename SameIteratorValueType<It1, It2>::type());
+        return Detail::splitImpl<Str>(str, cmp, encoding, maxSplits, flags,
+                                      SameIteratorValueType<It1, It2>());
 }
 
 template <typename Str, typename It, typename Enc, typename Predicate>
 std::vector<Str> splitIf(Range<It> str,
                          Enc encoding,
                          Predicate predicate,
-                         ptrdiff_t maxParts,
+                         ptrdiff_t maxSplits,
                          SplitFlags_t flags)
 {
-    if (maxParts >= 0)
-        return Details::splitImpl<Str>(
+    if (maxSplits >= 0)
+        return Detail::splitImpl<Str>(
                 Encoded::makeForwardDecoder(str, encoding),
                 [&](Encoded::ForwardDecoder<It, Enc>& d)
                    {return nextToken(d, predicate);},
-                maxParts, flags);
+                maxSplits, flags);
     else
-        return Details::splitImpl<Str>(
+        return Detail::splitImpl<Str>(
                 Encoded::makeReverseDecoder(str, encoding),
                 [&](Encoded::ReverseDecoder<It, Enc>& d)
                    {return nextToken(d, predicate);},
-                -maxParts, flags);
+                -maxSplits, flags);
 }
 
 template <typename Str, typename It, typename Enc>
 std::vector<Str> splitLines(Range<It> str,
                             Enc encoding,
-                            ptrdiff_t maxParts,
+                            ptrdiff_t maxSplits,
                             SplitFlags_t flags)
 {
-    if (maxParts >= 0)
-        return Details::splitImpl<Str>(
+    if (maxSplits >= 0)
+        return Detail::splitImpl<Str>(
                 Encoded::makeForwardDecoder(str, encoding),
                 [&](Encoded::ForwardDecoder<It, Enc>& d)
                    {return nextLine(d);},
-                maxParts, flags);
+                maxSplits, flags);
     else
-        return Details::splitImpl<Str>(
+        return Detail::splitImpl<Str>(
                 Encoded::makeReverseDecoder(str, encoding),
                 [&](Encoded::ReverseDecoder<It, Enc>& d)
                    {return nextLine(d);},
-                -maxParts, flags);
+                -maxSplits, flags);
 }
 
 template <typename It1, typename It2, typename Enc>
@@ -655,12 +754,12 @@ bool startsWith(Range<It1> str,
                 FindFlags_t flags)
 {
     if (flags == FindFlags::CASE_INSENSITIVE)
-        return Details::startsWithImpl(str, cmp, encoding, flags,
-                                       std::false_type());
+        return Detail::startsWithImpl(str, cmp, encoding, flags,
+                                      std::false_type());
     else
-        return Details::startsWithImpl(
+        return Detail::startsWithImpl(
                 str, cmp, encoding, flags,
-                typename SameIteratorValueType<It1, It2>::type());
+                SameIteratorValueType<It1, It2>());
 }
 
 template <typename It, typename Enc>
@@ -751,6 +850,15 @@ Range<It> trimStart(Range<It> str,
 }
 
 template <typename Str, typename It, typename Enc>
+Str unescape(Range<It> src, EscapeType_t type, Enc encoding)
+{
+    auto str = Str();
+    auto ref = makeStringReference(str);
+    appendUnescaped(ref, src, type, encoding);
+    return str;
+}
+
+template <typename Str, typename It, typename Enc>
 Str upper(Range<It> src, Enc encoding)
 {
     auto str = Str();
@@ -759,8 +867,48 @@ Str upper(Range<It> src, Enc encoding)
     return str;
 }
 
-namespace Details
+namespace Detail
 {
+    template <typename Str, typename It, typename Enc1, typename Enc2>
+    void appendImpl(StringReference<Str> dst, Range<It> src,
+                    Enc1 dstEncoding, Enc2 srcEncoding,
+                    std::true_type)
+    {
+        auto appender = dst.getAppender();
+        appender.append(src);
+        dst.terminate();
+    }
+
+    template <typename Str, typename It, typename Enc1, typename Enc2>
+    void appendImpl(StringReference<Str> dst, Range<It> src,
+                    Enc1 dstEncoding, Enc2 srcEncoding,
+                    std::false_type)
+    {
+        appendWithEncoder(dst, src, dstEncoding, srcEncoding,
+                          IsByteString<Str>());
+        dst.terminate();
+    }
+
+    template <typename Str, typename It, typename Enc1, typename Enc2>
+    void appendWithEncoder(StringReference<Str> dst, Range<It> src,
+                           Enc1 dstEncoding, Enc2 srcEncoding,
+                           std::true_type)
+    {
+        appendBytes(dst.getEncoder(dstEncoding),
+                    Encoded::makeForwardDecoder(src, srcEncoding));
+        dst.terminate();
+    }
+
+    template <typename Str, typename It, typename Enc1, typename Enc2>
+    void appendWithEncoder(StringReference<Str> dst, Range<It> src,
+                           Enc1 dstEncoding, Enc2 srcEncoding,
+                           std::false_type)
+    {
+        append(dst.getEncoder(dstEncoding),
+               Encoded::makeForwardDecoder(src, srcEncoding));
+        dst.terminate();
+    }
+
     template <typename It1, typename It2, typename Enc>
     bool endsWithImpl(Range<It1> str,
                       Range<It2> cmp,
@@ -869,6 +1017,17 @@ namespace Details
         return result;
     }
 
+    inline
+    Encoded::FixedLengthBackslashEscaper makeFixedLengthBackslashEscaper(
+            size_t charSize)
+    {
+        if (charSize == 1)
+            return Encoded::FixedLengthBackslashEscaper('x', 2);
+        if (charSize == 2)
+            return Encoded::FixedLengthBackslashEscaper('u', 4);
+        return Encoded::FixedLengthBackslashEscaper('U', 8);
+    }
+
     template <typename Str, typename It1, typename It2, typename Enc>
     Str replaceFwd(Range<It1> str, Range<It2> cmp, Range<It2> rep,
                    Enc encoding,
@@ -913,56 +1072,152 @@ namespace Details
         return result;
     }
 
+    template <typename Decoder, typename NextTokenFunc>
+    Decoder nextNonEmptyToken(Decoder& str, NextTokenFunc nextTokenFunc)
+    {
+        while (!empty(str))
+        {
+            auto token = nextTokenFunc(str);
+            if (!empty(token))
+                return token;
+        }
+        return str;
+    }
+
     template <typename Str, typename Decoder, typename NextTokenFunc>
     std::vector<Str> splitImpl(Decoder str,
                                NextTokenFunc nextTokenFunc,
-                               size_t maxParts,
+                               size_t maxSplits,
                                SplitFlags_t flags)
     {
         std::vector<Str> result;
-        while (maxParts != 1 && str.begin() != str.end())
+        if (maxSplits == 0)
+            --maxSplits;
+
+        auto token = nextTokenFunc(str);
+        if (!SplitFlags::ignoreEmptyFront(flags) || !empty(token))
         {
-            auto token = nextTokenFunc(str);
-            if (!SplitFlags::ignoreEmpty(flags) || token.begin() != token.end())
-            {
-                result.emplace_back(token.begin(), token.end());
-                --maxParts;
-            }
+            result.emplace_back(token.begin(), token.end());
+            --maxSplits;
+        }
+        if (token.end() == str.end())
+            return result;
+
+        while (maxSplits != 0 && !empty(str))
+        {
+            token = SplitFlags::ignoreEmptyIntermediates(flags)
+                  ? nextNonEmptyToken(str, nextTokenFunc)
+                  : nextTokenFunc(str);
             if (token.end() == str.end())
-                return result;
+            {
+                str = token;
+                break;
+            }
+            result.emplace_back(token.begin(), token.end());
+            --maxSplits;
+        }
+
+        if (SplitFlags::ignoreEmptyIntermediates(flags) && maxSplits == 0)
+        {
+            token = nextNonEmptyToken(str, nextTokenFunc);
+            str.setLogicalBegin(token.getLogicalBegin());
         }
         if ((!SplitFlags::ignoreRemainder(flags)) &&
-            (!SplitFlags::ignoreEmpty(flags) || str.begin() != str.end()))
+            (!SplitFlags::ignoreEmptyBack(flags) || !empty(str)))
         {
             result.emplace_back(str.begin(), str.end());
         }
         return result;
     }
 
+    template <typename It1, typename It2>
+    Range<It1> nextToken(Range<It1>& str, Range<It2> cmp)
+    {
+        auto sep = search(str, cmp);
+        auto token = !empty(sep) ? makeRange(str.begin(), sep.begin())
+                                 : str;
+        str.begin() = sep.end();
+        return token;
+    }
+
+    template <typename It1, typename It2>
+    Range<It1> nextNonEmptyToken(Range<It1>& str, Range<It2> cmp)
+    {
+        while (!empty(str))
+        {
+            auto token = nextToken(str, cmp);
+            if (!empty(token))
+                return token;
+        }
+        return str;
+    }
+
     template <typename Str, typename It1, typename It2, typename Enc>
     std::vector<Str> splitImpl(Range<It1> str,
                                Range<It2> cmp,
-                               Enc encoding,
-                               ptrdiff_t maxParts,
+                               Enc /*encoding*/,
+                               ptrdiff_t maxSplits,
                                SplitFlags_t flags,
                                std::true_type)
     {
         std::vector<Str> result;
-        while (maxParts != 1 && str.begin() != str.end())
+        if (maxSplits == 0)
+            --maxSplits;
+
+        auto token = nextToken(str, cmp);
+        if (!SplitFlags::ignoreEmptyFront(flags) || !empty(token))
         {
-            auto token = search(str, cmp);
-            if (!SplitFlags::ignoreEmpty(flags) || str.begin() != token.begin())
+            result.emplace_back(token.begin(), token.end());
+            --maxSplits;
+        }
+        if (token.end() == str.end())
+            return result;
+
+        while (maxSplits != 0 && !empty(str))
+        {
+            token = SplitFlags::ignoreEmptyIntermediates(flags)
+                  ? nextNonEmptyToken(str, cmp)
+                  : nextToken(str, cmp);
+            if (token.end() == str.end())
             {
-                result.emplace_back(str.begin(), token.begin());
-                --maxParts;
+                str = token;
+                break;
             }
-            str.begin() = token.end();
+            result.emplace_back(token.begin(), token.end());
+            --maxSplits;
+        }
+
+        if (SplitFlags::ignoreEmptyIntermediates(flags) && maxSplits == 0)
+        {
+            token = nextNonEmptyToken(str, cmp);
+            str.begin() = token.begin();
         }
         if ((!SplitFlags::ignoreRemainder(flags)) &&
-            (!SplitFlags::ignoreEmpty(flags) || str.begin() != str.end()))
+            (!SplitFlags::ignoreEmptyBack(flags) || !empty(str)))
         {
             result.emplace_back(str.begin(), str.end());
         }
+//        if (maxSplits == 0)
+//            --maxSplits;
+//        std::vector<Str> result;
+//        while (maxSplits != 0 && str.begin() != str.end())
+//        {
+//            auto token = search(str, cmp);
+//            if (!SplitFlags::ignoreEmpty(flags) ||
+//                str.begin() != token.begin())
+//            {
+//                result.emplace_back(str.begin(), token.begin());
+//                --maxSplits;
+//            }
+//            if (token.end() == str.end())
+////                return result;
+//            str.begin() = token.end();
+//        }
+//        if ((!SplitFlags::ignoreRemainder(flags)) &&
+//            (!SplitFlags::ignoreEmpty(flags) || str.begin() != str.end()))
+//        {
+//            result.emplace_back(str.begin(), str.end());
+//        }
         return result;
     }
 
@@ -970,19 +1225,19 @@ namespace Details
     std::vector<Str> splitImpl(Range<It1> str,
                                Range<It2> cmp,
                                Enc encoding,
-                               ptrdiff_t maxParts,
+                               ptrdiff_t maxSplits,
                                SplitFlags_t flags,
                                std::false_type)
     {
         auto findFlags = SplitFlags::toFindFlags(flags);
-        if (maxParts >= 0)
+        if (maxSplits >= 0)
         {
             auto cmpDec = Encoded::makeForwardDecoder(cmp, encoding);
             return splitImpl<Str>(
                     Encoded::makeForwardDecoder(str, encoding),
                     [=](Encoded::ForwardDecoder<It1, Enc>& d)
                        {return nextToken(d, cmpDec, findFlags);},
-                    maxParts, flags);
+                    size_t(maxSplits), flags);
         }
         else
         {
@@ -991,7 +1246,7 @@ namespace Details
                     Encoded::makeReverseDecoder(str, encoding),
                     [=](Encoded::ReverseDecoder<It1, Enc>& d)
                        {return nextToken(d, cmpDec, findFlags);},
-                    -maxParts, flags);
+                    size_t(-maxSplits), flags);
         }
     }
 

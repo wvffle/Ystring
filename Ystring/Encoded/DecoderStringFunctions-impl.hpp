@@ -1,6 +1,6 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 03.06.15
+// Created by Jan Erik Breimo on 2015-06-03
 //
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
@@ -58,6 +58,14 @@ void append(Encoder&& dst, Decoder&& src)
     uint32_t ch;
     while (src.next(ch))
         dst.encode(ch);
+}
+
+template <typename Encoder, typename Decoder>
+void appendBytes(Encoder&& dst, Decoder&& src)
+{
+    uint32_t ch;
+    while (src.next(ch))
+        dst.encodeAsBytes(ch);
 }
 
 template <typename Encoder, typename Decoder>

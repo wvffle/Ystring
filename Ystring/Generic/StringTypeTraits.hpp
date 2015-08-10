@@ -9,30 +9,9 @@
 
 #include <string>
 #include "../Utilities/ArrayOutputIterator.hpp"
+#include "StringReference.hpp"
 
 namespace Ystring { namespace Generic {
-
-//template <typename String>
-//struct StringTraits
-//{
-//    typedef std::back_insert_iterator<String> BackInsertIterator;
-//
-//    BackInsertIterator getBackInserter(String& s)
-//    {
-//        return std::back_inserter(s);
-//    }
-//};
-//
-//template <>
-//struct StringTraits<char*>
-//{
-//    typedef Utilities::SafeOutputIterator<char*> BackInsertIterator;
-//
-//    BackInsertIterator getBackInserter(char* s)
-//    {
-//
-//    }
-//};
 
 template <typename Enc1, typename Enc2>
 struct SameEncoding
@@ -58,7 +37,13 @@ template <typename Char1, typename Enc1,
 struct CanCopyRawValues
     : std::integral_constant<bool,
                              SameEncoding<Enc1, Enc2>::value &&
-                                std::is_same<Char1, Char2>()>
+                                std::is_same<Char1, Char2>::value>
+{};
+
+template <typename Str>
+struct IsByteString
+    : std::integral_constant<
+            bool, sizeof(typename StringReference<Str>::ValueType) == 1>
 {};
 
 }}

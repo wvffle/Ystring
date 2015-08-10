@@ -1,6 +1,6 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 06.06.15
+// Created by Jan Erik Breimo on 2015-06-06
 //
 // This file is distributed under the BSD License.
 // License text is included with the source distribution.
@@ -30,8 +30,8 @@ public:
         return Encoded::Appender<String>(m_String);
     }
 
-    template <typename Encoding>
-    Encoded::Encoder<BackInsertIterator, Encoding> getEncoder(Encoding encoding)
+    template <typename Enc>
+    Encoded::Encoder<BackInsertIterator, Enc> getEncoder(Enc encoding)
     {
         return Encoded::makeEncoder(std::back_inserter(m_String), encoding);
     }

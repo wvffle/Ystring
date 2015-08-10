@@ -1,12 +1,14 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 18.06.15
+// Created by Jan Erik Breimo on 2015-06-18.
 //
 // This file is distributed under the BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
 #pragma once
 #include "FindFlags.hpp"
+
+#include <JEBDebug/Debug.hpp>
 
 namespace Ystring {
 
@@ -16,8 +18,12 @@ struct SplitFlags
     {
         DEFAULTS = 0,
         CASE_INSENSITIVE = 1,
-        IGNORE_EMPTY = 2,
-        IGNORE_REMAINDER = 4
+        IGNORE_EMPTY_FRONT = 2,
+        IGNORE_EMPTY_INTERMEDIATES = 4,
+        IGNORE_EMPTY_BACK = 8,
+        IGNORE_EMPTY = IGNORE_EMPTY_FRONT | IGNORE_EMPTY_INTERMEDIATES |
+                       IGNORE_EMPTY_BACK,
+        IGNORE_REMAINDER = 0x10
     };
 
     typedef unsigned Flags;
@@ -29,7 +35,23 @@ struct SplitFlags
 
     static bool ignoreEmpty(Flags flags)
     {
-        return (flags & IGNORE_EMPTY) != 0;
+        JEB_SHOW3(flags, IGNORE_EMPTY, flags & IGNORE_EMPTY);
+        return (flags & IGNORE_EMPTY) == IGNORE_EMPTY;
+    }
+
+    static bool ignoreEmptyFront(Flags flags)
+    {
+        return (flags & IGNORE_EMPTY_FRONT) != 0;
+    }
+
+    static bool ignoreEmptyIntermediates(Flags flags)
+    {
+        return (flags & IGNORE_EMPTY_INTERMEDIATES) != 0;
+    }
+
+    static bool ignoreEmptyBack(Flags flags)
+    {
+        return (flags & IGNORE_EMPTY_BACK) != 0;
     }
 
     static bool ignoreRemainder(Flags flags)

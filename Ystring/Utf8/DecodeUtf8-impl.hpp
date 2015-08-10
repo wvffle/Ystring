@@ -10,7 +10,7 @@
 
 namespace Ystring { namespace Utf8 {
 
-namespace internal
+namespace Detail
 {
     static inline bool isContinuation(uint8_t c)
     {
@@ -36,33 +36,18 @@ bool isValidUtf8(FwdIt begin, FwdIt end, bool acceptIncompleteAtEnd)
 }
 
 template <typename FwdIt>
-bool skipNextUtf8CodePoint(FwdIt& it, FwdIt end)
-{
-    if (it == end)
-        return false;
-
-    do
-    {
-        ++it;
-    }
-    while (it != end && internal::isContinuation(*it));
-
-    return true;
-}
-
-template <typename FwdIt>
 DecoderResult_t nextUtf8CodePoint(uint32_t& codePoint, FwdIt& it, FwdIt end)
 {
     if (it == end)
         return DecoderResult::END_OF_STRING;
 
-    if (internal::isAscii(*it))
+    if (Detail::isAscii(*it))
     {
         codePoint = (uint8_t)*it++;
         return DecoderResult::OK;
     }
 
-    if (internal::isContinuation(*it) || uint8_t(*it) >= 0xFE)
+    if (Detail::isContinuation(*it) || uint8_t(*it) >= 0xFE)
         return DecoderResult::INVALID;
 
     size_t count = 1;
@@ -76,11 +61,11 @@ DecoderResult_t nextUtf8CodePoint(uint32_t& codePoint, FwdIt& it, FwdIt end)
 
     codePoint &= bit - 1;
 
-    if (!codePoint)
-        return DecoderResult::INVALID;
+//    if (!codePoint)
+//        return DecoderResult::INVALID;
 
     FwdIt initialIt = it;
-    while (++it != end && count && internal::isContinuation(*it))
+    while (++it != end && count && Detail::isContinuation(*it))
     {
         codePoint <<= 6;
         codePoint |= *it & 0x3F;
@@ -104,7 +89,7 @@ DecoderResult_t prevUtf8CodePoint(uint32_t& codePoint, BiIt begin, BiIt& it)
 
     BiIt initialIt = it;
     --it;
-    if (internal::isAscii(*it))
+    if (Detail::isAscii(*it))
     {
         codePoint = (uint8_t)*it;
         return DecoderResult::OK;
@@ -114,7 +99,7 @@ DecoderResult_t prevUtf8CodePoint(uint32_t& codePoint, BiIt begin, BiIt& it)
     uint8_t mask = 0xC0;
     uint8_t bit = 0x20;
     uint32_t shift = 0;
-    while (internal::isContinuation(*it))
+    while (Detail::isContinuation(*it))
     {
         if (bit == 1 || it == begin)
         {
@@ -138,15 +123,30 @@ DecoderResult_t prevUtf8CodePoint(uint32_t& codePoint, BiIt begin, BiIt& it)
             return DecoderResult::INCOMPLETE;
     }
 
-    if ((byte & ~mask) == 0)
-    {
-        it = initialIt;
-        return DecoderResult::INVALID;
-    }
+//    if ((byte & ~mask) == 0)
+//    {
+//        it = initialIt;
+//        return DecoderResult::INVALID;
+//    }
 
     codePoint |= (byte & ~mask) << shift;
 
     return DecoderResult::OK;
+}
+
+template <typename FwdIt>
+bool skipNextUtf8CodePoint(FwdIt& it, FwdIt end)
+{
+    if (it == end)
+        return false;
+
+    do
+    {
+        ++it;
+    }
+    while (it != end && Detail::isContinuation(*it));
+
+    return true;
 }
 
 template <typename BiIt>
@@ -159,7 +159,7 @@ bool skipPrevUtf8CodePoint(BiIt begin, BiIt& it)
     {
         --it;
     }
-    while (it != begin && internal::isContinuation(*it));
+    while (it != begin && Detail::isContinuation(*it));
 
     return true;
 }
