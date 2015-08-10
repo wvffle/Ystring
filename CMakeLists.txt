@@ -138,6 +138,7 @@ set(PRIVATE_HEADERS
 
 set(SOURCE_FILES
     Ystring/EncodingInfo.cpp
+    Ystring/Predicates.cpp
     Ystring/YstringException.cpp
     Ystring/CodePage/CodePage.cpp
     Ystring/CodePage/Cp437.cpp
@@ -180,7 +181,9 @@ set_property(TARGET ${PROJECT_NAME} PROPERTY MACOSX_RPATH ON)
 set(CTEST_OUTPUT_ON_FAILURE 1)
 add_subdirectory(UnitTest)
 
-add_subdirectory(Examples)
+if(BUILD_EXAMPLES)
+    add_subdirectory(Examples)
+endif(BUILD_EXAMPLES)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION lib)
 install(FILES ${PUBLIC_HEADERS_ROOT}
