@@ -11,6 +11,7 @@
 #include <cstdint>
 #include <utility>
 #include "../Encoding.hpp"
+#include "../YstringDefinitions.hpp"
 
 /** @namespace CodePage
   * @brief The namespace for everything specific to single byte
@@ -20,7 +21,7 @@ namespace Ystring { namespace CodePage {
 
 typedef std::pair<uint32_t, uint8_t> CodePointMapping;
 
-class CodePage
+class YSTRING_API CodePage
 {
 public:
     CodePage(const uint32_t* toCodePoints,
@@ -38,6 +39,6 @@ private:
     Encoding_t m_Encoding;
 };
 
-CodePage makeCodePage(Encoding_t encoding);
+YSTRING_API CodePage makeCodePage(Encoding_t encoding);
 
 }}

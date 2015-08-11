@@ -8,12 +8,13 @@
 #pragma once
 
 #include <string>
-#include "Utilities/Endian.hpp"
 #include "Encoding.hpp"
+#include "YstringDefinitions.hpp"
+#include "Utilities/Endian.hpp"
 
 namespace Ystring {
 
-class EncodingInfo
+class YSTRING_API EncodingInfo
 {
 public:
     EncodingInfo();
@@ -56,13 +57,13 @@ private:
     size_t m_UnitSize;
 };
 
-const EncodingInfo* encodingInfo(Encoding_t encoding);
+YSTRING_API const EncodingInfo* encodingInfo(Encoding_t encoding);
 
-Encoding_t encodingFromName(const std::string& name);
-Encoding_t encodingFromByteOrderMark(const std::string& bom);
-Encoding_t encodingFromByteOrderMark(const char* bom, size_t len);
-Encoding_t encodingFromString(const char* str, size_t len,
-                              bool ignoreLastCharacter = false);
+YSTRING_API Encoding_t encodingFromName(const std::string& name);
+YSTRING_API Encoding_t encodingFromByteOrderMark(const std::string& bom);
+YSTRING_API Encoding_t encodingFromByteOrderMark(const char* bom, size_t len);
+YSTRING_API Encoding_t encodingFromString(const char* str, size_t len,
+                                          bool ignoreLastCharacter = false);
 
 /** @brief Returns the most likely encoding used in @a str.
  *
@@ -74,9 +75,9 @@ Encoding_t encodingFromString(const char* str, size_t len,
  *      not be considered, and if it isn't divisble by 2, UTF-16 and other
  *      two-byte encodings will not be considered.
  */
-Encoding_t encodingFromString(const std::string& str);
+YSTRING_API Encoding_t encodingFromString(const std::string& str);
 
-std::pair<Encoding_t, const char*> determineEncoding(
+YSTRING_API std::pair<Encoding_t, const char*> determineEncoding(
         const char* buffer, size_t length);
 
 /** @brief Returns the encoding used in @a stream.
@@ -86,6 +87,7 @@ std::pair<Encoding_t, const char*> determineEncoding(
  *  first byte after the bom. If one isn't found, read @a maxScanLength
  *  number of bytes, do some basic analysis and try to guess the encoding.
  */
-Encoding_t determineEncoding(std::istream& stream, size_t maxScanLength = 16);
+YSTRING_API Encoding_t determineEncoding(std::istream& stream,
+                                         size_t maxScanLength = 16);
 
 }

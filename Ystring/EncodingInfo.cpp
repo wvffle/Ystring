@@ -7,7 +7,6 @@
 //****************************************************************************
 #include "EncodingInfo.hpp"
 
-#include <functional>
 #include <istream>
 #include "Utf8/DecodeUtf8.hpp"
 #include "Utf8.hpp"

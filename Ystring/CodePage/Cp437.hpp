@@ -11,6 +11,6 @@
 
 namespace Ystring { namespace CodePage {
 
-CodePage makeCp437();
+YSTRING_API CodePage makeCp437();
 
 }}

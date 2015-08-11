@@ -11,6 +11,6 @@
 
 namespace Ystring { namespace CodePage {
 
-CodePage makeIso8859_1();
+YSTRING_API CodePage makeIso8859_1();
 
 }}

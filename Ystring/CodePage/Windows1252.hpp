@@ -11,6 +11,6 @@
 
 namespace Ystring { namespace CodePage {
 
-CodePage makeWindows1252();
+YSTRING_API CodePage makeWindows1252();
 
 }}

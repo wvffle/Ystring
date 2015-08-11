@@ -10,3 +10,4 @@ TODO
 * Implement unescape URL.
 * Include the unit-test framework in the Ystring repository.
 * Distinguish between debug and release versions of lib-files.
+* Re-implement tests for replaceInvalidUtf16-functions.

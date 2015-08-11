@@ -21,8 +21,16 @@ if(MSVC)
     set(SOURCE_FILES_PLATFORM_SPECIFIC
         Utf16/test_Utf16WString.cpp
         )
+    if(NOT MSVC_VERSION LESS 1900)
+        set(SOURCE_FILES_PLATFORM_SPECIFIC
+            ${SOURCE_FILES_PLATFORM_SPECIFIC}
+            Utf8/test_Utf8StringCpp11.cpp
+            )
+    endif(NOT MSVC_VERSION LESS 1900)
 else(MSVC)
-    set(SOURCE_FILES_PLATFORM_SPECIFIC)
+    set(SOURCE_FILES_PLATFORM_SPECIFIC
+        Utf8/test_Utf8StringCpp11.cpp
+        )
 endif(MSVC)
 
 set(SOURCE_FILES
@@ -36,7 +44,6 @@ set(SOURCE_FILES
     Unicode/test_CharMap.cpp
     Unicode/test_CharMappingTypes.cpp
     Utf8/test_Utf8String.cpp
-    Utf8/test_Utf8StringCpp11.cpp
     ${SOURCE_FILES_PLATFORM_SPECIFIC}
     )
 
