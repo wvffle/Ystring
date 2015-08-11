@@ -7,7 +7,6 @@
 //****************************************************************************
 #pragma once
 
-//#include <cstdint>
 #include "../Encoding.hpp"
 #include "DecodeUtf32.hpp"
 #include "EncodeUtf32.hpp"
