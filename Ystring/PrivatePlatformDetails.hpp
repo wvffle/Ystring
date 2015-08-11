@@ -37,6 +37,11 @@ DEFINE_INTERNAL_CHAR_TYPE(int32_t, uint32_t);
     DEFINE_INTERNAL_CHAR_TYPE(wchar_t, uint32_t);
 #endif
 
+#ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
+DEFINE_INTERNAL_CHAR_TYPE(char16_t, uint16_t);
+DEFINE_INTERNAL_CHAR_TYPE(char32_t, uint32_t);
+#endif
+
 template <typename T>
 auto internal_char_type_cast(T* s)
         -> typename InternalCharType<T>::Type*
