@@ -95,7 +95,7 @@ void test_endsWith()
 void test_escape_BACKSLASH()
 {
     const wchar_t str[] = L"ab\x01" L"cd\nef\x7Fgh\x80";
-#ifdef WCHAR_IS_2_BYTES
+#ifdef YSTRING_WCHAR_IS_2_BYTES
     auto expected = L"ab\\u0001cd\\nef\\u007Fgh\\u0080";
 #else
     auto expected = L"ab\\U00000001cd\\nef\\U0000007Fgh\\U00000080";
@@ -106,7 +106,7 @@ void test_escape_BACKSLASH()
 
 void test_escape_BACKSLASH_ASCII()
 {
-#ifdef WCHAR_IS_2_BYTES
+#ifdef YSTRING_WCHAR_IS_2_BYTES
     auto expected = L"\\uFFFF";
 #else
     auto expected = L"\\U0000FFFF";
@@ -127,7 +127,7 @@ void test_escape_BACKSLASH_ASCII_SMART()
              L"\\u0100");
     JT_EQUAL(Utf16W::escape(L"\uFFFF", EscapeType::BACKSLASH_ASCII_SMART),
              L"\\uFFFF");
-#ifdef WCHAR_IS_2_BYTES
+#ifdef YSTRING_WCHAR_IS_2_BYTES
     JT_EQUAL(Utf16W::escape(L"\U00010000", EscapeType::BACKSLASH_ASCII_SMART),
              L"\\U00010000");
     JT_EQUAL(Utf16W::escape(L"\U000FFFFF", EscapeType::BACKSLASH_ASCII_SMART),
