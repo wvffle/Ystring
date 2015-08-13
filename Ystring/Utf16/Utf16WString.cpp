@@ -352,7 +352,7 @@ std::wstring replaceInvalidUtf16(const std::wstring& str, uint32_t chr)
    while (it != str.end())
    {
        uint32_t cp;
-       if (nextUtf16CodePoint(cp, it, str.end()) != DecoderResult::OK)
+       if (nextUtf16CodePoint<false>(cp, it, str.end()) != DecoderResult::OK)
        {
            result.append(first, it);
            first = ++it;
@@ -370,7 +370,7 @@ std::wstring& replaceInvalidUtf16InPlace(std::wstring& str, uint16_t chr)
    while (it != str.end())
    {
        uint32_t cp;
-       if (nextUtf16CodePoint(cp, it, str.end()) != DecoderResult::OK)
+       if (nextUtf16CodePoint<false>(cp, it, str.end()) != DecoderResult::OK)
            *it++ = chr;
    }
    return str;
