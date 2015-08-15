@@ -7,6 +7,11 @@
 //****************************************************************************
 #pragma once
 
+/** @file
+  * @brief Top-level include file for the std::wstring as UTF-16
+  *     function library
+  */
+
 static_assert(sizeof(wchar_t) == 2,
               "wchar_t isn't 16-bit and isn't suited for UTF-16.");
 

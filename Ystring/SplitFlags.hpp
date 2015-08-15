@@ -8,6 +8,10 @@
 #pragma once
 #include "FindFlags.hpp"
 
+/** @file
+  * @brief Defines the SplitFlags enum.
+  */
+
 namespace Ystring {
 
 struct SplitFlags
