@@ -7,6 +7,10 @@
 //****************************************************************************
 #pragma once
 
+/** @file
+  * @brief Defines the EscapeType enum.
+  */
+
 namespace Ystring {
 
 struct EscapeType

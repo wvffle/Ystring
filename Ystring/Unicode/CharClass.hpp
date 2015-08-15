@@ -10,6 +10,10 @@
 #include <cstdint>
 #include "../YstringDefinitions.hpp"
 
+/** @file
+  * @brief Defines the CharClass enum and the getCharClass function.
+  */
+
 namespace Ystring { namespace Unicode {
 
 struct CharClass
@@ -97,6 +101,6 @@ struct CharClass
 
 typedef CharClass::Type CharClass_t;
 
-YSTRING_API CharClass_t charClass(uint32_t ch);
+YSTRING_API CharClass_t getCharClass(uint32_t ch);
 
 }}

@@ -12,13 +12,25 @@
 #include "YstringDefinitions.hpp"
 #include "Utilities/Endian.hpp"
 
+/** @file
+  * @brief Defines the EncodingInfo class and declares functions that can
+  *     determine the encoding of a text.
+  */
+
 namespace Ystring {
 
+/** @brief Provides various bits of information about an encoding.
+  */
 class YSTRING_API EncodingInfo
 {
 public:
+    /** @brief Sets encoding to UNKNOWN and initializes all other members
+      *     to zero or empty strings.
+      */
     EncodingInfo();
 
+    /** @brief Initialzes members according to the function arguments.
+      */
     EncodingInfo(Encoding_t encoding,
                  const std::string& name,
                  const std::string& byteOrderMark,
@@ -48,45 +60,75 @@ public:
     size_t unitSize() const;
     void setUnitSize(size_t unitSize);
 private:
+    std::string m_Name;
     std::string m_ByteOrderMark;
-    Utilities::Endianness m_Endianness;
     size_t m_MinCharLength;
     size_t m_MaxCharLength;
-    std::string m_Name;
-    Encoding_t m_Encoding;
     size_t m_UnitSize;
+    Encoding_t m_Encoding;
+    Utilities::Endianness m_Endianness;
 };
 
-YSTRING_API const EncodingInfo* encodingInfo(Encoding_t encoding);
+/** @brief Return the @a EncdingInfo for @a encoding.
+  *
+  * @return The instance of EncodingInfo corresponding to @a encoding or
+  *     nullptr none can be found.
+  */
+YSTRING_API const EncodingInfo* getEncodingInfo(Encoding_t encoding);
 
+/** @brief Returns the @a Encoding_t that corresponds to @a name.
+  */
 YSTRING_API Encoding_t encodingFromName(const std::string& name);
-YSTRING_API Encoding_t encodingFromByteOrderMark(const std::string& bom);
-YSTRING_API Encoding_t encodingFromByteOrderMark(const char* bom, size_t len);
-YSTRING_API Encoding_t encodingFromString(const char* str, size_t len,
-                                          bool ignoreLastCharacter = false);
+
+/** @brief Checks the list of known byte-order marks and returns the one that
+  *     matches the start of @a bom.
+  */
+YSTRING_API Encoding_t determineEncodingFromByteOrderMark(
+        const std::string& bom);
+
+/** @brief Checks the list of known byte-order marks and returns the one that
+  *     matches the start of @a bom.
+  */
+YSTRING_API Encoding_t determineEncodingFromByteOrderMark(
+        const char* bom, size_t len);
+
+/** @brief Analyzes the contents of @a str and returns what it believes is
+  *     most likely to @a str's encoding.
+  */
+YSTRING_API Encoding_t determineEncodingFromContents(
+        const char* str, size_t len,
+        bool ignoreLastCharacter = false);
 
 /** @brief Returns the most likely encoding used in @a str.
- *
- *  @note There's no guarantee that the encoding returned by this function
- *      actually matches the one used in str, only that str will consist of
- *      legal character values when interpreted as having the returned
- *      encoding.
- *  @note If the length of @a str isn't divisible by 4, UTF-32 encodings will
- *      not be considered, and if it isn't divisble by 2, UTF-16 and other
- *      two-byte encodings will not be considered.
- */
-YSTRING_API Encoding_t encodingFromString(const std::string& str);
+  *
+  * @note There's no guarantee that the encoding returned by this function
+  *     actually matches the one used in str, only that str will consist of
+  *     legal character values when interpreted as having the returned
+  *     encoding.
+  * @note If the length of @a str isn't divisible by 4, UTF-32 encodings will
+  *     not be considered, and if it isn't divisble by 2, UTF-16 and other
+  *     two-byte encodings will not be considered.
+  */
+YSTRING_API Encoding_t determineEncodingFromContents(const std::string& str);
 
+/** @brief Returns the encoding used in @a stream and a pointer to the first
+  *     character following the byte-order mark.
+  *
+  * The function first tries to determine the encoding based on @a buffer's
+  * byte-order mark. If there isn't one, the contents of the buffer is
+  * analyzed instead.
+  */
 YSTRING_API std::pair<Encoding_t, const char*> determineEncoding(
         const char* buffer, size_t length);
 
 /** @brief Returns the encoding used in @a stream.
- *
- *  Will look for a byte-order mark (bom) at the start of a stream. If one
- *  is found, return the corresponding encoding and leave the stream at the
- *  first byte after the bom. If one isn't found, read @a maxScanLength
- *  number of bytes, do some basic analysis and try to guess the encoding.
- */
+  *
+  * Will look for a byte-order mark (bom) at the start of a stream. If one
+  * is found it returns the corresponding encoding and leave the stream at the
+  * first byte after the bom. If one isn't found it will read @a maxScanLength
+  * number of bytes, do some basic analysis and try to guess the encoding,
+  * and then reposition the stream back to its original position.
+  */
 YSTRING_API Encoding_t determineEncoding(std::istream& stream,
                                          size_t maxScanLength = 16);
 

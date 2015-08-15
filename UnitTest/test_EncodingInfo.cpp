@@ -26,7 +26,7 @@ void test_FromName()
 
 void test_FromBom()
 {
-    JT_EQUAL(encodingFromByteOrderMark("\xEF\xBB\xBF""Abrakadabra"),
+    JT_EQUAL(determineEncodingFromByteOrderMark("\xEF\xBB\xBF""Abrakadabra"),
              Encoding::UTF_8);
 }
 

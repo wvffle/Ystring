@@ -14,11 +14,11 @@
 namespace Ystring {
 
 EncodingInfo::EncodingInfo()
-    : m_Endianness(Utilities::UnknownEndianness),
-      m_MinCharLength(0),
+    : m_MinCharLength(0),
       m_MaxCharLength(0),
+      m_UnitSize(0),
       m_Encoding(Encoding::UNKNOWN),
-      m_UnitSize(0)
+      m_Endianness(Utilities::UnknownEndianness)
 {
 }
 
@@ -29,13 +29,13 @@ EncodingInfo::EncodingInfo(Encoding_t encoding,
                            size_t unitSize,
                            size_t minCharLength,
                            size_t maxCharLength)
-    : m_ByteOrderMark(byteOrderMark),
-      m_Endianness(endianness),
+    : m_Name(name),
+      m_ByteOrderMark(byteOrderMark),
       m_MinCharLength(minCharLength),
       m_MaxCharLength(maxCharLength),
-      m_Name(name),
+      m_UnitSize(unitSize),
       m_Encoding(encoding),
-      m_UnitSize(unitSize)
+      m_Endianness(endianness)
 {
 }
 
@@ -141,50 +141,51 @@ static EncodingName s_EncodingMap[] = {
 
 static EncodingInfo s_Properties[] = {
     EncodingInfo(Encoding::UNKNOWN, "Unknown", "",
-                       Utilities::UnknownEndianness, 0, 0, 0),
+                 Utilities::UnknownEndianness, 0, 0, 0),
     EncodingInfo(Encoding::ASCII, "ASCII", "",
-                       Utilities::UnknownEndianness, 1, 1, 1),
+                 Utilities::UnknownEndianness, 1, 1, 1),
     EncodingInfo(Encoding::UTF_8, "UTF-8", "\xEF\xBB\xBF",
-                       Utilities::UnknownEndianness, 1, 1, 4),
+                 Utilities::UnknownEndianness, 1, 1, 4),
     EncodingInfo(Encoding::LATIN_1, "latin-1", "",
-                       Utilities::UnknownEndianness, 1, 1, 1),
+                 Utilities::UnknownEndianness, 1, 1, 1),
     EncodingInfo(Encoding::WINDOWS_1252, "windows-1252", "",
-                       Utilities::UnknownEndianness, 1, 1, 1),
+                 Utilities::UnknownEndianness, 1, 1, 1),
     EncodingInfo(Encoding::UTF_16_BE, "UTF-16BE", "\xFE\xFF",
-                       Utilities::BigEndian, 2, 1, 2),
+                 Utilities::BigEndian, 2, 1, 2),
     EncodingInfo(Encoding::UTF_16_LE, "UTF-16LE", "\xFF\xFE",
-                       Utilities::LittleEndian, 2, 1, 2),
+                 Utilities::LittleEndian, 2, 1, 2),
     EncodingInfo(Encoding::UTF_32_BE, "UTF-32BE", "\x00\x00\xFE\xFF",
-                       Utilities::BigEndian, 4, 1, 1),
+                 Utilities::BigEndian, 4, 1, 1),
     EncodingInfo(Encoding::UTF_32_LE, "UTF-32LE", "\xFF\xFE\x00\x00",
-                       Utilities::LittleEndian, 4, 1, 1),
+                 Utilities::LittleEndian, 4, 1, 1),
     EncodingInfo(Encoding::UTF_7, "UTF-7", "\x2B\x2F\x76",
-                       Utilities::UnknownEndianness, 1, 1, 0),
+                 Utilities::UnknownEndianness, 1, 1, 0),
     EncodingInfo(Encoding::UTF_1, "UTF-1", "\xF7\x64\x4C",
-                       Utilities::UnknownEndianness, 1, 1, 5),
+                 Utilities::UnknownEndianness, 1, 1, 5),
     EncodingInfo(Encoding::UTF_EBCDIC, "UTF-EBCDIC", "\xDD\x73\x66\x73",
-                       Utilities::UnknownEndianness, 1, 1, 5),
+                 Utilities::UnknownEndianness, 1, 1, 5),
     EncodingInfo(Encoding::SCSU, "SCSU", "\x0E\xFE\xFF",
-                       Utilities::UnknownEndianness, 1, 1, 0),
+                 Utilities::UnknownEndianness, 1, 1, 0),
     EncodingInfo(Encoding::BOCU_1, "BOCU-1", "\xFB\xEE\x28",
-                       Utilities::UnknownEndianness, 1, 1, 0),
+                 Utilities::UnknownEndianness, 1, 1, 0),
     EncodingInfo(Encoding::UCS_2, "UCS2", "",
-                       Utilities::BigEndian, 2, 1, 1),
+                 Utilities::BigEndian, 2, 1, 1),
     EncodingInfo(Encoding::GB_18030, "GB18030", "\x84\x31\x95\x33",
-                       Utilities::UnknownEndianness, 1, 1, 4)
+                 Utilities::UnknownEndianness, 1, 1, 4)
 };
 
-const EncodingInfo* encodingInfo(Encoding_t encoding)
+const EncodingInfo* getEncodingInfo(Encoding_t encoding)
 {
     if (Encoding::UNKNOWN <= encoding && encoding < Encoding::MAXIMUM)
         return &s_Properties[encoding];
     else
-        return NULL;
+        return nullptr;
 }
 
 Encoding_t encodingFromName(const std::string& name)
 {
-    for (EncodingName* it = std::begin(s_EncodingMap); it != std::end(s_EncodingMap); ++it)
+    using namespace std;
+    for (auto it = begin(s_EncodingMap); it != end(s_EncodingMap); ++it)
     {
         if (Utf8::caseInsensitiveEqual(it->first, name))
             return it->second;
@@ -192,7 +193,7 @@ Encoding_t encodingFromName(const std::string& name)
     return Encoding::UNKNOWN;
 }
 
-Encoding_t encodingFromByteOrderMark(const std::string& str)
+Encoding_t determineEncodingFromByteOrderMark(const std::string& str)
 {
     for (size_t i = 0; i < sizeof(s_Properties) / sizeof(*s_Properties); i++)
     {
@@ -211,11 +212,12 @@ Encoding_t encodingFromByteOrderMark(const std::string& str)
     return Encoding::UNKNOWN;
 }
 
-Encoding_t encodingFromByteOrderMark(const char* str, size_t len)
+Encoding_t determineEncodingFromByteOrderMark(const char* str, size_t len)
 {
-    assert(str != NULL);
+    assert(str);
     assert(len > 0);
-    return encodingFromByteOrderMark(std::string(str, std::min(len, (size_t)4)));
+    return determineEncodingFromByteOrderMark(
+            std::string(str, std::min(len, (size_t)4)));
 }
 
 bool getBytePatterns(const char* str, size_t len,
@@ -277,8 +279,8 @@ Encoding_t encodingFromPattern(unsigned pattern, size_t patternSize)
     }
 }
 
-Encoding_t encodingFromString(const char* str, size_t len,
-                              bool ignoreLastCharacter)
+Encoding_t determineEncodingFromContents(const char* str, size_t len,
+                                         bool ignoreLastCharacter)
 {
     size_t patternSize;
     if (len % 4 == 0)
@@ -303,9 +305,9 @@ Encoding_t encodingFromString(const char* str, size_t len,
         return Encoding::WINDOWS_1252;
 }
 
-Encoding_t encodingFromString(const std::string& str)
+Encoding_t determineEncodingFromContents(const std::string& str)
 {
-    return encodingFromString(str.c_str(), str.size(), false);
+    return determineEncodingFromContents(str.c_str(), str.size(), false);
 }
 
 std::pair<Encoding_t, const char*> determineEncoding(
@@ -313,15 +315,16 @@ std::pair<Encoding_t, const char*> determineEncoding(
 {
     if (length == 0)
         return std::make_pair(Encoding::UNKNOWN, buffer);
-    Encoding_t encoding = encodingFromByteOrderMark(buffer, length);
+    Encoding_t encoding = determineEncodingFromByteOrderMark(buffer, length);
     if (encoding == Encoding::UNKNOWN)
     {
-        return std::make_pair(encodingFromString(buffer, length, true),
-                              buffer);
+        return std::make_pair(
+                determineEncodingFromContents(buffer, length, true),
+                buffer);
     }
     else
     {
-        const std::string& bom = encodingInfo(encoding)->byteOrderMark();
+        const std::string& bom = getEncodingInfo(encoding)->byteOrderMark();
         return std::make_pair(encoding, buffer + bom.size());
     }
 }

@@ -11,35 +11,39 @@
 #include "CharClass.hpp"
 #include "UnicodeChars.hpp"
 
+/** @file
+  * @brief Defines predicates for testing properties of unicode code-points.
+  */
+
 namespace Ystring { namespace Unicode {
 
 inline bool isAlphaNumeric(uint32_t c)
 {
-    return (charClass(c) & (CharClass::LETTER | CharClass::NUMBER)) != 0;
+    return (getCharClass(c) & (CharClass::LETTER | CharClass::NUMBER)) != 0;
 }
 
 inline bool isCasedLetter(uint32_t c)
 {
-    return (charClass(c) & CharClass::CASED_LETTER) != 0;
+    return (getCharClass(c) & CharClass::CASED_LETTER) != 0;
 }
 
 inline bool isControl(uint32_t c)
 {
-    return (charClass(c) & CharClass::CONTROL) != 0;
+    return (getCharClass(c) & CharClass::CONTROL) != 0;
 }
 
 inline bool isFormat(uint32_t c)
 {
-    return (charClass(c) & CharClass::FORMAT) != 0;
+    return (getCharClass(c) & CharClass::FORMAT) != 0;
 }
 
 inline bool isGraphical(uint32_t c)
 {
-    return (charClass(c) & (CharClass::LETTER |
-                            CharClass::MARK |
-                            CharClass::NUMBER |
-                            CharClass::PUNCTUATION |
-                            CharClass::SYMBOL)) != 0;
+    return (getCharClass(c) & (CharClass::LETTER |
+                               CharClass::MARK |
+                               CharClass::NUMBER |
+                               CharClass::PUNCTUATION |
+                               CharClass::SYMBOL)) != 0;
 }
 
 inline bool isHexDigit(uint32_t c)
@@ -51,7 +55,7 @@ inline bool isHexDigit(uint32_t c)
 
 inline bool isLetter(uint32_t c)
 {
-    return (charClass(c) & CharClass::LETTER) != 0;
+    return (getCharClass(c) & CharClass::LETTER) != 0;
 }
 
 inline bool isMark(uint32_t c)
@@ -71,32 +75,32 @@ inline bool isNewline(uint32_t c)
 
 inline bool isNumber(uint32_t c)
 {
-    return (charClass(c) & CharClass::NUMBER) != 0;
+    return (getCharClass(c) & CharClass::NUMBER) != 0;
 }
 
 inline bool isPunctuation(uint32_t c)
 {
-    return (charClass(c) & CharClass::PUNCTUATION) != 0;
+    return (getCharClass(c) & CharClass::PUNCTUATION) != 0;
 }
 
 inline bool isSeparator(uint32_t c)
 {
-    return (charClass(c) & CharClass::SEPARATOR) != 0;
+    return (getCharClass(c) & CharClass::SEPARATOR) != 0;
 }
 
 inline bool isSurrogate(uint32_t c)
 {
-    return (charClass(c) & CharClass::SURROGATE) != 0;
+    return (getCharClass(c) & CharClass::SURROGATE) != 0;
 }
 
 inline bool isSymbol(uint32_t c)
 {
-    return (charClass(c) & CharClass::SYMBOL) != 0;
+    return (getCharClass(c) & CharClass::SYMBOL) != 0;
 }
 
 inline bool isVisible(uint32_t c)
 {
-    return (charClass(c) & (CharClass::LETTER |
+    return (getCharClass(c) & (CharClass::LETTER |
                             CharClass::MARK |
                             CharClass::NUMBER |
                             CharClass::PUNCTUATION |
@@ -107,7 +111,7 @@ inline bool isVisible(uint32_t c)
 inline bool isWhitespace(uint32_t c)
 {
     return c == '\t' || c == ' ' || isNewline(c) ||
-           (c > 128 && (charClass(c) & CharClass::SEPARATOR) != 0);
+           (c > 128 && (getCharClass(c) & CharClass::SEPARATOR) != 0);
 }
 
 }}

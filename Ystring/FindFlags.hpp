@@ -7,6 +7,10 @@
 //****************************************************************************
 #pragma once
 
+/** @file
+  * @brief Defines the FindFlags enum.
+  */
+
 namespace Ystring {
 
 struct FindFlags
