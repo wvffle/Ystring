@@ -45,6 +45,7 @@ set(PUBLIC_HEADERS_ROOT
     Ystring/EncodingInfo.hpp
     Ystring/EscapeType.hpp
     Ystring/FindFlags.hpp
+    Ystring/PlatformDetails.hpp
     Ystring/Predicates.hpp
     Ystring/SplitFlags.hpp
     Ystring/Utf8.hpp
@@ -75,7 +76,6 @@ set(PUBLIC_HEADERS
 
 set(PRIVATE_HEADERS
     Ystring/DecoderResult.hpp
-    Ystring/PlatformDetails.hpp
     Ystring/PrivatePlatformDetails.hpp
     Ystring/CodePage/CodePage.hpp
     Ystring/CodePage/CodePageEncoding.hpp
