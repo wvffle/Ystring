@@ -702,6 +702,7 @@ FILE_PATTERNS          = Encoding.hpp \
                          EncodingInfo.hpp \
                          EscapeType.hpp \
                          FindFlags.hpp \
+                         PlatformDetails.hpp \
                          Predicates.hpp \
                          SplitFlags.hpp \
                          Utf8.hpp \

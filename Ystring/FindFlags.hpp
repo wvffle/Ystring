@@ -13,13 +13,20 @@
 
 namespace Ystring {
 
+/** @brief "Namespace" for the FindFlags enum values.
+  */
 struct FindFlags
 {
+    /** @brief The flags that can be passed to the various find-functions.
+      */
     enum Type
     {
+        /// Case-sensitive matching of strings.
         DEFAULTS = 0,
+        /// Case-insensitive matching of strings.
         CASE_INSENSITIVE = 1
     };
+
     typedef unsigned Flags;
 
     static bool isCaseInsensitive(Flags flags)
@@ -28,6 +35,8 @@ struct FindFlags
     }
 };
 
+/** @brief A shorter alias for FindFlags::Flags.
+  */
 typedef FindFlags::Flags FindFlags_t;
 
 }

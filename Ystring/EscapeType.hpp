@@ -13,8 +13,13 @@
 
 namespace Ystring {
 
+/** @brief "Namespace" for the EscapeType enum values.
+  */
 struct EscapeType
 {
+    /** @brief The EscapeType enum values used by the escape and unescape
+      *     functions.
+      */
     enum Type
     {
         /** @brief Escape control characters in the ASCII range with
@@ -48,6 +53,8 @@ struct EscapeType
     };
 };
 
+/** @brief A shorter alias for EscapeType::Type.
+  */
 typedef EscapeType::Type EscapeType_t;
 
 }
