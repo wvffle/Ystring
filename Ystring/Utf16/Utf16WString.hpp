@@ -89,6 +89,15 @@ YSTRING_API bool contains(const std::wstring& str, uint32_t chr);
   */
 YSTRING_API size_t countCharacters(const std::wstring& str);
 
+/** @brief Returns the number of characters between @a first and @a last.
+  *
+  * @note A composed character can consist of multiple code points.
+  * @return the number of characters.
+  * @throw YstringException if str contains an invalid UTF-8 code point.
+  */
+YSTRING_API size_t countCharacters(std::string::const_iterator first,
+                                   std::string::const_iterator last);
+
 /** @brief Returns the number of code points in @a str.
   *
   * @note A composed character can consist of multiple code points.

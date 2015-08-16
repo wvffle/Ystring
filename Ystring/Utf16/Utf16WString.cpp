@@ -29,7 +29,8 @@ std::wstring& append(std::wstring& str, uint32_t chr)
     return str;
 }
 
-int32_t caseInsensitiveCompare(const std::wstring& str, const std::wstring& cmp)
+int32_t caseInsensitiveCompare(const std::wstring& str,
+                               const std::wstring& cmp)
 {
     return Generic::caseInsensitiveCompare(makeRange(str),
                                            makeRange(cmp),
@@ -58,6 +59,12 @@ bool contains(const std::wstring& str, uint32_t chr)
 size_t countCharacters(const std::wstring& str)
 {
     return Generic::countCharacters(makeRange(str), Utf16Encoding());
+}
+
+size_t countCharacters(std::string::const_iterator first,
+                       std::string::const_iterator last)
+{
+    return Generic::countCharacters(makeRange(first, last), Utf8Encoding());
 }
 
 size_t countCodePoints(const std::wstring& str)

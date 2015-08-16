@@ -57,6 +57,12 @@ size_t countCharacters(const std::string& str)
     return Generic::countCharacters(makeRange(str), Utf8Encoding());
 }
 
+size_t countCharacters(std::string::const_iterator first,
+                       std::string::const_iterator last)
+{
+    return Generic::countCharacters(makeRange(first, last), Utf8Encoding());
+}
+
 size_t countCodePoints(const std::string& str)
 {
     return Generic::countCodePoints(makeRange(str), Utf8Encoding());

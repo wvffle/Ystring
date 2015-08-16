@@ -67,9 +67,9 @@ void test_contains()
 
 void test_countCharacters()
 {
-    JT_EQUAL(Utf8::countCharacters(
-                  "A" UTF8_COMBINING_RING_ABOVE "BCDE" UTF8_COMBINING_TILDE),
-             5);
+    std::string s("A" UTF8_COMBINING_RING_ABOVE "BCDE" UTF8_COMBINING_TILDE);
+    JT_EQUAL(Utf8::countCharacters(s), 5);
+    JT_EQUAL(Utf8::countCharacters(s.begin(), s.end()), 5);
 }
 
 void test_countCodePoints()
