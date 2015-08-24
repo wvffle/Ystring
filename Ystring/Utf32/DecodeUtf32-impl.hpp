@@ -163,7 +163,7 @@ DecoderResult_t prevUtf32CodePoint(uint32_t& codePoint, BiIt begin, BiIt& it)
     return Details::prevWord<SwapBytes>(codePoint, begin, it, ValueType());
 }
 
-template<typename FwdIt>
+template <typename FwdIt>
 bool skipNextUtf32CodePoint(FwdIt& it, FwdIt end, size_t count)
 {
     typedef typename std::iterator_traits<FwdIt>::value_type ValueType;
