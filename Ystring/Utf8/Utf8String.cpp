@@ -208,6 +208,11 @@ StringConstIteratorPair findLastNewline(
     return Generic::findLastNewline(makeRange(first, last), Utf8Encoding());
 }
 
+uint32_t getCodePoint(const std::string& str, ptrdiff_t n)
+{
+    return Generic::getCodePoint(makeRange(str), n, Utf8Encoding());
+}
+
 std::string insert(const std::string& str, ptrdiff_t pos,
                    const std::string& sub)
 {

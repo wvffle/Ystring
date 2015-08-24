@@ -1,6 +1,5 @@
 TODO
 ====
-* Add codePointAt(index) function to Utf8 and Utf16W.
 * Add functions that converts between composed and decomposed characters.
 * Add interfaces similar to Utf8String.hpp for std::u16string.
 * Add interfaces similar to Utf8String.hpp for std::u32string.

@@ -7,6 +7,7 @@
 //****************************************************************************
 #include "../../Ystring/Utf8.hpp"
 
+#include "../../Ystring/Unicode/UnicodeChars.hpp"
 #include "../../Ystring/Unicode/UnicodePredicates.hpp"
 #include "../../Ystring/Utf8/Utf8Chars.hpp"
 #include <JEBTest/JEBTest.hpp>
@@ -216,6 +217,20 @@ void test_findFirstNewline()
     r = Utf8::findFirstNewline(t.first, t.second);
     JT_ASSERT(r.first == r.second);
     JT_EQUAL(std::string(t.first, r.first), "ghi");
+}
+
+void test_getCodePoint()
+{
+    auto str = "The " UTF8_GREEK_SMALL_OMEGA
+               UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
+               " and the A" UTF8_COMBINING_INVERTED_BREVE
+               UTF8_COMBINING_DOT_ABOVE ".";
+    JT_EQUAL(Utf8::getCodePoint(str, 0), 'T');
+    JT_EQUAL(Utf8::getCodePoint(str, -1), '.');
+    JT_EQUAL(Utf8::getCodePoint(str, 4), Unicode::GREEK_SMALL_OMEGA);
+    JT_EQUAL(Utf8::getCodePoint(str, 5), Unicode::COMBINING_BRIDGE_ABOVE);
+    JT_EQUAL(Utf8::getCodePoint(str, -3), Unicode::COMBINING_INVERTED_BREVE);
+    JT_EQUAL(Utf8::getCodePoint(str, -4), 'A');
 }
 
 void test_insert()
@@ -730,6 +745,7 @@ JT_SUBTEST("Utf8",
            test_findLastNewline,
            test_findFirst,
            test_findFirstNewline,
+           test_getCodePoint,
            test_insert,
            test_insertChar,
            test_isAlphaNumeric,
