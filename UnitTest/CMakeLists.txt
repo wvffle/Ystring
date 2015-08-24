@@ -43,7 +43,11 @@ set(SOURCE_FILES
     Unicode/test_CharClass.cpp
     Unicode/test_CharMap.cpp
     Unicode/test_CharMappingTypes.cpp
+    Utf8/test_DecodeUtf8.cpp
+    Utf8/test_EncodeUtf8.cpp
     Utf8/test_Utf8String.cpp
+    Utf16/test_DecodeUtf16.cpp
+    Utf16/test_EncodeUtf16.cpp
     ${SOURCE_FILES_PLATFORM_SPECIFIC}
     )
 
