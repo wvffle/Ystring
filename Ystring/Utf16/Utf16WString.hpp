@@ -334,6 +334,14 @@ YSTRING_API StringConstIteratorPair findLastNewline(
         std::wstring::const_iterator first,
         std::wstring::const_iterator last);
 
+/** @brief Return code point at position @a pos in @a str.
+  *
+  * The first code point has position 0.
+  * If @a pos is negative, code points are counted from the end of @a str
+  *  where the last character in @a str is at position -1.
+  */
+YSTRING_API uint32_t getCodePoint(const std::wstring& str, ptrdiff_t pos);
+
 /** @brief Inserts string @a sub into @a str at position @a pos.
   *
   * @param pos The insert position in complete characters (i.e. not bytes, not
