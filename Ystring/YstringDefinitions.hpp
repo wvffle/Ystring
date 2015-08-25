@@ -27,10 +27,10 @@
         #define YSTRING_API __declspec(dllexport)
     #else
         #define YSTRING_API
-        #ifdef NDEBUG
-            #pragma comment (lib, "Ystring.lib")
-        #else
+        #ifdef _DEBUG
             #pragma comment (lib, "Ystring.debug.lib")
+        #else
+            #pragma comment (lib, "Ystring.lib")
         #endif
     #endif
 #else
