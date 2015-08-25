@@ -64,7 +64,7 @@ size_t countCharacters(const std::wstring& str)
 size_t countCharacters(std::string::const_iterator first,
                        std::string::const_iterator last)
 {
-    return Generic::countCharacters(makeRange(first, last), Utf8Encoding());
+    return Generic::countCharacters(makeRange(first, last), Utf16Encoding());
 }
 
 size_t countCodePoints(const std::wstring& str)
