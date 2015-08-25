@@ -8,7 +8,7 @@
 #include "../Ystring/EncodingInfo.hpp"
 
 #include <sstream>
-#include <JEBTest/JEBTest.hpp>
+#include "Ytest/Ytest.hpp"
 
 namespace {
 
@@ -16,17 +16,17 @@ using namespace Ystring;
 
 void test_FromName()
 {
-    JT_EQUAL(encodingFromName("UTF8"), Encoding::UTF_8);
-    JT_EQUAL(encodingFromName("UTF-8"), Encoding::UTF_8);
-    JT_EQUAL(encodingFromName("UTF-16"), Encoding::UTF_16);
-    JT_EQUAL(encodingFromName("Utf-16bE"), Encoding::UTF_16_BE);
-    JT_EQUAL(encodingFromName("Utf32Le"), Encoding::UTF_32_LE);
-    JT_EQUAL(encodingFromName("Kjell"), Encoding::UNKNOWN);
+    Y_EQUAL(encodingFromName("UTF8"), Encoding::UTF_8);
+    Y_EQUAL(encodingFromName("UTF-8"), Encoding::UTF_8);
+    Y_EQUAL(encodingFromName("UTF-16"), Encoding::UTF_16);
+    Y_EQUAL(encodingFromName("Utf-16bE"), Encoding::UTF_16_BE);
+    Y_EQUAL(encodingFromName("Utf32Le"), Encoding::UTF_32_LE);
+    Y_EQUAL(encodingFromName("Kjell"), Encoding::UNKNOWN);
 }
 
 void test_FromBom()
 {
-    JT_EQUAL(determineEncodingFromByteOrderMark("\xEF\xBB\xBF""Abrakadabra"),
+    Y_EQUAL(determineEncodingFromByteOrderMark("\xEF\xBB\xBF""Abrakadabra"),
              Encoding::UTF_8);
 }
 
@@ -36,10 +36,10 @@ void test_DetermineEncoding()
     ss << "\xEF\xBB\xBF" " Abrakadabra hokus pokus filiokus";
     std::string s;
     Encoding_t enc = determineEncoding(ss);
-    JT_EQUAL(enc, Encoding::UTF_8);
-    JT_EQUAL(ss.tellg(), (std::streamoff)3);
+    Y_EQUAL(enc, Encoding::UTF_8);
+    Y_EQUAL(ss.tellg(), (std::streamoff)3);
 }
 
-JT_TEST(test_FromName, test_FromBom, test_DetermineEncoding);
+Y_TEST(test_FromName, test_FromBom, test_DetermineEncoding);
 
 }

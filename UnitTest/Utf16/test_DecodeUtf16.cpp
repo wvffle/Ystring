@@ -8,7 +8,7 @@
 #include "../../Ystring/Utf16/DecodeUtf16.hpp"
 
 #include <iterator>
-#include <JEBTest/JEBTest.hpp>
+#include "../Ytest/Ytest.hpp"
 
 namespace
 {
@@ -19,15 +19,15 @@ using namespace Ystring::Utf16;
 inline void testNextUtf16LEChar(const char*& it, const char* end, uint32_t expected)
 {
     uint32_t c;
-    JT_EQUAL(nextUtf16LECodePoint(c, it, end), DecoderResult::OK);
-    JT_EQUAL(c, expected);
+    Y_EQUAL(nextUtf16LECodePoint(c, it, end), DecoderResult::OK);
+    Y_EQUAL(c, expected);
 }
 
 inline void testNextUtf16BEChar(const char*& it, const char* end, uint32_t expected)
 {
     uint32_t c;
-    JT_EQUAL(nextUtf16BECodePoint(c, it, end), DecoderResult::OK);
-    JT_EQUAL(c, expected);
+    Y_EQUAL(nextUtf16BECodePoint(c, it, end), DecoderResult::OK);
+    Y_EQUAL(c, expected);
 }
 
 void test_NextUtf16LECharacter()
@@ -36,14 +36,14 @@ void test_NextUtf16LECharacter()
 
     auto it = (const char*)std::begin(s);
     auto end = (const char*)std::end(s);
-    JT_CALL(testNextUtf16LEChar(it, end, 'N'));
-    JT_CALL(testNextUtf16LEChar(it, end, 'a'));
-    JT_CALL(testNextUtf16LEChar(it, end, 't'));
-    JT_CALL(testNextUtf16LEChar(it, end, 0xD7FF));
-    JT_CALL(testNextUtf16LEChar(it, end, 0x10000));
-    JT_CALL(testNextUtf16LEChar(it, end, 0x10FFFF));
-    JT_CALL(testNextUtf16LEChar(it, end, 0xE000));
-    JT_ASSERT(it == end);
+    Y_CALL(testNextUtf16LEChar(it, end, 'N'));
+    Y_CALL(testNextUtf16LEChar(it, end, 'a'));
+    Y_CALL(testNextUtf16LEChar(it, end, 't'));
+    Y_CALL(testNextUtf16LEChar(it, end, 0xD7FF));
+    Y_CALL(testNextUtf16LEChar(it, end, 0x10000));
+    Y_CALL(testNextUtf16LEChar(it, end, 0x10FFFF));
+    Y_CALL(testNextUtf16LEChar(it, end, 0xE000));
+    Y_ASSERT(it == end);
 }
 
 void test_NextUtf16BECharacter()
@@ -57,22 +57,22 @@ void test_NextUtf16BECharacter()
                          0xE0, 0x00};
     auto it = (const char*)std::begin(s);
     auto end = (const char*)std::end(s);
-    JT_CALL(testNextUtf16BEChar(it, end, 'N'));
-    JT_CALL(testNextUtf16BEChar(it, end, 'a'));
-    JT_CALL(testNextUtf16BEChar(it, end, 't'));
-    JT_CALL(testNextUtf16BEChar(it, end, 0xD7FF));
-    JT_CALL(testNextUtf16BEChar(it, end, 0x10000));
-    JT_CALL(testNextUtf16BEChar(it, end, 0x10FFFF));
-    JT_CALL(testNextUtf16BEChar(it, end, 0xE000));
-    JT_ASSERT(it == end);
+    Y_CALL(testNextUtf16BEChar(it, end, 'N'));
+    Y_CALL(testNextUtf16BEChar(it, end, 'a'));
+    Y_CALL(testNextUtf16BEChar(it, end, 't'));
+    Y_CALL(testNextUtf16BEChar(it, end, 0xD7FF));
+    Y_CALL(testNextUtf16BEChar(it, end, 0x10000));
+    Y_CALL(testNextUtf16BEChar(it, end, 0x10FFFF));
+    Y_CALL(testNextUtf16BEChar(it, end, 0xE000));
+    Y_ASSERT(it == end);
 }
 
 template <typename FwdIt>
 inline void testPrevUtf16LEChar(FwdIt begin, FwdIt& it, uint32_t expected)
 {
     uint32_t c;
-    JT_EQUAL(prevUtf16LECodePoint(c, begin, it), DecoderResult::OK);
-    JT_EQUAL(c, expected);
+    Y_EQUAL(prevUtf16LECodePoint(c, begin, it), DecoderResult::OK);
+    Y_EQUAL(c, expected);
 }
 
 void test_PrevUtf16LECharacter()
@@ -81,18 +81,18 @@ void test_PrevUtf16LECharacter()
 
     auto begin = std::begin(s);
     auto it = std::end(s);
-    JT_CALL(testPrevUtf16LEChar(begin, it, 0xE000));
-    JT_CALL(testPrevUtf16LEChar(begin, it, 0x10FFFF));
-    JT_CALL(testPrevUtf16LEChar(begin, it, 0x10000));
-    JT_CALL(testPrevUtf16LEChar(begin, it, 0xD7FF));
-    JT_CALL(testPrevUtf16LEChar(begin, it, 't'));
-    JT_CALL(testPrevUtf16LEChar(begin, it, 'a'));
-    JT_CALL(testPrevUtf16LEChar(begin, it, 'N'));
-    JT_ASSERT(it == begin);
+    Y_CALL(testPrevUtf16LEChar(begin, it, 0xE000));
+    Y_CALL(testPrevUtf16LEChar(begin, it, 0x10FFFF));
+    Y_CALL(testPrevUtf16LEChar(begin, it, 0x10000));
+    Y_CALL(testPrevUtf16LEChar(begin, it, 0xD7FF));
+    Y_CALL(testPrevUtf16LEChar(begin, it, 't'));
+    Y_CALL(testPrevUtf16LEChar(begin, it, 'a'));
+    Y_CALL(testPrevUtf16LEChar(begin, it, 'N'));
+    Y_ASSERT(it == begin);
 }
 
-JT_SUBTEST("Utf16",
-           test_NextUtf16LECharacter,
-           test_NextUtf16BECharacter,
-           test_PrevUtf16LECharacter);
+Y_SUBTEST("Utf16",
+          test_NextUtf16LECharacter,
+          test_NextUtf16BECharacter,
+          test_PrevUtf16LECharacter);
 }

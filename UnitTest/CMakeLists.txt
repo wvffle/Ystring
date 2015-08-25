@@ -10,12 +10,7 @@ cmake_minimum_required(VERSION 3.2)
 set(PARENT_PROJECT Ystring)
 project(${PARENT_PROJECT}Test)
 
-find_package(JEBTest)
-if(NOT JEBTEST_FOUND)
-    message(FATAL_ERRORO "Could not find JEBTest.")
-endif(NOT JEBTEST_FOUND)
-
-include_directories(${JEBTEST_INCLUDE_DIRS})
+add_subdirectory(Ytest)
 
 if(MSVC)
     set(SOURCE_FILES_PLATFORM_SPECIFIC
@@ -56,6 +51,6 @@ add_executable(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
                       ${PARENT_PROJECT}
-                      ${JEBTEST_LIBRARIES})
+                      Ytest)
 
 add_test(${PARENT_PROJECT} ${PROJECT_NAME})

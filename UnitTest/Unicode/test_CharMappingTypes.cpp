@@ -7,7 +7,7 @@
 //****************************************************************************
 #include "../../Ystring/Unicode/CharMappingTypes.hpp"
 
-#include <JEBTest/JEBTest.hpp>
+#include "../Ytest/Ytest.hpp"
 
 namespace {
 
@@ -17,17 +17,17 @@ namespace {
     {
         CompactCharMapping ccs = {0x40, 0x20, 0x07FFFDFE, 0xF8000001};
         uint32_t lcase;
-        JT_ASSERT(ccs.get(0x40, lcase));
-        JT_EQUAL(lcase, 0x40);
-        JT_ASSERT(ccs.get('A', lcase));
-        JT_EQUAL(lcase, 'a');
-        JT_ASSERT(!ccs.get('I', lcase));
-        JT_ASSERT(ccs.get('Z', lcase));
-        JT_EQUAL(lcase, 'z');
-        JT_ASSERT(ccs.get(0x5B, lcase));
-        JT_EQUAL(lcase, 0x5B);
+        Y_ASSERT(ccs.get(0x40, lcase));
+        Y_EQUAL(lcase, 0x40);
+        Y_ASSERT(ccs.get('A', lcase));
+        Y_EQUAL(lcase, 'a');
+        Y_ASSERT(!ccs.get('I', lcase));
+        Y_ASSERT(ccs.get('Z', lcase));
+        Y_EQUAL(lcase, 'z');
+        Y_ASSERT(ccs.get(0x5B, lcase));
+        Y_EQUAL(lcase, 0x5B);
     }
 
-    JT_SUBTEST("Unicode", test_Get);
+    Y_SUBTEST("Unicode", test_Get);
 
 }

@@ -8,82 +8,82 @@
 #include "../../Ystring/Unicode/CaseConverter.hpp"
 #include "../../Ystring/Unicode/UnicodeChars.hpp"
 
-#include <JEBTest/JEBTest.hpp>
+#include "../Ytest/Ytest.hpp"
 
 namespace {
 
     using namespace Ystring::Unicode;
 
     static void test_upperCase() {
-        JT_EQUAL(upper('A'), 'A');
-        JT_EQUAL(upper('a'), 'A');
-        JT_EQUAL(upper('Z'), 'Z');
-        JT_EQUAL(upper('z'), 'Z');
-        JT_EQUAL(upper(':'), ':');
-        JT_EQUAL(upper(','), ',');
+        Y_EQUAL(upper('A'), 'A');
+        Y_EQUAL(upper('a'), 'A');
+        Y_EQUAL(upper('Z'), 'Z');
+        Y_EQUAL(upper('z'), 'Z');
+        Y_EQUAL(upper(':'), ':');
+        Y_EQUAL(upper(','), ',');
 
-        JT_EQUAL(upper(0x00E0), 0x00C0);
-        JT_EQUAL(upper(0x00E5), 0x00C5);
-        JT_EQUAL(upper(0x00F8), 0x00D8);
+        Y_EQUAL(upper(0x00E0), 0x00C0);
+        Y_EQUAL(upper(0x00E5), 0x00C5);
+        Y_EQUAL(upper(0x00F8), 0x00D8);
 
-        JT_EQUAL(upper(0x00FF), 0x0178);
+        Y_EQUAL(upper(0x00FF), 0x0178);
 
-        JT_EQUAL(upper(0x0106), 0x0106);
-        JT_EQUAL(upper(0x0107), 0x0106);
+        Y_EQUAL(upper(0x0106), 0x0106);
+        Y_EQUAL(upper(0x0107), 0x0106);
 
-        JT_EQUAL(upper(0x0174), 0x0174);
-        JT_EQUAL(upper(0x0175), 0x0174);
+        Y_EQUAL(upper(0x0174), 0x0174);
+        Y_EQUAL(upper(0x0175), 0x0174);
 
-        JT_EQUAL(upper(0x01C4), 0x01C4);
-        JT_EQUAL(upper(0x01C5), 0x01C4);
-        JT_EQUAL(upper(0x01C6), 0x01C4);
+        Y_EQUAL(upper(0x01C4), 0x01C4);
+        Y_EQUAL(upper(0x01C5), 0x01C4);
+        Y_EQUAL(upper(0x01C6), 0x01C4);
     }
 
     static void test_lowerCase()
     {
-        JT_EQUAL(lower('A'), 'a');
-        JT_EQUAL(lower('a'), 'a');
-        JT_EQUAL(lower('Z'), 'z');
-        JT_EQUAL(lower('z'), 'z');
-        JT_EQUAL(lower(':'), ':');
-        JT_EQUAL(lower(','), ',');
+        Y_EQUAL(lower('A'), 'a');
+        Y_EQUAL(lower('a'), 'a');
+        Y_EQUAL(lower('Z'), 'z');
+        Y_EQUAL(lower('z'), 'z');
+        Y_EQUAL(lower(':'), ':');
+        Y_EQUAL(lower(','), ',');
 
-        JT_EQUAL(lower(0x00C0), 0x00E0);
-        JT_EQUAL(lower(0x00C5), 0x00E5);
-        JT_EQUAL(lower(0x00D8), 0x00F8);
-        JT_EQUAL(lower(0x0178), 0x00FF);
+        Y_EQUAL(lower(0x00C0), 0x00E0);
+        Y_EQUAL(lower(0x00C5), 0x00E5);
+        Y_EQUAL(lower(0x00D8), 0x00F8);
+        Y_EQUAL(lower(0x0178), 0x00FF);
 
-        JT_EQUAL(lower(0x01C4), 0x01C6);
-        JT_EQUAL(lower(0x01C5), 0x01C6);
-        JT_EQUAL(lower(0x01C6), 0x01C6);
+        Y_EQUAL(lower(0x01C4), 0x01C6);
+        Y_EQUAL(lower(0x01C5), 0x01C6);
+        Y_EQUAL(lower(0x01C6), 0x01C6);
     }
 
     static void test_titleCase()
     {
-        JT_EQUAL(title('A'), 'A');
-        JT_EQUAL(title('a'), 'A');
-        JT_EQUAL(title('Z'), 'Z');
-        JT_EQUAL(title('z'), 'Z');
-        JT_EQUAL(title(':'), ':');
-        JT_EQUAL(title(','), ',');
+        Y_EQUAL(title('A'), 'A');
+        Y_EQUAL(title('a'), 'A');
+        Y_EQUAL(title('Z'), 'Z');
+        Y_EQUAL(title('z'), 'Z');
+        Y_EQUAL(title(':'), ':');
+        Y_EQUAL(title(','), ',');
 
-        JT_EQUAL(title(0x00E0), 0x00C0);
-        JT_EQUAL(title(0x00E5), 0x00C5);
-        JT_EQUAL(title(0x00F8), 0x00D8);
+        Y_EQUAL(title(0x00E0), 0x00C0);
+        Y_EQUAL(title(0x00E5), 0x00C5);
+        Y_EQUAL(title(0x00F8), 0x00D8);
 
-        JT_EQUAL(title(0x00FF), 0x0178);
+        Y_EQUAL(title(0x00FF), 0x0178);
 
-        JT_EQUAL(title(0x0106), 0x0106);
-        JT_EQUAL(title(0x0107), 0x0106);
+        Y_EQUAL(title(0x0106), 0x0106);
+        Y_EQUAL(title(0x0107), 0x0106);
 
-        JT_EQUAL(title(0x0174), 0x0174);
-        JT_EQUAL(title(0x0175), 0x0174);
+        Y_EQUAL(title(0x0174), 0x0174);
+        Y_EQUAL(title(0x0175), 0x0174);
 
-        JT_EQUAL(title(0x01C4), 0x01C5);
-        JT_EQUAL(title(0x01C5), 0x01C5);
-        JT_EQUAL(title(0x01C6), 0x01C5);
+        Y_EQUAL(title(0x01C4), 0x01C5);
+        Y_EQUAL(title(0x01C5), 0x01C5);
+        Y_EQUAL(title(0x01C6), 0x01C5);
     }
 
-    JT_SUBTEST("Unicode", test_upperCase, test_lowerCase, test_titleCase);
+    Y_SUBTEST("Unicode", test_upperCase, test_lowerCase, test_titleCase);
 
 }

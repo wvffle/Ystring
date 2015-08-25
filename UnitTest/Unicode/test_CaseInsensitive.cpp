@@ -8,7 +8,7 @@
 #include "../../Ystring/Unicode/CaseInsensitive.hpp"
 #include "../../Ystring/Unicode/UnicodeChars.hpp"
 
-#include <JEBTest/JEBTest.hpp>
+#include "../Ytest/Ytest.hpp"
 
 namespace {
     using namespace Ystring::Unicode;
@@ -17,12 +17,12 @@ namespace {
     {
         CaseInsensitiveEqual op;
 
-        JT_ASSERT(op((uint32_t) 100, (uint32_t) 100));
-        JT_ASSERT(op('a', 'a'));
-        JT_ASSERT(!op('a', 'b'));
-        JT_ASSERT(op('a', 'A'));
-        JT_ASSERT(op('*', '*'));
+        Y_ASSERT(op((uint32_t) 100, (uint32_t) 100));
+        Y_ASSERT(op('a', 'a'));
+        Y_ASSERT(!op('a', 'b'));
+        Y_ASSERT(op('a', 'A'));
+        Y_ASSERT(op('*', '*'));
     }
 
-    JT_SUBTEST("Unicode", test_equal);
+    Y_SUBTEST("Unicode", test_equal);
 }

@@ -8,7 +8,7 @@
 #include "../../Ystring/Unicode/CharMap.hpp"
 
 #include <type_traits>
-#include <JEBTest/JEBTest.hpp>
+#include "../Ytest/Ytest.hpp"
 
 namespace {
 
@@ -35,17 +35,17 @@ namespace {
                 std::extent<decltype(CompactLowerCaseMappings), 0>::value,
                 LowerCaseMappings,
                 std::extent<decltype(LowerCaseMappings), 0>::value);
-        JT_EQUAL(map.get('G'), 'g');
-        JT_EQUAL(map.get('g'), 'g');
-        JT_EQUAL(map.get('-'), '-');
-        JT_EQUAL(map.get(0xC0), 0xE0);
-        JT_EQUAL(map.get(0xE3), 0xE3);
-        JT_EQUAL(map.get(0xFF), 0xFF);
-        JT_EQUAL(map.get(0x178), 0xFF);
-        JT_EQUAL(map.get(0x200), 0x201);
-        JT_EQUAL(map.get(0x220), 0x19E);
+        Y_EQUAL(map.get('G'), 'g');
+        Y_EQUAL(map.get('g'), 'g');
+        Y_EQUAL(map.get('-'), '-');
+        Y_EQUAL(map.get(0xC0), 0xE0);
+        Y_EQUAL(map.get(0xE3), 0xE3);
+        Y_EQUAL(map.get(0xFF), 0xFF);
+        Y_EQUAL(map.get(0x178), 0xFF);
+        Y_EQUAL(map.get(0x200), 0x201);
+        Y_EQUAL(map.get(0x220), 0x19E);
     }
 
-    JT_SUBTEST("Unicode", test_Get);
+    Y_SUBTEST("Unicode", test_Get);
 
 }

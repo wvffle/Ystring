@@ -7,7 +7,7 @@
 //****************************************************************************
 #include "../../Ystring/Utf8/EncodeUtf8.hpp"
 
-#include <JEBTest/JEBTest.hpp>
+#include "../Ytest/Ytest.hpp"
 
 namespace {
 
@@ -19,15 +19,15 @@ void test_encode()
     std::string s(8, ' ');
     std::string::iterator it;
     it = s.begin();
-    JT_ASSERT(encodeUtf8(it, s.end(), 'A'));
-    JT_EQUAL(std::distance(s.begin(), it), 1);
-    JT_EQUAL(s[0], 'A');
-    JT_ASSERT(encodeUtf8(it, s.end(), 0xFFF));
-    JT_EQUAL((uint8_t)s[1], 0xE0);
-    JT_EQUAL((uint8_t)s[2], 0xBF);
-    JT_EQUAL((uint8_t)s[3], 0xBF);
+    Y_ASSERT(encodeUtf8(it, s.end(), 'A'));
+    Y_EQUAL(std::distance(s.begin(), it), 1);
+    Y_EQUAL(s[0], 'A');
+    Y_ASSERT(encodeUtf8(it, s.end(), 0xFFF));
+    Y_EQUAL((uint8_t)s[1], 0xE0);
+    Y_EQUAL((uint8_t)s[2], 0xBF);
+    Y_EQUAL((uint8_t)s[3], 0xBF);
 }
 
-JT_SUBTEST("Utf8",
-           test_encode);
+Y_SUBTEST("Utf8",
+          test_encode);
 }

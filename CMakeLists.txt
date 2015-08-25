@@ -9,20 +9,12 @@ cmake_minimum_required(VERSION 2.8)
 project(Ystring)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
-set(CMAKE_MODULE_PATH
-    "${CMAKE_SOURCE_DIR}/cmake/Modules"
-    ${CMAKE_MODULE_PATH})
 
 if(APPLE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
 elseif(WIN32)
     add_definitions(-D_SCL_SECURE_NO_WARNINGS -DYSTRING_EXPORTS)
 endif(APPLE)
-
-find_package(JEBDebug)
-if(JEBDEBUG_FOUND)
-    include_directories(${JEBDEBUG_INCLUDE_DIRS})
-endif(JEBDEBUG_FOUND)
 
 if(MSVC)
     set(PUBLIC_HEADERS_ROOT_PLATFORM_SPECIFIC
