@@ -19,7 +19,7 @@ static const size_t FAST_MAPPING_SIZE = 1024;
 // 64 code points are non-letters and can therefore be ignored.
 static const size_t FAST_MAPPING_MAX = FAST_MAPPING_SIZE + 64 - 1;
 
-class CharMap
+class YSTRING_API CharMap
 {
 public:
     CharMap(const CompactCharMapping* compactMappings,
