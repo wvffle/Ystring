@@ -13,7 +13,7 @@
 
 namespace Ystring { namespace Unicode {
 
-struct YSTRING_API CompactCharMapping
+struct CompactCharMapping
 {
     uint32_t segment;
     uint32_t offset;

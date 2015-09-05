@@ -1,0 +1,25 @@
+$ for i in {1..10}; do release/BenchmarkUpperCase ; done
+
+Before optimization: 5.88811
+Before optimization: 5.93041
+Before optimization: 5.92376
+Before optimization: 5.92709
+Before optimization: 5.92715
+Before optimization: 5.90865
+Before optimization: 5.92787
+Before optimization: 5.8935
+Before optimization: 5.82924
+Before optimization: 5.85281
+
+$ for i in {1..10}; do release/BenchmarkUpperCase ; done
+
+After optimization: 2.29636
+After optimization: 2.33297
+After optimization: 2.30031
+After optimization: 2.31983
+After optimization: 2.43123
+After optimization: 2.31208
+After optimization: 2.30486
+After optimization: 2.33771
+After optimization: 2.46754
+After optimization: 2.39879

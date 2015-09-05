@@ -8,6 +8,7 @@
 #include "CaseConverter.hpp"
 
 #include <type_traits>
+#include "CharMap.hpp"
 #include "StandardLowerCase.hpp"
 #include "StandardTitleCase.hpp"
 #include "StandardUpperCase.hpp"
