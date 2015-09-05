@@ -7,14 +7,26 @@
 ##****************************************************************************
 cmake_minimum_required(VERSION 3.2)
 
-set(PARENT_PROJECT Ystring)
-project(${PARENT_PROJECT}Examples)
+project(YstringExamples)
+
+set(CMAKE_MODULE_PATH
+    "${CMAKE_SOURCE_DIR}/../cmake/Modules"
+    ${CMAKE_MODULE_PATH})
+
+if(APPLE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
+elseif(WIN32)
+    add_definitions(-D_SCL_SECURE_NO_WARNINGS -DYSTRING_EXPORTS)
+endif(APPLE)
+
+find_package(Ystring REQUIRED)
+include_directories(${YSTRING_INCLUDE_DIR})
 
 add_executable(PrintPath PrintPath.cpp)
-target_link_libraries(PrintPath ${PARENT_PROJECT})
+target_link_libraries(PrintPath ${YSTRING_LIBRARY})
 
 add_executable(Title Title.cpp)
-target_link_libraries(Title ${PARENT_PROJECT})
+target_link_libraries(Title ${YSTRING_LIBRARY})
 
 add_executable(Upper Upper.cpp)
-target_link_libraries(Upper ${PARENT_PROJECT})
+target_link_libraries(Upper ${YSTRING_LIBRARY})
