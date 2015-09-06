@@ -124,7 +124,6 @@ set(PRIVATE_HEADERS
     Ystring/Utilities/KeyFunctionAlgorithms.hpp
     Ystring/Utilities/Union16.hpp
     Ystring/Utilities/Union32.hpp
-    Ystring/Utilities/Union64.hpp
     Ystring/Utilities/Utilities.hpp
     Ystring/Encoded/UrlEscaper.hpp
     )
