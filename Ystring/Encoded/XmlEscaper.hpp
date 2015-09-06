@@ -10,37 +10,57 @@
 #include <stdint.h>
 #include "../Utilities/Utilities.hpp"
 
-namespace Ystring { namespace Encoded {
-
-class XmlEscaper
+namespace Ystring { namespace Encoded
 {
-public:
-    template <typename Appender>
-    void escape(Appender dst, uint32_t chr)
+    inline bool isXmlAttributeEscape(uint32_t c)
     {
-        using Utilities::toCharDigit;
-        dst.append('&');
-        switch (chr)
-        {
-        case '"': dst.append('q').append('u').append('o').append('t'); break;
-        case '&': dst.append('a').append('m').append('p'); break;
-        case '\'': dst.append('a').append('p').append('o').append('s'); break;
-        case '<': dst.append('l').append('t'); break;
-        case '>': dst.append('g').append('t'); break;
-        default:
-            {
-                dst.append('#').append('x');
-                auto digits = Utilities::countHexDigits(chr);
-                for (auto i = 0; i < digits; ++i)
-                {
-                    auto shift = (digits - i - 1) * 4;
-                    dst.append(toCharDigit((chr >> shift) & 0xF));
-                }
-            }
-            break;
-        }
-        dst.append(';');
+        return c < 32 || c == '"' || c == '&' || c == '\'' ||
+               c == '<' || c == '>';
     }
-};
 
+    inline bool isXmlTextEscape(uint32_t c)
+    {
+        return c == '&' || c == '<' || c == '>';
+    }
+
+    class XmlEscaper
+    {
+    public:
+        template <typename Appender>
+        void escape(Appender dst, uint32_t chr)
+        {
+            using Utilities::toCharDigit;
+            dst.append('&');
+            switch (chr)
+            {
+            case '"':
+                dst.append('q').append('u').append('o').append('t');
+                break;
+            case '&':
+                dst.append('a').append('m').append('p');
+                break;
+            case '\'':
+                dst.append('a').append('p').append('o').append('s');
+                break;
+            case '<':
+                dst.append('l').append('t');
+                break;
+            case '>':
+                dst.append('g').append('t');
+                break;
+            default:
+                {
+                    dst.append('#').append('x');
+                    auto digits = Utilities::countHexDigits(chr);
+                    for (auto i = 0; i < digits; ++i)
+                    {
+                        auto shift = (digits - i - 1) * 4;
+                        dst.append(toCharDigit((chr >> shift) & 0xF));
+                    }
+                }
+                break;
+            }
+            dst.append(';');
+        }
+    };
 }}

@@ -15,6 +15,7 @@
 #include "../Encoded/FixedLengthBackslashEscaper.hpp"
 #include "../Encoded/ForwardDecoder.hpp"
 #include "../Encoded/ReverseDecoder.hpp"
+#include "../Encoded/UrlEscaper.hpp"
 #include "../Encoded/VariableLengthBackslashEscaper.hpp"
 #include "../Encoded/XmlEscaper.hpp"
 #include "../Utilities/CountingOutputIterator.hpp"
@@ -219,6 +220,13 @@ void appendEscaped(StringReference<Str>& dst,
                 Encoded::makeForwardDecoder(src, encoding),
                 Encoded::isNonAsciiEscape,
                 Encoded::FixedLengthBackslashEscaper('u', 4));
+        break;
+    case EscapeType::URL_QUERY:
+        Encoded::appendEscaped(
+                dst.getAppender(),
+                src,
+                Encoded::isUrlQueryEscape,
+                Encoded::UrlEscaper());
         break;
     case EscapeType::XML_ATTRIBUTE:
         Encoded::appendEscaped(

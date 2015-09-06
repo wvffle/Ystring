@@ -6,6 +6,5 @@ TODO
 * Support more of the iso-8859 character sets.
 * Support more of the Windows code pages.
 * Implement unescape XML_TEXT and XML_ATTRIBUTE.
-* Implement escape URL.
 * Implement unescape URL.
 * Re-implement tests for replaceInvalidUtf16-functions.

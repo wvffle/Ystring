@@ -146,6 +146,16 @@ void test_escape_JSON_ASCII()
              "\\uFFFF");
 }
 
+void test_escape_URL_QUERY()
+{
+    Y_EQUAL(Utf8::escape("{lokasjon: {vegreferanse: [\"E6\", \"E18\"] }, "
+                         "objektTyper: [{id: 45, antall: 10}]}",
+                         EscapeType::URL_QUERY),
+            "%7Blokasjon%3A%20%7Bvegreferanse%3A%20%5B%22E6%22%2C%20%22E18%22"
+            "%5D%20%7D%2C%20objektTyper%3A%20%5B%7Bid%3A%2045%2C%20antall%3A"
+            "%2010%7D%5D%7D");
+}
+
 void test_escape_XML_ATTRIBUTE()
 {
     Y_EQUAL(Utf8::escape("\n\tA&\"'<B>", EscapeType::XML_ATTRIBUTE),
@@ -739,6 +749,7 @@ Y_SUBTEST("Utf8",
           test_escape_BACKSLASH_ASCII_SMART,
           test_escape_JSON,
           test_escape_JSON_ASCII,
+          test_escape_URL_QUERY,
           test_escape_XML_ATTRIBUTE,
           test_escape_XML_TEXT,
           test_findLast,
