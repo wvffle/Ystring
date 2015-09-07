@@ -1,6 +1,6 @@
 Ystring is a library of function that is intended to make it (almost) as easy
 to  work with unicode strings in C++ as it is in Python. In particular it
-makes it convenient to use UTF-8 encoded strings throughout a program.
+makes it convenient to manipulate UTF-8 encoded strings.
 
 It provides common string functions like case-insensitive *find* and *compare*, *split*, *join*, *upper*, *lower* and many more, all of which have been implemented with efficiency in mind.
 
