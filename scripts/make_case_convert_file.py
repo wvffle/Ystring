@@ -101,7 +101,7 @@ def main(args):
     chars = {}
     for line in open(args[1]):
         parts = line.split(";")
-        parts[-1] = parts[-1].strip()
+        parts[alternativeIndex] = parts[alternativeIndex].strip()
         if parts[alternativeIndex]:
             ch = int(parts[0], 16)
             altCh = int(parts[alternativeIndex], 16)
