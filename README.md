@@ -6,16 +6,30 @@ It provides common string functions like case-insensitive *find* and *compare*, 
 
 Tested and working with the following compilers:
 * Visual C++ 2010, 2013 and 2015 (Windows)
-* clang-503 (OS X Macvericks) and clang-602 (OS X Yosemite)
+* clang-503 (OS X Mavericks) and clang-602 (OS X Yosemite)
 * gcc
+
+Installation
+------------
+
+### OS X
+
+### Linux and Unix
+
+### Windows
+
+To follow the installation instructions you must have [cmake](www.cmake.org) installed and its folder included in the PATH environment variable.
 
 Features
 --------
-* Support for the three most common unicode encodings, UTF-8, UTF-16, UTF-32.
+* Support for the three most common unicode encodings, UTF-8 (string), UTF-16 (wstring on Windows, u16string), UTF-32 (u32string).
 * Conversion between common encodings (UTF-8, UTF-16, UTF-32, iso-8859-*, cp1252 etc.).
 * No third-party dependencies. The only requirements are partial support for C++11 and its standard library.
-* Fast algorithms, for instance avoid decoding/encoding steps unless they are necessary.
 
+Caveats
+-------
+ * Limited support for decomposed characte: no conversion beteween composed and decomposed characters, and no comparisons.
+ 
 Examples
 --------
 
