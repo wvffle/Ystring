@@ -341,51 +341,51 @@ std::wstring replaceCodePoint(const std::wstring& s,
                               uint32_t to,
                               ptrdiff_t maxReplacements)
 {
-   uint16_t fBuf[2];
-   auto fIt = fBuf;
-   auto fromSize = encodeUtf16(fIt, std::end(fBuf), from);
-   uint16_t tBuf[2];
-   auto tIt = tBuf;
-   auto toSize = encodeUtf16(tIt, std::end(tBuf), to);
-   return Generic::replace<std::wstring>(
-           makeRange(s),
-           makeRange(fBuf, fBuf + fromSize),
-           makeRange(tBuf, tBuf + toSize),
-           Utf16Encoding(),
-           maxReplacements, FindFlags::DEFAULTS);
+    uint16_t fBuf[2];
+    auto fIt = fBuf;
+    auto fromSize = encodeUtf16(fIt, std::end(fBuf), from);
+    uint16_t tBuf[2];
+    auto tIt = tBuf;
+    auto toSize = encodeUtf16(tIt, std::end(tBuf), to);
+    return Generic::replace<std::wstring>(
+            makeRange(s),
+            makeRange(fBuf, fBuf + fromSize),
+            makeRange(tBuf, tBuf + toSize),
+            Utf16Encoding(),
+            maxReplacements, FindFlags::DEFAULTS);
 }
 
 std::wstring replaceInvalidUtf16(const std::wstring& str, uint32_t chr)
 {
-   std::wstring result;
-   result.reserve(str.size());
-   auto first = str.begin();
-   auto it = str.begin();
-   while (it != str.end())
-   {
-       uint32_t cp;
-       if (nextUtf16CodePoint<false>(cp, it, str.end()) != DecoderResult::OK)
-       {
-           result.append(first, it);
-           first = ++it;
-           append(result, chr);
-       }
-   }
-   result.append(first, str.end());
-   return result;
+    std::wstring result;
+    result.reserve(str.size());
+    auto first = str.begin();
+    auto it = str.begin();
+    while (it != str.end())
+    {
+        uint32_t cp;
+        if (nextUtf16CodePoint<false>(cp, it, str.end()) != DecoderResult::OK)
+        {
+            result.append(first, it);
+            first = ++it;
+            append(result, chr);
+        }
+    }
+    result.append(first, str.end());
+    return result;
 }
 
 std::wstring& replaceInvalidUtf16InPlace(std::wstring& str, uint16_t chr)
 {
-   assert(chr > 0);
-   auto it = str.begin();
-   while (it != str.end())
-   {
-       uint32_t cp;
-       if (nextUtf16CodePoint<false>(cp, it, str.end()) != DecoderResult::OK)
-           *it++ = chr;
-   }
-   return str;
+    assert(chr > 0);
+    auto it = str.begin();
+    while (it != str.end())
+    {
+        uint32_t cp;
+        if (nextUtf16CodePoint<false>(cp, it, str.end()) != DecoderResult::OK)
+            *it++ = chr;
+    }
+    return str;
 }
 
 std::wstring reverse(const std::wstring& str)
@@ -641,8 +641,7 @@ std::wstring trimStart(const std::wstring& str)
             Unicode::isWhitespace));
 }
 
-
-std::wstring trimStart(const std::wstring& str,
+std::string trimStart(const std::string& str,
                       std::function<bool(uint32_t)> predicate)
 {
     return fromRange<std::wstring>(Generic::trimStart(
