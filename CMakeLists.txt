@@ -28,8 +28,12 @@ if(MSVC)
         )
 else(MSVC)
     set(PUBLIC_HEADERS_ROOT_PLATFORM_SPECIFIC)
-    set(PUBLIC_HEADERS_UTF16_PLATFORM_SPECIFIC)
-    set(SOURCE_FILES_PLATFORM_SPECIFIC)
+    set(PUBLIC_HEADERS_UTF16_PLATFORM_SPECIFIC
+            Ystring/Utf16/Utf16String.hpp
+    )
+    set(SOURCE_FILES_PLATFORM_SPECIFIC
+            Ystring/Utf16/Utf16String.cpp
+    )
 endif(MSVC)
 
 set(PUBLIC_HEADERS_ROOT

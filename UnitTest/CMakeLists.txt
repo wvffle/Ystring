@@ -25,7 +25,8 @@ if(MSVC)
 else(MSVC)
     set(SOURCE_FILES_PLATFORM_SPECIFIC
         Utf8/test_Utf8StringCpp11.cpp
-        )
+        Utf16/test_Utf16String.cpp
+)
 endif(MSVC)
 
 set(SOURCE_FILES

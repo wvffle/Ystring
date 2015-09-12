@@ -14,7 +14,6 @@
   *     platform-dependent functionality.
   */
 
-
 /// @cond
 
 #ifdef _MSC_VER

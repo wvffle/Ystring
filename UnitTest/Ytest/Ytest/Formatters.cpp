@@ -8,18 +8,27 @@
 #include "Formatters.hpp"
 #include "../Ystring/Utf8.hpp"
 
-namespace Ytest {
-
-using namespace Ytest_Ystring;
-
-std::ostream& operator<<(std::ostream& os, const std::wstring& s)
+namespace Ytest
 {
-    return os << Utf8::toUtf8(s, Encoding::UTF_16);
-}
+    using namespace Ytest_Ystring;
 
-std::ostream& operator<<(std::ostream& os, const wchar_t* s)
-{
-    return os << Utf8::toUtf8(s, Encoding::UTF_16);
-}
+    std::ostream& operator<<(std::ostream& os, const std::wstring& s)
+    {
+        return os << Utf8::toUtf8(s, Encoding::UTF_16);
+    }
 
+    std::ostream& operator<<(std::ostream& os, const std::u16string& s)
+    {
+        return os << Utf8::toUtf8(s, Encoding::UTF_16);
+    }
+
+    std::ostream& operator<<(std::ostream& os, const wchar_t* s)
+    {
+        return os << Utf8::toUtf8(s, Encoding::UTF_16);
+    }
+
+    std::ostream& operator<<(std::ostream& os, const char16_t* s)
+    {
+        return os << Utf8::toUtf8(s, Encoding::UTF_16);
+    }
 }
