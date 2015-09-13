@@ -24,30 +24,41 @@ if(MSVC)
 endif(MSVC)
 
 if (YSTRING_WCHAR_IS_2_BYTES)
-    set(PUBLIC_HEADERS_ROOT_PLATFORM_SPECIFIC
+    set(PUBLIC_HEADERS_ROOT
+        ${PUBLIC_HEADERS_ROOT}
         Ystring/Utf16W.hpp
         )
-    set(PUBLIC_HEADERS_UTF16_PLATFORM_SPECIFIC
+    set(PUBLIC_HEADERS_UTF16
+        ${PUBLIC_HEADERS_UTF16}
         Ystring/Utf16/Utf16WString.hpp
         )
-    set(SOURCE_FILES_PLATFORM_SPECIFIC
+    set(PRIVATE_HEADERS
+        ${PRIVATE_HEADERS}
+        Ystring/Utf16/Utf16WChars.hpp
+        )
+    set(SOURCE_FILES
+        ${SOURCE_FILES}
         Ystring/Utf16/Utf16WString.cpp
         )
 endif(YSTRING_WCHAR_IS_2_BYTES)
 
 if(NOT YSTRING_NO_NEW_CHAR_TYPE)
-    set(PUBLIC_HEADERS_ROOT_PLATFORM_SPECIFIC
-        ${PUBLIC_HEADERS_ROOT_PLATFORM_SPECIFIC}
+    set(PUBLIC_HEADERS_ROOT
+        ${PUBLIC_HEADERS_ROOT}
         Ystring/Utf16.hpp
         )
-    set(PUBLIC_HEADERS_UTF16_PLATFORM_SPECIFIC
-        ${PUBLIC_HEADERS_UTF16_PLATFORM_SPECIFIC}
+    set(PUBLIC_HEADERS_UTF16
+        ${PUBLIC_HEADERS_UTF16}
         Ystring/Utf16/Utf16String.hpp
-    )
-    set(SOURCE_FILES_PLATFORM_SPECIFIC
-        ${SOURCE_FILES_PLATFORM_SPECIFIC}
+        )
+    set(PRIVATE_HEADERS
+        ${PRIVATE_HEADERS}
+        Ystring/Utf16/Utf16Chars.hpp
+        )
+    set(SOURCE_FILES
+        ${SOURCE_FILES}
         Ystring/Utf16/Utf16String.cpp
-    )
+        )
 endif(NOT YSTRING_NO_NEW_CHAR_TYPE)
 
 set(PUBLIC_HEADERS_ROOT
@@ -61,7 +72,7 @@ set(PUBLIC_HEADERS_ROOT
     Ystring/Utf8.hpp
     Ystring/YstringDefinitions.hpp
     Ystring/YstringException.hpp
-    ${PUBLIC_HEADERS_ROOT_PLATFORM_SPECIFIC}
+    ${PUBLIC_HEADERS_ROOT}
     )
 
 set(PUBLIC_HEADERS_UNICODE
@@ -72,10 +83,6 @@ set(PUBLIC_HEADERS_UNICODE
 
 set(PUBLIC_HEADERS_UTF8
     Ystring/Utf8/Utf8String.hpp
-    )
-
-set(PUBLIC_HEADERS_UTF16
-    ${PUBLIC_HEADERS_UTF16_PLATFORM_SPECIFIC}
     )
 
 set(PUBLIC_HEADERS
@@ -144,6 +151,7 @@ set(PRIVATE_HEADERS
     Ystring/Utilities/Union32.hpp
     Ystring/Utilities/Utilities.hpp
     Ystring/Encoded/UrlEscaper.hpp
+    ${PRIVATE_HEADERS}
     )
 
 set(SOURCE_FILES
@@ -160,8 +168,8 @@ set(SOURCE_FILES
     Ystring/Unicode/CharMappingTypes.cpp
     Ystring/Utf8/EncodeUtf8.cpp
     Ystring/Utf8/Utf8String.cpp
-    ${SOURCE_FILES_PLATFORM_SPECIFIC}
-    )
+    ${SOURCE_FILES}
+        Ystring/Streaming/StreamOperators.cpp Ystring/Streaming/StreamOperators.hpp)
 
 add_library(
     ${PROJECT_NAME} SHARED
