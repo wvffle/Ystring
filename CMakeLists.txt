@@ -17,6 +17,13 @@ elseif(WIN32)
 endif(APPLE)
 
 if(MSVC)
+    set(YSTRING_WCHAR_IS_2_BYTES TRUE)
+    if(MSVC_VERSION LESS 1900)
+        set(YSTRING_NO_NEW_CHAR_TYPE TRUE)
+    endif(MSVC_VERSION LESS 1900)
+endif(MSVC)
+
+if (YSTRING_WCHAR_IS_2_BYTES)
     set(PUBLIC_HEADERS_ROOT_PLATFORM_SPECIFIC
         Ystring/Utf16W.hpp
         )
@@ -26,15 +33,22 @@ if(MSVC)
     set(SOURCE_FILES_PLATFORM_SPECIFIC
         Ystring/Utf16/Utf16WString.cpp
         )
-else(MSVC)
-    set(PUBLIC_HEADERS_ROOT_PLATFORM_SPECIFIC)
+endif(YSTRING_WCHAR_IS_2_BYTES)
+
+if(NOT YSTRING_NO_NEW_CHAR_TYPE)
+    set(PUBLIC_HEADERS_ROOT_PLATFORM_SPECIFIC
+        ${PUBLIC_HEADERS_ROOT_PLATFORM_SPECIFIC}
+        Ystring/Utf16.hpp
+        )
     set(PUBLIC_HEADERS_UTF16_PLATFORM_SPECIFIC
-            Ystring/Utf16/Utf16String.hpp
+        ${PUBLIC_HEADERS_UTF16_PLATFORM_SPECIFIC}
+        Ystring/Utf16/Utf16String.hpp
     )
     set(SOURCE_FILES_PLATFORM_SPECIFIC
-            Ystring/Utf16/Utf16String.cpp
+        ${SOURCE_FILES_PLATFORM_SPECIFIC}
+        Ystring/Utf16/Utf16String.cpp
     )
-endif(MSVC)
+endif(NOT YSTRING_NO_NEW_CHAR_TYPE)
 
 set(PUBLIC_HEADERS_ROOT
     Ystring/Encoding.hpp

@@ -641,8 +641,8 @@ std::wstring trimStart(const std::wstring& str)
             Unicode::isWhitespace));
 }
 
-std::string trimStart(const std::string& str,
-                      std::function<bool(uint32_t)> predicate)
+std::wstring trimStart(const std::wstring& str,
+                       std::function<bool(uint32_t)> predicate)
 {
     return fromRange<std::wstring>(Generic::trimStart(
             makeRange(str),
