@@ -2,7 +2,7 @@
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
 // Created by Jan Erik Breimo on 2015-07-29
 //
-// This file is distributed under the BSD License.
+// This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
 #include "Utf16String.hpp"
@@ -85,8 +85,9 @@ namespace Ystring { namespace Utf16
 
     std::u16string escape(const std::u16string& str, EscapeType_t mode)
     {
-        return Generic::escape<std::u16string>(makeRange(str), mode,
-                                               Utf16Encoding());
+        return Generic::escape<std::u16string>(
+                makeRange(str), mode,
+                Utf16Encoding());
     }
 
     StringIteratorPair findFirst(
@@ -225,17 +226,17 @@ namespace Ystring { namespace Utf16
     std::u16string insert(const std::u16string& str, ptrdiff_t pos,
                        const std::u16string& sub)
     {
-        return Generic::insert<std::u16string>(makeRange(str), pos,
-                                               makeRange(sub),
-                                               Utf16Encoding());
+        return Generic::insert<std::u16string>(
+                makeRange(str), pos, makeRange(sub), Utf16Encoding());
     }
 
-    std::u16string insert(const std::u16string& str,
-                          ptrdiff_t pos,
-                          uint32_t chr)
+    std::u16string insert(
+            const std::u16string& str,
+            ptrdiff_t pos,
+            uint32_t chr)
     {
-        return Generic::insert<std::u16string>(makeRange(str), pos, chr,
-                                               Utf16Encoding());
+        return Generic::insert<std::u16string>(
+                makeRange(str), pos, chr, Utf16Encoding());
     }
 
     bool isAlphaNumeric(const std::u16string& str)
@@ -260,31 +261,34 @@ namespace Ystring { namespace Utf16
     //    return isValidUtf16(begin(str), end(str));
     //}
 
-    std::u16string join(const std::vector<std::u16string>& strings,
-                        const std::u16string& delimiter)
+    std::u16string join(
+            const std::vector<std::u16string>& strings,
+            const std::u16string& delimiter)
     {
         return join(strings.data(), strings.size(), delimiter);
     }
 
-    std::u16string join(const std::u16string* strings,
-                        size_t count,
-                        const std::u16string& delimiter)
+    std::u16string join(
+            const std::u16string* strings,
+            size_t count,
+            const std::u16string& delimiter)
     {
         return delimiter.empty() ?
                Generic::join<std::u16string>(strings, strings + count) :
-               Generic::join<std::u16string>(strings, strings + count,
-                                             makeRange(delimiter));
+               Generic::join<std::u16string>(
+                        strings, strings + count, makeRange(delimiter));
     }
 
     std::u16string lower(const std::u16string& str)
     {
-        return Generic::lower<std::u16string>(makeRange(str),
-                                              Utf16Encoding());
+        return Generic::lower<std::u16string>(
+                makeRange(str), Utf16Encoding());
     }
 
-    std::u16string::iterator nextCharacter(std::u16string::iterator& first,
-                                           std::u16string::iterator& last,
-                                           size_t n)
+    std::u16string::iterator nextCharacter(
+            std::u16string::iterator& first,
+            std::u16string::iterator& last,
+            size_t n)
     {
         return Generic::nextCharacter(makeRange(first, last), n,
                                       Utf16Encoding());
@@ -304,15 +308,17 @@ namespace Ystring { namespace Utf16
         return Generic::nthCharacter(makeRange(str), n, Utf16Encoding());
     }
 
-    std::u16string::const_iterator nthCharacter(const std::u16string& str,
-                                                ptrdiff_t n)
+    std::u16string::const_iterator nthCharacter(
+            const std::u16string& str,
+            ptrdiff_t n)
     {
         return Generic::nthCharacter(makeRange(str), n, Utf16Encoding());
     }
 
-    std::u16string::iterator prevCharacter(std::u16string::iterator& first,
-                                           std::u16string::iterator& last,
-                                           size_t n)
+    std::u16string::iterator prevCharacter(
+            std::u16string::iterator& first,
+            std::u16string::iterator& last,
+            size_t n)
     {
         return Generic::prevCharacter(makeRange(first, last), n ,
                                       Utf16Encoding());
@@ -327,11 +333,12 @@ namespace Ystring { namespace Utf16
                                       Utf16Encoding());
     }
 
-    std::u16string replace(const std::u16string& str,
-                           const std::u16string& cmp,
-                           const std::u16string& repl,
-                           ptrdiff_t maxReplacements,
-                           FindFlags_t flags)
+    std::u16string replace(
+            const std::u16string& str,
+            const std::u16string& cmp,
+            const std::u16string& repl,
+            ptrdiff_t maxReplacements,
+            FindFlags_t flags)
     {
         return Generic::replace<std::u16string>(
                 makeRange(str), makeRange(cmp),
@@ -339,20 +346,22 @@ namespace Ystring { namespace Utf16
                 maxReplacements, flags);
     }
 
-    std::u16string replace(const std::u16string& str,
-                           ptrdiff_t start,
-                           ptrdiff_t end,
-                           const std::u16string& repl)
+    std::u16string replace(
+            const std::u16string& str,
+            ptrdiff_t start,
+            ptrdiff_t end,
+            const std::u16string& repl)
     {
         return Generic::replace<std::u16string>(
                 makeRange(str), start, end,
                 makeRange(repl), Utf16Encoding());
     }
 
-    std::u16string replaceCodePoint(const std::u16string& s,
-                                    uint32_t from,
-                                    uint32_t to,
-                                    ptrdiff_t maxReplacements)
+    std::u16string replaceCodePoint(
+            const std::u16string& s,
+            uint32_t from,
+            uint32_t to,
+            ptrdiff_t maxReplacements)
     {
         uint16_t fBuf[2];
         auto fIt = fBuf;
@@ -368,8 +377,9 @@ namespace Ystring { namespace Utf16
                 maxReplacements, FindFlags::DEFAULTS);
     }
 
-    std::u16string replaceInvalidUtf16(const std::u16string& str,
-                                       uint32_t chr)
+    std::u16string replaceInvalidUtf16(
+            const std::u16string& str,
+            uint32_t chr)
     {
         std::u16string result;
         result.reserve(str.size());
@@ -390,8 +400,9 @@ namespace Ystring { namespace Utf16
         return result;
     }
 
-    std::u16string& replaceInvalidUtf16InPlace(std::u16string& str,
-                                               uint16_t chr)
+    std::u16string& replaceInvalidUtf16InPlace(
+            std::u16string& str,
+            uint16_t chr)
     {
         assert(chr > 0);
         auto it = str.begin();
@@ -409,8 +420,8 @@ namespace Ystring { namespace Utf16
 
     std::u16string reverse(const std::u16string& str)
     {
-        return Generic::reverse<std::u16string>(makeRange(str),
-                                                Utf16Encoding());
+        return Generic::reverse<std::u16string>(
+                makeRange(str), Utf16Encoding());
     }
 
     std::vector<std::u16string> split(
@@ -450,9 +461,8 @@ namespace Ystring { namespace Utf16
             ptrdiff_t maxSplits,
             SplitFlags_t flags)
     {
-        return Generic::splitLines<std::u16string>(makeRange(str),
-                                                   Utf16Encoding(),
-                                                   maxSplits, flags);
+        return Generic::splitLines<std::u16string>(
+                makeRange(str), Utf16Encoding(), maxSplits, flags);
     }
 
     bool startsWith(
@@ -469,14 +479,14 @@ namespace Ystring { namespace Utf16
             ptrdiff_t start,
             ptrdiff_t end)
     {
-        return Generic::substring<std::u16string>(makeRange(str), start, end,
-                                                  Utf16Encoding());
+        return Generic::substring<std::u16string>(
+                makeRange(str), start, end, Utf16Encoding());
     }
 
     std::u16string title(const std::u16string& str)
     {
-        return Generic::title<std::u16string>(makeRange(str),
-                                              Utf16Encoding());
+        return Generic::title<std::u16string>(
+                makeRange(str), Utf16Encoding());
     }
 
     std::u16string toUtf16(uint32_t chr)
@@ -496,8 +506,9 @@ namespace Ystring { namespace Utf16
         return toUtf16(str.data(), str.size(), encoding);
     }
 
-    std::u16string toUtf16(const char* str, size_t length,
-                           Encoding_t encoding)
+    std::u16string toUtf16(
+            const char* str, size_t length,
+            Encoding_t encoding)
     {
         switch (encoding)
         {
@@ -543,12 +554,13 @@ namespace Ystring { namespace Utf16
                     Utf16Encoding());
         default:
             YSTRING_THROW("toUtf16: unsupported encoding " +
-                                   std::to_string(int64_t(encoding)));
+                          std::to_string(int64_t(encoding)));
         }
     }
 
-    std::u16string toUtf16(const uint16_t* str, size_t length,
-                           Encoding_t encoding)
+    std::u16string toUtf16(
+            const uint16_t* str, size_t length,
+            Encoding_t encoding)
     {
         switch (encoding)
         {
@@ -564,12 +576,13 @@ namespace Ystring { namespace Utf16
                     Utf16Encoding());
         default:
             YSTRING_THROW("toUtf16: unsupported encoding " +
-                                   std::to_string(int64_t(encoding)));
+                          std::to_string(int64_t(encoding)));
         }
     }
 
-    std::u16string toUtf16(const uint32_t* str, size_t length,
-                           Encoding_t encoding)
+    std::u16string toUtf16(
+            const uint32_t* str, size_t length,
+            Encoding_t encoding)
     {
         switch (encoding)
         {
@@ -595,7 +608,7 @@ namespace Ystring { namespace Utf16
                     Utf16Encoding());
         default:
             YSTRING_THROW("toUtf16: unsupported encoding " +
-                                   std::to_string(int64_t(encoding)));
+                          std::to_string(int64_t(encoding)));
         }
     }
 
@@ -609,20 +622,23 @@ namespace Ystring { namespace Utf16
         return toUtf16(str.data(), str.size(), encoding);
     }
 
-    std::u16string toUtf16(const wchar_t* str, size_t length,
-                           Encoding_t encoding)
+    std::u16string toUtf16(
+            const wchar_t* str, size_t length,
+            Encoding_t encoding)
     {
         return toUtf16(internal_char_type_cast(str), length, encoding);
     }
 
-    std::u16string toUtf16(const char16_t* str, size_t length,
-                           Encoding_t encoding)
+    std::u16string toUtf16(
+            const char16_t* str, size_t length,
+            Encoding_t encoding)
     {
         return toUtf16(internal_char_type_cast(str), length, encoding);
     }
 
-    std::u16string toUtf16(const char32_t* str, size_t length,
-                           Encoding_t encoding)
+    std::u16string toUtf16(
+            const char32_t* str, size_t length,
+            Encoding_t encoding)
     {
         return toUtf16(internal_char_type_cast(str), length, encoding);
     }
@@ -669,8 +685,9 @@ namespace Ystring { namespace Utf16
                 Unicode::isWhitespace));
     }
 
-    std::u16string trimStart(const std::u16string& str,
-                          std::function<bool(uint32_t)> predicate)
+    std::u16string trimStart(
+            const std::u16string& str,
+            std::function<bool(uint32_t)> predicate)
     {
         return fromRange<std::u16string>(Generic::trimStart(
                 makeRange(str),
@@ -688,7 +705,7 @@ namespace Ystring { namespace Utf16
 
     std::u16string upper(const std::u16string& str)
     {
-        return Generic::upper<std::u16string>(makeRange(str),
-                                              Utf16Encoding());
+        return Generic::upper<std::u16string>(
+                makeRange(str), Utf16Encoding());
     }
 }}

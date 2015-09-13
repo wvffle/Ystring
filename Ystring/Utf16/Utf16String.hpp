@@ -50,7 +50,7 @@ namespace Ystring { namespace Utf16
       * @returns @arg < 0 if @a str is less than @a cmp
       *          @arg 0 if @a str is equal to @a cmp
       *          @arg > 0 if @a str is greater than @a cmp
-      * @throw YstringError if str contains an invalid UTF-16 code point.
+      * @throw YstringException if str contains an invalid UTF-16 code point.
       */
     YSTRING_API int32_t caseInsensitiveCompare(const std::u16string& str,
                                                const std::u16string& cmp);
@@ -61,7 +61,7 @@ namespace Ystring { namespace Utf16
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters (the decomposed character is
       *     typically the "lesser" one).
-      * @throw YstringError if str contains an invalid UTF-16 code point.
+      * @throw YstringException if str contains an invalid UTF-16 code point.
       */
     YSTRING_API bool caseInsensitiveEqual(const std::u16string& str,
                                           const std::u16string& cmp);
@@ -72,13 +72,13 @@ namespace Ystring { namespace Utf16
       * Only a quick comparison of code point values are performed. This
       * function should not be used to sort strings in alphabetical order as
       * what is alphabetical order varies between languages and cultures.
-      * @throw YstringError if str contains an invalid UTF-16 code point.
+      * @throw YstringException if str contains an invalid UTF-16 code point.
       */
     YSTRING_API bool caseInsensitiveLess(const std::u16string& str,
                                          const std::u16string& cmp);
 
     /** @brief Returns true if @a str contains code point @a chr.
-      * @throw YstringError if str contains an invalid UTF-16 code point.
+      * @throw YstringException if str contains an invalid UTF-16 code point.
       */
     YSTRING_API bool contains(const std::u16string& str, uint32_t chr);
 
@@ -86,7 +86,7 @@ namespace Ystring { namespace Utf16
       *
       * @note A composed character can consist of multiple code points.
       * @return the number of characters.
-      * @throw YstringError if str contains an invalid UTF-16 code point.
+      * @throw YstringException if str contains an invalid UTF-16 code point.
       */
     YSTRING_API size_t countCharacters(const std::u16string& str);
 
@@ -103,7 +103,7 @@ namespace Ystring { namespace Utf16
       *
       * @note A composed character can consist of multiple code points.
       * @return the number of code points.
-      * @throw YstringError if str contains an invalid UTF-16 code point.
+      * @throw YstringException if str contains an invalid UTF-16 code point.
       */
     YSTRING_API size_t countCodePoints(const std::u16string& str);
 
@@ -352,9 +352,10 @@ namespace Ystring { namespace Utf16
       *     of the string instead.
       * @YSTRING_THROW if @a str isn't a valid UTF-16 string.
       */
-    YSTRING_API std::u16string insert(const std::u16string& str,
-                                      ptrdiff_t pos,
-                                      const std::u16string& sub);
+    YSTRING_API std::u16string insert(
+            const std::u16string& str,
+            ptrdiff_t pos,
+            const std::u16string& sub);
 
     /** @brief Inserts character @a chr into @a str at position @a pos.
       *
@@ -364,9 +365,10 @@ namespace Ystring { namespace Utf16
       *     end of the string instead.
       * @YSTRING_THROW if @a str isn't a valid UTF-16 string.
       */
-    YSTRING_API std::u16string insert(const std::u16string& str,
-                                      ptrdiff_t pos,
-                                      uint32_t chr);
+    YSTRING_API std::u16string insert(
+            const std::u16string& str,
+            ptrdiff_t pos,
+            uint32_t chr);
 
     /** @brief Returns true if all characters in @a str are either
       *     letters or numbers.
@@ -584,7 +586,7 @@ namespace Ystring { namespace Utf16
             SplitFlags_t flags = SplitFlags::DEFAULTS);
 
     /** @brief Returns true if @a str starts with substring @a cmp.
-      * @throw YstringError if @a str or @a cmp contain any invalid UTF-16
+      * @throw YstringException if @a str or @a cmp contain any invalid UTF-16
       *     code points.
       */
     YSTRING_API bool startsWith(const std::u16string& str,
@@ -601,11 +603,12 @@ namespace Ystring { namespace Utf16
       *     bytes, not even code points if the string has decomposed
       *     characters) from the start of the string. If @a startIndex is
       *     negative it's from the end of the string instead.
-      * @throw YstringError if str contains an invalid UTF-16 code point.
+      * @throw YstringException if str contains an invalid UTF-16 code point.
       */
-    YSTRING_API std::u16string substring(const std::u16string& str,
-                                         ptrdiff_t startIndex,
-                                         ptrdiff_t endIndex = PTRDIFF_MAX);
+    YSTRING_API std::u16string substring(
+            const std::u16string& str,
+            ptrdiff_t startIndex,
+            ptrdiff_t endIndex = PTRDIFF_MAX);
 
     /** @brief Returns a title-cased copy of @a str.
       */
@@ -619,7 +622,7 @@ namespace Ystring { namespace Utf16
       *
       * @param str The string to convert from.
       * @param encoding The encoding of @a str.
-      * @throws YstringError if str contains any characters that aren't
+      * @throws YstringException if str contains any characters that aren't
       *     encoded according to @a encoding, or if @a encoding is
       *     unsupported for strings of @a str's type.
       */
@@ -631,7 +634,7 @@ namespace Ystring { namespace Utf16
       *
       * @param str The string to convert from.
       * @param encoding The encoding of @a str.
-      * @throws YstringError if str contains any characters that aren't
+      * @throws YstringException if str contains any characters that aren't
       *     encoded according to @a encoding, or if @a encoding is
       *     unsupported for strings of @a str's type.
       */
@@ -643,7 +646,7 @@ namespace Ystring { namespace Utf16
       *
       * @param str The string to convert from.
       * @param encoding The encoding of @a str.
-      * @throws YstringError if str contains any characters that aren't
+      * @throws YstringException if str contains any characters that aren't
       *     encoded according to @a encoding, or if @a encoding is
       *     unsupported for strings of @a str's type.
       */
@@ -655,7 +658,7 @@ namespace Ystring { namespace Utf16
       *
       * @param str The string to convert from.
       * @param encoding The encoding of @a str.
-      * @throws YstringError if str contains any characters that aren't
+      * @throws YstringException if str contains any characters that aren't
       *     encoded according to @a encoding, or if @a encoding is
       *     unsupported for strings of @a str's type.
       */
@@ -667,7 +670,7 @@ namespace Ystring { namespace Utf16
       *
       * @param str The string to convert from.
       * @param encoding The encoding of @a str.
-      * @throws YstringError if str contains any characters that aren't
+      * @throws YstringException if str contains any characters that aren't
       *     encoded according to @a encoding, or if @a encoding is
       *     unsupported for strings of @a str's type.
       */
@@ -679,7 +682,7 @@ namespace Ystring { namespace Utf16
       *
       * @param str The string to convert from.
       * @param encoding The encoding of @a str.
-      * @throws YstringError if str contains any characters that aren't
+      * @throws YstringException if str contains any characters that aren't
       *     encoded according to @a encoding, or if @a encoding is
       *     unsupported for strings of @a str's type.
       */
@@ -691,7 +694,7 @@ namespace Ystring { namespace Utf16
       *
       * @param str The string to convert from.
       * @param encoding The encoding of @a str.
-      * @throws YstringError if str contains any characters that aren't
+      * @throws YstringException if str contains any characters that aren't
       *     encoded according to @a encoding, or if @a encoding is
       *     unsupported for strings of @a str's type.
       */
@@ -703,7 +706,7 @@ namespace Ystring { namespace Utf16
       *
       * @param str The string to convert from.
       * @param encoding The encoding of @a str.
-      * @throws YstringError if str contains any characters that aren't
+      * @throws YstringException if str contains any characters that aren't
       *     encoded according to @a encoding, or if @a encoding is
       *     unsupported for strings of @a str's type.
       */
@@ -715,7 +718,7 @@ namespace Ystring { namespace Utf16
       *
       * @param str The string to convert from.
       * @param encoding The encoding of @a str.
-      * @throws YstringError if str contains any characters that aren't
+      * @throws YstringException if str contains any characters that aren't
       *     encoded according to @a encoding, or if @a encoding is
       *     unsupported for strings of @a str's type.
       */
@@ -727,7 +730,7 @@ namespace Ystring { namespace Utf16
       *
       * @param str The string to convert from.
       * @param encoding The encoding of @a str.
-      * @throws YstringError if str contains any characters that aren't
+      * @throws YstringException if str contains any characters that aren't
       *     encoded according to @a encoding, or if @a encoding is
       *     unsupported for strings of @a str's type.
       */
@@ -741,7 +744,7 @@ namespace Ystring { namespace Utf16
     YSTRING_API std::u16string trim(const std::u16string& str);
 
     /** @brief Returns a copy of @a str where all characters satisfying
-     *      @a predicate at the start and end of the string have been removed.
+      *     @a predicate at the start and end of the string have been removed.
       */
     YSTRING_API std::u16string trim(
             const std::u16string& str,
@@ -753,7 +756,7 @@ namespace Ystring { namespace Utf16
     YSTRING_API std::u16string trimEnd(const std::u16string& str);
 
     /** @brief Returns a copy of @a str where all characters satisfying
-     *      @a predicate at the end of the string have been removed.
+      *     @a predicate at the end of the string have been removed.
       */
     YSTRING_API std::u16string trimEnd(
             const std::u16string& str,
@@ -773,7 +776,8 @@ namespace Ystring { namespace Utf16
 
     /** @brief Returns a copy of @a str where all escape sequences have been
       *     translated to the characters they represent.
-      * @throws YstringError if @a str contains an invalid escape sequence.
+      * @throws YstringException if @a str contains an invalid
+      *     escape sequence.
       */
     YSTRING_API std::u16string unescape(
             const std::u16string& str,
