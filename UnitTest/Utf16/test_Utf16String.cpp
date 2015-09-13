@@ -123,12 +123,10 @@ namespace
                 u"\\u0100");
         Y_EQUAL(Utf16::escape(u"\uFFFF", EscapeType::BACKSLASH_ASCII_SMART),
                 u"\\uFFFF");
-    #ifdef YSTRING_WCHAR_IS_2_BYTES
         Y_EQUAL(Utf16::escape(u"\U00010000", EscapeType::BACKSLASH_ASCII_SMART),
                 u"\\U00010000");
         Y_EQUAL(Utf16::escape(u"\U000FFFFF", EscapeType::BACKSLASH_ASCII_SMART),
                 u"\\U000FFFFF");
-    #endif
     }
 
     void test_escape_JSON()
