@@ -75,6 +75,12 @@ set(PUBLIC_HEADERS_ROOT
     ${PUBLIC_HEADERS_ROOT}
     )
 
+set(PUBLIC_HEADERS_STREAMING
+    Ystring/Streaming/StreamFill.hpp
+    Ystring/Streaming/StreamJoin.hpp
+    Ystring/Streaming/StreamOperators.hpp
+    )
+
 set(PUBLIC_HEADERS_UNICODE
     Ystring/Unicode/CharClass.hpp
     Ystring/Unicode/UnicodeChars.hpp
@@ -87,6 +93,7 @@ set(PUBLIC_HEADERS_UTF8
 
 set(PUBLIC_HEADERS
     ${PUBLIC_HEADERS_ROOT}
+    ${PUBLIC_HEADERS_STREAMING}
     ${PUBLIC_HEADERS_UTF8}
     ${PUBLIC_HEADERS_UTF16}
     )
@@ -162,6 +169,7 @@ set(SOURCE_FILES
     Ystring/CodePage/Cp437.cpp
     Ystring/CodePage/Iso8859_1.cpp
     Ystring/CodePage/Windows1252.cpp
+    Ystring/Streaming/StreamOperators.cpp
     Ystring/Unicode/CaseConverter.cpp
     Ystring/Unicode/CharClass.cpp
     Ystring/Unicode/CharMap.cpp
@@ -169,7 +177,7 @@ set(SOURCE_FILES
     Ystring/Utf8/EncodeUtf8.cpp
     Ystring/Utf8/Utf8String.cpp
     ${SOURCE_FILES}
-        Ystring/Streaming/StreamOperators.cpp Ystring/Streaming/StreamOperators.hpp)
+    )
 
 add_library(
     ${PROJECT_NAME} SHARED
@@ -190,6 +198,8 @@ add_subdirectory(UnitTest)
 install(TARGETS ${PROJECT_NAME} DESTINATION lib)
 install(FILES ${PUBLIC_HEADERS_ROOT}
         DESTINATION include/${PROJECT_NAME})
+install(FILES ${PUBLIC_HEADERS_STREAMING}
+        DESTINATION include/${PROJECT_NAME}/Streaming)
 install(FILES ${PUBLIC_HEADERS_UNICODE}
         DESTINATION include/${PROJECT_NAME}/Unicode)
 install(FILES ${PUBLIC_HEADERS_UTF8}

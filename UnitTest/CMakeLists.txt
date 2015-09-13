@@ -34,6 +34,8 @@ set(SOURCE_FILES
     test_EncodingInfo.cpp
     Generic/test_Convert.cpp
     Generic/test_GenericString.cpp
+    Streaming/test_StreamFill.cpp
+    Streaming/test_StreamJoin.cpp
     Unicode/test_CaseConverter.cpp
     Unicode/test_CaseInsensitive.cpp
     Unicode/test_CharClass.cpp
