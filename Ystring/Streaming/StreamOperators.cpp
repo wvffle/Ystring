@@ -36,8 +36,6 @@ namespace Ystring
 
     #endif
 
-    #ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
-
     std::ostream& operator<<(std::ostream& os, const std::u16string& s)
     {
         return os << Utf8::toUtf8(s, Encoding::UTF_16);
@@ -57,6 +55,4 @@ namespace Ystring
     {
         return os << Utf8::toUtf8(s, Encoding::UTF_32);
     }
-
-    #endif
 }

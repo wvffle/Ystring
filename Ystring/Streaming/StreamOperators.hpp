@@ -16,8 +16,6 @@ namespace Ystring
 
     std::ostream& operator<<(std::ostream& os, const wchar_t* s);
 
-    #ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
-
     std::ostream& operator<<(std::ostream& os, const std::u16string& s);
 
     std::ostream& operator<<(std::ostream& os, const char16_t* s);
@@ -25,6 +23,4 @@ namespace Ystring
     std::ostream& operator<<(std::ostream& os, const std::u32string& s);
 
     std::ostream& operator<<(std::ostream& os, const char32_t* s);
-
-    #endif
 }
