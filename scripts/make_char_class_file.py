@@ -145,31 +145,31 @@ template = """\
 #include <algorithm>
 #include <iterator>
 
-namespace Ystring { namespace Unicode {
-
-static uint8_t AsciiCharClasses[] =
+namespace Ystring { namespace Unicode
 {
-    [[[asciiClasses]]]
-};
+    static uint8_t AsciiCharClasses[] =
+    {
+        [[[asciiClasses]]]
+    };
 
-static uint32_t CompleteCharClasses[] =
-{
-    [[[allClasses]]]
-};
+    static uint32_t CompleteCharClasses[] =
+    {
+        [[[allClasses]]]
+    };
 
-CharClass_t charClass(uint32_t ch)
-{
-    if (ch < 128)
-        return CharClass_t(1 << AsciiCharClasses[ch]);
-    else if (ch > 0xFFFFFFul)
-        return CharClass::UNASSIGNED;
-    uint32_t key = ch << 8;
-    uint32_t keyValue = *std::lower_bound(
-            std::begin(CompleteCharClasses), std::end(CompleteCharClasses),
-            key);
-    return CharClass_t(1 << (keyValue & 0xFFul));
-}
-
+    CharClass_t getCharClass(uint32_t ch)
+    {
+        if (ch < 128)
+            return CharClass_t(1 << AsciiCharClasses[ch]);
+        else if (ch > 0xFFFFFFul)
+            return CharClass::UNASSIGNED;
+        uint32_t key = ch << 8;
+        uint32_t keyValue = *std::lower_bound(
+                std::begin(CompleteCharClasses),
+                std::end(CompleteCharClasses),
+                key);
+        return CharClass_t(1 << (keyValue & 0xFFul));
+    }
 }}
 """
 
@@ -197,7 +197,7 @@ def getClassTable(fileName):
     result = []
     line = []
     for i, v in enumerate(values):
-        if i != 0 and i % 6 == 0:
+        if i != 0 and i % 5 == 0:
             result.append(", ".join(line) + ",")
             line = []
         line.append("0x%08X" % v)

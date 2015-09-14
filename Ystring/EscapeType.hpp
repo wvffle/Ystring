@@ -11,50 +11,50 @@
   * @brief Defines the EscapeType enum.
   */
 
-namespace Ystring {
-
-/** @brief "Namespace" for the EscapeType enum values.
-  */
-struct EscapeType
+namespace Ystring
 {
-    /** @brief The EscapeType enum values used by the escape and unescape
-      *     functions.
+    /** @brief "Namespace" for the EscapeType enum values.
       */
-    enum Type
+    struct EscapeType
     {
-        /** @brief Escape control characters in the ASCII range with
-          *     backslashes.
+        /** @brief The EscapeType enum values used by the escape and unescape
+          *     functions.
           */
-        BACKSLASH,
-        /** @brief Escape control characters and non-ASCII characters with
-          *     backslashes.
-          */
-        BACKSLASH_ASCII,
-        BACKSLASH_ASCII_SMART,
-        /**
-          * The difference between JSON and BACKSLASH is that the former
-          * escapes characters without single letter escape as
-          * 16-bit unicode code points (e.g. \\u0001) no matter what the
-          * string's encoding is.
-          */
-        JSON,
-        JSON_ASCII,
-        /** @brief Escape the characters that are illegal in an URL query with
-          *     percentage characters.
-          */
-        URL_QUERY,
-        /** @brief Escape characters that are illegal in XML text with ampersands.
-          */
-        XML_TEXT,
-        /** @brief Escape characters that are illegal in XML attributes
-          *     with ampersands.
-          */
-        XML_ATTRIBUTE
+        enum Type
+        {
+            /** @brief Escape control characters in the ASCII range with
+              *     backslashes.
+              */
+            BACKSLASH,
+            /** @brief Escape control characters and non-ASCII characters with
+              *     backslashes.
+              */
+            BACKSLASH_ASCII,
+            BACKSLASH_ASCII_SMART,
+            /**
+              * The difference between JSON and BACKSLASH is that the former
+              * escapes characters without single letter escape as
+              * 16-bit unicode code points (e.g. \\u0001) no matter what the
+              * string's encoding is.
+              */
+            JSON,
+            JSON_ASCII,
+            /** @brief Escape the characters that are illegal in an URL query
+              *     with percentage characters.
+              */
+            URL_QUERY,
+            /** @brief Escape characters that are illegal in XML text
+              *     with ampersands.
+              */
+            XML_TEXT,
+            /** @brief Escape characters that are illegal in XML attributes
+              *     with ampersands.
+              */
+            XML_ATTRIBUTE
+        };
     };
-};
 
-/** @brief A shorter alias for EscapeType::Type.
-  */
-typedef EscapeType::Type EscapeType_t;
-
+    /** @brief A shorter alias for EscapeType::Type.
+      */
+    typedef EscapeType::Type EscapeType_t;
 }

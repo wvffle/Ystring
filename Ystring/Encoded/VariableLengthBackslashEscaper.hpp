@@ -9,54 +9,53 @@
 
 #include "../Utilities/Utilities.hpp"
 
-namespace Ystring { namespace Encoded {
-
-class VariableLengthBackslashEscaper
+namespace Ystring { namespace Encoded
 {
-public:
-    template <typename Appender>
-    void escape(Appender dst, uint32_t chr)
+    class VariableLengthBackslashEscaper
     {
-        using Utilities::toCharDigit;
-        dst.append('\\');
-        switch (chr)
+    public:
+        template <typename Appender>
+        void escape(Appender dst, uint32_t chr)
         {
-        case '\a': dst.append('a'); break;
-        case '\b': dst.append('b'); break;
-        case '\t': dst.append('t'); break;
-        case '\n': dst.append('n'); break;
-        case '\v': dst.append('v'); break;
-        case '\f': dst.append('f'); break;
-        case '\r': dst.append('r'); break;
-        case '\"': dst.append('"'); break;
-        case '\\': dst.append('\\'); break;
-        default:
+            using Utilities::toCharDigit;
+            dst.append('\\');
+            switch (chr)
             {
-                int shifts;
-                if (chr < 256)
+            case '\a': dst.append('a'); break;
+            case '\b': dst.append('b'); break;
+            case '\t': dst.append('t'); break;
+            case '\n': dst.append('n'); break;
+            case '\v': dst.append('v'); break;
+            case '\f': dst.append('f'); break;
+            case '\r': dst.append('r'); break;
+            case '\"': dst.append('"'); break;
+            case '\\': dst.append('\\'); break;
+            default:
                 {
-                    dst.append('x');
-                    shifts = 2;
+                    int shifts;
+                    if (chr < 256)
+                    {
+                        dst.append('x');
+                        shifts = 2;
+                    }
+                    else if (chr < 0x10000)
+                    {
+                        dst.append('u');
+                        shifts = 4;
+                    }
+                    else
+                    {
+                        dst.append('U');
+                        shifts = 8;
+                    }
+                    for (auto i = 0; i < shifts; ++i)
+                    {
+                        auto shift = (shifts - i - 1) * 4;
+                        dst.append(toCharDigit((chr >> shift) & 0xF));
+                    }
                 }
-                else if (chr < 0x10000)
-                {
-                    dst.append('u');
-                    shifts = 4;
-                }
-                else
-                {
-                    dst.append('U');
-                    shifts = 8;
-                }
-                for (auto i = 0; i < shifts; ++i)
-                {
-                    auto shift = (shifts - i - 1) * 4;
-                    dst.append(toCharDigit((chr >> shift) & 0xF));
-                }
+                break;
             }
-            break;
         }
-    }
-};
-
+    };
 }}

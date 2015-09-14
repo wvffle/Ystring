@@ -54,18 +54,17 @@ template = """\
 
 #include "CharMappingTypes.hpp"
 
-namespace Ystring { namespace Unicode {
-
-CompactCharMapping Compact[[[name]]]CaseMappings[] =
+namespace Ystring { namespace Unicode
 {
-    [[[compact_mappings]]]
-};
+    CompactCharMapping Compact[[[name]]]CaseMappings[] =
+    {
+        [[[compact_mappings]]]
+    };
 
-CharMapping [[[name]]]CaseMappings[] =
-{
-    [[[mappings]]]
-};
-
+    CharMapping [[[name]]]CaseMappings[] =
+    {
+        [[[mappings]]]
+    };
 }}
 """
 

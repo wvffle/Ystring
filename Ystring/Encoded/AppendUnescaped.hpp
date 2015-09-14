@@ -13,37 +13,36 @@
 #include "../Generic/StringReference.hpp"
 #include "ForwardDecoder.hpp"
 
-namespace Ystring { namespace Encoded {
-
-inline bool isBackslash(uint32_t c)
+namespace Ystring { namespace Encoded
 {
-    return c == '\\';
-}
-
-inline bool isAmpersand(uint32_t c)
-{
-    return c == '&';
-}
-
-template <typename Str, typename Enc, typename It, typename Unescaper>
-void appendUnescaped(Generic::StringReference<Str>& dst,
-                     Generic::Range<It> src,
-                     Enc encoding,
-                     bool (*isEscaped)(uint32_t),
-                     Unescaper unescaper)
-{
-    auto first = src.begin();
-    auto last = std::find_if(first, src.end(), isEscaped);
-    while (last != src.end())
+    inline bool isBackslash(uint32_t c)
     {
-        dst.getAppender().append(Generic::makeRange(first, last));
-        uint32_t ch;
-        first = last;
-        if (unescaper.unescape(ch, first, src.end()))
-            dst.getEncoder(encoding).encode(ch);
-        last = std::find_if(first, src.end(), isEscaped);
+        return c == '\\';
     }
-    dst.getAppender().append(Generic::makeRange(first, src.end()));
-}
 
+    inline bool isAmpersand(uint32_t c)
+    {
+        return c == '&';
+    }
+
+    template <typename Str, typename Enc, typename It, typename Unescaper>
+    void appendUnescaped(Generic::StringReference<Str>& dst,
+                         Generic::Range<It> src,
+                         Enc encoding,
+                         bool (*isEscaped)(uint32_t),
+                         Unescaper unescaper)
+    {
+        auto first = src.begin();
+        auto last = std::find_if(first, src.end(), isEscaped);
+        while (last != src.end())
+        {
+            dst.getAppender().append(Generic::makeRange(first, last));
+            uint32_t ch;
+            first = last;
+            if (unescaper.unescape(ch, first, src.end()))
+                dst.getEncoder(encoding).encode(ch);
+            last = std::find_if(first, src.end(), isEscaped);
+        }
+        dst.getAppender().append(Generic::makeRange(first, src.end()));
+    }
 }}

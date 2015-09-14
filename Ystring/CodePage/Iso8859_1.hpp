@@ -9,8 +9,7 @@
 
 #include "CodePage.hpp"
 
-namespace Ystring { namespace CodePage {
-
-YSTRING_API CodePage makeIso8859_1();
-
+namespace Ystring { namespace CodePage
+{
+    YSTRING_API CodePage makeIso8859_1();
 }}

@@ -9,40 +9,39 @@
 
 #include <iterator>
 
-namespace Ystring { namespace Utilities {
-
-template <typename Value>
-class CountingOutputIterator : public std::iterator<
-        std::output_iterator_tag,
-        Value>
+namespace Ystring { namespace Utilities
 {
-public:
-    explicit CountingOutputIterator(size_t* count)
-        : m_Count(count)
-    {}
-
-    CountingOutputIterator& operator=(const Value& value)
+    template <typename Value>
+    class CountingOutputIterator : public std::iterator<
+            std::output_iterator_tag,
+            Value>
     {
-        ++*m_Count;
-        return *this;
-    }
+    public:
+        explicit CountingOutputIterator(size_t* count)
+            : m_Count(count)
+        {}
 
-    CountingOutputIterator& operator*()
-    {
-        return *this;
-    }
+        CountingOutputIterator& operator=(const Value& value)
+        {
+            ++*m_Count;
+            return *this;
+        }
 
-    CountingOutputIterator& operator++()
-    {
-        return *this;
-    }
+        CountingOutputIterator& operator*()
+        {
+            return *this;
+        }
 
-    CountingOutputIterator& operator++(int)
-    {
-        return *this;
-    }
-private:
-    size_t* m_Count;
-};
+        CountingOutputIterator& operator++()
+        {
+            return *this;
+        }
 
+        CountingOutputIterator& operator++(int)
+        {
+            return *this;
+        }
+    private:
+        size_t* m_Count;
+    };
 }}

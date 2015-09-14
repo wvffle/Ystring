@@ -13,7 +13,6 @@
 
 namespace Ystring { namespace Encoded
 {
-
     inline bool isUrlQueryEscape(uint32_t c)
     {
         return !('0' <= c && c <= '9') &&
@@ -38,5 +37,4 @@ namespace Ystring { namespace Encoded
             dst.append(toCharDigit(chr & 0xF));
         }
     };
-
 }}

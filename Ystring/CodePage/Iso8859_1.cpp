@@ -9,33 +9,32 @@
 
 #include <vector>
 
-namespace Ystring { namespace CodePage {
-
-const uint32_t* iso8859_1ToUnicode()
+namespace Ystring { namespace CodePage
 {
-    static std::vector<uint32_t> table;
-    if (table.empty())
+    const uint32_t* iso8859_1ToUnicode()
     {
-        table.resize(256);
-        for (uint32_t i = 0; i < 256; ++i)
-            table[i] = i;
+        static std::vector<uint32_t> table;
+        if (table.empty())
+        {
+            table.resize(256);
+            for (uint32_t i = 0; i < 256; ++i)
+                table[i] = i;
+        }
+        return &table[0];
     }
-    return &table[0];
-}
 
-std::pair<const std::pair<uint32_t, uint8_t>*,
-          const std::pair<uint32_t, uint8_t>*> unicodeToIso8859_1()
-{
-    return std::pair<const std::pair<uint32_t, uint8_t>*,
-                     const std::pair<uint32_t, uint8_t>*>(nullptr,
-                                                          nullptr);
-}
+    std::pair<const std::pair<uint32_t, uint8_t>*,
+              const std::pair<uint32_t, uint8_t>*> unicodeToIso8859_1()
+    {
+        return std::pair<const std::pair<uint32_t, uint8_t>*,
+                         const std::pair<uint32_t, uint8_t>*>(nullptr,
+                                                              nullptr);
+    }
 
-CodePage makeIso8859_1()
-{
-    auto to = iso8859_1ToUnicode();
-    auto from = unicodeToIso8859_1();
-    return CodePage(to, from.first, from.second, Encoding::ISO_8859_1);
-}
-
+    CodePage makeIso8859_1()
+    {
+        auto to = iso8859_1ToUnicode();
+        auto from = unicodeToIso8859_1();
+        return CodePage(to, from.first, from.second, Encoding::ISO_8859_1);
+    }
 }}
