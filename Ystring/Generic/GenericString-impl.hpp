@@ -302,7 +302,6 @@ namespace Ystring { namespace Generic
                          EscapeType_t type,
                          Enc encoding)
     {
-        typedef typename StringReference<Str>::ValueType Char;
         switch (type)
         {
         case EscapeType::BACKSLASH:
