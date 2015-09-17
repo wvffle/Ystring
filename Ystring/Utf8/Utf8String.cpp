@@ -1,6 +1,6 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 2015-05-31
+// Created by Jan Erik Breimo on 2015-05-31.
 //
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
@@ -19,241 +19,219 @@ namespace Ystring { namespace Utf8
     using Generic::makeStringReference;
     using Generic::makeRange;
     using Generic::fromRange;
+    typedef std::string String;
+    typedef Utf8Encoding Enc;
 
-    std::string& append(std::string& str, uint32_t chr)
+    String& append(String& str, uint32_t chr)
     {
-        append(makeStringReference(str), chr, Utf8Encoding());
+        append(makeStringReference(str), chr, Enc());
         return str;
     }
 
-    int32_t caseInsensitiveCompare(const std::string& str,
-                                   const std::string& cmp)
+    int32_t caseInsensitiveCompare(const String& str, const String& cmp)
     {
         return Generic::caseInsensitiveCompare(makeRange(str),
                                                makeRange(cmp),
-                                               Utf8Encoding());
+                                               Enc());
     }
 
-    bool caseInsensitiveEqual(const std::string& str,
-                              const std::string& cmp)
+    bool caseInsensitiveEqual(const String& str, const String& cmp)
     {
         return Generic::caseInsensitiveEqual(makeRange(str),
                                              makeRange(cmp),
-                                             Utf8Encoding());
+                                             Enc());
     }
 
-    bool caseInsensitiveLess(const std::string& str,
-                             const std::string& cmp)
+    bool caseInsensitiveLess(const String& str, const String& cmp)
     {
         return Generic::caseInsensitiveLess(makeRange(str),
                                             makeRange(cmp),
-                                            Utf8Encoding());
+                                            Enc());
     }
 
-    bool contains(const std::string& str, uint32_t chr)
+    bool contains(const String& str, uint32_t chr)
     {
-        return Generic::contains(makeRange(str), chr, Utf8Encoding());
+        return Generic::contains(makeRange(str), chr, Enc());
     }
 
-    size_t countCharacters(const std::string& str)
+    size_t countCharacters(const String& str)
     {
-        return Generic::countCharacters(makeRange(str), Utf8Encoding());
+        return Generic::countCharacters(makeRange(str), Enc());
     }
 
     size_t countCharacters(std::string::const_iterator first,
                            std::string::const_iterator last)
     {
-        return Generic::countCharacters(makeRange(first, last),
-                                        Utf8Encoding());
+        return Generic::countCharacters(makeRange(first, last), Enc());
     }
 
-    size_t countCodePoints(const std::string& str)
+    size_t countCodePoints(const String& str)
     {
-        return Generic::countCodePoints(makeRange(str), Utf8Encoding());
+        return Generic::countCodePoints(makeRange(str), Enc());
     }
 
-    bool endsWith(const std::string& str,
-                  const std::string& cmp,
-                  FindFlags_t flags)
+    bool endsWith(const String& str, const String& cmp, FindFlags_t flags)
     {
         return Generic::endsWith(
-                makeRange(str),
-                makeRange(cmp),
-                Utf8Encoding(),
-                flags);
+                makeRange(str), makeRange(cmp), Enc(), flags);
     }
 
-    std::string escape(const std::string& str, EscapeType_t mode)
+    String escape(const String& str, EscapeType_t mode)
     {
-        return Generic::escape<std::string>(
-                makeRange(str), mode,
-                Utf8Encoding());
+        return Generic::escape<String>(makeRange(str), mode, Enc());
     }
 
     StringIteratorPair findFirst(
-            std::string& str,
-            const std::string& cmp,
+            String& str,
+            const String& cmp,
             FindFlags_t flags)
     {
         return Generic::findFirst(makeRange(str), makeRange(cmp),
-                                  Utf8Encoding(), flags);
+                                  Enc(), flags);
     }
 
     StringConstIteratorPair findFirst(
-            const std::string& str,
-            const std::string& cmp,
+            const String& str,
+            const String& cmp,
             FindFlags_t flags)
     {
         return Generic::findFirst(makeRange(str), makeRange(cmp),
-                                  Utf8Encoding(), flags);
+                                  Enc(), flags);
     }
 
     StringIteratorPair findFirst(
-            std::string::iterator first,
-            std::string::iterator last,
-            const std::string& cmp,
+            String::iterator first,
+            String::iterator last,
+            const String& cmp,
             FindFlags_t flags)
     {
         return Generic::findFirst(makeRange(first, last), makeRange(cmp),
-                                  Utf8Encoding(), flags);
+                                  Enc(), flags);
     }
 
     StringConstIteratorPair findFirst(
-            std::string::const_iterator first,
-            std::string::const_iterator last,
-            const std::string& cmp,
+            String::const_iterator first,
+            String::const_iterator last,
+            const String& cmp,
             FindFlags_t flags)
     {
         return Generic::findFirst(makeRange(first, last), makeRange(cmp),
-                                  Utf8Encoding(), flags);
+                                  Enc(), flags);
     }
 
-    StringIteratorPair findFirstNewline(std::string& str)
+    StringIteratorPair findFirstNewline(String& str)
     {
-        return Generic::findFirstNewline(makeRange(str), Utf8Encoding());
+        return Generic::findFirstNewline(makeRange(str), Enc());
     }
 
-    StringConstIteratorPair findFirstNewline(const std::string& str)
+    StringConstIteratorPair findFirstNewline(const String& str)
     {
-        return Generic::findFirstNewline(makeRange(str), Utf8Encoding());
+        return Generic::findFirstNewline(makeRange(str), Enc());
     }
 
-    StringIteratorPair findFirstNewline(
-            std::string::iterator first,
-            std::string::iterator last)
+    StringIteratorPair findFirstNewline(String::iterator first,
+                                        String::iterator last)
     {
-        return Generic::findFirstNewline(makeRange(first, last),
-                                         Utf8Encoding());
+        return Generic::findFirstNewline(makeRange(first, last), Enc());
     }
 
-    StringConstIteratorPair findFirstNewline(
-            std::string::const_iterator first,
-            std::string::const_iterator last)
+    StringConstIteratorPair findFirstNewline(String::const_iterator first,
+                                             String::const_iterator last)
     {
-        return Generic::findFirstNewline(makeRange(first, last),
-                                         Utf8Encoding());
+        return Generic::findFirstNewline(makeRange(first, last), Enc());
     }
 
     StringIteratorPair findLast(
-            std::string& str,
-            const std::string& cmp,
+            String& str,
+            const String& cmp,
             FindFlags_t flags)
     {
         return Generic::findLast(makeRange(str), makeRange(cmp),
-                                 Utf8Encoding(), flags);
+                                 Enc(), flags);
     }
 
     StringConstIteratorPair findLast(
-            const std::string& str,
-            const std::string& cmp,
+            const String& str,
+            const String& cmp,
             FindFlags_t flags)
     {
         return Generic::findLast(makeRange(str), makeRange(cmp),
-                                 Utf8Encoding(), flags);
+                                 Enc(), flags);
     }
 
     StringIteratorPair findLast(
-            std::string::iterator first,
-            std::string::iterator last,
-            const std::string& cmp,
+            String::iterator first,
+            String::iterator last,
+            const String& cmp,
             FindFlags_t flags)
     {
         return Generic::findLast(makeRange(first, last), makeRange(cmp),
-                                 Utf8Encoding(), flags);
+                                 Enc(), flags);
     }
 
     StringConstIteratorPair findLast(
-            std::string::const_iterator first,
-            std::string::const_iterator last,
-            const std::string& cmp,
+            String::const_iterator first,
+            String::const_iterator last,
+            const String& cmp,
             FindFlags_t flags)
     {
         return Generic::findLast(makeRange(first, last), makeRange(cmp),
-                                 Utf8Encoding(), flags);
+                                 Enc(), flags);
     }
 
-    StringIteratorPair findLastNewline(std::string& str)
+    StringIteratorPair findLastNewline(String& str)
     {
-        return Generic::findLastNewline(makeRange(str), Utf8Encoding());
+        return Generic::findLastNewline(makeRange(str), Enc());
     }
 
-    StringConstIteratorPair findLastNewline(const std::string& str)
+    StringConstIteratorPair findLastNewline(const String& str)
     {
-        return Generic::findLastNewline(makeRange(str), Utf8Encoding());
+        return Generic::findLastNewline(makeRange(str), Enc());
     }
 
-    StringIteratorPair findLastNewline(
-            std::string::iterator first,
-            std::string::iterator last)
+    StringIteratorPair findLastNewline(String::iterator first,
+                                       String::iterator last)
     {
-        return Generic::findLastNewline(makeRange(first, last),
-                                        Utf8Encoding());
+        return Generic::findLastNewline(makeRange(first, last), Enc());
     }
 
     StringConstIteratorPair findLastNewline(
-            std::string::const_iterator first,
-            std::string::const_iterator last)
+            String::const_iterator first,
+            String::const_iterator last)
     {
-        return Generic::findLastNewline(makeRange(first, last),
-                                        Utf8Encoding());
+        return Generic::findLastNewline(makeRange(first, last), Enc());
     }
 
-    uint32_t getCodePoint(const std::string& str, ptrdiff_t n)
+    uint32_t getCodePoint(const String& str, ptrdiff_t n)
     {
-        return Generic::getCodePoint(makeRange(str), n, Utf8Encoding());
+        return Generic::getCodePoint(makeRange(str), n, Enc());
     }
 
-    std::string insert(const std::string& str, ptrdiff_t pos,
-                       const std::string& sub)
+    String insert(const String& str, ptrdiff_t pos, const String& sub)
     {
-        return Generic::insert<std::string>(
-                makeRange(str), pos, makeRange(sub), Utf8Encoding());
+        return Generic::insert<String>(
+                makeRange(str), pos, makeRange(sub), Enc());
     }
 
-    std::string insert(
-            const std::string& str,
-            ptrdiff_t pos,
-            uint32_t chr)
+    String insert(const String& str, ptrdiff_t pos, uint32_t chr)
     {
-        return Generic::insert<std::string>(
-                makeRange(str), pos, chr, Utf8Encoding());
+        return Generic::insert<String>(makeRange(str), pos, chr, Enc());
     }
 
-    bool isAlphaNumeric(const std::string& str)
+    bool isAlphaNumeric(const String& str)
     {
-        return isAlphaNumeric(makeRange(str), Utf8Encoding());
+        return isAlphaNumeric(makeRange(str), Enc());
     }
 
-    bool isAlphaNumeric(std::string::iterator first,
-                        std::string::iterator last)
+    bool isAlphaNumeric(String::iterator first, String::iterator last)
     {
-        return isAlphaNumeric(makeRange(first, last), Utf8Encoding());
+        return isAlphaNumeric(makeRange(first, last), Enc());
     }
 
-    bool isAlphaNumeric(std::string::const_iterator first,
-                        std::string::const_iterator last)
+    bool isAlphaNumeric(String::const_iterator first,
+                        String::const_iterator last)
     {
-        return isAlphaNumeric(makeRange(first, last), Utf8Encoding());
+        return isAlphaNumeric(makeRange(first, last), Enc());
     }
 
     bool isValidUtf8(const std::string& str)
@@ -261,125 +239,104 @@ namespace Ystring { namespace Utf8
         return isValidUtf8(begin(str), end(str));
     }
 
-    std::string join(
-            const std::vector<std::string>& strings,
-            const std::string& delimiter)
+    String join(const std::vector<String>& strings,
+                const String& delimiter)
     {
         return join(strings.data(), strings.size(), delimiter);
     }
 
-    std::string join(
-            const std::string* strings,
-            size_t count,
-            const std::string& delimiter)
+    String join(const String* strings, size_t count, const String& delimiter)
     {
         return delimiter.empty() ?
-               Generic::join<std::string>(strings, strings + count) :
-               Generic::join<std::string>(
+               Generic::join<String>(strings, strings + count) :
+               Generic::join<String>(
                         strings, strings + count, makeRange(delimiter));
     }
 
-    std::string lower(const std::string& str)
+    String lower(const String& str)
     {
-        return Generic::lower<std::string>(
-                makeRange(str), Utf8Encoding());
+        return Generic::lower<String>(makeRange(str), Enc());
     }
 
-    std::string::iterator nextCharacter(
-            std::string::iterator& first,
-            std::string::iterator& last,
+    String::iterator nextCharacter(String::iterator& first,
+                                   String::iterator& last,
+                                   size_t n)
+    {
+        return Generic::nextCharacter(makeRange(first, last), n, Enc());
+    }
+
+    String::const_iterator nextCharacter(
+            String::const_iterator& first,
+            String::const_iterator& last,
             size_t n)
     {
-        return Generic::nextCharacter(makeRange(first, last), n,
-                                      Utf8Encoding());
+        return Generic::nextCharacter(makeRange(first, last), n, Enc());
     }
 
-    std::string::const_iterator nextCharacter(
-            std::string::const_iterator& first,
-            std::string::const_iterator& last,
-            size_t n)
+    String::iterator nthCharacter(String& str, ptrdiff_t n)
     {
-        return Generic::nextCharacter(makeRange(first, last), n,
-                                      Utf8Encoding());
+        return Generic::nthCharacter(makeRange(str), n, Enc());
     }
 
-    std::string::iterator nthCharacter(std::string& str, ptrdiff_t n)
+    String::const_iterator nthCharacter(const String& str, ptrdiff_t n)
     {
-        return Generic::nthCharacter(makeRange(str), n, Utf8Encoding());
+        return Generic::nthCharacter(makeRange(str), n, Enc());
     }
 
-    std::string::const_iterator nthCharacter(
-            const std::string& str,
-            ptrdiff_t n)
+    String::iterator prevCharacter(String::iterator& first,
+                                   String::iterator& last,
+                                   size_t n)
     {
-        return Generic::nthCharacter(makeRange(str), n, Utf8Encoding());
+        return Generic::prevCharacter(makeRange(first, last), n , Enc());
     }
 
-    std::string::iterator prevCharacter(
-            std::string::iterator& first,
-            std::string::iterator& last,
-            size_t n)
+    String::const_iterator prevCharacter(String::const_iterator& first,
+                                         String::const_iterator& last,
+                                         size_t n)
     {
-        return Generic::prevCharacter(makeRange(first, last), n ,
-                                      Utf8Encoding());
+        return Generic::prevCharacter(makeRange(first, last), n, Enc());
     }
 
-    std::string::const_iterator prevCharacter(
-            std::string::const_iterator& first,
-            std::string::const_iterator& last,
-            size_t n)
+    String replace(const String& str,
+                   const String& cmp,
+                   const String& repl,
+                   ptrdiff_t maxReplacements,
+                   FindFlags_t flags)
     {
-        return Generic::prevCharacter(makeRange(first, last), n,
-                                      Utf8Encoding());
-    }
-
-    std::string replace(
-            const std::string& str,
-            const std::string& cmp,
-            const std::string& repl,
-            ptrdiff_t maxReplacements,
-            FindFlags_t flags)
-    {
-        return Generic::replace<std::string>(
+        return Generic::replace<String>(
                 makeRange(str), makeRange(cmp),
-                makeRange(repl), Utf8Encoding(),
+                makeRange(repl), Enc(),
                 maxReplacements, flags);
     }
 
-    std::string replace(
-            const std::string& str,
-            ptrdiff_t start,
-            ptrdiff_t end,
-            const std::string& repl)
+    String replace(const String& str,
+                   ptrdiff_t start, ptrdiff_t end,
+                   const String& repl)
     {
-        return Generic::replace<std::string>(
-                makeRange(str), start, end,
-                makeRange(repl), Utf8Encoding());
+        return Generic::replace<String>(
+                makeRange(str), start, end, makeRange(repl), Enc());
     }
 
-    std::string replaceCodePoint(
-            const std::string& s,
-            uint32_t from,
-            uint32_t to,
-            ptrdiff_t maxReplacements)
+    String replaceCodePoint(const String& s,
+                            uint32_t from,
+                            uint32_t to,
+                            ptrdiff_t maxReplacements)
     {
         char fBuf[MAX_ENCODED_UTF8_LENGTH];
         size_t fromSize = encodeUtf8(fBuf, from);
         char tBuf[MAX_ENCODED_UTF8_LENGTH];
         auto toSize = encodeUtf8(tBuf, to);
-        return Generic::replace<std::string>(
+        return Generic::replace<String>(
                 makeRange(s),
                 makeRange(fBuf, fBuf + fromSize),
                 makeRange(tBuf, tBuf + toSize),
-                Utf8Encoding(),
+                Enc(),
                 maxReplacements, FindFlags::DEFAULTS);
     }
 
-    std::string replaceInvalidUtf8(
-            const std::string& str,
-            uint32_t chr)
+    String replaceInvalidUtf8(const String& str, uint32_t chr)
     {
-        std::string result;
+        String result;
         result.reserve(str.size());
         auto first = str.begin();
         auto it = str.begin();
@@ -398,9 +355,7 @@ namespace Ystring { namespace Utf8
         return result;
     }
 
-    std::string& replaceInvalidUtf8InPlace(
-            std::string& str,
-            char chr)
+    String& replaceInvalidUtf8InPlace(String& str, char chr)
     {
         assert(chr > 0);
         auto it = str.begin();
@@ -416,295 +371,248 @@ namespace Ystring { namespace Utf8
         return str;
     }
 
-    std::string reverse(const std::string& str)
+    String reverse(const String& str)
     {
-        return Generic::reverse<std::string>(
-                makeRange(str), Utf8Encoding());
+        return Generic::reverse<String>(makeRange(str), Enc());
     }
 
-    std::vector<std::string> split(
-            const std::string& str,
-            ptrdiff_t maxSplits,
-            SplitFlags_t flags)
+    std::vector<String> split(const String& str,
+                              ptrdiff_t maxSplits,
+                              SplitFlags_t flags)
     {
-        return Generic::split<std::string>(
-                makeRange(str), Utf8Encoding(),
-                maxSplits, flags);
+        return Generic::split<String>(
+                makeRange(str), Enc(), maxSplits, flags);
     }
 
-    std::vector<std::string> split(
-            const std::string& str,
-            const std::string& sep,
-            ptrdiff_t maxSplits,
-            SplitFlags_t flags)
+    std::vector<String> split(const String& str,
+                              const String& sep,
+                              ptrdiff_t maxSplits,
+                              SplitFlags_t flags)
     {
-      return Generic::split<std::string>(
-              makeRange(str), makeRange(sep), Utf8Encoding(),
-              maxSplits, flags);
+      return Generic::split<String>(
+              makeRange(str), makeRange(sep), Enc(), maxSplits, flags);
     }
 
-    std::vector<std::string> splitIf(
-            const std::string& str,
-            std::function<bool(uint32_t)> predicate,
-            ptrdiff_t maxSplits,
-            SplitFlags_t flags)
+    std::vector<String> splitIf(const String& str,
+                                std::function<bool(uint32_t)> predicate,
+                                ptrdiff_t maxSplits,
+                                SplitFlags_t flags)
     {
-        return Generic::splitIf<std::string>(
-                makeRange(str), Utf8Encoding(),
-                predicate, maxSplits, flags);
+        return Generic::splitIf<String>(
+                makeRange(str), Enc(), predicate, maxSplits, flags);
     }
 
-    std::vector<std::string> splitLines(
-            const std::string& str,
-            ptrdiff_t maxSplits,
-            SplitFlags_t flags)
+    std::vector<String> splitLines(const String& str,
+                                   ptrdiff_t maxSplits,
+                                   SplitFlags_t flags)
     {
-        return Generic::splitLines<std::string>(
-                makeRange(str), Utf8Encoding(), maxSplits, flags);
+        return Generic::splitLines<String>(
+                makeRange(str), Enc(), maxSplits, flags);
     }
 
-    bool startsWith(
-            const std::string& str,
-            const std::string& cmp,
-            FindFlags_t flags)
+    bool startsWith(const String& str, const String& cmp, FindFlags_t flags)
     {
         return Generic::startsWith(makeRange(str), makeRange(cmp),
-                                   Utf8Encoding(), flags);
+                                   Enc(), flags);
     }
 
-    std::string substring(
-            const std::string& str,
-            ptrdiff_t start,
-            ptrdiff_t end)
+    String substring(const String& str, ptrdiff_t start, ptrdiff_t end)
     {
-        return Generic::substring<std::string>(
-                makeRange(str), start, end, Utf8Encoding());
+        return Generic::substring<String>(makeRange(str), start, end, Enc());
     }
 
-    std::string title(const std::string& str)
+    String title(const String& str)
     {
-        return Generic::title<std::string>(
-                makeRange(str), Utf8Encoding());
+        return Generic::title<String>(makeRange(str), Enc());
     }
 
-    std::string toUtf8(uint32_t chr)
+    String toUtf8(uint32_t chr)
     {
-        std::string s;
+        String s;
         append(s, chr);
         return s;
     }
 
-    std::string toUtf8(const std::string& str, Encoding_t encoding)
+    String toUtf8(const std::string& str, Encoding_t encoding)
     {
         return toUtf8(str.data(), str.size(), encoding);
     }
 
-    std::string toUtf8(const std::wstring& str, Encoding_t encoding)
+    String toUtf8(const std::wstring& str, Encoding_t encoding)
     {
         return toUtf8(str.data(), str.size(), encoding);
     }
 
-    std::string toUtf8(
-            const char* str, size_t length,
-            Encoding_t encoding)
+    String toUtf8(const char* str, size_t length, Encoding_t encoding)
     {
         switch (encoding)
         {
         case Encoding::UTF_8:
             return str;
         case Encoding::CP_437:
-            return Generic::convert<std::string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     CodePage::Cp437Encoding(),
-                    Utf8Encoding());
+                    Enc());
         case Encoding::LATIN_1:
-            return Generic::convert<std::string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     CodePage::Latin1Encoding(),
-                    Utf8Encoding());
+                    Enc());
         case Encoding::WINDOWS_1252:
-            return Generic::convert<std::string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     CodePage::Windows1252Encoding(),
-                    Utf8Encoding());
+                    Enc());
         case Encoding::UTF_16_BE:
-            return Generic::convert<std::string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf16::Utf16BEEncoding(),
-                    Utf8Encoding());
+                    Enc());
         case Encoding::UTF_16_LE:
-            return Generic::convert<std::string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf16::Utf16LEEncoding(),
-                    Utf8Encoding());
+                    Enc());
         case Encoding::UTF_32_BE:
-            return Generic::convert<std::string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf32::Utf32BEEncoding(),
-                    Utf8Encoding());
+                    Enc());
         case Encoding::UTF_32_LE:
-            return Generic::convert<std::string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf32::Utf32LEEncoding(),
-                    Utf8Encoding());
+                    Enc());
         default:
             YSTRING_THROW("toUtf8: unsupported encoding " +
                           std::to_string(int64_t(encoding)));
         }
     }
 
-    std::string toUtf8(
-            const uint16_t* str, size_t length,
-            Encoding_t encoding)
+    String toUtf8(const uint16_t* str, size_t length, Encoding_t encoding)
     {
         switch (encoding)
         {
         case Encoding::UTF_16_BE:
-            return Generic::convert<std::string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf16::Utf16BEEncoding(),
-                    Utf8Encoding());
+                    Enc());
         case Encoding::UTF_16_LE:
-            return Generic::convert<std::string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf16::Utf16LEEncoding(),
-                    Utf8Encoding());
+                    Enc());
         default:
             YSTRING_THROW("toUtf8: unsupported encoding " +
                           std::to_string(int64_t(encoding)));
         }
     }
 
-    std::string toUtf8(
-            const uint32_t* str, size_t length,
-            Encoding_t encoding)
+    String toUtf8(const uint32_t* str, size_t length, Encoding_t encoding)
     {
         switch (encoding)
         {
         case Encoding::UTF_16_BE:
-            return Generic::convert<std::string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf16::Utf16BEEncoding(),
-                    Utf8Encoding());
+                    Enc());
         case Encoding::UTF_16_LE:
-            return Generic::convert<std::string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf16::Utf16LEEncoding(),
-                    Utf8Encoding());
+                    Enc());
         case Encoding::UTF_32_BE:
-            return Generic::convert<std::string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf32::Utf32BEEncoding(),
-                    Utf8Encoding());
+                    Enc());
         case Encoding::UTF_32_LE:
-            return Generic::convert<std::string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf32::Utf32LEEncoding(),
-                    Utf8Encoding());
+                    Enc());
         default:
             YSTRING_THROW("toUtf8: unsupported encoding " +
                           std::to_string(int64_t(encoding)));
         }
     }
 
-    std::string toUtf8(const std::u16string& str, Encoding_t encoding)
+    String toUtf8(const std::u16string& str, Encoding_t encoding)
     {
         return toUtf8(str.data(), str.size(), encoding);
     }
 
-    std::string toUtf8(const std::u32string& str, Encoding_t encoding)
+    String toUtf8(const std::u32string& str, Encoding_t encoding)
     {
         return toUtf8(str.data(), str.size(), encoding);
     }
 
-    std::string toUtf8(
-            const wchar_t* str, size_t length,
-            Encoding_t encoding)
+    String toUtf8(const wchar_t* str, size_t length, Encoding_t encoding)
     {
         return toUtf8(internal_char_type_cast(str), length, encoding);
     }
 
     #ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
 
-    std::string toUtf8(
-            const char16_t* str, size_t length,
-            Encoding_t encoding)
+    String toUtf8(const char16_t* str, size_t length, Encoding_t encoding)
     {
         return toUtf8(internal_char_type_cast(str), length, encoding);
     }
 
-    std::string toUtf8(
-            const char32_t* str, size_t length,
-            Encoding_t encoding)
+    String toUtf8(const char32_t* str, size_t length, Encoding_t encoding)
     {
         return toUtf8(internal_char_type_cast(str), length, encoding);
     }
 
     #endif
 
-    std::string trim(const std::string& str)
+    String trim(const String& str)
     {
-        return fromRange<std::string>(Generic::trim(
-                makeRange(str),
-                Utf8Encoding(),
-                Unicode::isWhitespace));
+        return fromRange<String>(Generic::trim(
+                makeRange(str), Enc(), Unicode::isWhitespace));
     }
 
-    std::string trim(const std::string& str,
+    String trim(const String& str, std::function<bool(uint32_t)> predicate)
+    {
+        return fromRange<String>(Generic::trim(
+                makeRange(str), Enc(), predicate));
+    }
+
+    String trimEnd(const String& str)
+    {
+        return fromRange<String>(Generic::trimEnd(
+                makeRange(str), Enc(), Unicode::isWhitespace));
+    }
+
+    String trimEnd(const String& str, std::function<bool(uint32_t)> predicate)
+    {
+        return fromRange<String>(Generic::trimEnd(
+                makeRange(str), Enc(), predicate));
+    }
+
+    String trimStart(const String& str)
+    {
+        return fromRange<String>(Generic::trimStart(
+                makeRange(str), Enc(), Unicode::isWhitespace));
+    }
+
+    String trimStart(const String& str,
                      std::function<bool(uint32_t)> predicate)
     {
-        return fromRange<std::string>(Generic::trim(
-                makeRange(str),
-                Utf8Encoding(),
-                predicate));
+        return fromRange<String>(Generic::trimStart(
+                makeRange(str), Enc(), predicate));
     }
 
-    std::string trimEnd(const std::string& str)
+    String unescape(const String& str, EscapeType_t type)
     {
-        return fromRange<std::string>(Generic::trimEnd(
-                makeRange(str),
-                Utf8Encoding(),
-                Unicode::isWhitespace));
+        return Generic::unescape<String>(makeRange(str), type, Enc());
     }
 
-    std::string trimEnd(const std::string& str,
-                        std::function<bool(uint32_t)> predicate)
+    String upper(const String& str)
     {
-        return fromRange<std::string>(Generic::trimEnd(
-                makeRange(str),
-                Utf8Encoding(),
-                predicate));
-    }
-
-    std::string trimStart(const std::string& str)
-    {
-        return fromRange<std::string>(Generic::trimStart(
-                makeRange(str),
-                Utf8Encoding(),
-                Unicode::isWhitespace));
-    }
-
-    std::string trimStart(
-            const std::string& str,
-            std::function<bool(uint32_t)> predicate)
-    {
-        return fromRange<std::string>(Generic::trimStart(
-                makeRange(str),
-                Utf8Encoding(),
-                predicate));
-    }
-
-    std::string unescape(const std::string& str, EscapeType_t type)
-    {
-        return Generic::unescape<std::string>(
-                makeRange(str),
-                type,
-                Utf8Encoding());
-    }
-
-    std::string upper(const std::string& str)
-    {
-        return Generic::upper<std::string>(
-                makeRange(str), Utf8Encoding());
+        return Generic::upper<String>(makeRange(str), Enc());
     }
 }}

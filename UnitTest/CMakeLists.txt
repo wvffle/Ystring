@@ -46,6 +46,7 @@ set(SOURCE_FILES
     Utf8/test_Utf8String.cpp
     Utf16/test_DecodeUtf16.cpp
     Utf16/test_EncodeUtf16.cpp
+    Utf32/test_Utf32String.cpp
     ${SOURCE_FILES_PLATFORM_SPECIFIC}
     )
 

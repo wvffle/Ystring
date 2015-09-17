@@ -42,25 +42,6 @@ if (YSTRING_WCHAR_IS_2_BYTES)
         )
 endif(YSTRING_WCHAR_IS_2_BYTES)
 
-if(NOT YSTRING_NO_NEW_CHAR_TYPE)
-    set(PUBLIC_HEADERS_ROOT
-        ${PUBLIC_HEADERS_ROOT}
-        Ystring/Utf16.hpp
-        )
-    set(PUBLIC_HEADERS_UTF16
-        ${PUBLIC_HEADERS_UTF16}
-        Ystring/Utf16/Utf16String.hpp
-        )
-    set(PRIVATE_HEADERS
-        ${PRIVATE_HEADERS}
-        Ystring/Utf16/Utf16Chars.hpp
-        )
-    set(SOURCE_FILES
-        ${SOURCE_FILES}
-        Ystring/Utf16/Utf16String.cpp
-        )
-endif(NOT YSTRING_NO_NEW_CHAR_TYPE)
-
 set(PUBLIC_HEADERS_ROOT
     Ystring/Encoding.hpp
     Ystring/EncodingInfo.hpp
@@ -70,6 +51,8 @@ set(PUBLIC_HEADERS_ROOT
     Ystring/Predicates.hpp
     Ystring/SplitFlags.hpp
     Ystring/Utf8.hpp
+    Ystring/Utf16.hpp
+    Ystring/Utf32.hpp
     Ystring/YstringDefinitions.hpp
     Ystring/YstringException.hpp
     ${PUBLIC_HEADERS_ROOT}
@@ -91,11 +74,22 @@ set(PUBLIC_HEADERS_UTF8
     Ystring/Utf8/Utf8String.hpp
     )
 
+set(PUBLIC_HEADERS_UTF16
+    ${PUBLIC_HEADERS_UTF16}
+    Ystring/Utf16/Utf16String.hpp
+    )
+
+set(PUBLIC_HEADERS_UTF32
+    ${PUBLIC_HEADERS_UTF32}
+    Ystring/Utf32/Utf32String.hpp
+    )
+
 set(PUBLIC_HEADERS
     ${PUBLIC_HEADERS_ROOT}
     ${PUBLIC_HEADERS_STREAMING}
     ${PUBLIC_HEADERS_UTF8}
     ${PUBLIC_HEADERS_UTF16}
+    ${PUBLIC_HEADERS_UTF32}
     )
 
 set(PRIVATE_HEADERS
@@ -142,11 +136,13 @@ set(PRIVATE_HEADERS
     Ystring/Utf16/DecodeUtf16-impl.hpp
     Ystring/Utf16/EncodeUtf16.hpp
     Ystring/Utf16/EncodeUtf16-impl.hpp
+    Ystring/Utf16/Utf16Chars.hpp
     Ystring/Utf16/Utf16Encoding.hpp
     Ystring/Utf32/DecodeUtf32.hpp
     Ystring/Utf32/DecodeUtf32-impl.hpp
     Ystring/Utf32/EncodeUtf32.hpp
     Ystring/Utf32/EncodeUtf32-impl.hpp
+    Ystring/Utf32/Utf32Chars.hpp
     Ystring/Utf32/Utf32Encoding.hpp
     Ystring/Utilities/Algorithms.hpp
     Ystring/Utilities/ArrayOutputIterator.hpp
@@ -176,6 +172,8 @@ set(SOURCE_FILES
     Ystring/Unicode/CharMappingTypes.cpp
     Ystring/Utf8/EncodeUtf8.cpp
     Ystring/Utf8/Utf8String.cpp
+    Ystring/Utf16/Utf16String.cpp
+    Ystring/Utf32/Utf32String.cpp
     ${SOURCE_FILES}
     )
 
@@ -197,12 +195,14 @@ add_subdirectory(UnitTest)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION lib)
 install(FILES ${PUBLIC_HEADERS_ROOT}
-        DESTINATION include/${PROJECT_NAME})
+    DESTINATION include/${PROJECT_NAME})
 install(FILES ${PUBLIC_HEADERS_STREAMING}
-        DESTINATION include/${PROJECT_NAME}/Streaming)
+    DESTINATION include/${PROJECT_NAME}/Streaming)
 install(FILES ${PUBLIC_HEADERS_UNICODE}
-        DESTINATION include/${PROJECT_NAME}/Unicode)
+    DESTINATION include/${PROJECT_NAME}/Unicode)
 install(FILES ${PUBLIC_HEADERS_UTF8}
-        DESTINATION include/${PROJECT_NAME}/Utf8)
+    DESTINATION include/${PROJECT_NAME}/Utf8)
 install(FILES ${PUBLIC_HEADERS_UTF16}
-        DESTINATION include/${PROJECT_NAME}/Utf16)
+    DESTINATION include/${PROJECT_NAME}/Utf16)
+install(FILES ${PUBLIC_HEADERS_UTF32}
+    DESTINATION include/${PROJECT_NAME}/Utf32)
