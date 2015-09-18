@@ -743,7 +743,7 @@ namespace
                 U"ABC" UTF32_GREEK_CAPITAL_SIGMA U"D");
     }
 
-    Y_SUBTEST("Utf16",
+    Y_SUBTEST("Utf32",
               test_append,
               test_caseInsensitiveCompare,
               test_caseInsensitiveEqual,

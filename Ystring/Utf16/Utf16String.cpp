@@ -19,349 +19,308 @@ namespace Ystring { namespace Utf16
     using Generic::makeStringReference;
     using Generic::makeRange;
     using Generic::fromRange;
+    typedef std::u16string String;
+    typedef Utf16Encoding Enc;
 
-    std::u16string& append(std::u16string& str, uint32_t chr)
+    String& append(String& str, uint32_t chr)
     {
-        append(makeStringReference(str), chr, Utf16Encoding());
+        append(makeStringReference(str), chr, Enc());
         return str;
     }
 
-    int32_t caseInsensitiveCompare(const std::u16string& str,
-                                   const std::u16string& cmp)
+    int32_t caseInsensitiveCompare(const String& str, const String& cmp)
     {
         return Generic::caseInsensitiveCompare(makeRange(str),
                                                makeRange(cmp),
-                                               Utf16Encoding());
+                                               Enc());
     }
 
-    bool caseInsensitiveEqual(const std::u16string& str,
-                              const std::u16string& cmp)
+    bool caseInsensitiveEqual(const String& str, const String& cmp)
     {
         return Generic::caseInsensitiveEqual(makeRange(str),
                                              makeRange(cmp),
-                                             Utf16Encoding());
+                                             Enc());
     }
 
-    bool caseInsensitiveLess(const std::u16string& str,
-                             const std::u16string& cmp)
+    bool caseInsensitiveLess(const String& str, const String& cmp)
     {
         return Generic::caseInsensitiveLess(makeRange(str),
                                             makeRange(cmp),
-                                            Utf16Encoding());
+                                            Enc());
     }
 
-    bool contains(const std::u16string& str, uint32_t chr)
+    bool contains(const String& str, uint32_t chr)
     {
-        return Generic::contains(makeRange(str), chr, Utf16Encoding());
+        return Generic::contains(makeRange(str), chr, Enc());
     }
 
-    size_t countCharacters(const std::u16string& str)
+    size_t countCharacters(const String& str)
     {
-        return Generic::countCharacters(makeRange(str), Utf16Encoding());
+        return Generic::countCharacters(makeRange(str), Enc());
     }
 
     size_t countCharacters(std::string::const_iterator first,
                            std::string::const_iterator last)
     {
-        return Generic::countCharacters(makeRange(first, last),
-                                        Utf16Encoding());
+        return Generic::countCharacters(makeRange(first, last), Enc());
     }
 
-    size_t countCodePoints(const std::u16string& str)
+    size_t countCodePoints(const String& str)
     {
-        return Generic::countCodePoints(makeRange(str), Utf16Encoding());
+        return Generic::countCodePoints(makeRange(str), Enc());
     }
 
-    bool endsWith(const std::u16string& str,
-                  const std::u16string& cmp,
-                  FindFlags_t flags)
+    bool endsWith(const String& str, const String& cmp, FindFlags_t flags)
     {
         return Generic::endsWith(
-                makeRange(str),
-                makeRange(cmp),
-                Utf16Encoding(),
-                flags);
+                makeRange(str), makeRange(cmp), Enc(), flags);
     }
 
-    std::u16string escape(const std::u16string& str, EscapeType_t mode)
+    String escape(const String& str, EscapeType_t mode)
     {
-        return Generic::escape<std::u16string>(
-                makeRange(str), mode,
-                Utf16Encoding());
+        return Generic::escape<String>(makeRange(str), mode, Enc());
     }
 
     StringIteratorPair findFirst(
-            std::u16string& str,
-            const std::u16string& cmp,
+            String& str,
+            const String& cmp,
             FindFlags_t flags)
     {
         return Generic::findFirst(makeRange(str), makeRange(cmp),
-                                  Utf16Encoding(), flags);
+                                  Enc(), flags);
     }
 
     StringConstIteratorPair findFirst(
-            const std::u16string& str,
-            const std::u16string& cmp,
+            const String& str,
+            const String& cmp,
             FindFlags_t flags)
     {
         return Generic::findFirst(makeRange(str), makeRange(cmp),
-                                  Utf16Encoding(), flags);
+                                  Enc(), flags);
     }
 
     StringIteratorPair findFirst(
-            std::u16string::iterator first,
-            std::u16string::iterator last,
-            const std::u16string& cmp,
+            String::iterator first,
+            String::iterator last,
+            const String& cmp,
             FindFlags_t flags)
     {
         return Generic::findFirst(makeRange(first, last), makeRange(cmp),
-                                  Utf16Encoding(), flags);
+                                  Enc(), flags);
     }
 
     StringConstIteratorPair findFirst(
-            std::u16string::const_iterator first,
-            std::u16string::const_iterator last,
-            const std::u16string& cmp,
+            String::const_iterator first,
+            String::const_iterator last,
+            const String& cmp,
             FindFlags_t flags)
     {
         return Generic::findFirst(makeRange(first, last), makeRange(cmp),
-                                  Utf16Encoding(), flags);
+                                  Enc(), flags);
     }
 
-    StringIteratorPair findFirstNewline(std::u16string& str)
+    StringIteratorPair findFirstNewline(String& str)
     {
-        return Generic::findFirstNewline(makeRange(str), Utf16Encoding());
+        return Generic::findFirstNewline(makeRange(str), Enc());
     }
 
-    StringConstIteratorPair findFirstNewline(const std::u16string& str)
+    StringConstIteratorPair findFirstNewline(const String& str)
     {
-        return Generic::findFirstNewline(makeRange(str), Utf16Encoding());
+        return Generic::findFirstNewline(makeRange(str), Enc());
     }
 
-    StringIteratorPair findFirstNewline(
-            std::u16string::iterator first,
-            std::u16string::iterator last)
+    StringIteratorPair findFirstNewline(String::iterator first,
+                                        String::iterator last)
     {
-        return Generic::findFirstNewline(makeRange(first, last),
-                                         Utf16Encoding());
+        return Generic::findFirstNewline(makeRange(first, last), Enc());
     }
 
-    StringConstIteratorPair findFirstNewline(
-            std::u16string::const_iterator first,
-            std::u16string::const_iterator last)
+    StringConstIteratorPair findFirstNewline(String::const_iterator first,
+                                             String::const_iterator last)
     {
-        return Generic::findFirstNewline(makeRange(first, last),
-                                         Utf16Encoding());
+        return Generic::findFirstNewline(makeRange(first, last), Enc());
     }
 
     StringIteratorPair findLast(
-            std::u16string& str,
-            const std::u16string& cmp,
+            String& str,
+            const String& cmp,
             FindFlags_t flags)
     {
         return Generic::findLast(makeRange(str), makeRange(cmp),
-                                 Utf16Encoding(), flags);
+                                 Enc(), flags);
     }
 
     StringConstIteratorPair findLast(
-            const std::u16string& str,
-            const std::u16string& cmp,
+            const String& str,
+            const String& cmp,
             FindFlags_t flags)
     {
         return Generic::findLast(makeRange(str), makeRange(cmp),
-                                 Utf16Encoding(), flags);
+                                 Enc(), flags);
     }
 
     StringIteratorPair findLast(
-            std::u16string::iterator first,
-            std::u16string::iterator last,
-            const std::u16string& cmp,
+            String::iterator first,
+            String::iterator last,
+            const String& cmp,
             FindFlags_t flags)
     {
         return Generic::findLast(makeRange(first, last), makeRange(cmp),
-                                 Utf16Encoding(), flags);
+                                 Enc(), flags);
     }
 
     StringConstIteratorPair findLast(
-            std::u16string::const_iterator first,
-            std::u16string::const_iterator last,
-            const std::u16string& cmp,
+            String::const_iterator first,
+            String::const_iterator last,
+            const String& cmp,
             FindFlags_t flags)
     {
         return Generic::findLast(makeRange(first, last), makeRange(cmp),
-                                 Utf16Encoding(), flags);
+                                 Enc(), flags);
     }
 
-    StringIteratorPair findLastNewline(std::u16string& str)
+    StringIteratorPair findLastNewline(String& str)
     {
-        return Generic::findLastNewline(makeRange(str), Utf16Encoding());
+        return Generic::findLastNewline(makeRange(str), Enc());
     }
 
-    StringConstIteratorPair findLastNewline(const std::u16string& str)
+    StringConstIteratorPair findLastNewline(const String& str)
     {
-        return Generic::findLastNewline(makeRange(str), Utf16Encoding());
+        return Generic::findLastNewline(makeRange(str), Enc());
     }
 
-    StringIteratorPair findLastNewline(
-            std::u16string::iterator first,
-            std::u16string::iterator last)
+    StringIteratorPair findLastNewline(String::iterator first,
+                                       String::iterator last)
     {
-        return Generic::findLastNewline(makeRange(first, last),
-                                        Utf16Encoding());
+        return Generic::findLastNewline(makeRange(first, last), Enc());
     }
 
     StringConstIteratorPair findLastNewline(
-            std::u16string::const_iterator first,
-            std::u16string::const_iterator last)
+            String::const_iterator first,
+            String::const_iterator last)
     {
-        return Generic::findLastNewline(makeRange(first, last),
-                                        Utf16Encoding());
+        return Generic::findLastNewline(makeRange(first, last), Enc());
     }
 
-    uint32_t getCodePoint(const std::u16string& str, ptrdiff_t n)
+    uint32_t getCodePoint(const String& str, ptrdiff_t n)
     {
-        return Generic::getCodePoint(makeRange(str), n, Utf16Encoding());
+        return Generic::getCodePoint(makeRange(str), n, Enc());
     }
 
-    std::u16string insert(const std::u16string& str, ptrdiff_t pos,
-                       const std::u16string& sub)
+    String insert(const String& str, ptrdiff_t pos, const String& sub)
     {
-        return Generic::insert<std::u16string>(
-                makeRange(str), pos, makeRange(sub), Utf16Encoding());
+        return Generic::insert<String>(
+                makeRange(str), pos, makeRange(sub), Enc());
     }
 
-    std::u16string insert(
-            const std::u16string& str,
-            ptrdiff_t pos,
-            uint32_t chr)
+    String insert(const String& str, ptrdiff_t pos, uint32_t chr)
     {
-        return Generic::insert<std::u16string>(
-                makeRange(str), pos, chr, Utf16Encoding());
+        return Generic::insert<String>(makeRange(str), pos, chr, Enc());
     }
 
-    bool isAlphaNumeric(const std::u16string& str)
+    bool isAlphaNumeric(const String& str)
     {
-        return isAlphaNumeric(makeRange(str), Utf16Encoding());
+        return isAlphaNumeric(makeRange(str), Enc());
     }
 
-    bool isAlphaNumeric(std::u16string::iterator first,
-                        std::u16string::iterator last)
+    bool isAlphaNumeric(String::iterator first, String::iterator last)
     {
-        return isAlphaNumeric(makeRange(first, last), Utf16Encoding());
+        return isAlphaNumeric(makeRange(first, last), Enc());
     }
 
-    bool isAlphaNumeric(std::u16string::const_iterator first,
-                        std::u16string::const_iterator last)
+    bool isAlphaNumeric(String::const_iterator first,
+                        String::const_iterator last)
     {
-        return isAlphaNumeric(makeRange(first, last), Utf16Encoding());
+        return isAlphaNumeric(makeRange(first, last), Enc());
     }
 
-    //bool isValidUtf16(const std::u16string& str)
+    //bool isValidUtf16(const String& str)
     //{
     //    return isValidUtf16(begin(str), end(str));
     //}
 
-    std::u16string join(
-            const std::vector<std::u16string>& strings,
-            const std::u16string& delimiter)
+    String join(const std::vector<String>& strings,
+                const String& delimiter)
     {
         return join(strings.data(), strings.size(), delimiter);
     }
 
-    std::u16string join(
-            const std::u16string* strings,
-            size_t count,
-            const std::u16string& delimiter)
+    String join(const String* strings, size_t count, const String& delimiter)
     {
         return delimiter.empty() ?
-               Generic::join<std::u16string>(strings, strings + count) :
-               Generic::join<std::u16string>(
+               Generic::join<String>(strings, strings + count) :
+               Generic::join<String>(
                         strings, strings + count, makeRange(delimiter));
     }
 
-    std::u16string lower(const std::u16string& str)
+    String lower(const String& str)
     {
-        return Generic::lower<std::u16string>(
-                makeRange(str), Utf16Encoding());
+        return Generic::lower<String>(makeRange(str), Enc());
     }
 
-    std::u16string::iterator nextCharacter(
-            std::u16string::iterator& first,
-            std::u16string::iterator& last,
+    String::iterator nextCharacter(String::iterator& first,
+                                   String::iterator& last,
+                                   size_t n)
+    {
+        return Generic::nextCharacter(makeRange(first, last), n, Enc());
+    }
+
+    String::const_iterator nextCharacter(
+            String::const_iterator& first,
+            String::const_iterator& last,
             size_t n)
     {
-        return Generic::nextCharacter(makeRange(first, last), n,
-                                      Utf16Encoding());
+        return Generic::nextCharacter(makeRange(first, last), n, Enc());
     }
 
-    std::u16string::const_iterator nextCharacter(
-            std::u16string::const_iterator& first,
-            std::u16string::const_iterator& last,
-            size_t n)
+    String::iterator nthCharacter(String& str, ptrdiff_t n)
     {
-        return Generic::nextCharacter(makeRange(first, last), n,
-                                      Utf16Encoding());
+        return Generic::nthCharacter(makeRange(str), n, Enc());
     }
 
-    std::u16string::iterator nthCharacter(std::u16string& str, ptrdiff_t n)
+    String::const_iterator nthCharacter(const String& str, ptrdiff_t n)
     {
-        return Generic::nthCharacter(makeRange(str), n, Utf16Encoding());
+        return Generic::nthCharacter(makeRange(str), n, Enc());
     }
 
-    std::u16string::const_iterator nthCharacter(
-            const std::u16string& str,
-            ptrdiff_t n)
+    String::iterator prevCharacter(String::iterator& first,
+                                   String::iterator& last,
+                                   size_t n)
     {
-        return Generic::nthCharacter(makeRange(str), n, Utf16Encoding());
+        return Generic::prevCharacter(makeRange(first, last), n , Enc());
     }
 
-    std::u16string::iterator prevCharacter(
-            std::u16string::iterator& first,
-            std::u16string::iterator& last,
-            size_t n)
+    String::const_iterator prevCharacter(String::const_iterator& first,
+                                         String::const_iterator& last,
+                                         size_t n)
     {
-        return Generic::prevCharacter(makeRange(first, last), n ,
-                                      Utf16Encoding());
+        return Generic::prevCharacter(makeRange(first, last), n, Enc());
     }
 
-    std::u16string::const_iterator prevCharacter(
-            std::u16string::const_iterator& first,
-            std::u16string::const_iterator& last,
-            size_t n)
+    String replace(const String& str,
+                   const String& cmp,
+                   const String& repl,
+                   ptrdiff_t maxReplacements,
+                   FindFlags_t flags)
     {
-        return Generic::prevCharacter(makeRange(first, last), n,
-                                      Utf16Encoding());
-    }
-
-    std::u16string replace(
-            const std::u16string& str,
-            const std::u16string& cmp,
-            const std::u16string& repl,
-            ptrdiff_t maxReplacements,
-            FindFlags_t flags)
-    {
-        return Generic::replace<std::u16string>(
+        return Generic::replace<String>(
                 makeRange(str), makeRange(cmp),
-                makeRange(repl), Utf16Encoding(),
+                makeRange(repl), Enc(),
                 maxReplacements, flags);
     }
 
-    std::u16string replace(
-            const std::u16string& str,
-            ptrdiff_t start,
-            ptrdiff_t end,
-            const std::u16string& repl)
+    String replace(const String& str,
+                   ptrdiff_t start, ptrdiff_t end,
+                   const String& repl)
     {
-        return Generic::replace<std::u16string>(
-                makeRange(str), start, end,
-                makeRange(repl), Utf16Encoding());
+        return Generic::replace<String>(
+                makeRange(str), start, end, makeRange(repl), Enc());
     }
 
-    std::u16string replaceCodePoint(
-            const std::u16string& s,
-            uint32_t from,
-            uint32_t to,
-            ptrdiff_t maxReplacements)
+    String replaceCodePoint(const String& s,
+                            uint32_t from,
+                            uint32_t to,
+                            ptrdiff_t maxReplacements)
     {
         uint16_t fBuf[2];
         auto fIt = fBuf;
@@ -369,19 +328,17 @@ namespace Ystring { namespace Utf16
         uint16_t tBuf[2];
         auto tIt = tBuf;
         auto toSize = encodeUtf16(tIt, std::end(tBuf), to);
-        return Generic::replace<std::u16string>(
+        return Generic::replace<String>(
                 makeRange(s),
                 makeRange(fBuf, fBuf + fromSize),
                 makeRange(tBuf, tBuf + toSize),
-                Utf16Encoding(),
+                Enc(),
                 maxReplacements, FindFlags::DEFAULTS);
     }
 
-    std::u16string replaceInvalidUtf16(
-            const std::u16string& str,
-            uint32_t chr)
+    String replaceInvalidUtf16(const String& str, uint32_t chr)
     {
-        std::u16string result;
+        String result;
         result.reserve(str.size());
         auto first = str.begin();
         auto it = str.begin();
@@ -400,9 +357,7 @@ namespace Ystring { namespace Utf16
         return result;
     }
 
-    std::u16string& replaceInvalidUtf16InPlace(
-            std::u16string& str,
-            uint16_t chr)
+    String& replaceInvalidUtf16InPlace(String& str, uint16_t chr)
     {
         assert(chr > 0);
         auto it = str.begin();
@@ -418,294 +373,247 @@ namespace Ystring { namespace Utf16
         return str;
     }
 
-    std::u16string reverse(const std::u16string& str)
+    String reverse(const String& str)
     {
-        return Generic::reverse<std::u16string>(
-                makeRange(str), Utf16Encoding());
+        return Generic::reverse<String>(makeRange(str), Enc());
     }
 
-    std::vector<std::u16string> split(
-            const std::u16string& str,
-            ptrdiff_t maxSplits,
-            SplitFlags_t flags)
+    std::vector<String> split(const String& str,
+                              ptrdiff_t maxSplits,
+                              SplitFlags_t flags)
     {
-        return Generic::split<std::u16string>(
-                makeRange(str), Utf16Encoding(),
-                maxSplits, flags);
+        return Generic::split<String>(
+                makeRange(str), Enc(), maxSplits, flags);
     }
 
-    std::vector<std::u16string> split(
-            const std::u16string& str,
-            const std::u16string& sep,
-            ptrdiff_t maxSplits,
-            SplitFlags_t flags)
+    std::vector<String> split(const String& str,
+                              const String& sep,
+                              ptrdiff_t maxSplits,
+                              SplitFlags_t flags)
     {
-      return Generic::split<std::u16string>(
-              makeRange(str), makeRange(sep), Utf16Encoding(),
-              maxSplits, flags);
+      return Generic::split<String>(
+              makeRange(str), makeRange(sep), Enc(), maxSplits, flags);
     }
 
-    std::vector<std::u16string> splitIf(
-            const std::u16string& str,
-            std::function<bool(uint32_t)> predicate,
-            ptrdiff_t maxSplits,
-            SplitFlags_t flags)
+    std::vector<String> splitIf(const String& str,
+                                std::function<bool(uint32_t)> predicate,
+                                ptrdiff_t maxSplits,
+                                SplitFlags_t flags)
     {
-        return Generic::splitIf<std::u16string>(
-                makeRange(str), Utf16Encoding(),
-                predicate, maxSplits, flags);
+        return Generic::splitIf<String>(
+                makeRange(str), Enc(), predicate, maxSplits, flags);
     }
 
-    std::vector<std::u16string> splitLines(
-            const std::u16string& str,
-            ptrdiff_t maxSplits,
-            SplitFlags_t flags)
+    std::vector<String> splitLines(const String& str,
+                                   ptrdiff_t maxSplits,
+                                   SplitFlags_t flags)
     {
-        return Generic::splitLines<std::u16string>(
-                makeRange(str), Utf16Encoding(), maxSplits, flags);
+        return Generic::splitLines<String>(
+                makeRange(str), Enc(), maxSplits, flags);
     }
 
-    bool startsWith(
-            const std::u16string& str,
-            const std::u16string& cmp,
-            FindFlags_t flags)
+    bool startsWith(const String& str, const String& cmp, FindFlags_t flags)
     {
         return Generic::startsWith(makeRange(str), makeRange(cmp),
-                                   Utf16Encoding(), flags);
+                                   Enc(), flags);
     }
 
-    std::u16string substring(
-            const std::u16string& str,
-            ptrdiff_t start,
-            ptrdiff_t end)
+    String substring(const String& str, ptrdiff_t start, ptrdiff_t end)
     {
-        return Generic::substring<std::u16string>(
-                makeRange(str), start, end, Utf16Encoding());
+        return Generic::substring<String>(makeRange(str), start, end, Enc());
     }
 
-    std::u16string title(const std::u16string& str)
+    String title(const String& str)
     {
-        return Generic::title<std::u16string>(
-                makeRange(str), Utf16Encoding());
+        return Generic::title<String>(makeRange(str), Enc());
     }
 
-    std::u16string toUtf16(uint32_t chr)
+    String toUtf16(uint32_t chr)
     {
-        std::u16string s;
+        String s;
         append(s, chr);
         return s;
     }
 
-    std::u16string toUtf16(const std::string& str, Encoding_t encoding)
+    String toUtf16(const std::string& str, Encoding_t encoding)
     {
         return toUtf16(str.data(), str.size(), encoding);
     }
 
-    std::u16string toUtf16(const std::wstring& str, Encoding_t encoding)
+    String toUtf16(const std::wstring& str, Encoding_t encoding)
     {
         return toUtf16(str.data(), str.size(), encoding);
     }
 
-    std::u16string toUtf16(
-            const char* str, size_t length,
-            Encoding_t encoding)
+    String toUtf16(const char* str, size_t length, Encoding_t encoding)
     {
         switch (encoding)
         {
         case Encoding::UTF_8:
-            return Generic::convert<std::u16string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf8::Utf8Encoding(),
-                    Utf16Encoding());
+                    Enc());
         case Encoding::CP_437:
-            return Generic::convert<std::u16string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     CodePage::Cp437Encoding(),
-                    Utf16Encoding());
+                    Enc());
         case Encoding::LATIN_1:
-            return Generic::convert<std::u16string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     CodePage::Latin1Encoding(),
-                    Utf16Encoding());
+                    Enc());
         case Encoding::WINDOWS_1252:
-            return Generic::convert<std::u16string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     CodePage::Windows1252Encoding(),
-                    Utf16Encoding());
+                    Enc());
         case Encoding::UTF_16_BE:
-            return Generic::convert<std::u16string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf16::Utf16BEEncoding(),
-                    Utf16Encoding());
+                    Enc());
         case Encoding::UTF_16_LE:
-            return Generic::convert<std::u16string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf16::Utf16LEEncoding(),
-                    Utf16Encoding());
+                    Enc());
         case Encoding::UTF_32_BE:
-            return Generic::convert<std::u16string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf32::Utf32BEEncoding(),
-                    Utf16Encoding());
+                    Enc());
         case Encoding::UTF_32_LE:
-            return Generic::convert<std::u16string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf32::Utf32LEEncoding(),
-                    Utf16Encoding());
+                    Enc());
         default:
             YSTRING_THROW("toUtf16: unsupported encoding " +
                           std::to_string(int64_t(encoding)));
         }
     }
 
-    std::u16string toUtf16(
-            const uint16_t* str, size_t length,
-            Encoding_t encoding)
+    String toUtf16(const uint16_t* str, size_t length, Encoding_t encoding)
     {
         switch (encoding)
         {
         case Encoding::UTF_16_BE:
-            return Generic::convert<std::u16string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf16::Utf16BEEncoding(),
-                    Utf16Encoding());
+                    Enc());
         case Encoding::UTF_16_LE:
-            return Generic::convert<std::u16string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf16::Utf16LEEncoding(),
-                    Utf16Encoding());
+                    Enc());
         default:
             YSTRING_THROW("toUtf16: unsupported encoding " +
                           std::to_string(int64_t(encoding)));
         }
     }
 
-    std::u16string toUtf16(
-            const uint32_t* str, size_t length,
-            Encoding_t encoding)
+    String toUtf16(const uint32_t* str, size_t length, Encoding_t encoding)
     {
         switch (encoding)
         {
         case Encoding::UTF_16_BE:
-            return Generic::convert<std::u16string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf16::Utf16BEEncoding(),
-                    Utf16Encoding());
+                    Enc());
         case Encoding::UTF_16_LE:
-            return Generic::convert<std::u16string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf16::Utf16LEEncoding(),
-                    Utf16Encoding());
+                    Enc());
         case Encoding::UTF_32_BE:
-            return Generic::convert<std::u16string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf32::Utf32BEEncoding(),
-                    Utf16Encoding());
+                    Enc());
         case Encoding::UTF_32_LE:
-            return Generic::convert<std::u16string>(
+            return Generic::convert<String>(
                     makeRange(str, str + length),
                     Utf32::Utf32LEEncoding(),
-                    Utf16Encoding());
+                    Enc());
         default:
             YSTRING_THROW("toUtf16: unsupported encoding " +
                           std::to_string(int64_t(encoding)));
         }
     }
 
-    std::u16string toUtf16(const std::u16string& str, Encoding_t encoding)
+    String toUtf16(const std::u16string& str, Encoding_t encoding)
     {
         return toUtf16(str.data(), str.size(), encoding);
     }
 
-    std::u16string toUtf16(const std::u32string& str, Encoding_t encoding)
+    String toUtf16(const std::u32string& str, Encoding_t encoding)
     {
         return toUtf16(str.data(), str.size(), encoding);
     }
 
-    std::u16string toUtf16(
-            const wchar_t* str, size_t length,
-            Encoding_t encoding)
+    String toUtf16(const wchar_t* str, size_t length, Encoding_t encoding)
     {
         return toUtf16(internal_char_type_cast(str), length, encoding);
     }
 
-    std::u16string toUtf16(
-            const char16_t* str, size_t length,
-            Encoding_t encoding)
+    String toUtf16(const char16_t* str, size_t length, Encoding_t encoding)
     {
         return toUtf16(internal_char_type_cast(str), length, encoding);
     }
 
-    std::u16string toUtf16(
-            const char32_t* str, size_t length,
-            Encoding_t encoding)
+    String toUtf16(const char32_t* str, size_t length, Encoding_t encoding)
     {
         return toUtf16(internal_char_type_cast(str), length, encoding);
     }
 
-    std::u16string trim(const std::u16string& str)
+    String trim(const String& str)
     {
-        return fromRange<std::u16string>(Generic::trim(
-                makeRange(str),
-                Utf16Encoding(),
-                Unicode::isWhitespace));
+        return fromRange<String>(Generic::trim(
+                makeRange(str), Enc(), Unicode::isWhitespace));
     }
 
-    std::u16string trim(const std::u16string& str,
+    String trim(const String& str, std::function<bool(uint32_t)> predicate)
+    {
+        return fromRange<String>(Generic::trim(
+                makeRange(str), Enc(), predicate));
+    }
+
+    String trimEnd(const String& str)
+    {
+        return fromRange<String>(Generic::trimEnd(
+                makeRange(str), Enc(), Unicode::isWhitespace));
+    }
+
+    String trimEnd(const String& str, std::function<bool(uint32_t)> predicate)
+    {
+        return fromRange<String>(Generic::trimEnd(
+                makeRange(str), Enc(), predicate));
+    }
+
+    String trimStart(const String& str)
+    {
+        return fromRange<String>(Generic::trimStart(
+                makeRange(str), Enc(), Unicode::isWhitespace));
+    }
+
+    String trimStart(const String& str,
                      std::function<bool(uint32_t)> predicate)
     {
-        return fromRange<std::u16string>(Generic::trim(
-                makeRange(str),
-                Utf16Encoding(),
-                predicate));
+        return fromRange<String>(Generic::trimStart(
+                makeRange(str), Enc(), predicate));
     }
 
-    std::u16string trimEnd(const std::u16string& str)
+    String unescape(const String& str, EscapeType_t type)
     {
-        return fromRange<std::u16string>(Generic::trimEnd(
-                makeRange(str),
-                Utf16Encoding(),
-                Unicode::isWhitespace));
+        return Generic::unescape<String>(makeRange(str), type, Enc());
     }
 
-    std::u16string trimEnd(const std::u16string& str,
-                        std::function<bool(uint32_t)> predicate)
+    String upper(const String& str)
     {
-        return fromRange<std::u16string>(Generic::trimEnd(
-                makeRange(str),
-                Utf16Encoding(),
-                predicate));
-    }
-
-    std::u16string trimStart(const std::u16string& str)
-    {
-        return fromRange<std::u16string>(Generic::trimStart(
-                makeRange(str),
-                Utf16Encoding(),
-                Unicode::isWhitespace));
-    }
-
-    std::u16string trimStart(
-            const std::u16string& str,
-            std::function<bool(uint32_t)> predicate)
-    {
-        return fromRange<std::u16string>(Generic::trimStart(
-                makeRange(str),
-                Utf16Encoding(),
-                predicate));
-    }
-
-    std::u16string unescape(const std::u16string& str, EscapeType_t type)
-    {
-        return Generic::unescape<std::u16string>(
-                makeRange(str),
-                type,
-                Utf16Encoding());
-    }
-
-    std::u16string upper(const std::u16string& str)
-    {
-        return Generic::upper<std::u16string>(
-                makeRange(str), Utf16Encoding());
+        return Generic::upper<String>(makeRange(str), Enc());
     }
 }}
