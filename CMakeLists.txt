@@ -97,8 +97,10 @@ set(PRIVATE_HEADERS
     Ystring/PrivatePlatformDetails.hpp
     Ystring/CodePage/CodePage.hpp
     Ystring/CodePage/CodePageEncoding.hpp
+    Ystring/CodePage/CodePageFactory.hpp
     Ystring/CodePage/Cp437.hpp
     Ystring/CodePage/Iso8859_1.hpp
+    Ystring/CodePage/Iso8859_15.hpp
     Ystring/CodePage/Windows1252.hpp
     Ystring/Encoded/Appender.hpp
     Ystring/Encoded/AppendEscaped.hpp
@@ -162,8 +164,10 @@ set(SOURCE_FILES
     Ystring/Predicates.cpp
     Ystring/YstringException.cpp
     Ystring/CodePage/CodePage.cpp
+    Ystring/CodePage/CodePageFactory.cpp
     Ystring/CodePage/Cp437.cpp
     Ystring/CodePage/Iso8859_1.cpp
+    Ystring/CodePage/Iso8859_15.cpp
     Ystring/CodePage/Windows1252.cpp
     Ystring/Streaming/StreamOperators.cpp
     Ystring/Unicode/CaseConverter.cpp
@@ -174,8 +178,7 @@ set(SOURCE_FILES
     Ystring/Utf8/Utf8String.cpp
     Ystring/Utf16/Utf16String.cpp
     Ystring/Utf32/Utf32String.cpp
-    ${SOURCE_FILES}
-    )
+    ${SOURCE_FILES})
 
 add_library(
     ${PROJECT_NAME} SHARED

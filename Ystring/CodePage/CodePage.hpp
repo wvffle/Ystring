@@ -9,34 +9,32 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <vector>
 #include <utility>
 #include "../Encoding.hpp"
 #include "../YstringDefinitions.hpp"
 
-/** @namespace CodePage
-  * @brief The namespace for everything specific to single byte
-  *     character sets.
-  */
 namespace Ystring { namespace CodePage
 {
-    typedef std::pair<uint32_t, uint8_t> CodePointMapping;
-
     class YSTRING_API CodePage
     {
     public:
-        CodePage(const uint32_t* toCodePoints,
-                 const CodePointMapping* firstFromCodePoints,
-                 const CodePointMapping* lastFromCodePoints,
+        CodePage(Encoding_t encoding);
+        CodePage(const std::pair<uint32_t, uint32_t>* fromCodePoint,
+                 const uint32_t* fromChar,
+                 uint16_t firstSpecialChar,
                  Encoding_t encoding);
 
         uint32_t toCodePoint(char c) const;
+
         uint32_t fromCodePoint(uint32_t c) const;
+
         Encoding_t encoding() const;
     private:
-        const uint32_t* m_ToCodePoints;
-        const CodePointMapping* m_FirstFromCodePoints;
-        const CodePointMapping* m_LastFromCodePoints;
+        const std::pair<uint32_t, uint32_t>* m_FromCodePoint;
+        const uint32_t* m_FromChar;
         Encoding_t m_Encoding;
+        uint16_t m_FirstSpecialChar;
     };
 
     YSTRING_API CodePage makeCodePage(Encoding_t encoding);

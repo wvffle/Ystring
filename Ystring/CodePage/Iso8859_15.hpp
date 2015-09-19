@@ -1,16 +1,15 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 2015-07-27
+// Created by Jan Erik Breimo on 2015-09-19.
 //
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
-#include "Iso8859_1.hpp"
+#pragma once
+
+#include "CodePage.hpp"
 
 namespace Ystring { namespace CodePage
 {
-    CodePage makeIso8859_1()
-    {
-        return CodePage(Encoding::ISO_8859_1);
-    }
+    YSTRING_API CodePage makeIso8859_15();
 }}
