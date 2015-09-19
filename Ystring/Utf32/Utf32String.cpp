@@ -464,6 +464,11 @@ namespace Ystring { namespace Utf32
                     makeRange(str, str + length),
                     CodePage::Latin1Encoding(),
                     Enc());
+        case Encoding::LATIN_9:
+            return Generic::convert<String>(
+                    makeRange(str, str + length),
+                    CodePage::Latin9Encoding(),
+                    Enc());
         case Encoding::WINDOWS_1252:
             return Generic::convert<String>(
                     makeRange(str, str + length),

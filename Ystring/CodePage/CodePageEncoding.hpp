@@ -92,5 +92,6 @@ namespace Ystring { namespace CodePage
 
     typedef CodePageEncoding<Encoding::CP_437> Cp437Encoding;
     typedef CodePageEncoding<Encoding::LATIN_1> Latin1Encoding;
+    typedef CodePageEncoding<Encoding::LATIN_9> Latin9Encoding;
     typedef CodePageEncoding<Encoding::WINDOWS_1252> Windows1252Encoding;
 }}
