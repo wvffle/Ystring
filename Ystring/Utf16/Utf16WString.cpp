@@ -325,10 +325,10 @@ namespace Ystring { namespace Utf16W
                             ptrdiff_t maxReplacements)
     {
         uint16_t fBuf[2];
-        auto fIt = fBuf;
+        auto fIt = std::begin(fBuf);
         auto fromSize = encodeUtf16(fIt, std::end(fBuf), from);
         uint16_t tBuf[2];
-        auto tIt = tBuf;
+        auto tIt = std::begin(tBuf);
         auto toSize = encodeUtf16(tIt, std::end(tBuf), to);
         return Generic::replace<String>(
                 makeRange(s),
