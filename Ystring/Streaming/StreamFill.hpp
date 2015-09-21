@@ -10,6 +10,11 @@
 #include <ostream>
 #include <string>
 
+/** @file
+  * @brief Defines functions for writing the same string to a stream multiple
+  *     times.
+  */
+
 namespace Ystring
 {
     template <typename ValueT>
@@ -31,12 +36,18 @@ namespace Ystring
         return os;
     }
 
+    /** @brief When used in a stream expression it writes @a str @a n times
+      * to the output stream.
+      */
     template <typename ValueT>
     OSFiller<ValueT> fill(size_t n, ValueT&& str)
     {
         return OSFiller<ValueT>(n, str);
     }
 
+    /** @brief When used in a stream expression it writes @a n spaces
+      * to the output stream.
+      */
     inline OSFiller<char> spaces(size_t n)
     {
         return fill(n, ' ');

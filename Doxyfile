@@ -677,10 +677,29 @@ WARN_LOGFILE           =
 # directories like "/usr/src/myproject". Separate the files or directories
 # with spaces.
 
-INPUT                  = /Users/janeb/Repositories/Ystring/Ystring \
-                         /Users/janeb/Repositories/Ystring/Ystring/Unicode \
-                         /Users/janeb/Repositories/Ystring/Ystring/Utf8 \
-                         /Users/janeb/Repositories/Ystring/Ystring/Utf16
+INPUT                  = Ystring/Encoding.hpp \
+                         Ystring/EncodingInfo.hpp \
+                         Ystring/EscapeType.hpp \
+                         Ystring/FindFlags.hpp \
+                         Ystring/PlatformDetails.hpp \
+                         Ystring/Predicates.hpp \
+                         Ystring/SplitFlags.hpp \
+                         Ystring/Utf8.hpp \
+                         Ystring/Utf16.hpp \
+                         Ystring/Utf16W.hpp \
+                         Ystring/Utf32.hpp \
+                         Ystring/YstringDefinitions.hpp \
+                         Ystring/YstringException.hpp \
+                         Ystring/Streaming/StreamFill.hpp \
+                         Ystring/Streaming/StreamJoin.hpp \
+                         Ystring/Streaming/StreamOperators.hpp \
+                         Ystring/Unicode/CharClass.hpp \
+                         Ystring/Unicode/UnicodeChars.hpp \
+                         Ystring/Unicode/UnicodePredicates.hpp \
+                         Ystring/Utf8/Utf8String.hpp \
+                         Ystring/Utf16/Utf16String.hpp \
+                         Ystring/Utf16/Utf16WString.hpp \
+                         Ystring/Utf32/Utf32String.hpp
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is
@@ -698,20 +717,7 @@ INPUT_ENCODING         = UTF-8
 # *.hxx *.hpp *.h++ *.idl *.odl *.cs *.php *.php3 *.inc *.m *.mm *.dox *.py
 # *.f90 *.f *.for *.vhd *.vhdl
 
-FILE_PATTERNS          = Encoding.hpp \
-                         EncodingInfo.hpp \
-                         EscapeType.hpp \
-                         FindFlags.hpp \
-                         PlatformDetails.hpp \
-                         Predicates.hpp \
-                         SplitFlags.hpp \
-                         Utf8.hpp \
-                         YstringDefinitions.hpp \
-                         YstringException.hpp \
-                         CharClass.hpp \
-                         UnicodeChars.hpp \
-                         UnicodePredicates.hpp \
-                         Utf8String.hpp
+FILE_PATTERNS          =
 
 # The RECURSIVE tag can be used to turn specify whether or not subdirectories
 # should be searched for input files as well. Possible values are YES and NO.
