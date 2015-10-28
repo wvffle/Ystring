@@ -565,6 +565,8 @@ namespace Ystring { namespace Utf16
         return toUtf16(internal_char_type_cast(str), length, encoding);
     }
 
+    #ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
+
     String toUtf16(const char16_t* str, size_t length, Encoding_t encoding)
     {
         return toUtf16(internal_char_type_cast(str), length, encoding);
@@ -574,6 +576,8 @@ namespace Ystring { namespace Utf16
     {
         return toUtf16(internal_char_type_cast(str), length, encoding);
     }
+
+    #endif
 
     String trim(const String& str)
     {

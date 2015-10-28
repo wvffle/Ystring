@@ -7,6 +7,7 @@
 //****************************************************************************
 #include "CodePageFactory.hpp"
 
+#include <algorithm>
 #include <numeric>
 
 namespace Ystring { namespace CodePage

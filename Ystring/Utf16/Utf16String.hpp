@@ -702,6 +702,8 @@ namespace Ystring { namespace Utf16
             const std::u32string& str,
             Encoding_t encoding = Encoding::UTF_32);
 
+    #ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
+
     /** @brief Returns an UTF-16 encoded string equivalent to @a str.
       *
       * @param str The string to convert from.
@@ -725,6 +727,8 @@ namespace Ystring { namespace Utf16
     YSTRING_API std::u16string toUtf16(
             const char32_t* str, size_t length,
             Encoding_t encoding);
+
+    #endif
 
     /** @brief Returns an UTF-16 encoded string equivalent to @a str.
       *
