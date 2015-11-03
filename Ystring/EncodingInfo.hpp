@@ -72,7 +72,7 @@ namespace Ystring
     /** @brief Return the @a EncdingInfo for @a encoding.
       *
       * @return The instance of EncodingInfo corresponding to @a encoding or
-      *     nullptr none can be found.
+      *     nullptr if there is no corresponding encoding.
       */
     YSTRING_API const EncodingInfo* getEncodingInfo(Encoding_t encoding);
 
