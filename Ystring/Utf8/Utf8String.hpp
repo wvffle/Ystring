@@ -17,6 +17,7 @@
 #include "../PlatformDetails.hpp"
 #include "../SplitFlags.hpp"
 #include "../YstringException.hpp"
+#include "../Unicode/UnicodeChars.hpp"
 
 /** @file
   * @brief The function library for UTF-8 encoded strings.
@@ -517,7 +518,7 @@ namespace Ystring { namespace Utf8
       */
     YSTRING_API std::string replaceInvalidUtf8(
             const std::string& str,
-            uint32_t chr = '?');
+            uint32_t chr = Unicode::REPLACEMENT_CHARACTER);
 
     /** @brief Replaces all invalid code points in @a str with @a chr.
       */
