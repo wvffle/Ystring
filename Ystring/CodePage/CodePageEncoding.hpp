@@ -30,6 +30,15 @@ namespace Ystring { namespace CodePage
             : m_CodePage(codePage)
         {}
 
+        template<typename FwdIt>
+        bool next(FwdIt& it, FwdIt last)
+        {
+            if (it == last)
+                return false;
+            ++it;
+            return true;
+        }
+
         template <typename FwdIt>
         bool next(uint32_t& codePoint, FwdIt& it, FwdIt last)
         {
