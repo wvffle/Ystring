@@ -59,7 +59,7 @@ void test_nextChar()
     Y_CALL(testNextNotOk("\x80", DecoderResult::INVALID));
     Y_CALL(testNextNotOk("\x80" "A", DecoderResult::INVALID));
     Y_CALL(testNextNotOk("\xF1\x80\x80", DecoderResult::INCOMPLETE));
-    Y_CALL(testNextNotOk("\xF1\x80\x80" "A", DecoderResult::INCOMPLETE));
+    Y_CALL(testNextNotOk("\xF1\x80\x80" "A", DecoderResult::INVALID));
     Y_CALL(testNextNotOk("\xFE\x80\x80\x80\x80\x80\x80", DecoderResult::INVALID));
     Y_CALL(testNextNotOk("\xFF\x80\x80\x80\x80\x80\x80\x80", DecoderResult::INVALID));
 }

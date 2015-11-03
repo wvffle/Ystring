@@ -73,8 +73,10 @@ namespace Ystring { namespace Utf8
 
         if (count)
         {
+            auto incomplete = it == end;
             it = initialIt;
-            return DecoderResult::INCOMPLETE;
+            return incomplete ? DecoderResult::INCOMPLETE
+                              : DecoderResult::INVALID;
         }
 
         return DecoderResult::OK;
