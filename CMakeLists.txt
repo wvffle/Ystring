@@ -156,6 +156,10 @@ set(PRIVATE_HEADERS
     Ystring/Utilities/Union32.hpp
     Ystring/Utilities/Utilities.hpp
     Ystring/Encoded/UrlEscaper.hpp
+    Ystring/Generic/GenericConvert.hpp
+    Ystring/Generic/GenericSplit.hpp
+    Ystring/Generic/GenericEscape.hpp
+    Ystring/Generic/GenericJoin.hpp
     ${PRIVATE_HEADERS}
     )
 
@@ -178,7 +182,14 @@ set(SOURCE_FILES
     Ystring/Utf8/Utf8String.cpp
     Ystring/Utf16/Utf16String.cpp
     Ystring/Utf32/Utf32String.cpp
-    ${SOURCE_FILES})
+    Ystring/Conversion/Converter.hpp
+    Ystring/Conversion/Converter.cpp
+    Ystring/Conversion/AbstractDecoder.cpp
+    Ystring/Conversion/AbstractDecoder.hpp
+    Ystring/Conversion/Utf8Decoder.cpp
+    Ystring/Conversion/Utf8Decoder.hpp
+    ${SOURCE_FILES}
+    Ystring/Conversion/AbstractEncoder.cpp Ystring/Conversion/AbstractEncoder.hpp Ystring/Conversion/Utf8Encoder.cpp Ystring/Conversion/Utf8Encoder.hpp Ystring/Conversion/Utf16LEEncoder.cpp Ystring/Conversion/Utf16LEEncoder.hpp Ystring/Conversion/ErrorHandlingPolicy.hpp)
 
 add_library(
     ${PROJECT_NAME} SHARED

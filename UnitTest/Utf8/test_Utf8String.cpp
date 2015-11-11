@@ -409,30 +409,30 @@ namespace
                  " and the A" UTF8_COMBINING_INVERTED_BREVE
                  UTF8_COMBINING_DOT_ABOVE ".";
         Y_EQUAL(Utf8::replace(s, 6, -3, "beats no"),
-                 "The " UTF8_GREEK_SMALL_OMEGA
-                 UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
-                 " beats no A" UTF8_COMBINING_INVERTED_BREVE
-                 UTF8_COMBINING_DOT_ABOVE ".");
+                "The " UTF8_GREEK_SMALL_OMEGA
+                UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE
+                " beats no A" UTF8_COMBINING_INVERTED_BREVE
+                UTF8_COMBINING_DOT_ABOVE ".");
     }
 
     void test_replace_string()
     {
         auto s = "The " UTF8_GREEK_SMALL_OMEGA " and the A.";
         Y_EQUAL(Utf8::replace(s,
-                               UTF8_GREEK_SMALL_OMEGA " and",
-                               UTF8_GREEK_CAPITAL_OMEGA " or"),
-                 "The " UTF8_GREEK_CAPITAL_OMEGA " or the A.");
+                              UTF8_GREEK_SMALL_OMEGA " and",
+                              UTF8_GREEK_CAPITAL_OMEGA " or"),
+                "The " UTF8_GREEK_CAPITAL_OMEGA " or the A.");
         Y_EQUAL(Utf8::replace(s,
-                               UTF8_GREEK_CAPITAL_OMEGA " aNd",
-                               UTF8_GREEK_CAPITAL_SIGMA " or"),
-                 s);
+                              UTF8_GREEK_CAPITAL_OMEGA " aNd",
+                              UTF8_GREEK_CAPITAL_SIGMA " or"),
+                s);
         Y_EQUAL(Utf8::replace(s,
-                               UTF8_GREEK_CAPITAL_OMEGA " aNd",
-                               UTF8_GREEK_CAPITAL_SIGMA " or",
-                               0, FindFlags::CASE_INSENSITIVE),
-                 "The " UTF8_GREEK_CAPITAL_SIGMA " or the A.");
+                              UTF8_GREEK_CAPITAL_OMEGA " aNd",
+                              UTF8_GREEK_CAPITAL_SIGMA " or",
+                              0, FindFlags::CASE_INSENSITIVE),
+                "The " UTF8_GREEK_CAPITAL_SIGMA " or the A.");
         Y_EQUAL(Utf8::replace(s, UTF8_GREEK_SMALL_OMEGA " and", ""),
-                 "The  the A.");
+                "The  the A.");
         Y_EQUAL(Utf8::replace(s, "", "foo"), s);
     }
 
@@ -440,19 +440,19 @@ namespace
     {
         Y_EQUAL(Utf8::replace("123 foo 456 foo 789 foo 012", "foo",
                               "bar", -2),
-                 "123 foo 456 bar 789 bar 012");
+                "123 foo 456 bar 789 bar 012");
     }
 
     void test_replaceCodePoint()
     {
         Y_EQUAL(Utf8::replaceCodePoint("AB" UTF8_GREEK_SMALL_GAMMA "D",
-                                        Unicode::GREEK_SMALL_GAMMA,
-                                        Unicode::FIGURE_SPACE),
-                 "AB" UTF8_FIGURE_SPACE "D");
+                                       Unicode::GREEK_SMALL_GAMMA,
+                                       Unicode::FIGURE_SPACE),
+                "AB" UTF8_FIGURE_SPACE "D");
         Y_EQUAL(Utf8::replaceCodePoint("ABCDCDECDEFGCD", 'C', '_', 3),
-                 "AB_D_DE_DEFGCD");
+                "AB_D_DE_DEFGCD");
         Y_EQUAL(Utf8::replaceCodePoint("ABCDCDECDEFGCD", 'C', '_', -3),
-                 "ABCD_DE_DEFG_D");
+                "ABCD_DE_DEFG_D");
     }
 
     void test_replaceInvalidUtf8()
@@ -475,9 +475,9 @@ namespace
                 UTF8_COMBINING_INVERTED_BREVE UTF8_COMBINING_DOT_ABOVE ".";
         std::string result;
         Y_EQUAL(Utf8::reverse(s),
-                 ".A" UTF8_COMBINING_INVERTED_BREVE UTF8_COMBINING_DOT_ABOVE
-                 " eht dna " UTF8_GREEK_SMALL_OMEGA
-                 UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE " ehT");
+                ".A" UTF8_COMBINING_INVERTED_BREVE UTF8_COMBINING_DOT_ABOVE
+                " eht dna " UTF8_GREEK_SMALL_OMEGA
+                UTF8_COMBINING_BRIDGE_ABOVE UTF8_COMBINING_TILDE " ehT");
     }
 
     void test_split_caseInsensitive_NonASCII()
@@ -642,13 +642,13 @@ namespace
     void test_startsWith()
     {
         Y_ASSERT(Utf8::startsWith("qF" UTF8_GREEK_SMALL_SIGMA "aBcD",
-                                   "qF" UTF8_GREEK_CAPITAL_SIGMA,
+                                  "qF" UTF8_GREEK_CAPITAL_SIGMA,
+                                  FindFlags::CASE_INSENSITIVE));
+        Y_ASSERT(!Utf8::startsWith("qF" UTF8_GREEK_SMALL_SIGMA "aBcD",
+                                   "qF" UTF8_GREEK_CAPITAL_SIGMA));
+        Y_ASSERT(!Utf8::startsWith("qF" UTF8_GREEK_SMALL_SIGMA "aBcD",
+                                   "qF" UTF8_GREEK_CAPITAL_SIGMA "g",
                                    FindFlags::CASE_INSENSITIVE));
-        Y_ASSERT(!Utf8::startsWith("qF" UTF8_GREEK_SMALL_SIGMA "aBcD",
-                                    "qF" UTF8_GREEK_CAPITAL_SIGMA));
-        Y_ASSERT(!Utf8::startsWith("qF" UTF8_GREEK_SMALL_SIGMA "aBcD",
-                                    "qF" UTF8_GREEK_CAPITAL_SIGMA "g",
-                                    FindFlags::CASE_INSENSITIVE));
     }
 
     void test_substring()
@@ -699,37 +699,37 @@ namespace
     void test_toUtf8_fromUtf16_wstring()
     {
         Y_EQUAL(Utf8::toUtf8(L"\u00C5rb\u00F8ker", Encoding::UTF_16_LE),
-                 UTF8_LATIN_CAPITAL_A_WITH_RING_ABOVE "rb"
-                 UTF8_LATIN_SMALL_O_WITH_STROKE "ker");
+                UTF8_LATIN_CAPITAL_A_WITH_RING_ABOVE "rb"
+                UTF8_LATIN_SMALL_O_WITH_STROKE "ker");
     }
 
     void test_toUtf8_fromWindows1252()
     {
         Y_EQUAL(Utf8::toUtf8("\xC5rb\xF8ker", Encoding::WINDOWS_1252),
-                 UTF8_LATIN_CAPITAL_A_WITH_RING_ABOVE "rb"
-                 UTF8_LATIN_SMALL_O_WITH_STROKE "ker");
+                UTF8_LATIN_CAPITAL_A_WITH_RING_ABOVE "rb"
+                UTF8_LATIN_SMALL_O_WITH_STROKE "ker");
         Y_EQUAL(Utf8::toUtf8("\x94", Encoding::WINDOWS_1252), "\xE2\x80\x9D");
     }
 
     void test_trim()
     {
         Y_EQUAL(Utf8::trim(" \n\t foo bar \f\r" UTF8_PARAGRAPH_SEPARATOR),
-                 "foo bar");
+                "foo bar");
         Y_EQUAL(Utf8::trim(":--." UTF8_GREEK_SMALL_SIGMA "foo bar:--",
-                            Unicode::isPunctuation),
-                 UTF8_GREEK_SMALL_SIGMA "foo bar");
+                           Unicode::isPunctuation),
+                UTF8_GREEK_SMALL_SIGMA "foo bar");
         Y_EQUAL(Utf8::trim("A.BC_DFB.-GA-B",
                            [](uint32_t c){return Utf8::contains("AB.-", c);}),
-                 "C_DFB.-G");
+                "C_DFB.-G");
     }
 
     void test_trimEnd()
     {
         Y_EQUAL(Utf8::trimEnd(" \n\t foo bar \f\r" UTF8_PARAGRAPH_SEPARATOR),
-                 " \n\t foo bar");
+                " \n\t foo bar");
         Y_EQUAL(Utf8::trimEnd(":--." UTF8_GREEK_SMALL_SIGMA "foo bar:--",
-                               Unicode::isPunctuation),
-                 ":--." UTF8_GREEK_SMALL_SIGMA "foo bar");
+                              Unicode::isPunctuation),
+                ":--." UTF8_GREEK_SMALL_SIGMA "foo bar");
     }
 
     void test_trimStart()
@@ -738,8 +738,8 @@ namespace
                 " \n\t" UTF8_PARAGRAPH_SEPARATOR " foo bar \f "),
                 "foo bar \f ");
         Y_EQUAL(Utf8::trimStart(":--." UTF8_GREEK_SMALL_SIGMA "foo bar:--",
-                                 Unicode::isPunctuation),
-                 UTF8_GREEK_SMALL_SIGMA "foo bar:--");
+                                Unicode::isPunctuation),
+                UTF8_GREEK_SMALL_SIGMA "foo bar:--");
     }
 
     void test_unescape_BACKSLASH()

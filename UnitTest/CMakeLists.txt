@@ -48,7 +48,7 @@ set(SOURCE_FILES
     Utf16/test_EncodeUtf16.cpp
     Utf32/test_Utf32String.cpp
     ${SOURCE_FILES_PLATFORM_SPECIFIC}
-    )
+    Conversion/test_Converter.cpp)
 
 add_executable(${PROJECT_NAME}
                ${SOURCE_FILES})
