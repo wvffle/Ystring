@@ -167,6 +167,7 @@
         try { \
             name(__VA_ARGS__); \
         } catch (const ::Ytest::AbstractFailure& ex) { \
+            ex.addContext(__FILE__, __LINE__, #name "(" #__VA_ARGS__ ")"); \
             ::Ytest::Session::instance().testFailed(ex.error()); \
             if (ex.error().type() != ::Ytest::Error::Failure) \
                 throw; \
@@ -215,6 +216,18 @@
 #define Y_THROWS_FATAL(expr, exception) \
     Y_IMPL_THROWS(expr, exception, FatalFailure, __FILE__, __LINE__, \
                   #expr " didn't throw exception \"" #exception "\"")
+
+#define Y_NO_THROW(expr, exception) \
+    do { \
+        try { \
+            expr; \
+            ::JEBTest::Session::instance().assertPassed(); \
+        } catch (const exception&) { \
+            throw ::JEBTest::TestFailure( \
+                    __FILE__, __LINE__, \
+                    #expr " threw exception " #exception); \
+        } \
+    } while (false)
 
 #define Y_IMPL_EXPECT(cond, file, line, msg) \
     do { \

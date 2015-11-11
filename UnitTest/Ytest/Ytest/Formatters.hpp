@@ -13,10 +13,21 @@
 
 namespace Ytest
 {
+    std::ostream& operator<<(std::ostream& os, const std::wstring& s);
+
+    std::ostream& operator<<(std::ostream& os, const wchar_t* s);
+
+    std::ostream& operator<<(std::ostream& os, const std::u16string& s);
+
+    std::ostream& operator<<(std::ostream& os, const char16_t* s);
+
+    std::ostream& operator<<(std::ostream& os, const std::u32string& s);
+
+    std::ostream& operator<<(std::ostream& os, const char32_t* s);
+
     template<typename T, typename U>
     std::ostream& operator<<(std::ostream& os, const std::pair<T, U>& p)
     {
-        using Ystring::operator<<;
         return os << "{" << p.first << ", " << p.second << "}";
     }
 
@@ -25,7 +36,6 @@ namespace Ytest
                                  const U& u, const char* uName,
                                  const char* operat)
     {
-        using Ystring::operator<<;
         std::ostringstream ss;
         ss.precision(17);
         ss << tName << " " << operat << " " << uName
@@ -38,7 +48,6 @@ namespace Ytest
                                  U* u, const char* uName,
                                  const char* operat)
     {
-        using Ystring::operator<<;
         std::ostringstream ss;
         ss << tName << " " << operat << " " << uName
            << ":  (" << typeid(T*).name() << ")\"";
