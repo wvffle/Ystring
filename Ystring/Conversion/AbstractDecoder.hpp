@@ -41,17 +41,23 @@ namespace Ystring { namespace Conversion {
 
         void setIncompleteCharactersAreInvalid(bool value);
 
-        DecoderResult_t decode(char32_t*& dstBeg, char32_t* dstEnd,
-                               const char*& srcBeg,
-                               const char* srcEnd);
+        DecoderResult_t decode(const char*& srcBeg,
+                               const char* srcEnd,
+                               char32_t*& dstBeg,
+                               char32_t* dstEnd,
+                               bool isIncomplete);
 
-        DecoderResult_t decode(char32_t*& dstBeg, char32_t* dstEnd,
-                               const char16_t*& srcBeg,
-                               const char16_t* srcEnd);
+        DecoderResult_t decode(const char16_t*& srcBeg,
+                               const char16_t* srcEnd,
+                               char32_t*& dstBeg,
+                               char32_t* dstEnd,
+                               bool isIncomplete);
 
-        DecoderResult_t decode(char32_t*& dstBeg, char32_t* dstEnd,
-                               const char32_t*& srcBeg,
-                               const char32_t* srcEnd);
+        DecoderResult_t decode(const char32_t*& srcBeg,
+                               const char32_t* srcEnd,
+                               char32_t*& dstBeg,
+                               char32_t* dstEnd,
+                               bool isIncomplete);
 
     protected:
         enum Flags
@@ -67,15 +73,24 @@ namespace Ystring { namespace Conversion {
         AbstractDecoder(Encoding_t encoding, int flags);
 
         virtual DecoderResult_t doDecode(
-                char32_t*& dstBeg, char32_t* dstEnd,
+                const char*& srcBeg, const char* srcEnd,
+                char32_t*& dstBeg, char32_t* dstEnd);
+
+        virtual DecoderResult_t doDecode(
+                const char16_t*& srcBeg, const char16_t* srcEnd,
+                char32_t*& dstBeg, char32_t* dstEnd);
+
+        virtual DecoderResult_t doDecode(
+                const char32_t*& srcBeg, const char32_t* srcEnd,
+                char32_t*& dstBeg, char32_t* dstEnd);
+
+        virtual void skipInvalidCharacter(
                 const char*& srcBeg, const char* srcEnd);
 
-        virtual DecoderResult_t doDecode(
-                char32_t*& dstBeg, char32_t* dstEnd,
+        virtual void skipInvalidCharacter(
                 const char16_t*& srcBeg, const char16_t* srcEnd);
 
-        virtual DecoderResult_t doDecode(
-                char32_t*& dstBeg, char32_t* dstEnd,
+        virtual void skipInvalidCharacter(
                 const char32_t*& srcBeg, const char32_t* srcEnd);
 
         bool stopOnErrors() const;

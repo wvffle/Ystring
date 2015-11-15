@@ -16,7 +16,129 @@
 
 namespace Ystring { namespace Conversion {
 
-    const size_t CONV_MAX_BUFFER = 256;
+    namespace {
+
+        const size_t DEFAULT_BUFFER_SIZE = 256;
+
+        std::unique_ptr<AbstractDecoder> makeDecoder(Encoding_t encoding);
+
+        std::unique_ptr<AbstractEncoder> makeEncoder(Encoding_t encoding);
+
+//        template <typename T>
+//        void swapEndianness(T* str, size_t length)
+//        {
+//            for (size_t i = 0; i < length; ++i)
+//                Utilities::swapEndianness(str[i]);
+//        }
+//
+    }
+
+    Converter::Converter(Encoding_t srcEncoding, Encoding_t dstEncoding)
+        : m_Decoder(makeDecoder(srcEncoding)),
+          m_Encoder(makeEncoder(dstEncoding)),
+          m_ConversionType(getConversionType(srcEncoding, dstEncoding)),
+          m_BufferSize(DEFAULT_BUFFER_SIZE)
+    {}
+
+    size_t Converter::bufferSize() const
+    {
+        return m_BufferSize;
+    }
+
+    void Converter::setBufferSize(size_t value)
+    {
+        m_BufferSize = value;
+    }
+
+    void Converter::setErrorHandlingPolicy(ErrorHandlingPolicy_t value)
+    {
+        setDecoderErrorHandlingPolicy(value);
+        setEncoderErrorHandlingPolicy(value);
+    }
+
+    ErrorHandlingPolicy_t Converter::decoderErrorHandlingPolicy() const
+    {
+        return m_Decoder->errorHandlingPolicy();
+    }
+
+    void Converter::setDecoderErrorHandlingPolicy(ErrorHandlingPolicy_t value)
+    {
+        m_Decoder->setErrorHandlingPolicy(value);
+    }
+
+    ErrorHandlingPolicy_t Converter::encoderErrorHandlingPolicy() const
+    {
+        return m_Encoder->errorHandlingPolicy();
+    }
+
+    void Converter::setEncoderErrorHandlingPolicy(ErrorHandlingPolicy_t value)
+    {
+        m_Encoder->setErrorHandlingPolicy(value);
+    }
+
+    void Converter::setReplacementCharacter(char32_t value)
+    {
+        setDecoderReplacementCharacter(value);
+        setEncoderReplacementCharacter(value);
+    }
+
+    char32_t Converter::decoderReplacementCharacter() const
+    {
+        return m_Decoder->replacementCharacter();
+    }
+
+    void Converter::setDecoderReplacementCharacter(char32_t value)
+    {
+        m_Decoder->setReplacementCharacter(value);
+    }
+
+    char32_t Converter::encoderReplacementCharacter() const
+    {
+        return m_Encoder->replacementCharacter();
+    }
+
+    void Converter::setEncoderReplacementCharacter(char32_t value)
+    {
+        m_Encoder->setReplacementCharacter(value);
+    }
+
+    size_t Converter::convert(const char* src,
+                              size_t srcLength,
+                              std::u16string& dst,
+                              bool sourceIsIncomplete)
+    {
+        auto bufSize = std::min(srcLength, m_BufferSize);
+        std::vector<char32_t> buffer(bufSize);
+        auto srcBeg = src;
+        auto srcEnd = src + srcLength;
+        auto bufEnd = buffer.data() + bufSize;
+        while (srcBeg != srcEnd)
+        {
+            auto bufIt = buffer.data();
+            auto result = m_Decoder->decode(srcBeg, srcEnd, bufIt, bufEnd,
+                                            sourceIsIncomplete);
+            auto bufBeg = static_cast<const char32_t*>(buffer.data());
+            m_Encoder->encode(bufBeg, bufIt, dst);
+            if (result != DecoderResult::OK)
+                break;
+        }
+        return srcBeg - src;
+    }
+
+    Converter::ConversionType Converter::getConversionType(
+            Encoding_t src, Encoding_t dst)
+    {
+        if (src == dst)
+            return COPY;
+        if ((src == Encoding::UTF_16_LE && dst == Encoding::UTF_16_BE)
+            || (src == Encoding::UTF_16_BE && dst == Encoding::UTF_16_LE)
+            || (src == Encoding::UTF_32_LE && dst == Encoding::UTF_32_BE)
+            || (src == Encoding::UTF_32_BE && dst == Encoding::UTF_32_LE))
+        {
+            return SWAP_ENDIANNESS;
+        }
+        return CONVERT;
+    }
 
     namespace {
 
@@ -94,84 +216,5 @@ namespace Ystring { namespace Conversion {
 //                Utilities::swapEndianness(str[i]);
 //        }
 //
-    }
-
-    Converter::Converter(Encoding_t srcEncoding, Encoding_t dstEncoding)
-        : m_Decoder(makeDecoder(srcEncoding)),
-          m_Encoder(makeEncoder(dstEncoding)),
-          m_ConversionType(getConversionType(srcEncoding, dstEncoding))
-    {}
-
-    ErrorHandlingPolicy_t Converter::decoderErrorHandlingPolicy() const
-    {
-        return m_Decoder->errorHandlingPolicy();
-    }
-
-    void Converter::setDecoderErrorHandlingPolicy(ErrorHandlingPolicy_t value)
-    {
-        m_Decoder->setErrorHandlingPolicy(value);
-    }
-
-    ErrorHandlingPolicy_t Converter::encoderErrorHandlingPolicy() const
-    {
-        return m_Encoder->errorHandlingPolicy();
-    }
-
-    void Converter::setEncoderErrorHandlingPolicy(ErrorHandlingPolicy_t value)
-    {
-        m_Encoder->setErrorHandlingPolicy(value);
-    }
-
-    char32_t Converter::decoderReplacementCharacter() const
-    {
-        return m_Decoder->replacementCharacter();
-    }
-
-    void Converter::setDecoderReplacementCharacter(char32_t value)
-    {
-        m_Decoder->setReplacementCharacter(value);
-    }
-
-    char32_t Converter::encoderReplacementCharacter() const
-    {
-        return m_Encoder->replacementCharacter();
-    }
-
-    void Converter::setEncoderReplacementCharacter(char32_t value)
-    {
-        m_Encoder->setReplacementCharacter(value);
-    }
-
-    void Converter::convert(const char* src,
-                            size_t srcLength,
-                            std::u16string& dst)
-    {
-        auto bufSize = std::min(srcLength, CONV_MAX_BUFFER);
-        std::vector<char32_t> buffer(bufSize);
-        auto srcBeg = src;
-        auto srcEnd = src + srcLength;
-        auto bufEnd = buffer.data() + bufSize;
-        while (srcBeg != srcEnd)
-        {
-            auto bufIt = buffer.data();
-            m_Decoder->decode(bufIt, bufEnd, srcBeg, srcEnd);
-            auto bufBeg = static_cast<const char32_t*>(buffer.data());
-            m_Encoder->encode(dst, bufBeg, bufIt);
-        }
-    }
-
-    Converter::ConversionType Converter::getConversionType(
-            Encoding_t src, Encoding_t dst)
-    {
-        if (src == dst)
-            return COPY;
-        if ((src == Encoding::UTF_16_LE && dst == Encoding::UTF_16_BE)
-            || (src == Encoding::UTF_16_BE && dst == Encoding::UTF_16_LE)
-            || (src == Encoding::UTF_32_LE && dst == Encoding::UTF_32_BE)
-            || (src == Encoding::UTF_32_BE && dst == Encoding::UTF_32_LE))
-        {
-            return SWAP_ENDIANNESS;
-        }
-        return CONVERT;
     }
 }}

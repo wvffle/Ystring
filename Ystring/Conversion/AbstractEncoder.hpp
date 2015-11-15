@@ -30,29 +30,29 @@ namespace Ystring { namespace Conversion {
 
         virtual void setReplacementCharacter(char32_t value);
 
-        void encode(std::string& dst,
-                    const char32_t*& srcBeg, const char32_t* srcEnd);
+        void encode(const char32_t*& srcBeg, const char32_t* srcEnd,
+                    std::string& dst);
 
-        void encode(std::u16string& dst,
-                    const char32_t*& srcBeg, const char32_t* srcEnd);
+        void encode(const char32_t*& srcBeg, const char32_t* srcEnd,
+                    std::u16string& dst);
 
-//        void encode(std::u32string& dst,
-//                    const char32_t*& srcBeg, const char32_t* srcEnd);
+//        void encode(const char32_t*& srcBeg, const char32_t* srcEnd,
+//                    std::u32string& dst);
 
     protected:
         AbstractEncoder(Encoding_t encoding);
 
         virtual void doEncode(
-                std::string& dst,
-                const char32_t*& srcBeg, const char32_t* srcEnd);
+                const char32_t*& srcBeg, const char32_t* srcEnd,
+                std::string& dst);
 
         virtual void doEncode(
-                std::u16string& dst,
-                const char32_t*& srcBeg, const char32_t* srcEnd);
+                const char32_t*& srcBeg, const char32_t* srcEnd,
+                std::u16string& dst);
 
 //        virtual void doEncode(
-//                std::u32string& dst,
-//                const char32_t*& srcBeg, const char32_t* srcEnd);
+//                const char32_t*& srcBeg, const char32_t* srcEnd,
+//                std::u32string& dst);
 
     private:
         Encoding_t m_Encoding;

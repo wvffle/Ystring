@@ -133,11 +133,10 @@ namespace Ystring { namespace Utf8
     template <typename FwdIt>
     bool skipNextUtf8CodePoint(FwdIt& it, FwdIt end, size_t count)
     {
-        if (it == end && count != 0)
-            return false;
-
         for (auto i = 0u; i < count; ++i)
         {
+            if (it == end)
+                return false;
             do
             {
                 ++it;
@@ -151,11 +150,10 @@ namespace Ystring { namespace Utf8
     template <typename BiIt>
     bool skipPrevUtf8CodePoint(BiIt begin, BiIt& it, size_t count)
     {
-        if (it == begin)
-            return false;
-
         for (auto i = 0u; i < count; ++i)
         {
+            if (it == begin)
+                return false;
             do
             {
                 --it;

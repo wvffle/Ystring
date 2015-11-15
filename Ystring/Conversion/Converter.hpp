@@ -32,6 +32,12 @@ namespace Ystring { namespace Conversion {
     public:
         Converter(Encoding_t srcEncoding, Encoding_t dstEncoding);
 
+        size_t bufferSize() const;
+
+        void setBufferSize(size_t value);
+
+        void setErrorHandlingPolicy(ErrorHandlingPolicy_t value);
+
         ErrorHandlingPolicy_t decoderErrorHandlingPolicy() const;
 
         void setDecoderErrorHandlingPolicy(ErrorHandlingPolicy_t value);
@@ -39,6 +45,8 @@ namespace Ystring { namespace Conversion {
         ErrorHandlingPolicy_t encoderErrorHandlingPolicy() const;
 
         void setEncoderErrorHandlingPolicy(ErrorHandlingPolicy_t value);
+
+        void setReplacementCharacter(char32_t value);
 
         char32_t decoderReplacementCharacter() const;
 
@@ -50,7 +58,8 @@ namespace Ystring { namespace Conversion {
 
         //        void convert(const char* src, size_t srcLength, std::string& dst);
 
-        void convert(const char* src, size_t srcLength, std::u16string& dst);
+        size_t convert(const char* src, size_t srcLength, std::u16string& dst,
+                       bool sourceIsIncomplete = false);
 
 //        void convert(const char* src, size_t srcLength, std::u32string& dst);
 
@@ -84,5 +93,6 @@ namespace Ystring { namespace Conversion {
         std::unique_ptr<AbstractDecoder> m_Decoder;
         std::unique_ptr<AbstractEncoder> m_Encoder;
         ConversionType m_ConversionType;
+        size_t m_BufferSize;
     };
 }}

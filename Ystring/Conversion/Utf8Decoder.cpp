@@ -15,9 +15,10 @@ namespace Ystring { namespace Conversion {
         : AbstractDecoder(Encoding::UTF_8, SUPPORTS_8_BIT)
     {}
 
-    DecoderResult_t Utf8Decoder::doDecode(char32_t*& dstBeg, char32_t* dstEnd,
-                                          const char*& srcBeg,
-                                          const char* srcEnd)
+    DecoderResult_t Utf8Decoder::doDecode(const char*& srcBeg,
+                                          const char* srcEnd,
+                                          char32_t*& dstBeg,
+                                          char32_t* dstEnd)
     {
         while (dstBeg != dstEnd)
         {
@@ -25,18 +26,16 @@ namespace Ystring { namespace Conversion {
             auto result = Utf8::nextUtf8CodePoint(tmp, srcBeg, srcEnd);
             *dstBeg = tmp;
             if (result != DecoderResult::OK)
-            {
-                if (stopOnErrors()
-                        || result != DecoderResult::INVALID
-                        || !Utf8::skipNextUtf8CodePoint(srcBeg, srcEnd, 1))
-                {
-                    return result;
-                }
-                *dstBeg = Unicode::REPLACEMENT_CHARACTER;
-            }
+                return result;
             ++dstBeg;
         }
         return DecoderResult::OK;
+    }
+
+    void Utf8Decoder::skipInvalidCharacter(
+            const char*& srcBeg, const char* srcEnd)
+    {
+        Utf8::skipNextUtf8CodePoint(srcBeg, srcEnd);
     }
 
 }}

@@ -13,9 +13,9 @@ namespace Ystring { namespace Conversion {
         : AbstractEncoder(Encoding::UTF_16_LE)
     {}
 
-    void Utf16LEEncoder::doEncode(std::string& dst,
-                                  const char32_t*& srcBeg,
-                                  const char32_t* srcEnd)
+    void Utf16LEEncoder::doEncode(const char32_t*& srcBeg,
+                                  const char32_t* srcEnd,
+                                  std::string& dst)
     {
         auto out = back_inserter(dst);
         while (srcBeg != srcEnd)
@@ -25,9 +25,9 @@ namespace Ystring { namespace Conversion {
         }
     }
 
-    void Utf16LEEncoder::doEncode(std::u16string& dst,
-                                  const char32_t*& srcBeg,
-                                  const char32_t* srcEnd)
+    void Utf16LEEncoder::doEncode(const char32_t*& srcBeg,
+                                  const char32_t* srcEnd,
+                                  std::u16string& dst)
     {
         auto out = back_inserter(dst);
         while (srcBeg != srcEnd)

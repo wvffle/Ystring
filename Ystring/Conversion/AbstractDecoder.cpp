@@ -84,49 +84,102 @@ namespace Ystring { namespace Conversion {
         m_IncompleteCharactersAreInvalid = value;
     }
 
-    DecoderResult_t AbstractDecoder::decode(char32_t*& dstBeg,
+    DecoderResult_t AbstractDecoder::decode(const char*& srcBeg,
+                                            const char* srcEnd,
+                                            char32_t*& dstBeg,
                                             char32_t* dstEnd,
-                                            const char*& srcBeg,
-                                            const char* srcEnd)
+                                            bool sourceIsIncomplete)
     {
-        auto result = doDecode(dstBeg, dstEnd, srcBeg, srcEnd);
-        return result;
+        while (true)
+        {
+            auto result = doDecode(srcBeg, srcEnd, dstBeg, dstEnd);
+            if (result == DecoderResult::OK
+                || result == DecoderResult::END_OF_STRING)
+            {
+                return DecoderResult::OK;
+            }
+            if (result == DecoderResult::INCOMPLETE && sourceIsIncomplete)
+                return DecoderResult::INCOMPLETE;
+
+            switch (m_ErrorHandlingPolicy)
+            {
+            case ErrorHandlingPolicy::REPLACE:
+                *dstBeg++ = m_ReplacementCharacter;
+                skipInvalidCharacter(srcBeg, srcEnd);
+                break;
+            case ErrorHandlingPolicy::STOP:
+                return DecoderResult::INVALID;
+            case ErrorHandlingPolicy::THROW:
+                YSTRING_THROW("Invalid character starting at index "
+                              + std::to_string(srcBeg - srcEnd));
+            case ErrorHandlingPolicy::SKIP:
+                skipInvalidCharacter(srcBeg, srcEnd);
+                break;
+            }
+        }
     }
 
-    DecoderResult_t AbstractDecoder::decode(char32_t*&, char32_t*,
-                                            const char16_t*&, const char16_t*)
+    DecoderResult_t AbstractDecoder::decode(const char16_t*&,
+                                            const char16_t*,
+                                            char32_t*&,
+                                            char32_t*,
+                                            bool sourceIsIncomplete)
     {
         return DecoderResult::OK;
     }
 
-    DecoderResult_t AbstractDecoder::decode(char32_t*&, char32_t*,
-                                            const char32_t*&, const char32_t*)
+    DecoderResult_t AbstractDecoder::decode(const char32_t*&,
+                                            const char32_t*,
+                                            char32_t*&,
+                                            char32_t*,
+                                            bool sourceIsIncomplete)
     {
         return DecoderResult::OK;
     }
 
-    DecoderResult_t AbstractDecoder::doDecode(char32_t*& dstBeg,
-                                              char32_t* dstEnd,
-                                              const char*& srcBeg,
-                                              const char* srcEnd)
+    DecoderResult_t AbstractDecoder::doDecode(const char*& srcBeg,
+                                              const char* srcEnd,
+                                              char32_t*& dstBeg,
+                                              char32_t* dstEnd)
     {
         YSTRING_THROW(encodingName()
                       + "-decoder doesn't support 8-bit strings.");
     }
 
-    DecoderResult_t AbstractDecoder::doDecode(char32_t*& dstBeg,
-                                              char32_t* dstEnd,
-                                              const char16_t*& srcBeg,
-                                              const char16_t* srcEnd)
+    DecoderResult_t AbstractDecoder::doDecode(const char16_t*& srcBeg,
+                                              const char16_t* srcEnd,
+                                              char32_t*& dstBeg,
+                                              char32_t* dstEnd)
     {
         YSTRING_THROW(encodingName()
                       + "-decoder doesn't support 16-bit strings.");
     }
 
-    DecoderResult_t AbstractDecoder::doDecode(char32_t*& dstBeg,
-                                              char32_t* dstEnd,
-                                              const char32_t*& srcBeg,
-                                              const char32_t* srcEnd)
+    DecoderResult_t AbstractDecoder::doDecode(const char32_t*& srcBeg,
+                                              const char32_t* srcEnd,
+                                              char32_t*& dstBeg,
+                                              char32_t* dstEnd)
+    {
+        YSTRING_THROW(encodingName()
+                      + "-decoder doesn't support 32-bit strings.");
+    }
+
+    void AbstractDecoder::skipInvalidCharacter(
+            const char*& srcBeg, const char* srcEnd)
+    {
+        YSTRING_THROW(encodingName()
+                      + "-decoder doesn't support 8-bit strings.");
+    }
+
+    void AbstractDecoder::skipInvalidCharacter(
+            const char16_t*& srcBeg, const char16_t* srcEnd)
+    {
+        YSTRING_THROW(encodingName()
+                      + "-decoder doesn't support 16-bit strings.");
+    }
+
+    void AbstractDecoder::skipInvalidCharacter(
+            const char32_t*& srcBeg, const char32_t* srcEnd)
     {
         YSTRING_THROW(encodingName()
                       + "-decoder doesn't support 32-bit strings.");

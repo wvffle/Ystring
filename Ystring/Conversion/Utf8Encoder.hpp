@@ -16,8 +16,8 @@ namespace Ystring { namespace Conversion {
         Utf8Encoder();
 
     protected:
-        void doEncode(std::string& dst,
-                      const char32_t*& srcBeg, const char32_t* srcEnd);
+        void doEncode(const char32_t*& srcBeg, const char32_t* srcEnd,
+                      std::string& dst);
     };
 
 }}

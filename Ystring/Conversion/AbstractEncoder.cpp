@@ -57,31 +57,31 @@ namespace Ystring { namespace Conversion {
         m_ReplacementCharacter = value;
     }
 
-    void AbstractEncoder::encode(std::string& dst,
-                                 const char32_t*& srcBeg,
-                                 const char32_t* srcEnd)
+    void AbstractEncoder::encode(const char32_t*& srcBeg,
+                                 const char32_t* srcEnd,
+                                 std::string& dst)
     {
-        doEncode(dst, srcBeg, srcEnd);
+        doEncode(srcBeg, srcEnd, dst);
     }
 
-    void AbstractEncoder::encode(std::u16string& dst,
-                                 const char32_t*& srcBeg,
-                                 const char32_t* srcEnd)
+    void AbstractEncoder::encode(const char32_t*& srcBeg,
+                                 const char32_t* srcEnd,
+                                 std::u16string& dst)
     {
-        doEncode(dst, srcBeg, srcEnd);
+        doEncode(srcBeg, srcEnd, dst);
     }
 
-    void AbstractEncoder::doEncode(std::string& dst,
-                                   const char32_t*& srcBeg,
-                                   const char32_t* srcEnd)
+    void AbstractEncoder::doEncode(const char32_t*& srcBeg,
+                                   const char32_t* srcEnd,
+                                   std::string& dst)
     {
         YSTRING_THROW(encodingName()
                       + "-encoder doesn't support 8-bit strings.");
     }
 
-    void AbstractEncoder::doEncode(std::u16string& dst,
-                                   const char32_t*& srcBeg,
-                                   const char32_t* srcEnd)
+    void AbstractEncoder::doEncode(const char32_t*& srcBeg,
+                                   const char32_t* srcEnd,
+                                   std::u16string& dst)
     {
         YSTRING_THROW(encodingName()
                       + "-encoder doesn't support 16-bit strings.");

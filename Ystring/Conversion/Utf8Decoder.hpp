@@ -16,8 +16,12 @@ namespace Ystring { namespace Conversion {
         Utf8Decoder();
 
     protected:
-        DecoderResult_t doDecode(char32_t*& dstBeg, char32_t* dstEnd,
-                                 const char*& srcBeg, const char* srcEnd);
+        DecoderResult_t doDecode(
+                const char*& srcBeg, const char* srcEnd,
+                char32_t*& dstBeg, char32_t* dstEnd);
+
+        void skipInvalidCharacter(
+                const char*& srcBeg, const char* srcEnd);
     };
 
 }}
