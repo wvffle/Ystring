@@ -65,7 +65,10 @@ namespace Ystring { namespace Conversion {
 
 //        void convert(const char* src, size_t srcLength, std::u32string& dst);
 
-//        void convert(const char16_t* src, size_t srcLength, std::string& dst);
+        size_t convert(const char16_t* source,
+                       size_t sourceLength,
+                       std::string& destination,
+                       bool sourceIsIncomplete = false);
 
         size_t convert(const char16_t* source,
                        size_t sourceLength,

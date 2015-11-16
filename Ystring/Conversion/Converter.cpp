@@ -112,6 +112,17 @@ namespace Ystring { namespace Conversion {
 
     size_t Converter::convert(const char16_t* source,
                               size_t sourceLength,
+                              std::string& destination,
+                              bool sourceIsIncomplete)
+    {
+        return convertImpl(source,
+                           sourceLength,
+                           destination,
+                           sourceIsIncomplete);
+    }
+
+    size_t Converter::convert(const char16_t* source,
+                              size_t sourceLength,
                               std::u16string& destination,
                               bool sourceIsIncomplete)
     {
