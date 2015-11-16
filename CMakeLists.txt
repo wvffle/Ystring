@@ -189,7 +189,7 @@ set(SOURCE_FILES
     Ystring/Conversion/Utf8Decoder.cpp
     Ystring/Conversion/Utf8Decoder.hpp
     ${SOURCE_FILES}
-    Ystring/Conversion/AbstractEncoder.cpp Ystring/Conversion/AbstractEncoder.hpp Ystring/Conversion/Utf8Encoder.cpp Ystring/Conversion/Utf8Encoder.hpp Ystring/Conversion/Utf16LEEncoder.cpp Ystring/Conversion/Utf16LEEncoder.hpp Ystring/Conversion/ErrorHandlingPolicy.hpp)
+    Ystring/Conversion/AbstractEncoder.cpp Ystring/Conversion/AbstractEncoder.hpp Ystring/Conversion/Utf8Encoder.cpp Ystring/Conversion/Utf8Encoder.hpp Ystring/Conversion/Utf16LEEncoder.cpp Ystring/Conversion/Utf16LEEncoder.hpp Ystring/Conversion/ErrorHandlingPolicy.hpp Ystring/Conversion/Utf16LEDecoder.cpp Ystring/Conversion/Utf16LEDecoder.hpp)
 
 add_library(
     ${PROJECT_NAME} SHARED

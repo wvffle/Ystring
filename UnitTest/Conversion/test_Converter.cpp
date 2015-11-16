@@ -65,8 +65,18 @@ namespace {
         Y_EQUAL(s16, u"ABCDEF\u4E20GHIJKL");
     }
 
+    void test_Utf16_to_Utf16()
+    {
+        Converter converter(Encoding::UTF_16, Encoding::UTF_16);
+        std::u16string src = u"ABCDEFGHIJKL";
+        std::u16string dst;
+        Y_EQUAL(converter.convert(src.data(), src.size(), dst), src.size());
+        Y_EQUAL(dst, u"ABCDEFGHIJKL");
+    }
+
     Y_SUBTEST("Conversion",
               test_Utf8_to_Utf16,
               test_Utf8_to_Utf16_IncompleteSource,
-              test_Utf8_to_Utf16_SmallBuffer);
+              test_Utf8_to_Utf16_SmallBuffer,
+              test_Utf16_to_Utf16);
 }

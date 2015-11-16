@@ -12,6 +12,7 @@
 #include "../Generic/GenericConvert.hpp"
 #include "Utf8Decoder.hpp"
 #include "Utf8Encoder.hpp"
+#include "Utf16LEDecoder.hpp"
 #include "Utf16LEEncoder.hpp"
 
 namespace Ystring { namespace Conversion {
@@ -24,13 +25,9 @@ namespace Ystring { namespace Conversion {
 
         std::unique_ptr<AbstractEncoder> makeEncoder(Encoding_t encoding);
 
-//        template <typename T>
-//        void swapEndianness(T* str, size_t length)
-//        {
-//            for (size_t i = 0; i < length; ++i)
-//                Utilities::swapEndianness(str[i]);
-//        }
-//
+        template <typename T>
+        void swapEndianness(T* str, size_t length);
+
     }
 
     Converter::Converter(Encoding_t srcEncoding, Encoding_t dstEncoding)
@@ -102,27 +99,26 @@ namespace Ystring { namespace Conversion {
         m_Encoder->setReplacementCharacter(value);
     }
 
-    size_t Converter::convert(const char* src,
-                              size_t srcLength,
-                              std::u16string& dst,
+    size_t Converter::convert(const char* source,
+                              size_t sourceLength,
+                              std::u16string& destination,
                               bool sourceIsIncomplete)
     {
-        auto bufSize = std::min(srcLength, m_BufferSize);
-        std::vector<char32_t> buffer(bufSize);
-        auto srcBeg = src;
-        auto srcEnd = src + srcLength;
-        auto bufEnd = buffer.data() + bufSize;
-        while (srcBeg != srcEnd)
-        {
-            auto bufIt = buffer.data();
-            auto result = m_Decoder->decode(srcBeg, srcEnd, bufIt, bufEnd,
-                                            sourceIsIncomplete);
-            auto bufBeg = static_cast<const char32_t*>(buffer.data());
-            m_Encoder->encode(bufBeg, bufIt, dst);
-            if (result != DecoderResult::OK)
-                break;
-        }
-        return srcBeg - src;
+        return convertImpl(source,
+                           sourceLength,
+                           destination,
+                           sourceIsIncomplete);
+    }
+
+    size_t Converter::convert(const char16_t* source,
+                              size_t sourceLength,
+                              std::u16string& destination,
+                              bool sourceIsIncomplete)
+    {
+        return convertImpl(source,
+                           sourceLength,
+                           destination,
+                           sourceIsIncomplete);
     }
 
     Converter::ConversionType Converter::getConversionType(
@@ -140,6 +136,49 @@ namespace Ystring { namespace Conversion {
         return CONVERT;
     }
 
+
+    template<typename CharT, typename StringT>
+    size_t Converter::convertImpl(const CharT* src,
+                                  size_t srcLength,
+                                  StringT& dst,
+                                  bool sourceIsIncomplete)
+    {
+        auto srcBeg = src;
+        auto srcEnd = src + srcLength;
+        if (m_ConversionType == COPY)
+        {
+            if (sizeof(CharT) == sizeof(typename StringT::value_type))
+            {
+                std::copy(srcBeg, srcEnd, back_inserter(dst));
+                return srcLength;
+            }
+        }
+        else if (m_ConversionType == SWAP_ENDIANNESS)
+        {
+            if (sizeof(CharT) == sizeof(typename StringT::value_type))
+            {
+                auto originalSize = dst.size();
+                std::copy(srcBeg, srcEnd, back_inserter(dst));
+                swapEndianness(dst.data() + originalSize, srcLength);
+                return srcLength;
+            }
+        }
+        auto bufSize = std::min(srcLength, m_BufferSize);
+        std::vector<char32_t> buffer(bufSize);
+        auto bufEnd = buffer.data() + bufSize;
+        while (srcBeg != srcEnd)
+        {
+            auto bufIt = buffer.data();
+            auto result = m_Decoder->decode(srcBeg, srcEnd, bufIt, bufEnd,
+                                            sourceIsIncomplete);
+            auto bufBeg = static_cast<const char32_t*>(buffer.data());
+            m_Encoder->encode(bufBeg, bufIt, dst);
+            if (result != DecoderResult::OK)
+                break;
+        }
+        return srcBeg - src;
+    }
+
     namespace {
 
         std::unique_ptr<AbstractDecoder> makeDecoder(Encoding_t encoding)
@@ -154,7 +193,8 @@ namespace Ystring { namespace Conversion {
             case Encoding::WINDOWS_1252:break;
             case Encoding::CP_437:break;
             case Encoding::UTF_16_BE:break;
-            case Encoding::UTF_16_LE:break;
+            case Encoding::UTF_16_LE:
+                return std::unique_ptr<AbstractDecoder>(new Utf16LEDecoder);
             case Encoding::UTF_32_BE:break;
             case Encoding::UTF_32_LE:break;
             case Encoding::UNKNOWN:
@@ -209,12 +249,12 @@ namespace Ystring { namespace Conversion {
             YSTRING_THROW("Unsupported source-encoding: " + name);
         }
 
-//        template <typename T>
-//        void swapEndianness(T* str, size_t length)
-//        {
-//            for (size_t i = 0; i < length; ++i)
-//                Utilities::swapEndianness(str[i]);
-//        }
-//
+        template <typename T>
+        void swapEndianness(T* str, size_t length)
+        {
+            for (size_t i = 0; i < length; ++i)
+                Utilities::reverseBytes(str[i]);
+        }
+
     }
 }}

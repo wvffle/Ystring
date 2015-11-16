@@ -45,19 +45,19 @@ namespace Ystring { namespace Conversion {
                                const char* srcEnd,
                                char32_t*& dstBeg,
                                char32_t* dstEnd,
-                               bool isIncomplete);
+                               bool sourceIsIncomplete);
 
         DecoderResult_t decode(const char16_t*& srcBeg,
                                const char16_t* srcEnd,
                                char32_t*& dstBeg,
                                char32_t* dstEnd,
-                               bool isIncomplete);
+                               bool sourceIsIncomplete);
 
         DecoderResult_t decode(const char32_t*& srcBeg,
                                const char32_t* srcEnd,
                                char32_t*& dstBeg,
                                char32_t* dstEnd,
-                               bool isIncomplete);
+                               bool sourceIsIncomplete);
 
     protected:
         enum Flags
@@ -71,6 +71,13 @@ namespace Ystring { namespace Conversion {
         };
 
         AbstractDecoder(Encoding_t encoding, int flags);
+
+        template <typename CharT>
+        DecoderResult_t decodeImpl(const CharT*& srcBeg,
+                                   const CharT* srcEnd,
+                                   char32_t*& dstBeg,
+                                   char32_t* dstEnd,
+                                   bool isIncomplete);
 
         virtual DecoderResult_t doDecode(
                 const char*& srcBeg, const char* srcEnd,

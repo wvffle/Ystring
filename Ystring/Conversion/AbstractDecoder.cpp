@@ -90,6 +90,34 @@ namespace Ystring { namespace Conversion {
                                             char32_t* dstEnd,
                                             bool sourceIsIncomplete)
     {
+        return decodeImpl(srcBeg, srcEnd, dstBeg, dstEnd, sourceIsIncomplete);
+    }
+
+    DecoderResult_t AbstractDecoder::decode(const char16_t*& srcBeg,
+                                            const char16_t* srcEnd,
+                                            char32_t*& dstBeg,
+                                            char32_t* dstEnd,
+                                            bool sourceIsIncomplete)
+    {
+        return decodeImpl(srcBeg, srcEnd, dstBeg, dstEnd, sourceIsIncomplete);
+    }
+
+    DecoderResult_t AbstractDecoder::decode(const char32_t*& srcBeg,
+                                            const char32_t* srcEnd,
+                                            char32_t*& dstBeg,
+                                            char32_t* dstEnd,
+                                            bool sourceIsIncomplete)
+    {
+        return decodeImpl(srcBeg, srcEnd, dstBeg, dstEnd, sourceIsIncomplete);
+    }
+
+    template<typename CharT>
+    DecoderResult_t AbstractDecoder::decodeImpl(const CharT*& srcBeg,
+                                                const CharT* srcEnd,
+                                                char32_t*& dstBeg,
+                                                char32_t* dstEnd,
+                                                bool sourceIsIncomplete)
+    {
         while (true)
         {
             auto result = doDecode(srcBeg, srcEnd, dstBeg, dstEnd);
@@ -117,24 +145,6 @@ namespace Ystring { namespace Conversion {
                 break;
             }
         }
-    }
-
-    DecoderResult_t AbstractDecoder::decode(const char16_t*&,
-                                            const char16_t*,
-                                            char32_t*&,
-                                            char32_t*,
-                                            bool sourceIsIncomplete)
-    {
-        return DecoderResult::OK;
-    }
-
-    DecoderResult_t AbstractDecoder::decode(const char32_t*&,
-                                            const char32_t*,
-                                            char32_t*&,
-                                            char32_t*,
-                                            bool sourceIsIncomplete)
-    {
-        return DecoderResult::OK;
     }
 
     DecoderResult_t AbstractDecoder::doDecode(const char*& srcBeg,

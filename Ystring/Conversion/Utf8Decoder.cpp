@@ -7,7 +7,6 @@
 //****************************************************************************
 #include "Utf8Decoder.hpp"
 #include "../Utf8/DecodeUtf8.hpp"
-#include "../Unicode/UnicodeChars.hpp"
 
 namespace Ystring { namespace Conversion {
 

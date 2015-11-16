@@ -58,15 +58,19 @@ namespace Ystring { namespace Conversion {
 
         //        void convert(const char* src, size_t srcLength, std::string& dst);
 
-        size_t convert(const char* src, size_t srcLength, std::u16string& dst,
+        size_t convert(const char* source,
+                       size_t sourceLength,
+                       std::u16string& destination,
                        bool sourceIsIncomplete = false);
 
 //        void convert(const char* src, size_t srcLength, std::u32string& dst);
 
 //        void convert(const char16_t* src, size_t srcLength, std::string& dst);
 
-//        void convert(const char16_t* src, size_t srcLength,
-//                     std::u16string& dst);
+        size_t convert(const char16_t* source,
+                       size_t sourceLength,
+                       std::u16string& destination,
+                       bool sourceIsIncomplete = false);
 
 //        void convert(const char16_t* src, size_t srcLength,
 //                     std::u32string& dst);
@@ -89,6 +93,12 @@ namespace Ystring { namespace Conversion {
 
         ConversionType getConversionType(Encoding_t srcEncoding,
                                          Encoding_t dstEncoding);
+
+        template <typename CharT, typename StringT>
+        size_t convertImpl(const CharT* src,
+                           size_t srcLength,
+                           StringT& dst,
+                           bool sourceIsIncomplete);
 
         std::unique_ptr<AbstractDecoder> m_Decoder;
         std::unique_ptr<AbstractEncoder> m_Encoder;

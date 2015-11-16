@@ -6,6 +6,7 @@
 // License text is included with the source distribution.
 //****************************************************************************
 #include "Utf16LEEncoder.hpp"
+#include "../Utf16/EncodeUtf16.hpp"
 
 namespace Ystring { namespace Conversion {
 

@@ -51,6 +51,11 @@ namespace Ystring { namespace Utilities
         return v;
     }
 
+    inline char reverseBytes(char v)
+    {
+        return v;
+    }
+
     inline uint16_t reverseBytes(uint16_t v)
     {
         Union16 u(v);
@@ -63,6 +68,13 @@ namespace Ystring { namespace Utilities
         return (int16_t)reverseBytes((uint16_t)v);
     }
 
+    inline char16_t reverseBytes(char16_t v)
+    {
+        Union16 u(v);
+        u.reverse();
+        return char16_t(u.u16);
+    }
+
     inline uint32_t reverseBytes(uint32_t v)
     {
         Union32 u(v);
@@ -73,6 +85,13 @@ namespace Ystring { namespace Utilities
     inline int32_t reverseBytes(int32_t v)
     {
         return (int32_t)reverseBytes((uint32_t)v);
+    }
+
+    inline char32_t reverseBytes(char32_t v)
+    {
+        Union32 u(v);
+        u.reverse();
+        return char32_t(u.u32);
     }
 
     inline Union16 reverseBytes(Union16 value)
