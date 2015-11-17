@@ -89,6 +89,6 @@ namespace Ystring { namespace Utf16
     };
 
     typedef Utf16EncodingImpl<false> Utf16Encoding;
-    typedef Utf16EncodingImpl<Utilities::IsBigEndian> Utf16LEEncoding;
-    typedef Utf16EncodingImpl<Utilities::IsLittleEndian> Utf16BEEncoding;
+    typedef Utf16EncodingImpl<IsBigEndian> Utf16LEEncoding;
+    typedef Utf16EncodingImpl<IsLittleEndian> Utf16BEEncoding;
 }}

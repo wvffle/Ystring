@@ -45,6 +45,7 @@ endif(YSTRING_WCHAR_IS_2_BYTES)
 set(PUBLIC_HEADERS_ROOT
     Ystring/Encoding.hpp
     Ystring/EncodingInfo.hpp
+    Ystring/Endianness.hpp
     Ystring/EscapeType.hpp
     Ystring/FindFlags.hpp
     Ystring/PlatformDetails.hpp
@@ -75,13 +76,13 @@ set(PUBLIC_HEADERS_UTF8
     )
 
 set(PUBLIC_HEADERS_UTF16
-    ${PUBLIC_HEADERS_UTF16}
     Ystring/Utf16/Utf16String.hpp
+    ${PUBLIC_HEADERS_UTF16}
     )
 
 set(PUBLIC_HEADERS_UTF32
-    ${PUBLIC_HEADERS_UTF32}
     Ystring/Utf32/Utf32String.hpp
+    ${PUBLIC_HEADERS_UTF32}
     )
 
 set(PUBLIC_HEADERS
@@ -188,8 +189,16 @@ set(SOURCE_FILES
     Ystring/Conversion/AbstractDecoder.hpp
     Ystring/Conversion/Utf8Decoder.cpp
     Ystring/Conversion/Utf8Decoder.hpp
+    Ystring/Conversion/AbstractEncoder.cpp
+    Ystring/Conversion/AbstractEncoder.hpp
+    Ystring/Conversion/Utf8Encoder.cpp
+    Ystring/Conversion/Utf8Encoder.hpp
+    Ystring/Conversion/Utf16LEEncoder.cpp
+    Ystring/Conversion/Utf16LEEncoder.hpp
+    Ystring/Conversion/ErrorHandlingPolicy.hpp
+    Ystring/Conversion/Utf16LEDecoder.hpp
     ${SOURCE_FILES}
-    Ystring/Conversion/AbstractEncoder.cpp Ystring/Conversion/AbstractEncoder.hpp Ystring/Conversion/Utf8Encoder.cpp Ystring/Conversion/Utf8Encoder.hpp Ystring/Conversion/Utf16LEEncoder.cpp Ystring/Conversion/Utf16LEEncoder.hpp Ystring/Conversion/ErrorHandlingPolicy.hpp Ystring/Conversion/Utf16LEDecoder.cpp Ystring/Conversion/Utf16LEDecoder.hpp)
+    )
 
 add_library(
     ${PROJECT_NAME} SHARED

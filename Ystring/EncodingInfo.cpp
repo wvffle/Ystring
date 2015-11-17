@@ -18,14 +18,14 @@ namespace Ystring
           m_MaxCharLength(0),
           m_UnitSize(0),
           m_Encoding(Encoding::UNKNOWN),
-          m_Endianness(Utilities::UnknownEndianness)
+          m_Endianness(Endianness::UNKNOWN_ENDIANNESS)
     {
     }
 
     EncodingInfo::EncodingInfo(Encoding_t encoding,
                                const std::string& name,
                                const std::string& byteOrderMark,
-                               Utilities::Endianness endianness,
+                               Endianness_t endianness,
                                size_t unitSize,
                                size_t minCharLength,
                                size_t maxCharLength)
@@ -49,12 +49,12 @@ namespace Ystring
         m_ByteOrderMark = byteOrderMark;
     }
 
-    Utilities::Endianness EncodingInfo::endianness() const
+    Endianness_t EncodingInfo::endianness() const
     {
         return m_Endianness;
     }
 
-    void EncodingInfo::setEndianness(Utilities::Endianness endianness)
+    void EncodingInfo::setEndianness(Endianness_t endianness)
     {
         m_Endianness = endianness;
     }
@@ -145,39 +145,39 @@ namespace Ystring
 
     static EncodingInfo s_Properties[] = {
         EncodingInfo(Encoding::UNKNOWN, "Unknown", "",
-                     Utilities::UnknownEndianness, 0, 0, 0),
+                     Endianness::UNKNOWN_ENDIANNESS, 0, 0, 0),
         EncodingInfo(Encoding::ASCII, "ASCII", "",
-                     Utilities::UnknownEndianness, 1, 1, 1),
+                     Endianness::UNKNOWN_ENDIANNESS, 1, 1, 1),
         EncodingInfo(Encoding::UTF_8, "UTF-8", "\xEF\xBB\xBF",
-                     Utilities::UnknownEndianness, 1, 1, 4),
+                     Endianness::UNKNOWN_ENDIANNESS, 1, 1, 4),
         EncodingInfo(Encoding::LATIN_1, "latin-1", "",
-                     Utilities::UnknownEndianness, 1, 1, 1),
+                     Endianness::UNKNOWN_ENDIANNESS, 1, 1, 1),
         EncodingInfo(Encoding::LATIN_9, "latin-9", "",
-                     Utilities::UnknownEndianness, 1, 1, 1),
+                     Endianness::UNKNOWN_ENDIANNESS, 1, 1, 1),
         EncodingInfo(Encoding::WINDOWS_1252, "windows-1252", "",
-                     Utilities::UnknownEndianness, 1, 1, 1),
+                     Endianness::UNKNOWN_ENDIANNESS, 1, 1, 1),
         EncodingInfo(Encoding::UTF_16_BE, "UTF-16BE", "\xFE\xFF",
-                     Utilities::BigEndian, 2, 1, 2),
+                     Endianness::BIG_ENDIAN, 2, 1, 2),
         EncodingInfo(Encoding::UTF_16_LE, "UTF-16LE", "\xFF\xFE",
-                     Utilities::LittleEndian, 2, 1, 2),
+                     Endianness::LITTLE_ENDIAN, 2, 1, 2),
         EncodingInfo(Encoding::UTF_32_BE, "UTF-32BE", "\x00\x00\xFE\xFF",
-                     Utilities::BigEndian, 4, 1, 1),
+                     Endianness::BIG_ENDIAN, 4, 1, 1),
         EncodingInfo(Encoding::UTF_32_LE, "UTF-32LE", "\xFF\xFE\x00\x00",
-                     Utilities::LittleEndian, 4, 1, 1),
+                     Endianness::LITTLE_ENDIAN, 4, 1, 1),
         EncodingInfo(Encoding::UTF_7, "UTF-7", "\x2B\x2F\x76",
-                     Utilities::UnknownEndianness, 1, 1, 0),
+                     Endianness::UNKNOWN_ENDIANNESS, 1, 1, 0),
         EncodingInfo(Encoding::UTF_1, "UTF-1", "\xF7\x64\x4C",
-                     Utilities::UnknownEndianness, 1, 1, 5),
+                     Endianness::UNKNOWN_ENDIANNESS, 1, 1, 5),
         EncodingInfo(Encoding::UTF_EBCDIC, "UTF-EBCDIC", "\xDD\x73\x66\x73",
-                     Utilities::UnknownEndianness, 1, 1, 5),
+                     Endianness::UNKNOWN_ENDIANNESS, 1, 1, 5),
         EncodingInfo(Encoding::SCSU, "SCSU", "\x0E\xFE\xFF",
-                     Utilities::UnknownEndianness, 1, 1, 0),
+                     Endianness::UNKNOWN_ENDIANNESS, 1, 1, 0),
         EncodingInfo(Encoding::BOCU_1, "BOCU-1", "\xFB\xEE\x28",
-                     Utilities::UnknownEndianness, 1, 1, 0),
+                     Endianness::UNKNOWN_ENDIANNESS, 1, 1, 0),
         EncodingInfo(Encoding::UCS_2, "UCS2", "",
-                     Utilities::BigEndian, 2, 1, 1),
+                     Endianness::BIG_ENDIAN, 2, 1, 1),
         EncodingInfo(Encoding::GB_18030, "GB18030", "\x84\x31\x95\x33",
-                     Utilities::UnknownEndianness, 1, 1, 4)
+                     Endianness::UNKNOWN_ENDIANNESS, 1, 1, 4)
     };
 
     const EncodingInfo* getEncodingInfo(Encoding_t encoding)

@@ -15,9 +15,6 @@
 
 namespace Ystring { namespace Utf16
 {
-    using Utilities::IsBigEndian;
-    using Utilities::IsLittleEndian;
-
     template <bool SwapBytes, typename FwdIt>
     DecoderResult_t nextUtf16CodePoint(uint32_t& codePoint,
                                        FwdIt& it, FwdIt end);

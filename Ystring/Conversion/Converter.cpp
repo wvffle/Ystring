@@ -12,7 +12,7 @@
 #include "../Generic/GenericConvert.hpp"
 #include "Utf8Decoder.hpp"
 #include "Utf8Encoder.hpp"
-#include "Utf16LEDecoder.hpp"
+#include "Utf16Decoder.hpp"
 #include "Utf16LEEncoder.hpp"
 
 namespace Ystring { namespace Conversion {
@@ -203,7 +203,8 @@ namespace Ystring { namespace Conversion {
             case Encoding::ISO_8859_15:break;
             case Encoding::WINDOWS_1252:break;
             case Encoding::CP_437:break;
-            case Encoding::UTF_16_BE:break;
+            case Encoding::UTF_16_BE:
+                return std::unique_ptr<AbstractDecoder>(new Utf16BEDecoder);
             case Encoding::UTF_16_LE:
                 return std::unique_ptr<AbstractDecoder>(new Utf16LEDecoder);
             case Encoding::UTF_32_BE:break;

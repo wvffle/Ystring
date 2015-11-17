@@ -10,7 +10,7 @@
 #include <string>
 #include "Encoding.hpp"
 #include "YstringDefinitions.hpp"
-#include "Utilities/Endian.hpp"
+#include "Endianness.hpp"
 
 /** @file
   * @brief Defines the EncodingInfo class and declares functions that can
@@ -34,7 +34,7 @@ namespace Ystring
         EncodingInfo(Encoding_t encoding,
                      const std::string& name,
                      const std::string& byteOrderMark,
-                     Utilities::Endianness endianness,
+                     Endianness_t endianness,
                      size_t unitSize,
                      size_t minCharLength,
                      size_t maxCharLength);
@@ -42,8 +42,8 @@ namespace Ystring
         const std::string& byteOrderMark() const;
         void setByteOrderMark(const std::string& byteOrderMark);
 
-        Utilities::Endianness endianness() const;
-        void setEndianness(Utilities::Endianness endianness);
+        Endianness_t endianness() const;
+        void setEndianness(Endianness_t endianness);
 
         size_t minCharLength() const;
         void setMinCharLength(size_t minCharLength);
@@ -66,7 +66,7 @@ namespace Ystring
         size_t m_MaxCharLength;
         size_t m_UnitSize;
         Encoding_t m_Encoding;
-        Utilities::Endianness m_Endianness;
+        Endianness_t m_Endianness;
     };
 
     /** @brief Return the @a EncdingInfo for @a encoding.
