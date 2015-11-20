@@ -94,14 +94,32 @@ namespace Ystring { namespace Conversion {
             SWAP_ENDIANNESS
         };
 
-        ConversionType getConversionType(Encoding_t srcEncoding,
-                                         Encoding_t dstEncoding);
+        static ConversionType getConversionType(Encoding_t srcEncoding,
+                                                Encoding_t dstEncoding);
 
         template <typename CharT, typename StringT>
         size_t convertImpl(const CharT* src,
                            size_t srcLength,
                            StringT& dst,
                            bool sourceIsIncomplete);
+
+        template<typename CharT, typename StringT>
+        size_t doConvert(const CharT* src,
+                         size_t srcLength,
+                         StringT& dst,
+                         bool sourceIsIncomplete);
+
+        template<typename CharT, typename StringT>
+        size_t doCopy(const CharT* src,
+                      size_t srcLength,
+                      StringT& dst,
+                      bool sourceIsIncomplete);
+
+        template<typename CharT, typename StringT>
+        size_t doCopyAndSwapBytes(const CharT* src,
+                                  size_t srcLength,
+                                  StringT& dst,
+                                  bool sourceIsIncomplete);
 
         std::unique_ptr<AbstractDecoder> m_Decoder;
         std::unique_ptr<AbstractEncoder> m_Encoder;

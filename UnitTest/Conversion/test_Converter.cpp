@@ -68,9 +68,11 @@ namespace {
     void test_Utf16_to_Utf16()
     {
         Converter converter(Encoding::UTF_16, Encoding::UTF_16);
-        std::u16string src = u"ABCDEFGHIJKL";
+        char16_t src16[] = u"ABCDEFGHIJKL";
+        auto src8 = reinterpret_cast<const char*>(src16);
         std::u16string dst;
-        Y_EQUAL(converter.convert(src.data(), src.size(), dst), src.size());
+        Y_EQUAL(converter.convert(src8, sizeof(src16) - 2, dst),
+                sizeof(src16) - 2);
         Y_EQUAL(dst, u"ABCDEFGHIJKL");
     }
 
@@ -83,10 +85,38 @@ namespace {
         Y_EQUAL(dst, "ABCDEFGHIJKL");
     }
 
+    void test_Utf16BE_to_Utf16LE()
+    {
+        Converter converter(Encoding::UTF_16_BE, Encoding::UTF_16_LE);
+        char16_t src[] = {'A', 'B', 'C', 'D', 'E', 'F', 'H', 'I'};
+        auto srcLen = sizeof(src) / sizeof(*src);
+        std::u16string dst;
+        Y_EQUAL(converter.convert(src, srcLen, dst), srcLen);
+        std::u16string expected;
+        for (auto i = 0; i != srcLen; ++i)
+            expected.push_back(src[i] << 8);
+        Y_EQUAL(dst, expected);
+    }
+
+    void test_Utf16LE_to_Utf16BE()
+    {
+        Converter converter(Encoding::UTF_16_LE, Encoding::UTF_16_BE);
+        char16_t src[] = {'A', 'B', 'C', 'D', 'E', 'F', 'H', 'I'};
+        auto srcLen = sizeof(src) / sizeof(*src);
+        std::u16string dst;
+        Y_EQUAL(converter.convert(src, srcLen, dst), srcLen);
+        std::u16string expected;
+        for (auto i = 0; i != srcLen; ++i)
+            expected.push_back(src[i] << 8);
+        Y_EQUAL(dst, expected);
+    }
+
     Y_SUBTEST("Conversion",
               test_Utf8_to_Utf16,
               test_Utf8_to_Utf16_IncompleteSource,
               test_Utf8_to_Utf16_SmallBuffer,
               test_Utf16_to_Utf16,
-              test_Utf16_to_Utf8);
+              test_Utf16_to_Utf8,
+              test_Utf16BE_to_Utf16LE,
+              test_Utf16LE_to_Utf16BE);
 }

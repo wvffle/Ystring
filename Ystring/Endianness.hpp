@@ -13,9 +13,9 @@ namespace Ystring {
     {
         enum Type
         {
-            UNKNOWN_ENDIANNESS,
-            BIG_ENDIAN,
-            LITTLE_ENDIAN
+            UNKNOWN,
+            BIG,
+            LITTLE
         };
     };
 

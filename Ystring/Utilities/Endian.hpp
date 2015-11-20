@@ -19,8 +19,8 @@ namespace Ystring { namespace Utilities
     inline Endianness_t systemEndianness()
     {
         Union16 u(1);
-        return u.u8[0] == 0 ? Endianness::BIG_ENDIAN
-                            : Endianness::LITTLE_ENDIAN;
+        return u.u8[0] == 0 ? Endianness::BIG
+                            : Endianness::LITTLE;
     }
 
     inline uint8_t reverseBytes(uint8_t v)

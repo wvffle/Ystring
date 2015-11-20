@@ -16,7 +16,10 @@ namespace Ystring { namespace Conversion {
     {
     public:
         Utf16Decoder()
-                : AbstractDecoder(Encoding::UTF_16_LE, SUPPORTS_8_AND_16_BIT)
+            : AbstractDecoder(IsBigEndian == SwapBytes
+                              ? Encoding::UTF_16_LE
+                              : Encoding::UTF_16_BE,
+                              SUPPORTS_8_AND_16_BIT)
         {}
 
     protected:

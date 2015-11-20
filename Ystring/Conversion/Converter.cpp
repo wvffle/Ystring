@@ -13,7 +13,7 @@
 #include "Utf8Decoder.hpp"
 #include "Utf8Encoder.hpp"
 #include "Utf16Decoder.hpp"
-#include "Utf16LEEncoder.hpp"
+#include "Utf16Encoder.hpp"
 
 namespace Ystring { namespace Conversion {
 
@@ -147,6 +147,21 @@ namespace Ystring { namespace Conversion {
         return CONVERT;
     }
 
+    template<typename CharT, typename StringT>
+    size_t copy(const CharT* src,
+                size_t srcLength,
+                StringT& dst,
+                size_t charSize)
+    {
+        typedef typename StringT::value_type DstChar;
+        auto srcMemLength = srcLength * sizeof(CharT);
+        srcMemLength -= srcMemLength % charSize;
+        auto dstLength = srcMemLength / sizeof(DstChar);
+        auto initialDstSize = dst.size();
+        dst.resize(initialDstSize + dstLength);
+        std::memcpy(&dst[initialDstSize], src, srcMemLength);
+        return srcMemLength / sizeof(CharT);
+    }
 
     template<typename CharT, typename StringT>
     size_t Converter::convertImpl(const CharT* src,
@@ -154,26 +169,25 @@ namespace Ystring { namespace Conversion {
                                   StringT& dst,
                                   bool sourceIsIncomplete)
     {
+        switch (m_ConversionType)
+        {
+        case SWAP_ENDIANNESS:
+            return doCopyAndSwapBytes(src, srcLength, dst, sourceIsIncomplete);
+        case COPY:
+            return doCopy(src, srcLength, dst, sourceIsIncomplete);
+        case CONVERT:
+            return doConvert(src, srcLength, dst, sourceIsIncomplete);
+        }
+    }
+
+    template<typename CharT, typename StringT>
+    size_t Converter::doConvert(const CharT* src,
+                                size_t srcLength,
+                                StringT& dst,
+                                bool sourceIsIncomplete)
+    {
         auto srcBeg = src;
         auto srcEnd = src + srcLength;
-        if (m_ConversionType == COPY)
-        {
-            if (sizeof(CharT) == sizeof(typename StringT::value_type))
-            {
-                std::copy(srcBeg, srcEnd, back_inserter(dst));
-                return srcLength;
-            }
-        }
-        else if (m_ConversionType == SWAP_ENDIANNESS)
-        {
-            if (sizeof(CharT) == sizeof(typename StringT::value_type))
-            {
-                auto originalSize = dst.size();
-                std::copy(srcBeg, srcEnd, back_inserter(dst));
-                swapEndianness(dst.data() + originalSize, srcLength);
-                return srcLength;
-            }
-        }
         auto bufSize = std::min(srcLength, m_BufferSize);
         std::vector<char32_t> buffer(bufSize);
         auto bufEnd = buffer.data() + bufSize;
@@ -190,25 +204,73 @@ namespace Ystring { namespace Conversion {
         return srcBeg - src;
     }
 
+    template<typename CharT, typename StringT>
+    size_t Converter::doCopy(const CharT* src,
+                             size_t srcLength,
+                             StringT& dst,
+                             bool sourceIsIncomplete)
+    {
+        typedef typename StringT::value_type StringChar;
+        auto unitSize = m_Decoder->characterUnitSize();
+        if ((sizeof(CharT) == 1 || sizeof(CharT) == unitSize)
+            && (sizeof(StringChar) == 1 || sizeof(StringChar) == unitSize))
+        {
+            return copy(src, srcLength, dst, unitSize);
+        }
+        else
+        {
+            return doConvert(src, srcLength, dst, sourceIsIncomplete);
+        }
+    }
+
+    template<typename CharT, typename StringT>
+    size_t Converter::doCopyAndSwapBytes(const CharT* src,
+                                         size_t srcLength,
+                                         StringT& dst,
+                                         bool sourceIsIncomplete)
+    {
+        typedef typename StringT::value_type StringChar;
+        auto unitSize = m_Decoder->characterUnitSize();
+        if ((sizeof(CharT) == 1 || sizeof(CharT) == unitSize)
+            && sizeof(StringChar) == unitSize)
+        {
+            auto initialSize = dst.size();
+            auto result = copy(src, srcLength, dst, unitSize);
+            swapEndianness(&dst[initialSize], dst.size() - initialSize);
+            return result;
+        }
+        else
+        {
+            return doConvert(src, srcLength, dst, sourceIsIncomplete);
+        }
+    }
+
     namespace {
 
         std::unique_ptr<AbstractDecoder> makeDecoder(Encoding_t encoding)
         {
             switch (encoding)
             {
-            case Encoding::ASCII:break;
+            case Encoding::ASCII:
+                break;
             case Encoding::UTF_8:
                 return std::unique_ptr<AbstractDecoder>(new Utf8Decoder);
-            case Encoding::ISO_8859_1:break;
-            case Encoding::ISO_8859_15:break;
-            case Encoding::WINDOWS_1252:break;
-            case Encoding::CP_437:break;
+            case Encoding::ISO_8859_1:
+                break;
+            case Encoding::ISO_8859_15:
+                break;
+            case Encoding::WINDOWS_1252:
+                break;
+            case Encoding::CP_437:
+                break;
             case Encoding::UTF_16_BE:
                 return std::unique_ptr<AbstractDecoder>(new Utf16BEDecoder);
             case Encoding::UTF_16_LE:
                 return std::unique_ptr<AbstractDecoder>(new Utf16LEDecoder);
-            case Encoding::UTF_32_BE:break;
-            case Encoding::UTF_32_LE:break;
+            case Encoding::UTF_32_BE:
+                break;
+            case Encoding::UTF_32_LE:
+                break;
             case Encoding::UNKNOWN:
                 break;
             case Encoding::UTF_7:break;
@@ -238,7 +300,8 @@ namespace Ystring { namespace Conversion {
             case Encoding::ISO_8859_15:break;
             case Encoding::WINDOWS_1252:break;
             case Encoding::CP_437:break;
-            case Encoding::UTF_16_BE:break;
+            case Encoding::UTF_16_BE:
+                return std::unique_ptr<AbstractEncoder>(new Utf16BEEncoder);
             case Encoding::UTF_16_LE:
                 return std::unique_ptr<AbstractEncoder>(new Utf16LEEncoder);
             case Encoding::UTF_32_BE:break;
@@ -265,7 +328,7 @@ namespace Ystring { namespace Conversion {
         void swapEndianness(T* str, size_t length)
         {
             for (size_t i = 0; i < length; ++i)
-                Utilities::reverseBytes(str[i]);
+                str[i] = Utilities::reverseBytes(str[i]);
         }
 
     }

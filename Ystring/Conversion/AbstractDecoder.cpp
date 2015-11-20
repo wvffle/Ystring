@@ -17,12 +17,19 @@ namespace Ystring { namespace Conversion {
         : m_Encoding(encoding),
           m_ReplacementCharacter(Unicode::REPLACEMENT_CHARACTER),
           m_Flags(flags),
-          m_ErrorHandlingPolicy(),
-          m_IncompleteCharactersAreInvalid(true)
+          m_ErrorHandlingPolicy()
     {}
 
     AbstractDecoder::~AbstractDecoder()
     {}
+
+    size_t AbstractDecoder::characterUnitSize() const
+    {
+        auto info = getEncodingInfo(m_Encoding);
+        if (!info)
+            YSTRING_THROW("Uknown encoding.");
+        return info->unitSize();
+    }
 
     Encoding_t AbstractDecoder::encoding() const
     {
@@ -72,16 +79,6 @@ namespace Ystring { namespace Conversion {
     bool AbstractDecoder::supports32BitStrings() const
     {
         return (m_Flags & SUPPORTS_32_BIT) != 0;
-    }
-
-    bool AbstractDecoder::incompleteCharactersAreInvalid() const
-    {
-        return m_IncompleteCharactersAreInvalid;
-    }
-
-    void AbstractDecoder::setIncompleteCharactersAreInvalid(bool value)
-    {
-        m_IncompleteCharactersAreInvalid = value;
     }
 
     DecoderResult_t AbstractDecoder::decode(const char*& srcBeg,

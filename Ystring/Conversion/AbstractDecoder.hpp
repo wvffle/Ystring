@@ -19,6 +19,8 @@ namespace Ystring { namespace Conversion {
     public:
         virtual ~AbstractDecoder();
 
+        size_t characterUnitSize() const;
+
         Encoding_t encoding() const;
 
         const std::string& encodingName() const;
@@ -36,10 +38,6 @@ namespace Ystring { namespace Conversion {
         bool supports16BitStrings() const;
 
         bool supports32BitStrings() const;
-
-        bool incompleteCharactersAreInvalid() const;
-
-        void setIncompleteCharactersAreInvalid(bool value);
 
         DecoderResult_t decode(const char*& srcBeg,
                                const char* srcEnd,
@@ -107,7 +105,6 @@ namespace Ystring { namespace Conversion {
         char32_t m_ReplacementCharacter;
         int m_Flags;
         ErrorHandlingPolicy_t m_ErrorHandlingPolicy;
-        bool m_IncompleteCharactersAreInvalid;
     };
 
 }}

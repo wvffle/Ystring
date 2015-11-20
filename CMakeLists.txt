@@ -193,10 +193,9 @@ set(SOURCE_FILES
     Ystring/Conversion/AbstractEncoder.hpp
     Ystring/Conversion/Utf8Encoder.cpp
     Ystring/Conversion/Utf8Encoder.hpp
-    Ystring/Conversion/Utf16LEEncoder.cpp
-    Ystring/Conversion/Utf16LEEncoder.hpp
+    Ystring/Conversion/Utf16Encoder.hpp
     Ystring/Conversion/ErrorHandlingPolicy.hpp
-    Ystring/Conversion/Utf16LEDecoder.hpp
+    Ystring/Conversion/Utf16Decoder.hpp
     ${SOURCE_FILES}
     )
 
