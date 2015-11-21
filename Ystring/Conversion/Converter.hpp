@@ -56,14 +56,20 @@ namespace Ystring { namespace Conversion {
 
         void setEncoderReplacementCharacter(char32_t value);
 
-        //        void convert(const char* src, size_t srcLength, std::string& dst);
+//        size_t convert(const char* source,
+//                       size_t sourceLength,
+//                       std::string& destination,
+//                       bool sourceIsIncomplete = false);
 
         size_t convert(const char* source,
                        size_t sourceLength,
                        std::u16string& destination,
                        bool sourceIsIncomplete = false);
 
-//        void convert(const char* src, size_t srcLength, std::u32string& dst);
+        size_t convert(const char* source,
+                       size_t sourceLength,
+                       std::u32string& destination,
+                       bool sourceIsIncomplete = false);
 
         size_t convert(const char16_t* source,
                        size_t sourceLength,
@@ -75,17 +81,25 @@ namespace Ystring { namespace Conversion {
                        std::u16string& destination,
                        bool sourceIsIncomplete = false);
 
-//        void convert(const char16_t* src, size_t srcLength,
-//                     std::u32string& dst);
-//
-//        void convert(const char32_t* src, size_t srcLength,
-//                     std::string& dst);
-//
-//        void convert(const char32_t* src, size_t srcLength,
-//                     std::u16string& dst);
-//
-//        void convert(const char32_t* src, size_t srcLength,
-//                     std::u32string& dst);
+        size_t convert(const char16_t* source,
+                       size_t sourceLength,
+                       std::u32string& destination,
+                       bool sourceIsIncomplete = false);
+
+        size_t convert(const char32_t* source,
+                       size_t sourceLength,
+                       std::string& destination,
+                       bool sourceIsIncomplete = false);
+
+        size_t convert(const char32_t* source,
+                       size_t sourceLength,
+                       std::u16string& destination,
+                       bool sourceIsIncomplete = false);
+
+        size_t convert(const char32_t* source,
+                       size_t sourceLength,
+                       std::u32string& destination,
+                       bool sourceIsIncomplete = false);
     private:
         enum ConversionType
         {

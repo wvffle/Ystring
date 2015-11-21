@@ -13,10 +13,9 @@
 
 namespace Ystring { namespace Conversion {
 
-    AbstractDecoder::AbstractDecoder(Encoding_t encoding, int flags)
+    AbstractDecoder::AbstractDecoder(Encoding_t encoding)
         : m_Encoding(encoding),
           m_ReplacementCharacter(Unicode::REPLACEMENT_CHARACTER),
-          m_Flags(flags),
           m_ErrorHandlingPolicy()
     {}
 
@@ -64,21 +63,6 @@ namespace Ystring { namespace Conversion {
     void AbstractDecoder::setReplacementCharacter(char32_t value)
     {
         m_ReplacementCharacter = value;
-    }
-
-    bool AbstractDecoder::supports8BitStrings() const
-    {
-        return (m_Flags & SUPPORTS_8_BIT) != 0;
-    }
-
-    bool AbstractDecoder::supports16BitStrings() const
-    {
-        return (m_Flags & SUPPORTS_16_BIT) != 0;
-    }
-
-    bool AbstractDecoder::supports32BitStrings() const
-    {
-        return (m_Flags & SUPPORTS_32_BIT) != 0;
     }
 
     DecoderResult_t AbstractDecoder::decode(const char*& srcBeg,

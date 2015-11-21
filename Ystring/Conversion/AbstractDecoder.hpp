@@ -33,12 +33,6 @@ namespace Ystring { namespace Conversion {
 
         virtual void setReplacementCharacter(char32_t value);
 
-        bool supports8BitStrings() const;
-
-        bool supports16BitStrings() const;
-
-        bool supports32BitStrings() const;
-
         DecoderResult_t decode(const char*& srcBeg,
                                const char* srcEnd,
                                char32_t*& dstBeg,
@@ -58,17 +52,7 @@ namespace Ystring { namespace Conversion {
                                bool sourceIsIncomplete);
 
     protected:
-        enum Flags
-        {
-            SUPPORTS_8_BIT = 1,
-            SUPPORTS_16_BIT = 2,
-            SUPPORTS_32_BIT = 4,
-            SUPPORTS_8_AND_16_BIT = SUPPORTS_8_BIT | SUPPORTS_16_BIT,
-            SUPPORTS_8_AND_32_BIT = SUPPORTS_8_BIT | SUPPORTS_32_BIT,
-            SUPPORTS_ALL = SUPPORTS_8_AND_16_BIT | SUPPORTS_32_BIT
-        };
-
-        AbstractDecoder(Encoding_t encoding, int flags);
+        AbstractDecoder(Encoding_t encoding);
 
         template <typename CharT>
         DecoderResult_t decodeImpl(const CharT*& srcBeg,
@@ -103,7 +87,6 @@ namespace Ystring { namespace Conversion {
     private:
         Encoding_t m_Encoding;
         char32_t m_ReplacementCharacter;
-        int m_Flags;
         ErrorHandlingPolicy_t m_ErrorHandlingPolicy;
     };
 

@@ -11,7 +11,7 @@
 namespace Ystring { namespace Conversion {
 
     Utf8Decoder::Utf8Decoder()
-        : AbstractDecoder(Encoding::UTF_8, SUPPORTS_8_BIT)
+        : AbstractDecoder(Encoding::UTF_8)
     {}
 
     DecoderResult_t Utf8Decoder::doDecode(const char*& srcBeg,

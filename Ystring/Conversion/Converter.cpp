@@ -14,6 +14,8 @@
 #include "Utf8Encoder.hpp"
 #include "Utf16Decoder.hpp"
 #include "Utf16Encoder.hpp"
+#include "Utf32Decoder.hpp"
+#include "Utf32Encoder.hpp"
 
 namespace Ystring { namespace Conversion {
 
@@ -110,6 +112,17 @@ namespace Ystring { namespace Conversion {
                            sourceIsIncomplete);
     }
 
+    size_t Converter::convert(const char* source,
+                              size_t sourceLength,
+                              std::u32string& destination,
+                              bool sourceIsIncomplete)
+    {
+        return convertImpl(source,
+                           sourceLength,
+                           destination,
+                           sourceIsIncomplete);
+    }
+
     size_t Converter::convert(const char16_t* source,
                               size_t sourceLength,
                               std::string& destination,
@@ -124,6 +137,50 @@ namespace Ystring { namespace Conversion {
     size_t Converter::convert(const char16_t* source,
                               size_t sourceLength,
                               std::u16string& destination,
+                              bool sourceIsIncomplete)
+    {
+        return convertImpl(source,
+                           sourceLength,
+                           destination,
+                           sourceIsIncomplete);
+    }
+
+    size_t Converter::convert(const char16_t* source,
+                              size_t sourceLength,
+                              std::u32string& destination,
+                              bool sourceIsIncomplete)
+    {
+        return convertImpl(source,
+                           sourceLength,
+                           destination,
+                           sourceIsIncomplete);
+    }
+
+    size_t Converter::convert(const char32_t* source,
+                              size_t sourceLength,
+                              std::string& destination,
+                              bool sourceIsIncomplete)
+    {
+        return convertImpl(source,
+                           sourceLength,
+                           destination,
+                           sourceIsIncomplete);
+    }
+
+    size_t Converter::convert(const char32_t* source,
+                              size_t sourceLength,
+                              std::u16string& destination,
+                              bool sourceIsIncomplete)
+    {
+        return convertImpl(source,
+                           sourceLength,
+                           destination,
+                           sourceIsIncomplete);
+    }
+
+    size_t Converter::convert(const char32_t* source,
+                              size_t sourceLength,
+                              std::u32string& destination,
                               bool sourceIsIncomplete)
     {
         return convertImpl(source,
@@ -268,20 +325,11 @@ namespace Ystring { namespace Conversion {
             case Encoding::UTF_16_LE:
                 return std::unique_ptr<AbstractDecoder>(new Utf16LEDecoder);
             case Encoding::UTF_32_BE:
-                break;
+                return std::unique_ptr<AbstractDecoder>(new Utf32BEDecoder);
             case Encoding::UTF_32_LE:
+                return std::unique_ptr<AbstractDecoder>(new Utf32LEDecoder);
+            default:
                 break;
-            case Encoding::UNKNOWN:
-                break;
-            case Encoding::UTF_7:break;
-            case Encoding::UTF_1:break;
-            case Encoding::UTF_EBCDIC:break;
-            case Encoding::SCSU:break;
-            case Encoding::BOCU_1:break;
-            case Encoding::UCS_2:break;
-            case Encoding::GB_18030:break;
-            case Encoding::UNSPECIFIED_SINGLE_BYTE_CHARACTER_SET:break;
-            case Encoding::MAXIMUM:break;
             }
 
             auto info = getEncodingInfo(encoding);
@@ -293,30 +341,28 @@ namespace Ystring { namespace Conversion {
         {
             switch (encoding)
             {
-            case Encoding::ASCII:break;
+            case Encoding::ASCII:
+                break;
             case Encoding::UTF_8:
                 return std::unique_ptr<AbstractEncoder>(new Utf8Encoder);
-            case Encoding::ISO_8859_1:break;
-            case Encoding::ISO_8859_15:break;
-            case Encoding::WINDOWS_1252:break;
-            case Encoding::CP_437:break;
+            case Encoding::ISO_8859_1:
+                break;
+            case Encoding::ISO_8859_15:
+                break;
+            case Encoding::WINDOWS_1252:
+                break;
+            case Encoding::CP_437:
+                break;
             case Encoding::UTF_16_BE:
                 return std::unique_ptr<AbstractEncoder>(new Utf16BEEncoder);
             case Encoding::UTF_16_LE:
                 return std::unique_ptr<AbstractEncoder>(new Utf16LEEncoder);
-            case Encoding::UTF_32_BE:break;
-            case Encoding::UTF_32_LE:break;
-            case Encoding::UNKNOWN:
+            case Encoding::UTF_32_BE:
+                return std::unique_ptr<AbstractEncoder>(new Utf32BEEncoder);
+            case Encoding::UTF_32_LE:
+                return std::unique_ptr<AbstractEncoder>(new Utf32LEEncoder);
+            default:
                 break;
-            case Encoding::UTF_7:break;
-            case Encoding::UTF_1:break;
-            case Encoding::UTF_EBCDIC:break;
-            case Encoding::SCSU:break;
-            case Encoding::BOCU_1:break;
-            case Encoding::UCS_2:break;
-            case Encoding::GB_18030:break;
-            case Encoding::UNSPECIFIED_SINGLE_BYTE_CHARACTER_SET:break;
-            case Encoding::MAXIMUM:break;
             }
 
             auto info = getEncodingInfo(encoding);
