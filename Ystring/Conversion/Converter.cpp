@@ -328,6 +328,7 @@ namespace Ystring { namespace Conversion {
             case Encoding::ISO_8859_15:
             case Encoding::WINDOWS_1252:
             case Encoding::CP_437:
+            case Encoding::CP_850:
                 return std::unique_ptr<AbstractDecoder>(new CodePageDecoder(
                         encoding));
             case Encoding::UTF_16_BE:
@@ -359,6 +360,7 @@ namespace Ystring { namespace Conversion {
             case Encoding::ISO_8859_15:
             case Encoding::WINDOWS_1252:
             case Encoding::CP_437:
+            case Encoding::CP_850:
                 return std::unique_ptr<AbstractEncoder>(new CodePageEncoder(
                         encoding));
             case Encoding::UTF_16_BE:

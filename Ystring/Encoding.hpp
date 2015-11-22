@@ -52,6 +52,9 @@ namespace Ystring {
             /** @brief The most common MS DOS encoding.
               */
             CP_437,
+            /** @brief The most common MS DOS encoding.
+              */
+            CP_850,
             /** @brief Big Endian UTF-16.
               */
             UTF_16_BE,

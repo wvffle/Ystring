@@ -9,6 +9,7 @@
 #include "../YstringException.hpp"
 #include "../Utilities/KeyFunctionAlgorithms.hpp"
 #include "Cp437.hpp"
+#include "Cp850.hpp"
 #include "Iso8859_1.hpp"
 #include "Iso8859_15.hpp"
 #include "Windows1252.hpp"
@@ -72,6 +73,8 @@ namespace Ystring { namespace CodePage
             return makeWindows1252();
         case Encoding::CP_437:
             return makeCp437();
+        case Encoding::CP_850:
+            return makeCp850();
         default:
             break;
         }
