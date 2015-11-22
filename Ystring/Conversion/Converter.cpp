@@ -10,6 +10,8 @@
 #include <vector>
 #include "../EncodingInfo.hpp"
 #include "../Generic/GenericConvert.hpp"
+#include "CodePageDecoder.hpp"
+#include "CodePageEncoder.hpp"
 #include "Utf8Decoder.hpp"
 #include "Utf8Encoder.hpp"
 #include "Utf16Decoder.hpp"
@@ -99,6 +101,17 @@ namespace Ystring { namespace Conversion {
     void Converter::setEncoderReplacementCharacter(char32_t value)
     {
         m_Encoder->setReplacementCharacter(value);
+    }
+
+    size_t Converter::convert(const char* source,
+                              size_t sourceLength,
+                              std::string& destination,
+                              bool sourceIsIncomplete)
+    {
+        return convertImpl(source,
+                           sourceLength,
+                           destination,
+                           sourceIsIncomplete);
     }
 
     size_t Converter::convert(const char* source,
@@ -308,18 +321,15 @@ namespace Ystring { namespace Conversion {
         {
             switch (encoding)
             {
-            case Encoding::ASCII:
-                break;
             case Encoding::UTF_8:
                 return std::unique_ptr<AbstractDecoder>(new Utf8Decoder);
+            case Encoding::ASCII:
             case Encoding::ISO_8859_1:
-                break;
             case Encoding::ISO_8859_15:
-                break;
             case Encoding::WINDOWS_1252:
-                break;
             case Encoding::CP_437:
-                break;
+                return std::unique_ptr<AbstractDecoder>(new CodePageDecoder(
+                        encoding));
             case Encoding::UTF_16_BE:
                 return std::unique_ptr<AbstractDecoder>(new Utf16BEDecoder);
             case Encoding::UTF_16_LE:
@@ -346,13 +356,11 @@ namespace Ystring { namespace Conversion {
             case Encoding::UTF_8:
                 return std::unique_ptr<AbstractEncoder>(new Utf8Encoder);
             case Encoding::ISO_8859_1:
-                break;
             case Encoding::ISO_8859_15:
-                break;
             case Encoding::WINDOWS_1252:
-                break;
             case Encoding::CP_437:
-                break;
+                return std::unique_ptr<AbstractEncoder>(new CodePageEncoder(
+                        encoding));
             case Encoding::UTF_16_BE:
                 return std::unique_ptr<AbstractEncoder>(new Utf16BEEncoder);
             case Encoding::UTF_16_LE:

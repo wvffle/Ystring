@@ -59,6 +59,11 @@ set(PUBLIC_HEADERS_ROOT
     ${PUBLIC_HEADERS_ROOT}
     )
 
+set(PUBLIC_HEADERS_CONVERSION
+    Ystring/Conversion/Converter.hpp
+    Ystring/Conversion/ErrorHandlingPolicy.hpp
+    )
+
 set(PUBLIC_HEADERS_STREAMING
     Ystring/Streaming/StreamFill.hpp
     Ystring/Streaming/StreamJoin.hpp
@@ -87,6 +92,7 @@ set(PUBLIC_HEADERS_UTF32
 
 set(PUBLIC_HEADERS
     ${PUBLIC_HEADERS_ROOT}
+    ${PUBLIC_HEADERS_CONVERSION}
     ${PUBLIC_HEADERS_STREAMING}
     ${PUBLIC_HEADERS_UTF8}
     ${PUBLIC_HEADERS_UTF16}
@@ -103,6 +109,16 @@ set(PRIVATE_HEADERS
     Ystring/CodePage/Iso8859_1.hpp
     Ystring/CodePage/Iso8859_15.hpp
     Ystring/CodePage/Windows1252.hpp
+    Ystring/Conversion/AbstractDecoder.hpp
+    Ystring/Conversion/AbstractEncoder.hpp
+    Ystring/Conversion/CodePageDecoder.hpp
+    Ystring/Conversion/CodePageEncoder.hpp
+    Ystring/Conversion/Utf8Decoder.hpp
+    Ystring/Conversion/Utf8Encoder.hpp
+    Ystring/Conversion/Utf16Encoder.hpp
+    Ystring/Conversion/Utf16Decoder.hpp
+    Ystring/Conversion/Utf32Decoder.hpp
+    Ystring/Conversion/Utf32Encoder.hpp
     Ystring/Encoded/Appender.hpp
     Ystring/Encoded/AppendEscaped.hpp
     Ystring/Encoded/AppendUnescaped.hpp
@@ -116,11 +132,16 @@ set(PRIVATE_HEADERS
     Ystring/Encoded/ReverseDecoder.hpp
     Ystring/Encoded/VariableLengthBackslashEscaper.hpp
     Ystring/Encoded/XmlEscaper.hpp
-    Ystring/Generic/StringReference.hpp
+    Ystring/Encoded/UrlEscaper.hpp
+    Ystring/Generic/GenericConvert.hpp
+    Ystring/Generic/GenericEscape.hpp
+    Ystring/Generic/GenericJoin.hpp
+    Ystring/Generic/GenericSplit.hpp
     Ystring/Generic/GenericString.hpp
     Ystring/Generic/GenericString-impl.hpp
     Ystring/Generic/Range.hpp
     Ystring/Generic/RangeAlgorithms.hpp
+    Ystring/Generic/StringReference.hpp
     Ystring/Generic/StringTypeTraits.hpp
     Ystring/Unicode/CaseConverter.hpp
     Ystring/Unicode/CaseInsensitive.hpp
@@ -156,11 +177,6 @@ set(PRIVATE_HEADERS
     Ystring/Utilities/Union16.hpp
     Ystring/Utilities/Union32.hpp
     Ystring/Utilities/Utilities.hpp
-    Ystring/Encoded/UrlEscaper.hpp
-    Ystring/Generic/GenericConvert.hpp
-    Ystring/Generic/GenericSplit.hpp
-    Ystring/Generic/GenericEscape.hpp
-    Ystring/Generic/GenericJoin.hpp
     ${PRIVATE_HEADERS}
     )
 
@@ -174,6 +190,13 @@ set(SOURCE_FILES
     Ystring/CodePage/Iso8859_1.cpp
     Ystring/CodePage/Iso8859_15.cpp
     Ystring/CodePage/Windows1252.cpp
+    Ystring/Conversion/AbstractDecoder.cpp
+    Ystring/Conversion/AbstractEncoder.cpp
+    Ystring/Conversion/CodePageDecoder.cpp
+    Ystring/Conversion/CodePageEncoder.cpp
+    Ystring/Conversion/Converter.cpp
+    Ystring/Conversion/Utf8Decoder.cpp
+    Ystring/Conversion/Utf8Encoder.cpp
     Ystring/Streaming/StreamOperators.cpp
     Ystring/Unicode/CaseConverter.cpp
     Ystring/Unicode/CharClass.cpp
@@ -183,19 +206,6 @@ set(SOURCE_FILES
     Ystring/Utf8/Utf8String.cpp
     Ystring/Utf16/Utf16String.cpp
     Ystring/Utf32/Utf32String.cpp
-    Ystring/Conversion/Converter.hpp
-    Ystring/Conversion/Converter.cpp
-    Ystring/Conversion/AbstractDecoder.cpp
-    Ystring/Conversion/AbstractDecoder.hpp
-    Ystring/Conversion/Utf8Decoder.cpp
-    Ystring/Conversion/Utf8Decoder.hpp
-    Ystring/Conversion/AbstractEncoder.cpp
-    Ystring/Conversion/AbstractEncoder.hpp
-    Ystring/Conversion/Utf8Encoder.cpp
-    Ystring/Conversion/Utf8Encoder.hpp
-    Ystring/Conversion/Utf16Encoder.hpp
-    Ystring/Conversion/ErrorHandlingPolicy.hpp
-    Ystring/Conversion/Utf16Decoder.hpp
     ${SOURCE_FILES}
     )
 
@@ -218,6 +228,8 @@ add_subdirectory(UnitTest)
 install(TARGETS ${PROJECT_NAME} DESTINATION lib)
 install(FILES ${PUBLIC_HEADERS_ROOT}
     DESTINATION include/${PROJECT_NAME})
+install(FILES ${PUBLIC_HEADERS_CONVERSION}
+    DESTINATION include/${PROJECT_NAME}/Conversion)
 install(FILES ${PUBLIC_HEADERS_STREAMING}
     DESTINATION include/${PROJECT_NAME}/Streaming)
 install(FILES ${PUBLIC_HEADERS_UNICODE}

@@ -30,27 +30,27 @@ namespace Ystring { namespace Conversion {
 
         virtual void setReplacementCharacter(char32_t value);
 
-        void encode(const char32_t*& srcBeg, const char32_t* srcEnd,
+        bool encode(const char32_t*& srcBeg, const char32_t* srcEnd,
                     std::string& dst);
 
-        void encode(const char32_t*& srcBeg, const char32_t* srcEnd,
+        bool encode(const char32_t*& srcBeg, const char32_t* srcEnd,
                     std::u16string& dst);
 
-        void encode(const char32_t*& srcBeg, const char32_t* srcEnd,
+        bool encode(const char32_t*& srcBeg, const char32_t* srcEnd,
                     std::u32string& dst);
 
     protected:
         AbstractEncoder(Encoding_t encoding);
 
-        virtual void doEncode(
+        virtual bool doEncode(
                 const char32_t*& srcBeg, const char32_t* srcEnd,
                 std::string& dst);
 
-        virtual void doEncode(
+        virtual bool doEncode(
                 const char32_t*& srcBeg, const char32_t* srcEnd,
                 std::u16string& dst);
 
-        virtual void doEncode(
+        virtual bool doEncode(
                 const char32_t*& srcBeg, const char32_t* srcEnd,
                 std::u32string& dst);
 

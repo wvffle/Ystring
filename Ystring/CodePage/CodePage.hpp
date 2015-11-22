@@ -23,6 +23,7 @@ namespace Ystring { namespace CodePage
         CodePage(const std::pair<uint32_t, uint32_t>* fromCodePoint,
                  const uint32_t* fromChar,
                  uint16_t firstSpecialChar,
+                 uint16_t lastSpecialChar,
                  Encoding_t encoding);
 
         uint32_t toCodePoint(char c) const;
@@ -35,6 +36,7 @@ namespace Ystring { namespace CodePage
         const uint32_t* m_FromChar;
         Encoding_t m_Encoding;
         uint16_t m_FirstSpecialChar;
+        uint16_t m_LastSpecialChar;
     };
 
     YSTRING_API CodePage makeCodePage(Encoding_t encoding);

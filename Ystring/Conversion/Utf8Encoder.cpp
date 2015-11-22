@@ -16,7 +16,7 @@ namespace Ystring { namespace Conversion {
         : AbstractEncoder(Encoding::UTF_8)
     {}
 
-    void Utf8Encoder::doEncode(const char32_t*& srcBeg,
+    bool Utf8Encoder::doEncode(const char32_t*& srcBeg,
                                const char32_t* srcEnd,
                                std::string& dst)
     {
@@ -26,6 +26,7 @@ namespace Ystring { namespace Conversion {
             Utf8::addUtf8(out, *srcBeg);
             ++srcBeg;
         }
+        return true;
     }
 
 }}

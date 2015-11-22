@@ -57,28 +57,28 @@ namespace Ystring { namespace Conversion {
         m_ReplacementCharacter = value;
     }
 
-    void AbstractEncoder::encode(const char32_t*& srcBeg,
+    bool AbstractEncoder::encode(const char32_t*& srcBeg,
                                  const char32_t* srcEnd,
                                  std::string& dst)
     {
-        doEncode(srcBeg, srcEnd, dst);
+        return doEncode(srcBeg, srcEnd, dst);
     }
 
-    void AbstractEncoder::encode(const char32_t*& srcBeg,
+    bool AbstractEncoder::encode(const char32_t*& srcBeg,
                                  const char32_t* srcEnd,
                                  std::u16string& dst)
     {
-        doEncode(srcBeg, srcEnd, dst);
+        return doEncode(srcBeg, srcEnd, dst);
     }
 
-    void AbstractEncoder::encode(const char32_t*& srcBeg,
+    bool AbstractEncoder::encode(const char32_t*& srcBeg,
                                  const char32_t* srcEnd,
                                  std::u32string& dst)
     {
-        doEncode(srcBeg, srcEnd, dst);
+        return doEncode(srcBeg, srcEnd, dst);
     }
 
-    void AbstractEncoder::doEncode(const char32_t*& srcBeg,
+    bool AbstractEncoder::doEncode(const char32_t*& srcBeg,
                                    const char32_t* srcEnd,
                                    std::string& dst)
     {
@@ -86,7 +86,7 @@ namespace Ystring { namespace Conversion {
                       + "-encoder doesn't support 8-bit strings.");
     }
 
-    void AbstractEncoder::doEncode(const char32_t*& srcBeg,
+    bool AbstractEncoder::doEncode(const char32_t*& srcBeg,
                                    const char32_t* srcEnd,
                                    std::u16string& dst)
     {
@@ -94,7 +94,7 @@ namespace Ystring { namespace Conversion {
                       + "-encoder doesn't support 16-bit strings.");
     }
 
-    void AbstractEncoder::doEncode(const char32_t*& srcBeg,
+    bool AbstractEncoder::doEncode(const char32_t*& srcBeg,
                                    const char32_t* srcEnd,
                                    std::u32string& dst)
     {

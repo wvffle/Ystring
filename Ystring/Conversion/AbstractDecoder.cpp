@@ -99,6 +99,7 @@ namespace Ystring { namespace Conversion {
                                                 char32_t* dstEnd,
                                                 bool sourceIsIncomplete)
     {
+        auto initialSrcBeg = srcBeg;
         while (true)
         {
             auto result = doDecode(srcBeg, srcEnd, dstBeg, dstEnd);
@@ -120,7 +121,7 @@ namespace Ystring { namespace Conversion {
                 return DecoderResult::INVALID;
             case ErrorHandlingPolicy::THROW:
                 YSTRING_THROW("Invalid character starting at index "
-                              + std::to_string(srcBeg - srcEnd));
+                              + std::to_string(srcBeg - initialSrcBeg));
             case ErrorHandlingPolicy::SKIP:
                 skipInvalidCharacter(srcBeg, srcEnd);
                 break;

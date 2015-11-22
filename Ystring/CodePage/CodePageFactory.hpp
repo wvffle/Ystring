@@ -25,5 +25,6 @@ namespace Ystring { namespace CodePage
         std::vector <uint32_t> m_FromChar;
         Encoding_t m_Encoding;
         uint16_t m_FirstSpecialChar;
+        uint16_t m_LastSpecialChar;
     };
 }}

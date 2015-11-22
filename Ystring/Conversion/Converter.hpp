@@ -17,16 +17,6 @@
 
 namespace Ystring { namespace Conversion {
 
-    // char
-    // -wchar_t
-    // char16_t
-    // char32_t
-
-    // string
-    // wstring
-    // u16string
-    // u32string
-
     class YSTRING_API Converter
     {
     public:
@@ -56,10 +46,10 @@ namespace Ystring { namespace Conversion {
 
         void setEncoderReplacementCharacter(char32_t value);
 
-//        size_t convert(const char* source,
-//                       size_t sourceLength,
-//                       std::string& destination,
-//                       bool sourceIsIncomplete = false);
+        size_t convert(const char* source,
+                       size_t sourceLength,
+                       std::string& destination,
+                       bool sourceIsIncomplete = false);
 
         size_t convert(const char* source,
                        size_t sourceLength,

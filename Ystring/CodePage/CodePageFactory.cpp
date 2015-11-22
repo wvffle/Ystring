@@ -19,19 +19,31 @@ namespace Ystring { namespace CodePage
         : m_Encoding(encoding)
     {
         m_FirstSpecialChar = 256;
+        m_LastSpecialChar = 0;
         for (auto it = firstSpecialChar; it != lastSpecialChar; ++it)
         {
-            if (it->first != it->second && it->first < m_FirstSpecialChar)
-                m_FirstSpecialChar = it->first;
+            if (it->first != it->second)
+            {
+                if (it->first < m_FirstSpecialChar)
+                    m_FirstSpecialChar = it->first;
+                if (it->first  > m_LastSpecialChar)
+                    m_LastSpecialChar = it->first;
+            }
         }
-        m_FromChar.resize(256u - m_FirstSpecialChar);
+        if (m_LastSpecialChar < m_FirstSpecialChar)
+            m_LastSpecialChar = m_FirstSpecialChar;
+        m_FromChar.resize(m_LastSpecialChar - m_FirstSpecialChar);
         iota(begin(m_FromChar), end(m_FromChar), m_FirstSpecialChar);
+
+        for (auto i = m_FirstSpecialChar; i != m_LastSpecialChar; ++i)
+            m_FromCodePoint.push_back(std::make_pair(i, i));
         for (auto it = firstSpecialChar; it != lastSpecialChar; ++it)
         {
             if (it->first < m_FirstSpecialChar)
                 continue;
-            m_FromChar[it->first - m_FirstSpecialChar] = it->second;
-            m_FromCodePoint.push_back(std::make_pair(it->second, it->first));
+            auto index = it->first - m_FirstSpecialChar;
+            m_FromChar[index] = it->second;
+            m_FromCodePoint[index].first = it->second;
         }
         sort(begin(m_FromCodePoint), end(m_FromCodePoint));
     }
@@ -39,6 +51,6 @@ namespace Ystring { namespace CodePage
     CodePage CodePageFactory::makeCodePage()
     {
         return CodePage(m_FromCodePoint.data(), m_FromChar.data(),
-                        m_FirstSpecialChar, m_Encoding);
+                        m_FirstSpecialChar, m_LastSpecialChar, m_Encoding);
     }
 }}

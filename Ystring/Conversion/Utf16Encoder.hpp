@@ -22,7 +22,7 @@ namespace Ystring { namespace Conversion {
         {}
 
     protected:
-        void doEncode(const char32_t*& srcBeg, const char32_t* srcEnd,
+        bool doEncode(const char32_t*& srcBeg, const char32_t* srcEnd,
                       std::string& dst)
         {
             auto out = back_inserter(dst);
@@ -31,9 +31,10 @@ namespace Ystring { namespace Conversion {
                 Utf16::addUtf16LE(out, *srcBeg);
                 ++srcBeg;
             }
+            return true;
         }
 
-        void doEncode(const char32_t*& srcBeg, const char32_t* srcEnd,
+        bool doEncode(const char32_t*& srcBeg, const char32_t* srcEnd,
                       std::u16string& dst)
         {
             auto out = back_inserter(dst);
@@ -42,6 +43,7 @@ namespace Ystring { namespace Conversion {
                 Utf16::addUtf16LE(out, *srcBeg);
                 ++srcBeg;
             }
+            return true;
         }
     };
 

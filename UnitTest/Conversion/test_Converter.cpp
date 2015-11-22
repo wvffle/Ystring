@@ -111,6 +111,27 @@ namespace {
         Y_EQUAL(dst, expected);
     }
 
+    void test_Cp437_to_Utf8()
+    {
+        Converter converter(Encoding::CP_437, Encoding::UTF_8);
+        std::string src = "ab\x0Aqr\x0Bst\x92uv\xD0";
+        std::string dst;
+        Y_EQUAL(converter.convert(src.data(), src.size(), dst), src.size());
+        Y_EQUAL(dst, "ab\x0Aqr\xE2\x99\x82st\xC3\x86uv\xE2\x95\xA8");
+    }
+
+
+    void test_Utf32_to_Cp437()
+    {
+        Converter converter(Encoding::UTF_32, Encoding::CP_437);
+        std::u32string src = U"\u2642st\u00C6uv\u2568wx\u00F8";
+//        std::u32string src = U"ab\u000Aqr\u2642st\u00C6uv\u2568wx\u00F8";
+        std::string dst;
+        Y_EQUAL(converter.convert(src.data(), src.size(), dst), src.size());
+        Y_EQUAL((int)dst[0], (int)0xB);
+//        Y_EQUAL_RANGES(dst, "ab\x0Aqr\x0Bst\x92uv\xD0wx?");
+    }
+
     Y_SUBTEST("Conversion",
               test_Utf8_to_Utf16,
               test_Utf8_to_Utf16_IncompleteSource,
@@ -118,5 +139,7 @@ namespace {
               test_Utf16_to_Utf16,
               test_Utf16_to_Utf8,
               test_Utf16BE_to_Utf16LE,
-              test_Utf16LE_to_Utf16BE);
+              test_Utf16LE_to_Utf16BE,
+              test_Cp437_to_Utf8,
+              test_Utf32_to_Cp437);
 }
