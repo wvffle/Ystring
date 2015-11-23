@@ -32,15 +32,18 @@ namespace Ystring { namespace CodePage
         }
         if (m_LastSpecialChar < m_FirstSpecialChar)
             m_LastSpecialChar = m_FirstSpecialChar;
-        m_FromChar.resize(m_LastSpecialChar - m_FirstSpecialChar);
+        m_FromChar.resize(m_LastSpecialChar - m_FirstSpecialChar + 1);
         iota(begin(m_FromChar), end(m_FromChar), m_FirstSpecialChar);
 
-        for (auto i = m_FirstSpecialChar; i != m_LastSpecialChar; ++i)
+        for (auto i = m_FirstSpecialChar; i <= m_LastSpecialChar; ++i)
             m_FromCodePoint.push_back(std::make_pair(i, i));
         for (auto it = firstSpecialChar; it != lastSpecialChar; ++it)
         {
-            if (it->first < m_FirstSpecialChar)
+            if (it->first < m_FirstSpecialChar
+				|| m_LastSpecialChar < it->first)
+            {
                 continue;
+            }
             auto index = it->first - m_FirstSpecialChar;
             m_FromChar[index] = it->second;
             m_FromCodePoint[index].first = it->second;
