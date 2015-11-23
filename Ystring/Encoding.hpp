@@ -6,7 +6,6 @@
 // License text is included with the source distribution.
 //****************************************************************************
 #pragma once
-#include "PlatformDetails.hpp"
 
 /** @file
   * @brief Defines the Encoding enum.
