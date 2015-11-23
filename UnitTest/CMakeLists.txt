@@ -14,19 +14,22 @@ add_subdirectory(Ytest)
 
 if(MSVC)
     set(SOURCE_FILES_PLATFORM_SPECIFIC
-        Utf16/test_Utf16WString.cpp
-        )
+        Utf16/test_Utf16WString.cpp)
     if(NOT MSVC_VERSION LESS 1900)
         set(SOURCE_FILES_PLATFORM_SPECIFIC
             ${SOURCE_FILES_PLATFORM_SPECIFIC}
+            Conversion/test_Converter.cpp
             Utf8/test_Utf8StringCpp11.cpp
+            Utf32/test_Utf32String.cpp
             )
     endif(NOT MSVC_VERSION LESS 1900)
 else(MSVC)
     set(SOURCE_FILES_PLATFORM_SPECIFIC
+        Conversion/test_Converter.cpp
         Utf8/test_Utf8StringCpp11.cpp
         Utf16/test_Utf16String.cpp
-)
+        Utf32/test_Utf32String.cpp
+        )
 endif(MSVC)
 
 set(SOURCE_FILES
@@ -46,9 +49,7 @@ set(SOURCE_FILES
     Utf8/test_Utf8String.cpp
     Utf16/test_DecodeUtf16.cpp
     Utf16/test_EncodeUtf16.cpp
-    Utf32/test_Utf32String.cpp
-    ${SOURCE_FILES_PLATFORM_SPECIFIC}
-    Conversion/test_Converter.cpp)
+    ${SOURCE_FILES_PLATFORM_SPECIFIC})
 
 add_executable(${PROJECT_NAME}
                ${SOURCE_FILES})

@@ -49,7 +49,7 @@ namespace Ystring { namespace Conversion {
                     return false;
                 case ErrorHandlingPolicy::THROW:
                     YSTRING_THROW("Unsupported code point "
-                                  + std::to_string(*srcBeg));
+                                  + std::to_string(int64_t(*srcBeg)));
                 case ErrorHandlingPolicy::SKIP:
                     break;
                 }

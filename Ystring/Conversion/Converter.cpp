@@ -248,6 +248,7 @@ namespace Ystring { namespace Conversion {
         case CONVERT:
             return doConvert(src, srcLength, dst, sourceIsIncomplete);
         }
+        return 0;
     }
 
     template<typename CharT, typename StringT>
@@ -344,7 +345,8 @@ namespace Ystring { namespace Conversion {
             }
 
             auto info = getEncodingInfo(encoding);
-            auto name = info ? info->name() : std::to_string(encoding);
+            auto name = info ? info->name()
+							 : std::to_string(int64_t(encoding));
             YSTRING_THROW("Unsupported source-encoding: " + name);
         }
 
@@ -376,7 +378,8 @@ namespace Ystring { namespace Conversion {
             }
 
             auto info = getEncodingInfo(encoding);
-            auto name = info ? info->name() : std::to_string(encoding);
+            auto name = info ? info->name()
+				             : std::to_string(int64_t(encoding));
             YSTRING_THROW("Unsupported source-encoding: " + name);
         }
 

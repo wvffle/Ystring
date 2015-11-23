@@ -29,10 +29,11 @@ void test_Cp437_to_Utf32()
 {
     char str[] = "\x01" "1A" "\x7F\xD0\xF0";
     uint32_t expected[] = {0x263A, '1', 'A', 0x2302, 0x2568, 0x2261};
-    Y_EQUAL_RANGES(convert<std::vector<uint32_t>>(
-                   makeArrayRange(str),
-                   CodePage::Cp437Encoding(),
-                   Utf32::Utf32Encoding()),
+    Y_EQUAL_RANGES(
+            convert<std::vector<uint32_t>>(
+                    makeArrayRange(str),
+                    CodePage::Cp437Encoding(),
+                    Utf32::Utf32Encoding()),
             expected);
 }
 
@@ -40,10 +41,11 @@ void test_Utf8_to_Utf32BE_as_char()
 {
     char str[] = "A\xF0\x9F\x80\x80";
     uint8_t expected[] = {0, 0, 0, 65, 0, 1, 0xF0, 0};
-    Y_EQUAL_RANGES(convert<std::vector<uint8_t>>(
-                   makeArrayRange(str),
-                   Utf8::Utf8Encoding(),
-                   Utf32::Utf32BEEncoding()),
+    Y_EQUAL_RANGES(
+            convert<std::vector<uint8_t>>(
+                    makeArrayRange(str),
+                    Utf8::Utf8Encoding(),
+                    Utf32::Utf32BEEncoding()),
             expected);
 }
 
@@ -51,10 +53,11 @@ void test_Utf8_to_Utf32LE_as_char()
 {
     char str[] = "A\xF0\x9F\x80\x80";
     uint8_t expected[] = {65, 0, 0, 0, 0, 0xF0, 1, 0};
-    Y_EQUAL_RANGES(convert<std::vector<uint8_t>>(
-                   makeArrayRange(str),
-                   Utf8::Utf8Encoding(),
-                   Utf32::Utf32LEEncoding()),
+    Y_EQUAL_RANGES(
+            convert<std::vector<uint8_t>>(
+                    makeArrayRange(str),
+                    Utf8::Utf8Encoding(),
+                    Utf32::Utf32LEEncoding()),
             expected);
 }
 
@@ -62,10 +65,11 @@ void test_Utf8_to_Utf16BE_as_char()
 {
     char str[] = "A\xF0\x90\x80\x81";
     uint8_t expected[] = {0, 65, 0xD8, 0, 0xDC, 1};
-    Y_EQUAL_RANGES(convert<std::vector<uint8_t>>(
-                   makeArrayRange(str),
-                   Utf8::Utf8Encoding(),
-                   Utf16::Utf16BEEncoding()),
+    Y_EQUAL_RANGES(
+            convert<std::vector<uint8_t>>(
+                    makeArrayRange(str),
+                    Utf8::Utf8Encoding(),
+                    Utf16::Utf16BEEncoding()),
             expected);
 }
 

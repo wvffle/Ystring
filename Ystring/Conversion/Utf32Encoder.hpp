@@ -28,7 +28,7 @@ namespace Ystring { namespace Conversion {
             auto out = back_inserter(dst);
             while (srcBeg != srcEnd)
             {
-                Utf32::addUtf32LE(out, *srcBeg);
+                Utf32::addUtf32AsBytes<SwapBytes>(out, *srcBeg);
                 ++srcBeg;
             }
             return true;
@@ -40,7 +40,7 @@ namespace Ystring { namespace Conversion {
             auto out = back_inserter(dst);
             while (srcBeg != srcEnd)
             {
-                Utf32::addUtf32LE(out, *srcBeg);
+                Utf32::addUtf32<SwapBytes>(out, *srcBeg);
                 ++srcBeg;
             }
             return true;
