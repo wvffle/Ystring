@@ -1,6 +1,6 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 2015-11-22
+// Created by Jan Erik Breimo on 2015-07-27
 //
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
@@ -11,5 +11,5 @@
 
 namespace Ystring { namespace CodePage
 {
-    YSTRING_API CodePage makeCp850();
+    YSTRING_API CodePage makeIbm437();
 }}

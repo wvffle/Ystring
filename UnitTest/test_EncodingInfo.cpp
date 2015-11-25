@@ -16,11 +16,9 @@ using namespace Ystring;
 
 void test_FromName()
 {
-    Y_EQUAL(encodingFromName("UTF8"), Encoding::UTF_8);
     Y_EQUAL(encodingFromName("UTF-8"), Encoding::UTF_8);
     Y_EQUAL(encodingFromName("UTF-16"), Encoding::UTF_16);
     Y_EQUAL(encodingFromName("Utf-16bE"), Encoding::UTF_16_BE);
-    Y_EQUAL(encodingFromName("Utf32Le"), Encoding::UTF_32_LE);
     Y_EQUAL(encodingFromName("Kjell"), Encoding::UNKNOWN);
 }
 

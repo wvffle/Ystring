@@ -8,9 +8,10 @@
 #include "CodePage.hpp"
 #include "../YstringException.hpp"
 #include "../Utilities/KeyFunctionAlgorithms.hpp"
-#include "Cp437.hpp"
-#include "Cp850.hpp"
+#include "Ibm437.hpp"
+#include "Ibm850.hpp"
 #include "Iso8859_1.hpp"
+#include "Iso8859_10.hpp"
 #include "Iso8859_15.hpp"
 #include "Windows1252.hpp"
 
@@ -67,14 +68,16 @@ namespace Ystring { namespace CodePage
         case Encoding::ASCII:
         case Encoding::ISO_8859_1:
             return makeIso8859_1();
+        case Encoding::ISO_8859_10:
+            return makeIso8859_10();
         case Encoding::ISO_8859_15:
             return makeIso8859_15();
         case Encoding::WINDOWS_1252:
             return makeWindows1252();
-        case Encoding::CP_437:
-            return makeCp437();
-        case Encoding::CP_850:
-            return makeCp850();
+        case Encoding::IBM_437:
+            return makeIbm437();
+        case Encoding::IBM_850:
+            return makeIbm850();
         default:
             break;
         }

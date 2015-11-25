@@ -696,12 +696,16 @@ namespace
                 UTF8_LATIN_SMALL_O_WITH_STROKE "ker");
     }
 
+    #ifdef YSTRING_WCHAR_IS_2_BYTES
+
     void test_toUtf8_fromUtf16_wstring()
     {
         Y_EQUAL(Utf8::toUtf8(L"\u00C5rb\u00F8ker", Encoding::UTF_16_LE),
                 UTF8_LATIN_CAPITAL_A_WITH_RING_ABOVE "rb"
                 UTF8_LATIN_SMALL_O_WITH_STROKE "ker");
     }
+
+    #endif
 
     void test_toUtf8_fromWindows1252()
     {
@@ -820,7 +824,6 @@ namespace
               test_title,
               test_toUtf8_fromLatin1,
               test_toUtf8_fromUtf8,
-              test_toUtf8_fromUtf16_wstring,
               test_toUtf8_fromWindows1252,
               test_trim,
               test_trimEnd,
@@ -828,4 +831,12 @@ namespace
               test_unescape_BACKSLASH,
               test_unescape_JSON,
               test_upper);
+
+#ifdef YSTRING_WCHAR_IS_2_BYTES
+
+    Y_SUBTEST("Utf8",
+              test_toUtf8_fromUtf16_wstring);
+
+#endif
+
 }

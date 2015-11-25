@@ -32,7 +32,7 @@ void test_Cp437_to_Utf32()
     Y_EQUAL_RANGES(
             convert<std::vector<uint32_t>>(
                     makeArrayRange(str),
-                    CodePage::Cp437Encoding(),
+                    CodePage::Ibm437Encoding(),
                     Utf32::Utf32Encoding()),
             expected);
 }

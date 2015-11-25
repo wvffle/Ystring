@@ -5,7 +5,7 @@
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
-#include "Cp850.hpp"
+#include "Ibm850.hpp"
 
 #include "CodePageFactory.hpp"
 
@@ -13,7 +13,7 @@ namespace Ystring { namespace CodePage
 {
     typedef std::pair<uint8_t, uint32_t> P;
 
-    const P Cp850SpecialChars[] = {
+    const P Ibm850SpecialChars[] = {
             P(0x01, 0x263A), P(0x02, 0x263B), P(0x03, 0x2665),
             P(0x04, 0x2666), P(0x05, 0x2663), P(0x06, 0x2660),
             P(0x07, 0x2022), P(0x08, 0x25D8), P(0x0B, 0x2642),
@@ -69,12 +69,12 @@ namespace Ystring { namespace CodePage
             P(0xFF, 0x00A0)
     };
 
-    CodePage makeCp850()
+    CodePage makeIbm850()
     {
         static CodePageFactory factory(
-                std::begin(Cp850SpecialChars),
-                std::end(Cp850SpecialChars),
-                Encoding::CP_850);
+                std::begin(Ibm850SpecialChars),
+                std::end(Ibm850SpecialChars),
+                Encoding::IBM_850);
         return factory.makeCodePage();
     }
 }}

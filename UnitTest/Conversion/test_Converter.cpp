@@ -113,7 +113,7 @@ namespace {
 
     void test_Cp437_to_Utf8()
     {
-        Converter converter(Encoding::CP_437, Encoding::UTF_8);
+        Converter converter(Encoding::IBM_437, Encoding::UTF_8);
         std::string src = "ab\x0Aqr\x0Bst\x92uv\xD0";
         std::string dst;
         Y_EQUAL(converter.convert(src.data(), src.size(), dst), src.size());
@@ -123,7 +123,7 @@ namespace {
 
     void test_Utf32_to_Cp437()
     {
-        Converter converter(Encoding::UTF_32, Encoding::CP_437);
+        Converter converter(Encoding::UTF_32, Encoding::IBM_437);
         std::u32string src = U"\u2642st\u00C6uv\u2568wx\u00F8";
 //        std::u32string src = U"ab\u000Aqr\u2642st\u00C6uv\u2568wx\u00F8";
         std::string dst;

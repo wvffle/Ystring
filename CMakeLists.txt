@@ -105,9 +105,10 @@ set(PRIVATE_HEADERS
     Ystring/CodePage/CodePage.hpp
     Ystring/CodePage/CodePageEncoding.hpp
     Ystring/CodePage/CodePageFactory.hpp
-    Ystring/CodePage/Cp437.hpp
-    Ystring/CodePage/Cp850.hpp
+    Ystring/CodePage/Ibm437.hpp
+    Ystring/CodePage/Ibm850.hpp
     Ystring/CodePage/Iso8859_1.hpp
+    Ystring/CodePage/Iso8859_10.hpp
     Ystring/CodePage/Iso8859_15.hpp
     Ystring/CodePage/Windows1252.hpp
     Ystring/Conversion/AbstractDecoder.hpp
@@ -187,9 +188,10 @@ set(SOURCE_FILES
     Ystring/YstringException.cpp
     Ystring/CodePage/CodePage.cpp
     Ystring/CodePage/CodePageFactory.cpp
-    Ystring/CodePage/Cp437.cpp
-    Ystring/CodePage/Cp850.cpp
+    Ystring/CodePage/Ibm437.cpp
+    Ystring/CodePage/Ibm850.cpp
     Ystring/CodePage/Iso8859_1.cpp
+    Ystring/CodePage/Iso8859_10.cpp
     Ystring/CodePage/Iso8859_15.cpp
     Ystring/CodePage/Windows1252.cpp
     Ystring/Conversion/AbstractDecoder.cpp

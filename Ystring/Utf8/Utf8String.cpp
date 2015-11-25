@@ -449,15 +449,25 @@ namespace Ystring { namespace Utf8
         {
         case Encoding::UTF_8:
             return str;
-        case Encoding::CP_437:
+        case Encoding::IBM_437:
             return Generic::convert<String>(
                     makeRange(str, str + length),
-                    CodePage::Cp437Encoding(),
+                    CodePage::Ibm437Encoding(),
+                    Enc());
+        case Encoding::IBM_850:
+            return Generic::convert<String>(
+                    makeRange(str, str + length),
+                    CodePage::Ibm850Encoding(),
                     Enc());
         case Encoding::LATIN_1:
             return Generic::convert<String>(
                     makeRange(str, str + length),
                     CodePage::Latin1Encoding(),
+                    Enc());
+        case Encoding::LATIN_6:
+            return Generic::convert<String>(
+                    makeRange(str, str + length),
+                    CodePage::Latin6Encoding(),
                     Enc());
         case Encoding::LATIN_9:
             return Generic::convert<String>(
@@ -519,16 +529,6 @@ namespace Ystring { namespace Utf8
     {
         switch (encoding)
         {
-        case Encoding::UTF_16_BE:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    Utf16::Utf16BEEncoding(),
-                    Enc());
-        case Encoding::UTF_16_LE:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    Utf16::Utf16LEEncoding(),
-                    Enc());
         case Encoding::UTF_32_BE:
             return Generic::convert<String>(
                     makeRange(str, str + length),
