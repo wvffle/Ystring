@@ -8,6 +8,7 @@
 #include "../../Ystring/Conversion/Converter.hpp"
 #include "../../Ystring/YstringException.hpp"
 #include "../Ytest/Ytest.hpp"
+#include "../../Ystring/Utf8/Utf8Chars.hpp"
 
 using namespace Ystring;
 using namespace Ystring::Conversion;
@@ -125,11 +126,22 @@ namespace {
     {
         Converter converter(Encoding::UTF_32, Encoding::IBM_437);
         std::u32string src = U"\u2642st\u00C6uv\u2568wx\u00F8";
-//        std::u32string src = U"ab\u000Aqr\u2642st\u00C6uv\u2568wx\u00F8";
         std::string dst;
         Y_EQUAL(converter.convert(src.data(), src.size(), dst), src.size());
         Y_EQUAL((int)dst[0], (int)0xB);
-//        Y_EQUAL_RANGES(dst, "ab\x0Aqr\x0Bst\x92uv\xD0wx?");
+    }
+
+
+    void test_Utf8_to_Utf8_WithErrors()
+    {
+        Converter converter(Encoding::UTF_8, Encoding::UTF_8);
+        std::string dst;
+        std::string src = "AB\xCF";
+        Y_ASSERT(converter.convert(src, dst, true) == src.end() - 1);
+        Y_EQUAL(dst, "AB");
+        src = "CD\xCF" "E";
+        Y_ASSERT(converter.convert(src, dst) == src.end());
+        Y_EQUAL(dst, "ABCD" UTF8_REPLACEMENT_CHARACTER "E");
     }
 
     Y_SUBTEST("Conversion",
@@ -141,5 +153,6 @@ namespace {
               test_Utf16BE_to_Utf16LE,
               test_Utf16LE_to_Utf16BE,
               test_Cp437_to_Utf8,
-              test_Utf32_to_Cp437);
+              test_Utf32_to_Cp437,
+              test_Utf8_to_Utf8_WithErrors);
 }

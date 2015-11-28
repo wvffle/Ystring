@@ -17,7 +17,7 @@ namespace Ystring { namespace Conversion {
     DecoderResult_t CodePageDecoder::doDecode(const char*& srcBeg,
                                               const char* srcEnd,
                                               char32_t*& dstBeg,
-                                              char32_t* dstEnd)
+                                              char32_t* dstEnd) const
     {
         while (dstBeg != dstEnd && srcBeg != srcEnd)
             *dstBeg++ = m_CodePage.toCodePoint(*srcBeg++);
@@ -25,7 +25,7 @@ namespace Ystring { namespace Conversion {
     }
 
     void CodePageDecoder::skipInvalidCharacter(
-            const char*& srcBeg, const char* srcEnd)
+            const char*& srcBeg, const char* srcEnd) const
     {
         if (srcBeg != srcEnd)
             ++srcBeg;

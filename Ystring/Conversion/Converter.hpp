@@ -90,6 +90,17 @@ namespace Ystring { namespace Conversion {
                        size_t sourceLength,
                        std::u32string& destination,
                        bool sourceIsIncomplete = false);
+
+        template <typename Char1T, typename Char2T>
+        typename std::basic_string<Char1T>::const_iterator
+        convert(const std::basic_string<Char1T>& source,
+                std::basic_string<Char2T>& destination,
+                bool sourceIsIncomplete = false)
+        {
+            return source.begin() + convert(source.data(), source.size(),
+                                            destination, sourceIsIncomplete);
+        }
+
     private:
         enum ConversionType
         {

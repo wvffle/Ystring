@@ -14,10 +14,26 @@ namespace Ystring { namespace Conversion {
         : AbstractDecoder(Encoding::UTF_8)
     {}
 
+    std::pair<bool, const char*> Utf8Decoder::checkString(
+            const char* srcBeg,
+            const char* srcEnd,
+            bool sourceIsIncomplete) const
+    {
+        auto invalid = Utf8::nextInvalidUtf8CodePoint(srcBeg, srcEnd);
+        if (std::get<2>(invalid) == DecoderResult::OK)
+            return std::make_pair(true, srcEnd);
+        if (std::get<2>(invalid) == DecoderResult::INCOMPLETE
+            && sourceIsIncomplete)
+        {
+            return std::make_pair(true, std::get<0>(invalid));
+        }
+        return std::make_pair(false, std::get<0>(invalid));
+    }
+
     DecoderResult_t Utf8Decoder::doDecode(const char*& srcBeg,
                                           const char* srcEnd,
                                           char32_t*& dstBeg,
-                                          char32_t* dstEnd)
+                                          char32_t* dstEnd) const
     {
         while (dstBeg != dstEnd)
         {
@@ -32,7 +48,7 @@ namespace Ystring { namespace Conversion {
     }
 
     void Utf8Decoder::skipInvalidCharacter(
-            const char*& srcBeg, const char* srcEnd)
+            const char*& srcBeg, const char* srcEnd) const
     {
         Utf8::skipNextUtf8CodePoint(srcBeg, srcEnd);
     }

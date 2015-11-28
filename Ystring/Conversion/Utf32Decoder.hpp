@@ -21,10 +21,20 @@ namespace Ystring { namespace Conversion {
                               : Encoding::UTF_32_BE)
         {}
 
+        std::pair<bool, const char*> checkString(
+                const char* srcBeg,
+                const char* srcEnd,
+                bool sourceIsIncomplete) const
+        {
+            auto tail = (srcEnd - srcBeg) % 4;
+            return std::make_pair(tail == 0 || sourceIsIncomplete,
+                                  srcEnd - tail);
+        }
+
     protected:
         DecoderResult_t doDecode(
                 const char*& srcBeg, const char* srcEnd,
-                char32_t*& dstBeg, char32_t* dstEnd)
+                char32_t*& dstBeg, char32_t* dstEnd) const
         {
             while (dstBeg != dstEnd)
             {
@@ -41,7 +51,7 @@ namespace Ystring { namespace Conversion {
 
         DecoderResult_t doDecode(
                 const char32_t*& srcBeg, const char32_t* srcEnd,
-                char32_t*& dstBeg, char32_t* dstEnd)
+                char32_t*& dstBeg, char32_t* dstEnd) const
         {
             while (dstBeg != dstEnd)
             {
@@ -57,13 +67,13 @@ namespace Ystring { namespace Conversion {
         }
 
         void skipInvalidCharacter(
-                const char*& srcBeg, const char* srcEnd)
+                const char*& srcBeg, const char* srcEnd) const
         {
             Utf32::skipNextUtf32CodePoint(srcBeg, srcEnd);
         }
 
         void skipInvalidCharacter(
-                const char32_t*& srcBeg, const char32_t* srcEnd)
+                const char32_t*& srcBeg, const char32_t* srcEnd) const
         {
             Utf32::skipNextUtf32CodePoint(srcBeg, srcEnd);
         }

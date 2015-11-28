@@ -19,10 +19,10 @@ namespace Ystring { namespace Conversion {
     protected:
         DecoderResult_t doDecode(
                 const char*& srcBeg, const char* srcEnd,
-                char32_t*& dstBeg, char32_t* dstEnd);
+                char32_t*& dstBeg, char32_t* dstEnd) const;
 
         void skipInvalidCharacter(
-                const char*& srcBeg, const char* srcEnd);
+                const char*& srcBeg, const char* srcEnd) const;
 
     private:
         CodePage::CodePage m_CodePage;

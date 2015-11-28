@@ -15,13 +15,18 @@ namespace Ystring { namespace Conversion {
     public:
         Utf8Decoder();
 
+        std::pair<bool, const char*> checkString(
+                const char* srcBeg,
+                const char* srcEnd,
+                bool sourceIsIncomplete) const;
+
     protected:
         DecoderResult_t doDecode(
                 const char*& srcBeg, const char* srcEnd,
-                char32_t*& dstBeg, char32_t* dstEnd);
+                char32_t*& dstBeg, char32_t* dstEnd) const;
 
         void skipInvalidCharacter(
-                const char*& srcBeg, const char* srcEnd);
+                const char*& srcBeg, const char* srcEnd) const;
     };
 
 }}

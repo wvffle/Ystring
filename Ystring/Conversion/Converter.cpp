@@ -273,9 +273,13 @@ namespace Ystring { namespace Conversion {
     {
         typedef typename StringT::value_type StringChar;
         auto unitSize = m_Decoder->characterUnitSize();
-        if ((sizeof(CharT) == 1 || sizeof(CharT) == unitSize)
+        auto checkResult = m_Decoder->checkString(src, src + srcLength,
+                                                  sourceIsIncomplete);
+        if (checkResult.first
+            && (sizeof(CharT) == 1 || sizeof(CharT) == unitSize)
             && (sizeof(StringChar) == 1 || sizeof(StringChar) == unitSize))
         {
+            srcLength = checkResult.second - src;
             return copy(src, srcLength, dst, unitSize);
         }
         else
@@ -292,10 +296,14 @@ namespace Ystring { namespace Conversion {
     {
         typedef typename StringT::value_type StringChar;
         auto unitSize = m_Decoder->characterUnitSize();
-        if ((sizeof(CharT) == 1 || sizeof(CharT) == unitSize)
+        auto checkResult = m_Decoder->checkString(src, src + srcLength,
+                                                  sourceIsIncomplete);
+        if (checkResult.first
+            && (sizeof(CharT) == 1 || sizeof(CharT) == unitSize)
             && sizeof(StringChar) == unitSize)
         {
             auto initialSize = dst.size();
+            srcLength = checkResult.second - src;
             auto result = copy(src, srcLength, dst, unitSize);
             swapEndianness(&dst[initialSize], dst.size() - initialSize);
             return result;

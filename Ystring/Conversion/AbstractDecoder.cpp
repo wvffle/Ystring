@@ -65,11 +65,35 @@ namespace Ystring { namespace Conversion {
         m_ReplacementCharacter = value;
     }
 
+    std::pair<bool, const char*> AbstractDecoder::checkString(
+            const char* srcBeg,
+            const char* srcEnd,
+            bool sourceIsIncomplete) const
+    {
+        return std::make_pair(true, srcEnd);
+    }
+
+    std::pair<bool, const char16_t*> AbstractDecoder::checkString(
+            const char16_t* srcBeg,
+            const char16_t* srcEnd,
+            bool sourceIsIncomplete) const
+    {
+        return std::make_pair(true, srcEnd);
+    }
+
+    std::pair<bool, const char32_t*> AbstractDecoder::checkString(
+            const char32_t* srcBeg,
+            const char32_t* srcEnd,
+            bool sourceIsIncomplete) const
+    {
+        return std::make_pair(true, srcEnd);
+    }
+
     DecoderResult_t AbstractDecoder::decode(const char*& srcBeg,
                                             const char* srcEnd,
                                             char32_t*& dstBeg,
                                             char32_t* dstEnd,
-                                            bool sourceIsIncomplete)
+                                            bool sourceIsIncomplete) const
     {
         return decodeImpl(srcBeg, srcEnd, dstBeg, dstEnd, sourceIsIncomplete);
     }
@@ -78,7 +102,7 @@ namespace Ystring { namespace Conversion {
                                             const char16_t* srcEnd,
                                             char32_t*& dstBeg,
                                             char32_t* dstEnd,
-                                            bool sourceIsIncomplete)
+                                            bool sourceIsIncomplete) const
     {
         return decodeImpl(srcBeg, srcEnd, dstBeg, dstEnd, sourceIsIncomplete);
     }
@@ -87,7 +111,7 @@ namespace Ystring { namespace Conversion {
                                             const char32_t* srcEnd,
                                             char32_t*& dstBeg,
                                             char32_t* dstEnd,
-                                            bool sourceIsIncomplete)
+                                            bool sourceIsIncomplete) const
     {
         return decodeImpl(srcBeg, srcEnd, dstBeg, dstEnd, sourceIsIncomplete);
     }
@@ -97,7 +121,7 @@ namespace Ystring { namespace Conversion {
                                                 const CharT* srcEnd,
                                                 char32_t*& dstBeg,
                                                 char32_t* dstEnd,
-                                                bool sourceIsIncomplete)
+                                                bool sourceIsIncomplete) const
     {
         auto initialSrcBeg = srcBeg;
         while (true)
@@ -132,7 +156,7 @@ namespace Ystring { namespace Conversion {
     DecoderResult_t AbstractDecoder::doDecode(const char*& srcBeg,
                                               const char* srcEnd,
                                               char32_t*& dstBeg,
-                                              char32_t* dstEnd)
+                                              char32_t* dstEnd) const
     {
         YSTRING_THROW(encodingName()
                       + "-decoder doesn't support 8-bit strings.");
@@ -141,7 +165,7 @@ namespace Ystring { namespace Conversion {
     DecoderResult_t AbstractDecoder::doDecode(const char16_t*& srcBeg,
                                               const char16_t* srcEnd,
                                               char32_t*& dstBeg,
-                                              char32_t* dstEnd)
+                                              char32_t* dstEnd) const
     {
         YSTRING_THROW(encodingName()
                       + "-decoder doesn't support 16-bit strings.");
@@ -150,35 +174,30 @@ namespace Ystring { namespace Conversion {
     DecoderResult_t AbstractDecoder::doDecode(const char32_t*& srcBeg,
                                               const char32_t* srcEnd,
                                               char32_t*& dstBeg,
-                                              char32_t* dstEnd)
+                                              char32_t* dstEnd) const
     {
         YSTRING_THROW(encodingName()
                       + "-decoder doesn't support 32-bit strings.");
     }
 
     void AbstractDecoder::skipInvalidCharacter(
-            const char*& srcBeg, const char* srcEnd)
+            const char*& srcBeg, const char* srcEnd) const
     {
         YSTRING_THROW(encodingName()
                       + "-decoder doesn't support 8-bit strings.");
     }
 
     void AbstractDecoder::skipInvalidCharacter(
-            const char16_t*& srcBeg, const char16_t* srcEnd)
+            const char16_t*& srcBeg, const char16_t* srcEnd) const
     {
         YSTRING_THROW(encodingName()
                       + "-decoder doesn't support 16-bit strings.");
     }
 
     void AbstractDecoder::skipInvalidCharacter(
-            const char32_t*& srcBeg, const char32_t* srcEnd)
+            const char32_t*& srcBeg, const char32_t* srcEnd) const
     {
         YSTRING_THROW(encodingName()
                       + "-decoder doesn't support 32-bit strings.");
-    }
-
-    bool AbstractDecoder::stopOnErrors() const
-    {
-        return m_ErrorHandlingPolicy != ErrorHandlingPolicy::STOP;
     }
 }}

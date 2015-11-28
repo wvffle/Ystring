@@ -33,23 +33,38 @@ namespace Ystring { namespace Conversion {
 
         virtual void setReplacementCharacter(char32_t value);
 
+        virtual std::pair<bool, const char*> checkString(
+                const char* srcBeg,
+                const char* srcEnd,
+                bool sourceIsIncomplete) const;
+
+        virtual std::pair<bool, const char16_t*> checkString(
+                const char16_t* srcBeg,
+                const char16_t* srcEnd,
+                bool sourceIsIncomplete) const;
+
+        virtual std::pair<bool, const char32_t*> checkString(
+                const char32_t* srcBeg,
+                const char32_t* srcEnd,
+                bool sourceIsIncomplete) const;
+
         DecoderResult_t decode(const char*& srcBeg,
                                const char* srcEnd,
                                char32_t*& dstBeg,
                                char32_t* dstEnd,
-                               bool sourceIsIncomplete);
+                               bool sourceIsIncomplete) const;
 
         DecoderResult_t decode(const char16_t*& srcBeg,
                                const char16_t* srcEnd,
                                char32_t*& dstBeg,
                                char32_t* dstEnd,
-                               bool sourceIsIncomplete);
+                               bool sourceIsIncomplete) const;
 
         DecoderResult_t decode(const char32_t*& srcBeg,
                                const char32_t* srcEnd,
                                char32_t*& dstBeg,
                                char32_t* dstEnd,
-                               bool sourceIsIncomplete);
+                               bool sourceIsIncomplete) const;
 
     protected:
         AbstractDecoder(Encoding_t encoding);
@@ -59,30 +74,28 @@ namespace Ystring { namespace Conversion {
                                    const CharT* srcEnd,
                                    char32_t*& dstBeg,
                                    char32_t* dstEnd,
-                                   bool isIncomplete);
+                                   bool isIncomplete) const;
 
         virtual DecoderResult_t doDecode(
                 const char*& srcBeg, const char* srcEnd,
-                char32_t*& dstBeg, char32_t* dstEnd);
+                char32_t*& dstBeg, char32_t* dstEnd) const;
 
         virtual DecoderResult_t doDecode(
                 const char16_t*& srcBeg, const char16_t* srcEnd,
-                char32_t*& dstBeg, char32_t* dstEnd);
+                char32_t*& dstBeg, char32_t* dstEnd) const;
 
         virtual DecoderResult_t doDecode(
                 const char32_t*& srcBeg, const char32_t* srcEnd,
-                char32_t*& dstBeg, char32_t* dstEnd);
+                char32_t*& dstBeg, char32_t* dstEnd) const;
 
         virtual void skipInvalidCharacter(
-                const char*& srcBeg, const char* srcEnd);
+                const char*& srcBeg, const char* srcEnd) const;
 
         virtual void skipInvalidCharacter(
-                const char16_t*& srcBeg, const char16_t* srcEnd);
+                const char16_t*& srcBeg, const char16_t* srcEnd) const;
 
         virtual void skipInvalidCharacter(
-                const char32_t*& srcBeg, const char32_t* srcEnd);
-
-        bool stopOnErrors() const;
+                const char32_t*& srcBeg, const char32_t* srcEnd) const;
 
     private:
         Encoding_t m_Encoding;
