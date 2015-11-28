@@ -5,4 +5,3 @@ TODO
 * Support more of the Windows code pages.
 * Implement unescape XML_TEXT and XML_ATTRIBUTE.
 * Implement unescape URL.
-* Re-implement tests for replaceInvalidUtf16-functions.

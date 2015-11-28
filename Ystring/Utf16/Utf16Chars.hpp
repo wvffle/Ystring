@@ -348,3 +348,4 @@
 #define UTF16_WORD_JOINER                         u"\u2060"
 #define UTF16_IDEOGRAPHIC_SPACE                   u"\u3000"
 #define UTF16_ZERO_WIDTH_NO_BREAK_SPACE           u"\uFEFF"
+#define UTF16_REPLACEMENT_CHARACTER                u"\uFFFD"

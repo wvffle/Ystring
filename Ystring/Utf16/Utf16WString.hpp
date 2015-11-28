@@ -392,7 +392,7 @@ namespace Ystring { namespace Utf16W
 
     ///** @brief Returns true if all characters in @a str are valid UTF-16.
     //  */
-    //YSTRING_API bool isValidUtf16(const std::wstring& str);
+    YSTRING_API bool isValidUtf16(const std::wstring& str);
 
     /** @brief Returns the concatenation of the strings in @a strings
       *     delimited by @a delimiter.
@@ -517,13 +517,13 @@ namespace Ystring { namespace Utf16W
       */
     YSTRING_API std::wstring replaceInvalidUtf16(
             const std::wstring& str,
-            uint32_t chr = '?');
+            uint32_t chr = Unicode::REPLACEMENT_CHARACTER);
 
     /** @brief Replaces all invalid code points in @a str with @a chr.
       */
     YSTRING_API std::wstring& replaceInvalidUtf16InPlace(
             std::wstring& str,
-            char chr = '?');
+            uint16_t chr = Unicode::REPLACEMENT_CHARACTER);
 
     /** @brief Returns a reversed copy of @a str.
       *

@@ -236,10 +236,11 @@ namespace Ystring { namespace Utf16W
         return isAlphaNumeric(makeRange(first, last), Enc());
     }
 
-    //bool isValidUtf16(const String& str)
-    //{
-    //    return isValidUtf16(begin(str), end(str));
-    //}
+    bool isValidUtf16(const String& str)
+    {
+        return DecoderResult::OK == std::get<2>(
+                nextInvalidUtf16CodePoint<false>(begin(str), end(str)));
+    }
 
     String join(const std::vector<String>& strings,
                 const String& delimiter)
@@ -342,20 +343,17 @@ namespace Ystring { namespace Utf16W
     {
         String result;
         result.reserve(str.size());
-        auto first = str.begin();
         auto it = str.begin();
-        while (it != str.end())
+        auto end = str.end();
+        while (true)
         {
-            uint32_t cp;
-            if (nextUtf16CodePoint<false>(cp, it, str.end()) !=
-                    DecoderResult::OK)
-            {
-                result.append(first, it);
-                first = ++it;
-                append(result, chr);
-            }
+            auto invalid = nextInvalidUtf16CodePoint<false>(it, end);
+            result.append(it, std::get<0>(invalid));
+            if (std::get<0>(invalid) == end)
+                break;
+            append(result, chr);
+            it = std::get<1>(invalid);
         }
-        result.append(first, str.end());
         return result;
     }
 

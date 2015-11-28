@@ -17,6 +17,7 @@
 #include "../PlatformDetails.hpp"
 #include "../SplitFlags.hpp"
 #include "../YstringException.hpp"
+#include "../Unicode/UnicodeChars.hpp"
 
 /** @file
   * @brief The function library for u16strings.
@@ -392,7 +393,7 @@ namespace Ystring { namespace Utf16
 
     ///** @brief Returns true if all characters in @a str are valid UTF-16.
     //  */
-    //YSTRING_API bool isValidUtf16(const std::u16string& str);
+    YSTRING_API bool isValidUtf16(const std::u16string& str);
 
     /** @brief Returns the concatenation of the strings in @a strings
       *     delimited by @a delimiter.
@@ -517,13 +518,13 @@ namespace Ystring { namespace Utf16
       */
     YSTRING_API std::u16string replaceInvalidUtf16(
             const std::u16string& str,
-            uint32_t chr = '?');
+            uint32_t chr = Unicode::REPLACEMENT_CHARACTER);
 
     /** @brief Replaces all invalid code points in @a str with @a chr.
       */
     YSTRING_API std::u16string& replaceInvalidUtf16InPlace(
             std::u16string& str,
-            char chr = '?');
+            uint16_t chr = Unicode::REPLACEMENT_CHARACTER);
 
     /** @brief Returns a reversed copy of @a str.
       *

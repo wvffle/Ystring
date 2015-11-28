@@ -11,6 +11,7 @@
 #include "../../Ystring/Utf8/Utf8Chars.hpp"
 #include "../../Ystring/Utf16/Utf16Chars.hpp"
 #include "../Ytest/Ytest.hpp"
+#include "../../Ystring/Utilities/Endian.hpp"
 
 namespace
 {
@@ -268,14 +269,21 @@ namespace
         Y_ASSERT(Utf16::isAlphaNumeric(begin(s), end(s)));
     }
 
-    //void test_isValidUtf16()
-    //{
-    //    Y_ASSERT(Utf16::isValidUtf16(u"AB\xC1\x80"));
-    //    Y_ASSERT(!Utf16::isValidUtf16(u"AB\xC0\x7F"));
-    //    Y_ASSERT(!Utf16::isValidUtf16(u"\xC0\xFF"));
-    //    Y_ASSERT(Utf16::isValidUtf16(u"\xE2\xBF\x80"));
-    //    Y_ASSERT(!Utf16::isValidUtf16(u"\xE2\xBF\xC0"));
-    //}
+    void test_isValidUtf16()
+    {
+        Y_ASSERT(Utf16::isValidUtf16(u"\uD7FF"));
+        char16_t a[] = {0xD800, 0};
+        Y_ASSERT(!Utf16::isValidUtf16(std::u16string(a)));
+        char16_t b[] = {0xD800, 0xDC00, 0};
+        Y_ASSERT(Utf16::isValidUtf16(std::u16string(b)));
+        char16_t c[] = {0xDC00, 0xD800, 0};
+        Y_ASSERT(!Utf16::isValidUtf16(std::u16string(c)));
+        char16_t d[] = {0xD800, 'A', 0};
+        Y_ASSERT(!Utf16::isValidUtf16(std::u16string(d)));
+        char16_t e[] = {0xD800, 0xDBFF, 0};
+        Y_ASSERT(!Utf16::isValidUtf16(std::u16string(e)));
+        Y_ASSERT(Utf16::isValidUtf16(u"\uE000"));
+    }
 
     void test_join()
     {
@@ -432,16 +440,27 @@ namespace
 
     void test_replaceInvalidUtf16()
     {
-        // TODO: Implement unit test for replaceInvalidUtf16.
-        //auto s = u"A\uD800M\uD800\uDC00Q\uDC00X";
-        //Y_EQUAL(Utf16::replaceInvalidUtf16(s), u"A?M\uD800\uDC00Q?X");
+        char16_t raw[] = {'A', 0xD800, 'M', 0xD800, 0xDC00, 'Q', 0xDC00,
+                          'X', 0};
+        std::u16string s(raw);
+        char16_t rawExpected[] = {
+                'A', 0xFFFD, 'M', 0xD800, 0xDC00, 'Q', 0xFFFD,
+                'X', 0};
+        std::u16string expected(rawExpected);
+        Y_EQUAL(Utf16::replaceInvalidUtf16(s), expected);
     }
 
     void test_replaceInvalidUtf16InPlace()
     {
-        // TODO: Implement unit test for replaceInvalidUtf16InPlace.
-        //auto s = u"A\uD800M\uD800\uDC00Q\uDC00X";
-        //Y_EQUAL(Utf16::replaceInvalidUtf16InPlace(s), u"A?M\uD800\uDC00Q?X");
+        char16_t raw[] = {
+                'A', 0xD800, 'M', 0xD800, 0xDC00, 'Q', 0xDC00,
+                'X', 0};
+        std::u16string s(raw);
+        char16_t rawExpected[] = {
+                'A', 0xFFFD, 'M', 0xD800, 0xDC00, 'Q', 0xFFFD,
+                'X', 0};
+        std::u16string expected(rawExpected);
+        Y_EQUAL(Utf16::replaceInvalidUtf16InPlace(s), expected);
     }
 
     void test_reverse()
@@ -766,7 +785,7 @@ namespace
               test_insert,
               test_insertChar,
               test_isAlphaNumeric,
-    //          test_isValidUtf16,
+              test_isValidUtf16,
               test_join,
               test_lower,
               test_nextCharacter_const,
