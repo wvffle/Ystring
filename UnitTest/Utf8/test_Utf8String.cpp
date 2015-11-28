@@ -458,7 +458,7 @@ namespace
     void test_replaceInvalidUtf8()
     {
         auto s = "ABC\xC0\xDF" "DEF\xD0\x80\x80" "GH\xE8\x80" "I\xC8";
-        Y_EQUAL(Utf8::replaceInvalidUtf8(s, '?'), "ABC??DEF\xD0\x80?GH??I?");
+        Y_EQUAL(Utf8::replaceInvalidUtf8(s, '?'), "ABC??DEF\xD0\x80?GH?I?");
     }
 
     void test_replaceInvalidUtf8InPlace()

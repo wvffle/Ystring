@@ -236,7 +236,8 @@ namespace Ystring { namespace Utf8
 
     bool isValidUtf8(const std::string& str)
     {
-        return isValidUtf8(begin(str), end(str));
+        return std::get<2>(nextInvalidUtf8CodePoint(begin(str), end(str)))
+                == DecoderResult::OK;
     }
 
     String join(const std::vector<String>& strings,
@@ -338,20 +339,17 @@ namespace Ystring { namespace Utf8
     {
         String result;
         result.reserve(str.size());
-        auto first = str.begin();
         auto it = str.begin();
-        while (it != str.end())
+        auto end = str.end();
+        while (true)
         {
-            uint32_t cp;
-            if (nextUtf8CodePoint(cp, it, str.end()) !=
-                    DecoderResult::OK)
-            {
-                result.append(first, it);
-                first = ++it;
-                append(result, chr);
-            }
+            auto invalid = nextInvalidUtf8CodePoint(it, end);
+            result.append(it, std::get<0>(invalid));
+            if (std::get<0>(invalid) == end)
+                break;
+            append(result, chr);
+            it = std::get<1>(invalid);
         }
-        result.append(first, str.end());
         return result;
     }
 
