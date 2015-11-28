@@ -29,6 +29,12 @@ namespace Ystring { namespace Conversion {
 
         std::unique_ptr<AbstractEncoder> makeEncoder(Encoding_t encoding);
 
+        template<typename CharT, typename StringT>
+        size_t copy(const CharT* src,
+                    size_t srcLength,
+                    StringT& dst,
+                    size_t charSize);
+
         template <typename T>
         void swapEndianness(T* str, size_t length);
 
@@ -218,22 +224,6 @@ namespace Ystring { namespace Conversion {
     }
 
     template<typename CharT, typename StringT>
-    size_t copy(const CharT* src,
-                size_t srcLength,
-                StringT& dst,
-                size_t charSize)
-    {
-        typedef typename StringT::value_type DstChar;
-        auto srcMemLength = srcLength * sizeof(CharT);
-        srcMemLength -= srcMemLength % charSize;
-        auto dstLength = srcMemLength / sizeof(DstChar);
-        auto initialDstSize = dst.size();
-        dst.resize(initialDstSize + dstLength);
-        std::memcpy(&dst[initialDstSize], src, srcMemLength);
-        return srcMemLength / sizeof(CharT);
-    }
-
-    template<typename CharT, typename StringT>
     size_t Converter::convertImpl(const CharT* src,
                                   size_t srcLength,
                                   StringT& dst,
@@ -383,6 +373,22 @@ namespace Ystring { namespace Conversion {
             auto name = info ? info->name()
 				             : std::to_string(int64_t(encoding));
             YSTRING_THROW("Unsupported source-encoding: " + name);
+        }
+
+        template<typename CharT, typename StringT>
+        size_t copy(const CharT* src,
+                    size_t srcLength,
+                    StringT& dst,
+                    size_t charSize)
+        {
+            typedef typename StringT::value_type DstChar;
+            auto srcMemLength = srcLength * sizeof(CharT);
+            srcMemLength -= srcMemLength % charSize;
+            auto dstLength = srcMemLength / sizeof(DstChar);
+            auto initialDstSize = dst.size();
+            dst.resize(initialDstSize + dstLength);
+            std::memcpy(&dst[initialDstSize], src, srcMemLength);
+            return srcMemLength / sizeof(CharT);
         }
 
         template <typename T>
