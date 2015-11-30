@@ -14,9 +14,9 @@
 #include "../Encoding.hpp"
 #include "../EscapeType.hpp"
 #include "../FindFlags.hpp"
-#include "../PlatformDetails.hpp"
 #include "../SplitFlags.hpp"
 #include "../YstringException.hpp"
+#include "../Unicode/UnicodeChars.hpp"
 
 /** @file
   * @brief The function library for UTF-16 encoded wstrings.
