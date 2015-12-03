@@ -49,6 +49,10 @@ namespace Ystring { namespace Conversion {
 
         void setEncoderReplacementCharacter(char32_t value);
 
+        Encoding_t decoderEncoding() const;
+
+        Encoding_t encoderEncoding() const;
+
         size_t convert(const char* source,
                        size_t sourceLength,
                        std::string& destination,

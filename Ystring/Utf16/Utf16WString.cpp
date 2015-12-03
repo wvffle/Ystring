@@ -21,6 +21,7 @@ namespace Ystring { namespace Utf16W
     using Generic::fromRange;
     using Utf16::encodeUtf16;
     using Utf16::nextUtf16CodePoint;
+    using Utf16::nextInvalidUtf16CodePoint;
     typedef std::wstring String;
     typedef Utf16::Utf16Encoding Enc;
 

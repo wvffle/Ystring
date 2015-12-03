@@ -112,6 +112,20 @@ namespace Ystring { namespace Conversion {
         m_Encoder->setReplacementCharacter(value);
     }
 
+    Encoding_t Converter::decoderEncoding() const
+    {
+        if (!m_Decoder)
+            return Encoding::UNKNOWN;
+        return m_Decoder->encoding();
+    }
+
+    Encoding_t Converter::encoderEncoding() const
+    {
+        if (!m_Encoder)
+            return Encoding::UNKNOWN;
+        return m_Encoder->encoding();
+    }
+
     size_t Converter::convert(const char* source,
                               size_t sourceLength,
                               std::string& destination,
