@@ -47,6 +47,9 @@ namespace Ystring { namespace Conversion {
           m_BufferSize(DEFAULT_BUFFER_SIZE)
     {}
 
+    Converter::~Converter()
+    {}
+
     size_t Converter::bufferSize() const
     {
         return m_BufferSize;

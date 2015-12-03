@@ -11,16 +11,19 @@
 #include <string>
 #include "../Encoding.hpp"
 #include "../YstringDefinitions.hpp"
-#include "AbstractDecoder.hpp"
-#include "AbstractEncoder.hpp"
 #include "ErrorHandlingPolicy.hpp"
 
 namespace Ystring { namespace Conversion {
+
+    class AbstractDecoder;
+    class AbstractEncoder;
 
     class YSTRING_API Converter
     {
     public:
         Converter(Encoding_t srcEncoding, Encoding_t dstEncoding);
+
+        ~Converter();
 
         size_t bufferSize() const;
 
