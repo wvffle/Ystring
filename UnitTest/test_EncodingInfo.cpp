@@ -28,7 +28,21 @@ void test_FromBom()
              Encoding::UTF_8);
 }
 
-void test_DetermineEncoding()
+void doDetermineEncoding(const std::string& s, Encoding_t expectedEnc,
+                         ptrdiff_t expectedOffset)
+{
+    auto enc = determineEncoding(s.data(), s.size());
+    Y_EQUAL(enc.first, expectedEnc);
+    auto offset = enc.second - s.data();
+    Y_EQUAL(offset, expectedOffset);
+}
+
+void test_determineEncoding()
+{
+    Y_CALL(doDetermineEncoding("999888777666555", Encoding::UTF_8, 0));
+}
+
+void test_determineEncoding_in_stream()
 {
     std::stringstream ss;
     ss << "\xEF\xBB\xBF" " Abrakadabra hokus pokus filiokus";
@@ -38,6 +52,9 @@ void test_DetermineEncoding()
     Y_EQUAL(ss.tellg(), (std::streamoff)3);
 }
 
-Y_TEST(test_FromName, test_FromBom, test_DetermineEncoding);
+Y_TEST(test_FromName,
+       test_FromBom,
+       test_determineEncoding,
+       test_determineEncoding_in_stream);
 
 }
