@@ -10,7 +10,7 @@
 
 /** @file
   * @brief Defines constants and macros shared by all the other files
-  *     in @a JEBString.
+  *     in @a Ystring.
   */
 
 /// @cond
@@ -26,11 +26,13 @@
     #ifdef YSTRING_EXPORTS
         #define YSTRING_API __declspec(dllexport)
     #else
-        #define YSTRING_API
-        #ifdef _DEBUG
-            #pragma comment (lib, "Ystring.debug.lib")
-        #else
-            #pragma comment (lib, "Ystring.lib")
+        #define YSTRING_API __declspec(dllimport)
+        #ifndef YSTRING_NO_AUTO_IMPORT
+            #ifdef _DEBUG
+                #pragma comment (lib, "Ystring.debug.lib")
+            #else
+                #pragma comment (lib, "Ystring.lib")
+            #endif
         #endif
     #endif
 #else
