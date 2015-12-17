@@ -351,7 +351,7 @@ namespace Ystring { namespace Utf8
       *     not even code points if the string has decomposed characters) from
       *     the start of the string. If @a pos is negative it's from the end
       *     of the string instead.
-      * @YSTRING_THROW if @a str isn't a valid UTF-8 string.
+      * @throws YstringException if @a str isn't a valid UTF-8 string.
       */
     YSTRING_API std::string insert(
             const std::string& str,
@@ -364,7 +364,7 @@ namespace Ystring { namespace Utf8
       *     not even code points if the string has decomposed characters)
       *     from the start of the string. If @a pos is negative it's from the
       *     end of the string instead.
-      * @YSTRING_THROW if @a str isn't a valid UTF-8 string.
+      * @throws YstringException if @a str isn't a valid UTF-8 string.
       */
     YSTRING_API std::string insert(
             const std::string& str,
@@ -373,20 +373,20 @@ namespace Ystring { namespace Utf8
 
     /** @brief Returns true if all characters in @a str are either
       *     letters or numbers.
-      * @YSTRING_THROW if str contains an invalid UTF-8 code point.
+      * @throws YstringException if str contains an invalid UTF-8 code point.
       */
     YSTRING_API bool isAlphaNumeric(const std::string& str);
 
     /** @brief Returns true if all characters in the range from @a first
       *     to @a last are either letters or numbers.
-      * @YSTRING_THROW if str contains an invalid UTF-8 code point.
+      * @throws YstringException if str contains an invalid UTF-8 code point.
       */
     YSTRING_API bool isAlphaNumeric(std::string::iterator first,
                                     std::string::iterator last);
 
     /** @brief Returns true if all characters in the range from @a first
       *     to @a last are either letters or numbers.
-      * @YSTRING_THROW if str contains an invalid UTF-8 code point.
+      * @throws YstringException if str contains an invalid UTF-8 code point.
       */
     YSTRING_API bool isAlphaNumeric(std::string::const_iterator first,
                                     std::string::const_iterator last);

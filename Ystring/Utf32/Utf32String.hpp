@@ -350,7 +350,7 @@ namespace Ystring { namespace Utf32
       *     not even code points if the string has decomposed characters) from
       *     the start of the string. If @a pos is negative it's from the end
       *     of the string instead.
-      * @YSTRING_THROW if @a str isn't a valid UTF-32 string.
+      * @throws YstringException if @a str isn't a valid UTF-32 string.
       */
     YSTRING_API std::u32string insert(
             const std::u32string& str,
@@ -363,7 +363,7 @@ namespace Ystring { namespace Utf32
       *     not even code points if the string has decomposed characters)
       *     from the start of the string. If @a pos is negative it's from the
       *     end of the string instead.
-      * @YSTRING_THROW if @a str isn't a valid UTF-32 string.
+      * @throws YstringException if @a str isn't a valid UTF-32 string.
       */
     YSTRING_API std::u32string insert(
             const std::u32string& str,
@@ -372,27 +372,23 @@ namespace Ystring { namespace Utf32
 
     /** @brief Returns true if all characters in @a str are either
       *     letters or numbers.
-      * @YSTRING_THROW if str contains an invalid UTF-32 code point.
+      * @throws YstringException if str contains an invalid UTF-32 code point.
       */
     YSTRING_API bool isAlphaNumeric(const std::u32string& str);
 
     /** @brief Returns true if all characters in the range from @a first
       *     to @a last are either letters or numbers.
-      * @YSTRING_THROW if str contains an invalid UTF-32 code point.
+      * @throws YstringException if str contains an invalid UTF-32 code point.
       */
     YSTRING_API bool isAlphaNumeric(std::u32string::iterator first,
                                     std::u32string::iterator last);
 
     /** @brief Returns true if all characters in the range from @a first
       *     to @a last are either letters or numbers.
-      * @YSTRING_THROW if str contains an invalid UTF-32 code point.
+      * @throws YstringException if str contains an invalid UTF-32 code point.
       */
     YSTRING_API bool isAlphaNumeric(std::u32string::const_iterator first,
                                     std::u32string::const_iterator last);
-
-    ///** @brief Returns true if all characters in @a str are valid UTF-32.
-    //  */
-    //YSTRING_API bool isValidUtf32(const std::u32string& str);
 
     /** @brief Returns the concatenation of the strings in @a strings
       *     delimited by @a delimiter.

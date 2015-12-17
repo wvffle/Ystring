@@ -234,11 +234,6 @@ namespace Ystring { namespace Utf32
         return isAlphaNumeric(makeRange(first, last), Enc());
     }
 
-    //bool isValidUtf32(const String& str)
-    //{
-    //    return isValidUtf32(begin(str), end(str));
-    //}
-
     String join(const std::vector<String>& strings,
                 const String& delimiter)
     {
