@@ -484,11 +484,6 @@ namespace Ystring { namespace Utf16W
 
     /** @brief Returns a copy of @a str where the substring between @a start
       *     and @a end has been replaced with @a repl.
-      *
-      * @param maxReplacements The maximum number of replacements that will be
-      *     performed. All instances of @a from are replaced if the
-      *     value is 0. If it is negative at most abs(maxReplacements) will be
-      *     made, starting at the end of the string.
       */
     YSTRING_API std::wstring replace(
             const std::wstring& str,
@@ -499,8 +494,9 @@ namespace Ystring { namespace Utf16W
     /** @brief Returns a copy of @a str with instances of @a from replaced
       *     with @a to.
       *
-      * @param fromChar The character to replace
-      * @param toChar The replacement
+      * @param str The string operated on. 
+      * @param from The character to replace.
+      * @param to The replacement.
       * @param maxReplacements The maximum number of replacements that will be
       *     performed. All instances of @a from are replaced if the
       *     value is 0. If it is negative at most abs(maxReplacements) will be
