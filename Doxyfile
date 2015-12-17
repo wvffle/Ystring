@@ -679,6 +679,7 @@ WARN_LOGFILE           =
 
 INPUT                  = Ystring/Encoding.hpp \
                          Ystring/EncodingInfo.hpp \
+                         Ystring/Endianness.hpp \
                          Ystring/EscapeType.hpp \
                          Ystring/FindFlags.hpp \
                          Ystring/PlatformDetails.hpp \
@@ -690,6 +691,8 @@ INPUT                  = Ystring/Encoding.hpp \
                          Ystring/Utf32.hpp \
                          Ystring/YstringDefinitions.hpp \
                          Ystring/YstringException.hpp \
+                         Ystring/Conversion/Converter.hpp \
+                         Ystring/Conversion/ErrorHandlingPolicy.hpp \
                          Ystring/Streaming/StreamFill.hpp \
                          Ystring/Streaming/StreamJoin.hpp \
                          Ystring/Streaming/StreamOperators.hpp \
