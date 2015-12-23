@@ -256,6 +256,27 @@ namespace
         Y_EQUAL(Utf8::getCodePoint(str, -4), 'A');
     }
 
+    void test_hasEscapedCharacters_JSON()
+    {
+        Y_ASSERT(Utf8::hasEscapedCharacters("ABC\\n", EscapeType::JSON));
+        Y_ASSERT(!Utf8::hasEscapedCharacters("ABC\n", EscapeType::JSON));
+        Y_ASSERT(Utf8::hasEscapedCharacters("ABC\\ ", EscapeType::JSON));
+    }
+
+    void test_hasUnescapedCharacters_JSON()
+    {
+        Y_ASSERT(Utf8::hasUnescapedCharacters("ABC\n", EscapeType::JSON));
+        Y_ASSERT(Utf8::hasUnescapedCharacters("ABC\"", EscapeType::JSON));
+        Y_ASSERT(Utf8::hasUnescapedCharacters("C:\\AB\\CD",
+                                              EscapeType::JSON));
+        Y_ASSERT(!Utf8::hasUnescapedCharacters("A:'&%/<",
+                                               EscapeType::JSON));
+        Y_ASSERT(!Utf8::hasUnescapedCharacters("/a/b/c", EscapeType::JSON));
+        Y_ASSERT(!Utf8::hasUnescapedCharacters("\xc2\x80", EscapeType::JSON));
+        Y_ASSERT(Utf8::hasUnescapedCharacters("\xc2\x80",
+                                              EscapeType::JSON_ASCII));
+    }
+
     void test_insert()
     {
         auto str = "The " UTF8_GREEK_SMALL_OMEGA
@@ -790,6 +811,8 @@ namespace
               test_findFirst,
               test_findFirstNewline,
               test_getCodePoint,
+              test_hasEscapedCharacters_JSON,
+              test_hasUnescapedCharacters_JSON,
               test_insert,
               test_insertChar,
               test_isAlphaNumeric,
