@@ -345,6 +345,21 @@ namespace Ystring { namespace Utf8
     YSTRING_API uint32_t getCodePoint(const std::string& str,
                                       ptrdiff_t pos);
 
+
+    /** @brief Returns true if @a str has characters that will be unescaped
+      *     if unescape is called with the same parameters.
+      */
+    YSTRING_API bool hasEscapedCharacters(
+            const std::string& str,
+            EscapeType_t type = EscapeType::BACKSLASH);
+
+    /** @brief Returns true if @a str has characters that will be escaped
+      *     if escape is called with the same parameters.
+      */
+    YSTRING_API bool hasUnescapedCharacters(
+            const std::string& str,
+            EscapeType_t type = EscapeType::BACKSLASH);
+
     /** @brief Inserts string @a sub into @a str at position @a pos.
       *
       * @param pos The insert position in complete characters (i.e. not bytes,
@@ -495,7 +510,7 @@ namespace Ystring { namespace Utf8
     /** @brief Returns a copy of @a str with instances of @a from replaced
       *     with @a to.
       *
-      * @param str The string operated on. 
+      * @param str The string operated on.
       * @param from The character to replace.
       * @param to The replacement.
       * @param maxReplacements The maximum number of replacements that will be

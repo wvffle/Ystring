@@ -41,7 +41,7 @@ namespace Ystring { namespace Encoded
             last = std::find_if(first, src.end(), predicate);
         }
         dst.append(Generic::makeRange(first, src.end()));
-    };
+    }
 
     template <typename Appender, typename It, typename Enc, typename Escaper>
     void appendEscaped(Appender dst, ForwardDecoder<It, Enc> src,
@@ -57,5 +57,24 @@ namespace Ystring { namespace Encoded
             first = src.begin();
         }
         dst.append(Generic::makeRange(first, src.begin()));
-    };
+    }
+
+    template <typename It>
+    bool hasUnescapedCharacters(Generic::Range<It> src,
+                                bool (*isEscapable)(uint32_t))
+    {
+        typedef typename Generic::Range<It>::ValueType Char;
+        typedef typename std::make_unsigned<Char>::type UChar;
+        return src.end() != std::find_if(
+                src.begin(), src.end(),
+                [&](Char c){return isEscapable(UChar(c));});
+    }
+
+    template <typename It, typename Enc>
+    bool hasUnescapedCharacters(ForwardDecoder<It, Enc> src,
+                                bool (*isEscapable)(uint32_t))
+    {
+        return advanceUntil(src, isEscapable);
+    }
+
 }}

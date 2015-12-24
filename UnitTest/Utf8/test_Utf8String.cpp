@@ -272,8 +272,8 @@ namespace
         Y_ASSERT(!Utf8::hasUnescapedCharacters("A:'&%/<",
                                                EscapeType::JSON));
         Y_ASSERT(!Utf8::hasUnescapedCharacters("/a/b/c", EscapeType::JSON));
-        Y_ASSERT(!Utf8::hasUnescapedCharacters("\xc2\x80", EscapeType::JSON));
-        Y_ASSERT(Utf8::hasUnescapedCharacters("\xc2\x80",
+        Y_ASSERT(!Utf8::hasUnescapedCharacters("\xc3\x80", EscapeType::JSON));
+        Y_ASSERT(Utf8::hasUnescapedCharacters("\xc3\x80",
                                               EscapeType::JSON_ASCII));
     }
 

@@ -128,6 +128,71 @@ namespace Ystring { namespace Generic {
         }
     }
 
+    template <typename It>
+    bool hasEscapedCharacters(Range <It> str,
+                              EscapeType_t type)
+    {
+        switch (type)
+        {
+        case EscapeType::BACKSLASH:
+        case EscapeType::BACKSLASH_ASCII:
+        case EscapeType::BACKSLASH_ASCII_SMART:
+        case EscapeType::JSON:
+        case EscapeType::JSON_ASCII:
+            return find(str, '\\') != end(str);
+        case EscapeType::URL_QUERY:
+            return find(str, '%') != end(str);
+        case EscapeType::XML_ATTRIBUTE:
+        case EscapeType::XML_TEXT:
+            return find(str, '&') != end(str);
+        default:
+            YSTRING_THROW("Unsupported escape type " +
+                          std::to_string(uint64_t(type)));
+        }
+    }
+
+    template <typename It, typename Enc>
+    bool hasUnescapedCharacters(Range <It> str,
+                                EscapeType_t type,
+                                Enc encoding)
+    {
+        switch (type)
+        {
+        case EscapeType::BACKSLASH:
+            return Encoded::hasUnescapedCharacters(
+                    str, Encoded::isMandatoryEscape);
+        case EscapeType::BACKSLASH_ASCII:
+            return Encoded::hasUnescapedCharacters(
+                    str, Encoded::isNonAsciiEscape);
+        case EscapeType::BACKSLASH_ASCII_SMART:
+            return Encoded::hasUnescapedCharacters(
+                    Encoded::makeForwardDecoder(str, encoding),
+                    Encoded::isNonAsciiEscape);
+        case EscapeType::JSON:
+            return Encoded::hasUnescapedCharacters(
+                    Encoded::makeForwardDecoder(str, encoding),
+                    Encoded::isMandatoryEscape);
+        case EscapeType::JSON_ASCII:
+            return Encoded::hasUnescapedCharacters(
+                    Encoded::makeForwardDecoder(str, encoding),
+                    Encoded::isNonAsciiEscape);
+        case EscapeType::URL_QUERY:
+            return Encoded::hasUnescapedCharacters(
+                    str, Encoded::isUrlQueryEscape);
+        case EscapeType::XML_ATTRIBUTE:
+            return Encoded::hasUnescapedCharacters(
+                    Encoded::makeForwardDecoder(str, encoding),
+                    Encoded::isXmlAttributeEscape);
+        case EscapeType::XML_TEXT:
+            return Encoded::hasUnescapedCharacters(
+                    Encoded::makeForwardDecoder(str, encoding),
+                    Encoded::isXmlTextEscape);
+        default:
+            YSTRING_THROW("Unsupported escape type " +
+                          std::to_string(uint64_t(type)));
+        }
+    }
+
     template<typename Str, typename It, typename Enc>
     Str escape(Range<It> src, EscapeType_t type, Enc encoding)
     {
