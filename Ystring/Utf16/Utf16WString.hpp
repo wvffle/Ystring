@@ -1,6 +1,6 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 2015-07-29
+// Created by Jan Erik Breimo on 2015-07-29.
 //
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
@@ -344,6 +344,20 @@ namespace Ystring { namespace Utf16W
       */
     YSTRING_API uint32_t getCodePoint(const std::wstring& str,
                                       ptrdiff_t pos);
+
+    /** @brief Returns true if @a str has characters that will be unescaped
+      *     if unescape is called with the same parameters.
+      */
+    YSTRING_API bool hasEscapedCharacters(
+            const std::string& str,
+            EscapeType_t type = EscapeType::BACKSLASH);
+
+    /** @brief Returns true if @a str has characters that will be escaped
+      *     if escape is called with the same parameters.
+      */
+    YSTRING_API bool hasUnescapedCharacters(
+            const std::string& str,
+            EscapeType_t type = EscapeType::BACKSLASH);
 
     /** @brief Inserts string @a sub into @a str at position @a pos.
       *

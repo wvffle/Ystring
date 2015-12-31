@@ -344,6 +344,20 @@ namespace Ystring { namespace Utf32
     YSTRING_API uint32_t getCodePoint(const std::u32string& str,
                                       ptrdiff_t pos);
 
+    /** @brief Returns true if @a str has characters that will be unescaped
+      *     if unescape is called with the same parameters.
+      */
+    YSTRING_API bool hasEscapedCharacters(
+            const std::string& str,
+            EscapeType_t type = EscapeType::BACKSLASH);
+
+    /** @brief Returns true if @a str has characters that will be escaped
+      *     if escape is called with the same parameters.
+      */
+    YSTRING_API bool hasUnescapedCharacters(
+            const std::string& str,
+            EscapeType_t type = EscapeType::BACKSLASH);
+
     /** @brief Inserts string @a sub into @a str at position @a pos.
       *
       * @param pos The insert position in complete characters (i.e. not bytes,

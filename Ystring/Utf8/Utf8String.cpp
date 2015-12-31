@@ -246,8 +246,8 @@ namespace Ystring { namespace Utf8
 
     bool isValidUtf8(const std::string& str)
     {
-        return std::get<2>(nextInvalidUtf8CodePoint(begin(str), end(str)))
-                == DecoderResult::OK;
+        return DecoderResult::OK == std::get<2>(
+                nextInvalidUtf8CodePoint(begin(str), end(str)));
     }
 
     String join(const std::vector<String>& strings,

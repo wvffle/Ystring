@@ -207,6 +207,16 @@ namespace Ystring { namespace Utf16
         return Generic::getCodePoint(makeRange(str), n, Enc());
     }
 
+    bool hasEscapedCharacters(const std::string& str, EscapeType_t type)
+    {
+        return Generic::hasEscapedCharacters(makeRange(str), type);
+    }
+
+    bool hasUnescapedCharacters(const std::string& str, EscapeType_t type)
+    {
+        return Generic::hasUnescapedCharacters(makeRange(str), type, Enc());
+    }
+
     String insert(const String& str, ptrdiff_t pos, const String& sub)
     {
         return Generic::insert<String>(
