@@ -16,7 +16,7 @@
   */
 
 #ifndef _NOEXCEPT
-	#define _NOEXCEPT
+    #define _NOEXCEPT
 #endif
 
 namespace Ystring

@@ -14,6 +14,7 @@
 #include "../Encoding.hpp"
 #include "../EscapeType.hpp"
 #include "../FindFlags.hpp"
+#include "../PlatformDetails.hpp"
 #include "../SplitFlags.hpp"
 #include "../YstringException.hpp"
 #include "../Unicode/UnicodeChars.hpp"

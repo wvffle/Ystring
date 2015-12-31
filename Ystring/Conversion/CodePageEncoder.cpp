@@ -43,7 +43,7 @@ namespace Ystring { namespace Conversion {
                 switch (errorHandlingPolicy())
                 {
                 case ErrorHandlingPolicy::REPLACE:
-                    dst.push_back(replacementCharacter());
+                    dst.push_back(char(replacementCharacter()));
                     break;
                 case ErrorHandlingPolicy::STOP:
                     return false;
