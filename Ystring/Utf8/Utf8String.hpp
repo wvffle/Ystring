@@ -17,7 +17,6 @@
 #include "../PlatformDetails.hpp"
 #include "../SplitFlags.hpp"
 #include "../YstringException.hpp"
-#include "../Unicode/UnicodeChars.hpp"
 
 /** @file
   * @brief The function library for UTF-8 encoded strings.
@@ -37,6 +36,14 @@ namespace Ystring { namespace Utf8
     typedef std::pair<std::string::const_iterator,
                       std::string::const_iterator>
             StringConstIteratorPair;
+
+    /** @brief The Unicode replacement character.
+      *
+      * This is a copy of the constant found in UnicodeChars.hpp. It's
+      * duplicated here to avoid unnecessary conflicts between constant names
+      * in that file and macros defined in Windows.h.
+      */
+    static const uint32_t REPLACEMENT_CHARACTER = 0xFFFDu;
 
     /** @brief Adds @a codePoint encoded as UTF-8 to the end of @a str.
       */
@@ -529,7 +536,7 @@ namespace Ystring { namespace Utf8
       */
     YSTRING_API std::string replaceInvalidUtf8(
             const std::string& str,
-            uint32_t chr = Unicode::REPLACEMENT_CHARACTER);
+            uint32_t chr = REPLACEMENT_CHARACTER);
 
     /** @brief Replaces all invalid code points in @a str with @a chr.
       */

@@ -17,7 +17,6 @@
 #include "../PlatformDetails.hpp"
 #include "../SplitFlags.hpp"
 #include "../YstringException.hpp"
-#include "../Unicode/UnicodeChars.hpp"
 
 /** @file
   * @brief The function library for UTF-16 encoded wstrings.
@@ -37,6 +36,14 @@ namespace Ystring { namespace Utf16W
     typedef std::pair<std::wstring::const_iterator,
                       std::wstring::const_iterator>
             StringConstIteratorPair;
+
+    /** @brief The Unicode replacement character.
+      *
+      * This is a copy of the constant found in UnicodeChars.hpp. It's
+      * duplicated here to avoid unnecessary conflicts between constant names
+      * in that file and macros defined in Windows.h.
+      */
+    static const uint32_t REPLACEMENT_CHARACTER = 0xFFFDu;
 
     /** @brief Adds @a codePoint encoded as UTF-16 to the end of @a str.
       */
@@ -528,13 +535,13 @@ namespace Ystring { namespace Utf16W
       */
     YSTRING_API std::wstring replaceInvalidUtf16(
             const std::wstring& str,
-            uint32_t chr = Unicode::REPLACEMENT_CHARACTER);
+            uint32_t chr = REPLACEMENT_CHARACTER);
 
     /** @brief Replaces all invalid code points in @a str with @a chr.
       */
     YSTRING_API std::wstring& replaceInvalidUtf16InPlace(
             std::wstring& str,
-            uint16_t chr = Unicode::REPLACEMENT_CHARACTER);
+            uint16_t chr = REPLACEMENT_CHARACTER);
 
     /** @brief Returns a reversed copy of @a str.
       *
