@@ -450,65 +450,29 @@ namespace Ystring { namespace Utf32
         return toUtf32(str.data(), str.size(), encoding);
     }
 
+    #define CASE_ENCODING(enumName, encodingName) \
+        case enumName: \
+            return Generic::convert<String>( \
+                    makeRange(str, str + length), \
+                    encodingName(), \
+                    Enc())
+
     String toUtf32(const char* str, size_t length, Encoding_t encoding)
     {
         switch (encoding)
         {
-        case Encoding::UTF_8:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    Utf8::Utf8Encoding(),
-                    Enc());
-        case Encoding::IBM_437:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    CodePage::Ibm437Encoding(),
-                    Enc());
-        case Encoding::IBM_850:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    CodePage::Ibm850Encoding(),
-                    Enc());
-        case Encoding::LATIN_1:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    CodePage::Latin1Encoding(),
-                    Enc());
-        case Encoding::LATIN_6:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    CodePage::Latin6Encoding(),
-                    Enc());
-        case Encoding::LATIN_9:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    CodePage::Latin9Encoding(),
-                    Enc());
-        case Encoding::WINDOWS_1252:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    CodePage::Windows1252Encoding(),
-                    Enc());
-        case Encoding::UTF_16_BE:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    Utf16::Utf16BEEncoding(),
-                    Enc());
-        case Encoding::UTF_16_LE:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    Utf16::Utf16LEEncoding(),
-                    Enc());
-        case Encoding::UTF_32_BE:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    Utf32::Utf32BEEncoding(),
-                    Enc());
-        case Encoding::UTF_32_LE:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    Utf32::Utf32LEEncoding(),
-                    Enc());
+        CASE_ENCODING(Encoding::UTF_8, Utf8::Utf8Encoding);
+        CASE_ENCODING(Encoding::IBM_437, CodePage::Ibm437Encoding);
+        CASE_ENCODING(Encoding::IBM_850, CodePage::Ibm850Encoding);
+        CASE_ENCODING(Encoding::LATIN_1, CodePage::Latin1Encoding);
+        CASE_ENCODING(Encoding::LATIN_6, CodePage::Latin6Encoding);
+        CASE_ENCODING(Encoding::LATIN_9, CodePage::Latin9Encoding);
+        CASE_ENCODING(Encoding::WINDOWS_1250, CodePage::Windows1250Encoding);
+        CASE_ENCODING(Encoding::WINDOWS_1252, CodePage::Windows1252Encoding);
+        CASE_ENCODING(Encoding::UTF_16_BE, Utf16::Utf16BEEncoding);
+        CASE_ENCODING(Encoding::UTF_16_LE, Utf16::Utf16LEEncoding);
+        CASE_ENCODING(Encoding::UTF_32_BE, Utf32::Utf32BEEncoding);
+        CASE_ENCODING(Encoding::UTF_32_LE, Utf32::Utf32LEEncoding);
         default:
             YSTRING_THROW("toUtf32: unsupported encoding " +
                           std::to_string(int64_t(encoding)));
@@ -519,16 +483,8 @@ namespace Ystring { namespace Utf32
     {
         switch (encoding)
         {
-        case Encoding::UTF_16_BE:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    Utf16::Utf16BEEncoding(),
-                    Enc());
-        case Encoding::UTF_16_LE:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    Utf16::Utf16LEEncoding(),
-                    Enc());
+        CASE_ENCODING(Encoding::UTF_16_BE, Utf16::Utf16BEEncoding);
+        CASE_ENCODING(Encoding::UTF_16_LE, Utf16::Utf16LEEncoding);
         default:
             YSTRING_THROW("toUtf32: unsupported encoding " +
                           std::to_string(int64_t(encoding)));
@@ -539,16 +495,8 @@ namespace Ystring { namespace Utf32
     {
         switch (encoding)
         {
-        case Encoding::UTF_32_BE:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    Utf32::Utf32BEEncoding(),
-                    Enc());
-        case Encoding::UTF_32_LE:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    Utf32::Utf32LEEncoding(),
-                    Enc());
+        CASE_ENCODING(Encoding::UTF_32_BE, Utf32::Utf32BEEncoding);
+        CASE_ENCODING(Encoding::UTF_32_LE, Utf32::Utf32LEEncoding);
         default:
             YSTRING_THROW("toUtf32: unsupported encoding " +
                           std::to_string(int64_t(encoding)));

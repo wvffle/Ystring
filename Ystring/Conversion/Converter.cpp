@@ -343,6 +343,7 @@ namespace Ystring { namespace Conversion {
             case Encoding::ISO_8859_1:
             case Encoding::ISO_8859_10:
             case Encoding::ISO_8859_15:
+            case Encoding::WINDOWS_1250:
             case Encoding::WINDOWS_1252:
             case Encoding::IBM_437:
             case Encoding::IBM_850:
@@ -362,7 +363,7 @@ namespace Ystring { namespace Conversion {
 
             auto info = getEncodingInfo(encoding);
             auto name = info ? info->name()
-							 : std::to_string(int64_t(encoding));
+                             : std::to_string(int64_t(encoding));
             YSTRING_THROW("Unsupported source-encoding: " + name);
         }
 
@@ -377,6 +378,7 @@ namespace Ystring { namespace Conversion {
             case Encoding::ISO_8859_1:
             case Encoding::ISO_8859_10:
             case Encoding::ISO_8859_15:
+            case Encoding::WINDOWS_1250:
             case Encoding::WINDOWS_1252:
             case Encoding::IBM_437:
             case Encoding::IBM_850:
@@ -396,7 +398,7 @@ namespace Ystring { namespace Conversion {
 
             auto info = getEncodingInfo(encoding);
             auto name = info ? info->name()
-				             : std::to_string(int64_t(encoding));
+                             : std::to_string(int64_t(encoding));
             YSTRING_THROW("Unsupported source-encoding: " + name);
         }
 

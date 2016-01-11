@@ -13,6 +13,7 @@
 #include "Iso8859_1.hpp"
 #include "Iso8859_10.hpp"
 #include "Iso8859_15.hpp"
+#include "Windows1250.hpp"
 #include "Windows1252.hpp"
 
 namespace Ystring { namespace CodePage
@@ -72,6 +73,8 @@ namespace Ystring { namespace CodePage
             return makeIso8859_10();
         case Encoding::ISO_8859_15:
             return makeIso8859_15();
+        case Encoding::WINDOWS_1250:
+            return makeWindows1250();
         case Encoding::WINDOWS_1252:
             return makeWindows1252();
         case Encoding::IBM_437:
