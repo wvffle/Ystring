@@ -321,7 +321,9 @@ namespace
         Y_ASSERT(!Utf8::isValidUtf8("AB\xC0\x7F"));
         Y_ASSERT(!Utf8::isValidUtf8("\xC0\xFF"));
         Y_ASSERT(Utf8::isValidUtf8("\xE2\xBF\x80"));
-        Y_ASSERT(!Utf8::isValidUtf8("\xE2\xBF\xC0"));
+        Y_ASSERT(Utf8::isValidUtf8("\xF3\xA0\xA0\xA0"));
+        Y_ASSERT(!Utf8::isValidUtf8("\xF4\x80\x80\x80"));
+        Y_ASSERT(!Utf8::isValidUtf8("\xF8\xA0\xA0\xA0\xA0"));
     }
 
     void test_join()
