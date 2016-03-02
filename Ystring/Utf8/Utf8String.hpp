@@ -145,6 +145,9 @@ namespace Ystring { namespace Utf8
     /** @brief Returns the first substring in @a str that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.end().
       */
     YSTRING_API StringConstIteratorPair findFirst(
             const std::string& str,
@@ -155,6 +158,9 @@ namespace Ystring { namespace Utf8
       *     to @a last that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.end().
       */
     YSTRING_API StringIteratorPair findFirst(
             std::string::iterator first,
@@ -166,6 +172,9 @@ namespace Ystring { namespace Utf8
       *     to @a last that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.end().
       */
     YSTRING_API StringConstIteratorPair findFirst(
             std::string::const_iterator first,
@@ -241,6 +250,9 @@ namespace Ystring { namespace Utf8
     /** @brief Returns the last substring in @a str that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.begin().
       */
     YSTRING_API StringIteratorPair findLast(
             std::string& str,
@@ -250,6 +262,9 @@ namespace Ystring { namespace Utf8
     /** @brief Returns the last substring in @a str that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.begin().
       */
     YSTRING_API StringConstIteratorPair findLast(
             const std::string& str,
@@ -260,6 +275,9 @@ namespace Ystring { namespace Utf8
       *     to @a last that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.begin().
       */
     YSTRING_API StringIteratorPair findLast(
           std::string::iterator first,
@@ -271,6 +289,9 @@ namespace Ystring { namespace Utf8
       *     to @a last that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.begin().
       */
     YSTRING_API StringConstIteratorPair findLast(
           std::string::const_iterator first,
