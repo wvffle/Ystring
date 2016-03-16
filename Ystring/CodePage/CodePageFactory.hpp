@@ -21,8 +21,8 @@ namespace Ystring { namespace CodePage
                         Encoding_t encoding);
         CodePage makeCodePage();
     private:
-        std::vector <std::pair<uint32_t, uint32_t>> m_FromCodePoint;
-        std::vector <uint32_t> m_FromChar;
+        std::vector<std::pair<uint32_t, uint32_t>> m_FromCodePoint;
+        std::vector<uint32_t> m_FromChar;
         Encoding_t m_Encoding;
         uint16_t m_FirstSpecialChar;
         uint16_t m_LastSpecialChar;
