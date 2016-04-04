@@ -11,6 +11,7 @@
 #include "Ibm437.hpp"
 #include "Ibm850.hpp"
 #include "Iso8859_1.hpp"
+#include "Iso8859_9.hpp"
 #include "Iso8859_10.hpp"
 #include "Iso8859_15.hpp"
 #include "Windows1250.hpp"
@@ -69,6 +70,8 @@ namespace Ystring { namespace CodePage
         case Encoding::ASCII:
         case Encoding::ISO_8859_1:
             return makeIso8859_1();
+        case Encoding::ISO_8859_9:
+            return makeIso8859_9();
         case Encoding::ISO_8859_10:
             return makeIso8859_10();
         case Encoding::ISO_8859_15:

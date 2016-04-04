@@ -109,6 +109,7 @@ set(PRIVATE_HEADERS
     Ystring/CodePage/Ibm437.hpp
     Ystring/CodePage/Ibm850.hpp
     Ystring/CodePage/Iso8859_1.hpp
+    Ystring/CodePage/Iso8859_9.hpp
     Ystring/CodePage/Iso8859_10.hpp
     Ystring/CodePage/Iso8859_15.hpp
     Ystring/CodePage/Windows1250.hpp
@@ -193,6 +194,7 @@ set(SOURCE_FILES
     Ystring/CodePage/Ibm437.cpp
     Ystring/CodePage/Ibm850.cpp
     Ystring/CodePage/Iso8859_1.cpp
+    Ystring/CodePage/Iso8859_9.cpp
     Ystring/CodePage/Iso8859_10.cpp
     Ystring/CodePage/Iso8859_15.cpp
     Ystring/CodePage/Windows1250.cpp

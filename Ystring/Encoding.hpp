@@ -37,6 +37,12 @@ namespace Ystring {
             /** @brief An alias for ISO 8859-1.
               */
             LATIN_1 = ISO_8859_1,
+            /** @brief ASCII extended with the characters used in Turkish.
+              */
+            ISO_8859_9,
+            /** @brief ASCII extended with the characters used in Turkish.
+              */
+            LATIN_5 = ISO_8859_9,
             /** @brief ASCII extended with the characters used in
               *     Nordic languages.
               */

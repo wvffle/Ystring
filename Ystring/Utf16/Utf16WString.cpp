@@ -471,6 +471,7 @@ namespace Ystring { namespace Utf16W
         CASE_ENCODING(Encoding::IBM_437, CodePage::Ibm437Encoding);
         CASE_ENCODING(Encoding::IBM_850, CodePage::Ibm850Encoding);
         CASE_ENCODING(Encoding::LATIN_1, CodePage::Latin1Encoding);
+        CASE_ENCODING(Encoding::LATIN_5, CodePage::Latin5Encoding);
         CASE_ENCODING(Encoding::LATIN_6, CodePage::Latin6Encoding);
         CASE_ENCODING(Encoding::LATIN_9, CodePage::Latin9Encoding);
         CASE_ENCODING(Encoding::WINDOWS_1250, CodePage::Windows1250Encoding);
