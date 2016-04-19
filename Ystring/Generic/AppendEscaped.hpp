@@ -7,10 +7,10 @@
 //****************************************************************************
 #pragma once
 
-#include "../Generic/Range.hpp"
+#include "Range.hpp"
 #include "ForwardDecoder.hpp"
 
-namespace Ystring { namespace Encoded
+namespace Ystring { namespace EncodedString
 {
 
     inline bool isMandatoryEscape(uint32_t c)

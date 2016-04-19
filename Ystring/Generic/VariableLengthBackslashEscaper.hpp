@@ -9,19 +9,11 @@
 
 #include "../Utilities/Utilities.hpp"
 
-namespace Ystring { namespace Encoded
+namespace Ystring { namespace EncodedString
 {
-    class FixedLengthBackslashEscaper
+    class VariableLengthBackslashEscaper
     {
     public:
-        FixedLengthBackslashEscaper(uint32_t unicodeChar,
-                                    int unicodeHexDigits)
-            : m_UnicodeChar(unicodeChar),
-              m_MaxChar(unicodeHexDigits >= 8 ?
-                        ~0u : (1u << (unicodeHexDigits * 4u)) - 1u),
-              m_UnicodeHexDigits(unicodeHexDigits)
-        {}
-
         template <typename Appender>
         void escape(Appender dst, uint32_t chr)
         {
@@ -40,27 +32,30 @@ namespace Ystring { namespace Encoded
             case '\\': dst.append('\\'); break;
             default:
                 {
-                    if (chr > m_MaxChar)
+                    int shifts;
+                    if (chr < 256)
                     {
-                        YSTRING_THROW(
-                                "Character " + std::to_string(int64_t(chr)) +
-                                " has more than " +
-                                std::to_string(int64_t(m_UnicodeHexDigits)) +
-                                " hex digits.");
+                        dst.append('x');
+                        shifts = 2;
                     }
-                    dst.append(m_UnicodeChar);
-                    for (auto i = 0; i < m_UnicodeHexDigits; ++i)
+                    else if (chr < 0x10000)
                     {
-                        auto shift = (m_UnicodeHexDigits - i - 1) * 4;
+                        dst.append('u');
+                        shifts = 4;
+                    }
+                    else
+                    {
+                        dst.append('U');
+                        shifts = 8;
+                    }
+                    for (auto i = 0; i < shifts; ++i)
+                    {
+                        auto shift = (shifts - i - 1) * 4;
                         dst.append(toCharDigit((chr >> shift) & 0xF));
                     }
                 }
                 break;
             }
         }
-    private:
-        uint32_t m_UnicodeChar;
-        uint32_t m_MaxChar;
-        int m_UnicodeHexDigits;
     };
 }}

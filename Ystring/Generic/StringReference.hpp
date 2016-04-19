@@ -8,8 +8,8 @@
 #pragma once
 
 #include <iterator>
-#include "../Encoded/Appender.hpp"
-#include "../Encoded/Encoder.hpp"
+#include "Appender.hpp"
+#include "Encoder.hpp"
 #include "../Utilities/ArrayOutputIterator.hpp"
 
 namespace Ystring { namespace Generic
@@ -25,15 +25,15 @@ namespace Ystring { namespace Generic
             : m_String(str)
         {}
 
-        Encoded::Appender<String> getAppender()
+        EncodedString::Appender<String> getAppender()
         {
-            return Encoded::Appender<String>(m_String);
+            return EncodedString::Appender<String>(m_String);
         }
 
         template <typename Enc>
-        Encoded::Encoder<BackInsertIterator, Enc> getEncoder(Enc encoding)
+        EncodedString::Encoder<BackInsertIterator, Enc> getEncoder(Enc encoding)
         {
-            return Encoded::makeEncoder(std::back_inserter(m_String),
+            return EncodedString::makeEncoder(std::back_inserter(m_String),
                                         encoding);
         }
 
@@ -61,16 +61,16 @@ namespace Ystring { namespace Generic
               m_Size(size)
         {}
 
-        Encoded::Appender<T*> getAppender()
+        EncodedString::Appender<T*> getAppender()
         {
-            return Encoded::Appender<T*>(m_String, &m_Size, m_Capacity);
+            return EncodedString::Appender<T*>(m_String, &m_Size, m_Capacity);
         }
 
         template <typename Encoding>
-        Encoded::Encoder<BackInsertIterator, Encoding>
+        EncodedString::Encoder<BackInsertIterator, Encoding>
             getEncoder(Encoding encoding)
         {
-            return Encoded::makeEncoder(
+            return EncodedString::makeEncoder(
                     BackInsertIterator(m_String, &m_Size, m_Capacity - 1),
                     encoding);
         }

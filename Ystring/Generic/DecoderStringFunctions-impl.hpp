@@ -12,7 +12,7 @@
 #include "../Unicode/UnicodePredicates.hpp"
 #include "DecoderAlgorithms.hpp"
 
-namespace Ystring { namespace Encoded
+namespace Ystring { namespace EncodedString
 {
     template <typename Decoder>
     bool advanceCharacter(Decoder& it)
@@ -233,7 +233,7 @@ namespace Ystring { namespace Encoded
     Decoder1 nextToken(Decoder1& str, Decoder2 cmp, FindFlags_t flags)
     {
         auto token = str;
-        auto delimiter = Encoded::find(str, cmp, flags);
+        auto delimiter = EncodedString::find(str, cmp, flags);
         token.setLogicalEnd(delimiter.getLogicalBegin());
         return token;
     }

@@ -9,11 +9,11 @@
 
 #include <stdexcept>
 #include "../YstringDefinitions.hpp"
-#include "../Generic/Range.hpp"
-#include "../Generic/StringReference.hpp"
+#include "Range.hpp"
+#include "StringReference.hpp"
 #include "ForwardDecoder.hpp"
 
-namespace Ystring { namespace Encoded
+namespace Ystring { namespace EncodedString
 {
     inline bool isBackslash(uint32_t c)
     {

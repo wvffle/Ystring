@@ -10,7 +10,7 @@
 #include <cstdint>
 #include <utility>
 
-namespace Ystring { namespace Encoded
+namespace Ystring { namespace EncodedString
 {
     template <typename Decoder, typename UnaryPred>
     bool advanceIf(Decoder& str, UnaryPred pred)

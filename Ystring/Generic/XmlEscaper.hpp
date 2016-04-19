@@ -10,7 +10,7 @@
 #include <stdint.h>
 #include "../Utilities/Utilities.hpp"
 
-namespace Ystring { namespace Encoded
+namespace Ystring { namespace EncodedString
 {
     inline bool isXmlAttributeEscape(uint32_t c)
     {

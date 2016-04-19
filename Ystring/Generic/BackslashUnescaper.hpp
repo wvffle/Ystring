@@ -8,10 +8,10 @@
 #pragma once
 
 #include <stdexcept>
-#include "../Generic/Range.hpp"
+#include "Range.hpp"
 #include "../Utilities/Utilities.hpp"
 
-namespace Ystring { namespace Encoded
+namespace Ystring { namespace EncodedString
 {
     class BackslashUnescaper
     {

@@ -8,17 +8,17 @@
 #pragma once
 
 #include "../EscapeType.hpp"
-#include "../Encoded/AppendEscaped.hpp"
-#include "../Encoded/AppendUnescaped.hpp"
-#include "../Encoded/BackslashUnescaper.hpp"
-#include "../Encoded/FixedLengthBackslashEscaper.hpp"
-#include "../Encoded/UrlEscaper.hpp"
-#include "../Encoded/VariableLengthBackslashEscaper.hpp"
-#include "../Encoded/XmlEscaper.hpp"
+#include "AppendEscaped.hpp"
+#include "AppendUnescaped.hpp"
+#include "BackslashUnescaper.hpp"
+#include "FixedLengthBackslashEscaper.hpp"
+#include "UrlEscaper.hpp"
+#include "VariableLengthBackslashEscaper.hpp"
+#include "XmlEscaper.hpp"
 
 namespace Ystring { namespace Generic {
     namespace Detail {
-        Encoded::FixedLengthBackslashEscaper makeFixedLengthBackslashEscaper(
+        EncodedString::FixedLengthBackslashEscaper makeFixedLengthBackslashEscaper(
                 size_t charSize);
     }
 
@@ -32,60 +32,60 @@ namespace Ystring { namespace Generic {
         switch (type)
         {
         case EscapeType::BACKSLASH:
-            Encoded::appendEscaped(
+            EncodedString::appendEscaped(
                     dst.getAppender(),
                     src,
-                    Encoded::isMandatoryEscape,
+                    EncodedString::isMandatoryEscape,
                     Detail::makeFixedLengthBackslashEscaper(sizeof(Char)));
             break;
         case EscapeType::BACKSLASH_ASCII:
-            Encoded::appendEscaped(
+            EncodedString::appendEscaped(
                     dst.getAppender(),
                     src,
-                    Encoded::isNonAsciiEscape,
+                    EncodedString::isNonAsciiEscape,
                     Detail::makeFixedLengthBackslashEscaper(sizeof(Char)));
             break;
         case EscapeType::BACKSLASH_ASCII_SMART:
-            Encoded::appendEscaped(
+            EncodedString::appendEscaped(
                     dst.getAppender(),
-                    Encoded::makeForwardDecoder(src, encoding),
-                    Encoded::isNonAsciiEscape,
-                    Encoded::VariableLengthBackslashEscaper());
+                    EncodedString::makeForwardDecoder(src, encoding),
+                    EncodedString::isNonAsciiEscape,
+                    EncodedString::VariableLengthBackslashEscaper());
             break;
         case EscapeType::JSON:
-            Encoded::appendEscaped(
+            EncodedString::appendEscaped(
                     dst.getAppender(),
-                    Encoded::makeForwardDecoder(src, encoding),
-                    Encoded::isMandatoryEscape,
-                    Encoded::FixedLengthBackslashEscaper('u', 4));
+                    EncodedString::makeForwardDecoder(src, encoding),
+                    EncodedString::isMandatoryEscape,
+                    EncodedString::FixedLengthBackslashEscaper('u', 4));
             break;
         case EscapeType::JSON_ASCII:
-            Encoded::appendEscaped(
+            EncodedString::appendEscaped(
                     dst.getAppender(),
-                    Encoded::makeForwardDecoder(src, encoding),
-                    Encoded::isNonAsciiEscape,
-                    Encoded::FixedLengthBackslashEscaper('u', 4));
+                    EncodedString::makeForwardDecoder(src, encoding),
+                    EncodedString::isNonAsciiEscape,
+                    EncodedString::FixedLengthBackslashEscaper('u', 4));
             break;
         case EscapeType::URL_QUERY:
-            Encoded::appendEscaped(
+            EncodedString::appendEscaped(
                     dst.getAppender(),
                     src,
-                    Encoded::isUrlQueryEscape,
-                    Encoded::UrlEscaper());
+                    EncodedString::isUrlQueryEscape,
+                    EncodedString::UrlEscaper());
             break;
         case EscapeType::XML_ATTRIBUTE:
-            Encoded::appendEscaped(
+            EncodedString::appendEscaped(
                     dst.getAppender(),
-                    Encoded::makeForwardDecoder(src, encoding),
-                    Encoded::isXmlAttributeEscape,
-                    Encoded::XmlEscaper());
+                    EncodedString::makeForwardDecoder(src, encoding),
+                    EncodedString::isXmlAttributeEscape,
+                    EncodedString::XmlEscaper());
             break;
         case EscapeType::XML_TEXT:
-            Encoded::appendEscaped(
+            EncodedString::appendEscaped(
                     dst.getAppender(),
-                    Encoded::makeForwardDecoder(src, encoding),
-                    Encoded::isXmlTextEscape,
-                    Encoded::XmlEscaper());
+                    EncodedString::makeForwardDecoder(src, encoding),
+                    EncodedString::isXmlTextEscape,
+                    EncodedString::XmlEscaper());
             break;
         default:
             YSTRING_THROW("Unsupported escape type " +
@@ -104,21 +104,21 @@ namespace Ystring { namespace Generic {
         case EscapeType::BACKSLASH:
         case EscapeType::BACKSLASH_ASCII:
         case EscapeType::BACKSLASH_ASCII_SMART:
-            Encoded::appendUnescaped(
+            EncodedString::appendUnescaped(
                     dst,
                     src,
                     encoding,
-                    Encoded::isBackslash,
-                    Encoded::BackslashUnescaper(true));
+                    EncodedString::isBackslash,
+                    EncodedString::BackslashUnescaper(true));
             break;
         case EscapeType::JSON:
         case EscapeType::JSON_ASCII:
-            Encoded::appendUnescaped(
+            EncodedString::appendUnescaped(
                     dst,
                     src,
                     encoding,
-                    Encoded::isBackslash,
-                    Encoded::BackslashUnescaper(false));
+                    EncodedString::isBackslash,
+                    EncodedString::BackslashUnescaper(false));
             break;
         case EscapeType::XML_ATTRIBUTE:
         case EscapeType::XML_TEXT:
@@ -159,34 +159,34 @@ namespace Ystring { namespace Generic {
         switch (type)
         {
         case EscapeType::BACKSLASH:
-            return Encoded::hasUnescapedCharacters(
-                    str, Encoded::isMandatoryEscape);
+            return EncodedString::hasUnescapedCharacters(
+                    str, EncodedString::isMandatoryEscape);
         case EscapeType::BACKSLASH_ASCII:
-            return Encoded::hasUnescapedCharacters(
-                    str, Encoded::isNonAsciiEscape);
+            return EncodedString::hasUnescapedCharacters(
+                    str, EncodedString::isNonAsciiEscape);
         case EscapeType::BACKSLASH_ASCII_SMART:
-            return Encoded::hasUnescapedCharacters(
-                    Encoded::makeForwardDecoder(str, encoding),
-                    Encoded::isNonAsciiEscape);
+            return EncodedString::hasUnescapedCharacters(
+                    EncodedString::makeForwardDecoder(str, encoding),
+                    EncodedString::isNonAsciiEscape);
         case EscapeType::JSON:
-            return Encoded::hasUnescapedCharacters(
-                    Encoded::makeForwardDecoder(str, encoding),
-                    Encoded::isMandatoryEscape);
+            return EncodedString::hasUnescapedCharacters(
+                    EncodedString::makeForwardDecoder(str, encoding),
+                    EncodedString::isMandatoryEscape);
         case EscapeType::JSON_ASCII:
-            return Encoded::hasUnescapedCharacters(
-                    Encoded::makeForwardDecoder(str, encoding),
-                    Encoded::isNonAsciiEscape);
+            return EncodedString::hasUnescapedCharacters(
+                    EncodedString::makeForwardDecoder(str, encoding),
+                    EncodedString::isNonAsciiEscape);
         case EscapeType::URL_QUERY:
-            return Encoded::hasUnescapedCharacters(
-                    str, Encoded::isUrlQueryEscape);
+            return EncodedString::hasUnescapedCharacters(
+                    str, EncodedString::isUrlQueryEscape);
         case EscapeType::XML_ATTRIBUTE:
-            return Encoded::hasUnescapedCharacters(
-                    Encoded::makeForwardDecoder(str, encoding),
-                    Encoded::isXmlAttributeEscape);
+            return EncodedString::hasUnescapedCharacters(
+                    EncodedString::makeForwardDecoder(str, encoding),
+                    EncodedString::isXmlAttributeEscape);
         case EscapeType::XML_TEXT:
-            return Encoded::hasUnescapedCharacters(
-                    Encoded::makeForwardDecoder(str, encoding),
-                    Encoded::isXmlTextEscape);
+            return EncodedString::hasUnescapedCharacters(
+                    EncodedString::makeForwardDecoder(str, encoding),
+                    EncodedString::isXmlTextEscape);
         default:
             YSTRING_THROW("Unsupported escape type " +
                           std::to_string(uint64_t(type)));
@@ -213,14 +213,14 @@ namespace Ystring { namespace Generic {
 
     namespace Detail {
         inline
-        Encoded::FixedLengthBackslashEscaper makeFixedLengthBackslashEscaper(
+        EncodedString::FixedLengthBackslashEscaper makeFixedLengthBackslashEscaper(
                 size_t charSize)
         {
             if (charSize == 1)
-                return Encoded::FixedLengthBackslashEscaper('x', 2);
+                return EncodedString::FixedLengthBackslashEscaper('x', 2);
             if (charSize == 2)
-                return Encoded::FixedLengthBackslashEscaper('u', 4);
-            return Encoded::FixedLengthBackslashEscaper('U', 8);
+                return EncodedString::FixedLengthBackslashEscaper('u', 4);
+            return EncodedString::FixedLengthBackslashEscaper('U', 8);
         }
     }
 }}

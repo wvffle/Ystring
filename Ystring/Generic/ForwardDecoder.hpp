@@ -8,9 +8,9 @@
 #pragma once
 
 #include <cstdint>
-#include "../Generic/Range.hpp"
+#include "Range.hpp"
 
-namespace Ystring { namespace Encoded
+namespace Ystring { namespace EncodedString
 {
     template <typename FwdIt, typename Encoding>
     class ForwardDecoder

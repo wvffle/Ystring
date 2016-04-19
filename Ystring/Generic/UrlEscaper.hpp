@@ -11,7 +11,7 @@
 #include "../Utilities/Utilities.hpp"
 #include "../YstringException.hpp"
 
-namespace Ystring { namespace Encoded
+namespace Ystring { namespace EncodedString
 {
     inline bool isUrlQueryEscape(uint32_t c)
     {

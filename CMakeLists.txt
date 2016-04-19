@@ -124,20 +124,16 @@ set(PRIVATE_HEADERS
     Ystring/Conversion/Utf16Decoder.hpp
     Ystring/Conversion/Utf32Decoder.hpp
     Ystring/Conversion/Utf32Encoder.hpp
-    Ystring/Encoded/Appender.hpp
-    Ystring/Encoded/AppendEscaped.hpp
-    Ystring/Encoded/AppendUnescaped.hpp
-    Ystring/Encoded/BackslashUnescaper.hpp
-    Ystring/Encoded/DecoderAlgorithms.hpp
-    Ystring/Encoded/DecoderStringFunctions.hpp
-    Ystring/Encoded/DecoderStringFunctions-impl.hpp
-    Ystring/Encoded/Encoder.hpp
-    Ystring/Encoded/FixedLengthBackslashEscaper.hpp
-    Ystring/Encoded/ForwardDecoder.hpp
-    Ystring/Encoded/ReverseDecoder.hpp
-    Ystring/Encoded/VariableLengthBackslashEscaper.hpp
-    Ystring/Encoded/XmlEscaper.hpp
-    Ystring/Encoded/UrlEscaper.hpp
+    Ystring/Generic/Appender.hpp
+    Ystring/Generic/AppendEscaped.hpp
+    Ystring/Generic/AppendUnescaped.hpp
+    Ystring/Generic/BackslashUnescaper.hpp
+    Ystring/Generic/DecoderAlgorithms.hpp
+    Ystring/Generic/DecoderStringFunctions.hpp
+    Ystring/Generic/DecoderStringFunctions-impl.hpp
+    Ystring/Generic/Encoder.hpp
+    Ystring/Generic/FixedLengthBackslashEscaper.hpp
+    Ystring/Generic/ForwardDecoder.hpp
     Ystring/Generic/GenericConvert.hpp
     Ystring/Generic/GenericEscape.hpp
     Ystring/Generic/GenericJoin.hpp
@@ -146,8 +142,12 @@ set(PRIVATE_HEADERS
     Ystring/Generic/GenericString-impl.hpp
     Ystring/Generic/Range.hpp
     Ystring/Generic/RangeAlgorithms.hpp
+    Ystring/Generic/ReverseDecoder.hpp
     Ystring/Generic/StringReference.hpp
     Ystring/Generic/StringTypeTraits.hpp
+    Ystring/Generic/UrlEscaper.hpp
+    Ystring/Generic/VariableLengthBackslashEscaper.hpp
+    Ystring/Generic/XmlEscaper.hpp
     Ystring/Unicode/CaseConverter.hpp
     Ystring/Unicode/CaseInsensitive.hpp
     Ystring/Unicode/CharMap.hpp
