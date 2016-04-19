@@ -20,7 +20,9 @@
 namespace Ystring { namespace CodePage
 {
     CodePage::CodePage(Encoding_t encoding)
-        : m_Encoding(encoding),
+        : m_FromCodePoint(nullptr),
+          m_FromChar(nullptr),
+          m_Encoding(encoding),
           m_FirstSpecialChar(256),
           m_LastSpecialChar(256)
     {}
