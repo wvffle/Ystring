@@ -181,7 +181,8 @@ namespace Ystring { namespace Generic
     bool contains(Range<It> str, uint32_t chr, Enc encoding)
     {
         auto dec = EncodedString::makeForwardDecoder(str, encoding);
-        return EncodedString::advanceUntil(dec, [=](uint32_t c){return c == chr;});
+        return EncodedString::advanceUntil(
+                dec, [=](uint32_t c){return c == chr;});
     }
 
     template <typename It, typename Enc>
@@ -386,12 +387,15 @@ namespace Ystring { namespace Generic
                                           FindFlags_t flags)
     {
         if (maxCount >= 0)
-            return Detail::findPositionsFwd(
-                    str, cmp, encoding, static_cast<size_t>(maxCount), flags);
+        {
+            return Detail::findPositionsFwd(str, cmp, encoding,
+                                            static_cast<size_t>(maxCount), flags);
+        }
         else
-            return Detail::findPositionsRev(
-                    str, cmp, encoding,
-                    static_cast<size_t>(-maxCount), flags);
+        {
+            return Detail::findPositionsRev(str, cmp, encoding,
+                                            static_cast<size_t>(-maxCount), flags);
+        }
     }
 
     template <typename Str, typename It1, typename It2, typename Enc>
@@ -404,13 +408,11 @@ namespace Ystring { namespace Generic
             return Str(str.begin(), str.end());
 
         if (maxReplacements >= 0)
-            return Detail::replaceFwd<Str>(
-                    str, cmp, rep, encoding,
-                    static_cast<size_t>(maxReplacements), flags);
+            return Detail::replaceFwd<Str>(str, cmp, rep, encoding,
+                                           static_cast<size_t>(maxReplacements), flags);
         else
-            return Detail::replaceRev<Str>(
-                    str, cmp, rep, encoding,
-                    static_cast<size_t>(-maxReplacements), flags);
+            return Detail::replaceRev<Str>(str, cmp, rep, encoding,
+                                           static_cast<size_t>(-maxReplacements), flags);
     }
 
     template <typename Str, typename It1, typename It2, typename Enc>
@@ -492,12 +494,15 @@ namespace Ystring { namespace Generic
                     FindFlags_t flags)
     {
         if (flags == FindFlags::CASE_INSENSITIVE)
+        {
             return Detail::startsWithImpl(str, cmp, encoding, flags,
                                           std::false_type());
+        }
         else
-            return Detail::startsWithImpl(
-                    str, cmp, encoding, flags,
-                    SameIteratorValueType<It1, It2>());
+        {
+            return Detail::startsWithImpl(str, cmp, encoding, flags,
+                                          SameIteratorValueType<It1, It2>());
+        }
     }
 
     template <typename It, typename Enc>
@@ -665,9 +670,10 @@ namespace Ystring { namespace Generic
                                 std::false_type)
         {
             auto strDec = EncodedString::makeReverseDecoder(str, encoding);
-            return EncodedString::find(strDec,
-                                 EncodedString::makeReverseDecoder(cmp, encoding),
-                                 flags).getRange();
+            return EncodedString::find(
+                    strDec,
+                    EncodedString::makeReverseDecoder(cmp, encoding),
+                    flags).getRange();
         }
 
         template <typename It1, typename It2, typename Enc>
