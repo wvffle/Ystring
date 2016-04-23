@@ -104,7 +104,7 @@ namespace Ystring { namespace Generic
     }
 
     template <typename It, typename Enc>
-    uint32_t getCodePoint(Range<It> str, ptrdiff_t pos, Enc encoding)
+    char32_t getCodePoint(Range<It> str, ptrdiff_t pos, Enc encoding)
     {
         auto it = str.begin();
         if (pos > 0)
@@ -116,7 +116,7 @@ namespace Ystring { namespace Generic
             it = str.end();
             encoding.skipPrev(str.begin(), it, static_cast<size_t>(-pos));
         }
-        uint32_t chr;
+        char32_t chr;
         if (!encoding.next(chr, it, str.end()))
             YSTRING_THROW("No character at position " + std::to_string(pos));
         return chr;

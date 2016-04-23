@@ -13,7 +13,7 @@
 
 namespace Ystring { namespace EncodedString
 {
-    inline bool isUrlQueryEscape(uint32_t c)
+    inline bool isUrlQueryEscape(char32_t c)
     {
         return !('0' <= c && c <= '9') &&
                !('A' <= c && c <= 'Z') &&
@@ -25,7 +25,7 @@ namespace Ystring { namespace EncodedString
     {
     public:
         template<typename Appender>
-        void escape(Appender dst, uint32_t chr)
+        void escape(Appender dst, char32_t chr)
         {
             if (chr > 256)
                 YSTRING_THROW(

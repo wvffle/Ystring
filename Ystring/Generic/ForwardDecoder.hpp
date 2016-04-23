@@ -24,7 +24,7 @@ namespace Ystring { namespace EncodedString
               m_Encoding(encoding)
         {}
 
-        bool next(uint32_t &ch)
+        bool next(char32_t &ch)
         {
             return m_Encoding.next(ch, m_First, m_Last);
         }

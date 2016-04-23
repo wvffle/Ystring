@@ -23,12 +23,12 @@ namespace Ystring { namespace Encoded
               m_Encoding(encoding)
         {}
 
-        void encode(uint32_t codePoint)
+        void encode(char32_t codePoint)
         {
             m_Encoding.encode(m_Destination, codePoint);
         }
 
-        void encodeAsBytes(uint32_t codePoint)
+        void encodeAsBytes(char32_t codePoint)
         {
             m_Encoding.encodeAsBytes(m_Destination, codePoint);
         }

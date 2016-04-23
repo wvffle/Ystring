@@ -608,7 +608,7 @@ namespace
                          SplitFlags_t flags, ptrdiff_t count,
                          const std::string& expected)
     {
-        auto parts = Utf8::splitIf(s, [](uint32_t c){return c == ':';},
+        auto parts = Utf8::splitIf(s, [](char32_t c){return c == ':';},
                                    count, flags);
         Y_EQUAL(parts.size(), expected.size());
         for (auto i = 0u; i < parts.size(); ++i)
@@ -719,6 +719,13 @@ namespace
                 UTF8_LATIN_SMALL_O_WITH_STROKE "ker");
     }
 
+    void test_toUtf8_from_wstring()
+    {
+        Y_EQUAL(Utf8::toUtf8(std::wstring(L"FooBar"),
+                             Encoding::WCHAR_DEFAULT),
+                "FooBar");
+    }
+
     #ifdef YSTRING_WCHAR_IS_2_BYTES
 
     void test_toUtf8_fromUtf16_wstring()
@@ -746,7 +753,7 @@ namespace
                            Unicode::isPunctuation),
                 UTF8_GREEK_SMALL_SIGMA "foo bar");
         Y_EQUAL(Utf8::trim("A.BC_DFB.-GA-B",
-                           [](uint32_t c){return Utf8::contains("AB.-", c);}),
+                           [](char32_t c){return Utf8::contains("AB.-", c);}),
                 "C_DFB.-G");
     }
 
@@ -849,6 +856,7 @@ namespace
               test_title,
               test_toUtf8_fromLatin1,
               test_toUtf8_fromUtf8,
+              test_toUtf8_from_wstring,
               test_toUtf8_fromWindows1252,
               test_trim,
               test_trimEnd,

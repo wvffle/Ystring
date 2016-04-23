@@ -13,8 +13,8 @@
 namespace Ystring { namespace CodePage
 {
     CodePageFactory::CodePageFactory(
-            const std::pair<uint8_t, uint32_t>* firstSpecialChar,
-            const std::pair<uint8_t, uint32_t>* lastSpecialChar,
+            const std::pair<uint8_t, char32_t>* firstSpecialChar,
+            const std::pair<uint8_t, char32_t>* lastSpecialChar,
             Encoding_t encoding)
         : m_Encoding(encoding)
     {

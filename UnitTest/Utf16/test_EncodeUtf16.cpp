@@ -18,7 +18,7 @@ namespace
     void test_AddUtf16LE()
     {
         std::wstring s;
-        addUtf16LE(std::back_inserter(s), (uint32_t)'a');
+        addUtf16LE(std::back_inserter(s), (char32_t)'a');
         Y_EQUAL(s.size(), 1);
         Y_EQUAL(s[0], 'a');
         s.clear();

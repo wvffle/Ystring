@@ -38,7 +38,7 @@ namespace Ystring { namespace Conversion {
         {
             while (dstBeg != dstEnd)
             {
-                uint32_t tmp = *dstBeg;
+                char32_t tmp = *dstBeg;
                 auto result = Utf32::nextUtf32CodePoint<SwapBytes>(
                         tmp, srcBeg, srcEnd);
                 *dstBeg = tmp;
@@ -55,7 +55,7 @@ namespace Ystring { namespace Conversion {
         {
             while (dstBeg != dstEnd)
             {
-                uint32_t tmp = *dstBeg;
+                char32_t tmp = *dstBeg;
                 auto result = Utf32::nextUtf32CodePoint<SwapBytes>(
                         tmp, srcBeg, srcEnd);
                 *dstBeg = tmp;

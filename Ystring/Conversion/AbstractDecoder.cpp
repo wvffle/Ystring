@@ -66,25 +66,25 @@ namespace Ystring { namespace Conversion {
     }
 
     std::pair<bool, const char*> AbstractDecoder::checkString(
-            const char* srcBeg,
+            const char* /*srcBeg*/,
             const char* srcEnd,
-            bool sourceIsIncomplete) const
+            bool /*sourceIsIncomplete*/) const
     {
         return std::make_pair(true, srcEnd);
     }
 
     std::pair<bool, const char16_t*> AbstractDecoder::checkString(
-            const char16_t* srcBeg,
+            const char16_t* /*srcBeg*/,
             const char16_t* srcEnd,
-            bool sourceIsIncomplete) const
+            bool /*sourceIsIncomplete*/) const
     {
         return std::make_pair(true, srcEnd);
     }
 
     std::pair<bool, const char32_t*> AbstractDecoder::checkString(
-            const char32_t* srcBeg,
+            const char32_t* /*srcBeg*/,
             const char32_t* srcEnd,
-            bool sourceIsIncomplete) const
+            bool /*sourceIsIncomplete*/) const
     {
         return std::make_pair(true, srcEnd);
     }

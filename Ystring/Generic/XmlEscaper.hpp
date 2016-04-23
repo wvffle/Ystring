@@ -12,13 +12,13 @@
 
 namespace Ystring { namespace EncodedString
 {
-    inline bool isXmlAttributeEscape(uint32_t c)
+    inline bool isXmlAttributeEscape(char32_t c)
     {
         return c < 32 || c == '"' || c == '&' || c == '\'' ||
                c == '<' || c == '>';
     }
 
-    inline bool isXmlTextEscape(uint32_t c)
+    inline bool isXmlTextEscape(char32_t c)
     {
         return c == '&' || c == '<' || c == '>';
     }
@@ -27,7 +27,7 @@ namespace Ystring { namespace EncodedString
     {
     public:
         template <typename Appender>
-        void escape(Appender dst, uint32_t chr)
+        void escape(Appender dst, char32_t chr)
         {
             using Utilities::toCharDigit;
             dst.append('&');

@@ -12,7 +12,7 @@
 
 namespace Ystring { namespace Unicode
 {
-    YSTRING_API uint32_t lower(uint32_t ch);
-    YSTRING_API uint32_t title(uint32_t ch);
-    YSTRING_API uint32_t upper(uint32_t ch);
+    YSTRING_API char32_t lower(char32_t ch);
+    YSTRING_API char32_t title(char32_t ch);
+    YSTRING_API char32_t upper(char32_t ch);
 }}

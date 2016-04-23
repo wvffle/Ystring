@@ -22,13 +22,13 @@ namespace Ystring { namespace Utf8
         template <typename FwdIt>
         bool next(FwdIt& it, FwdIt last)
         {
-            uint32_t codePoint;
+            char32_t codePoint;
             return nextUtf8CodePoint(codePoint, it, last) ==
                     DecoderResult::OK;
         }
 
         template <typename FwdIt>
-        bool next(uint32_t& codePoint, FwdIt& it, FwdIt last)
+        bool next(char32_t& codePoint, FwdIt& it, FwdIt last)
         {
             switch (nextUtf8CodePoint(codePoint, it, last))
             {
@@ -51,7 +51,7 @@ namespace Ystring { namespace Utf8
         }
 
         template <typename BiIt>
-        bool prev(uint32_t& codePoint, BiIt first, BiIt& it)
+        bool prev(char32_t& codePoint, BiIt first, BiIt& it)
         {
             switch (prevUtf8CodePoint(codePoint, first, it))
             {
@@ -74,13 +74,13 @@ namespace Ystring { namespace Utf8
         }
 
         template <typename OutIt>
-        OutIt encode(OutIt dst, uint32_t codePoint)
+        OutIt encode(OutIt dst, char32_t codePoint)
         {
             return addUtf8(dst, codePoint);
         }
 
         template <typename OutIt>
-        OutIt encodeAsBytes(OutIt dst, uint32_t codePoint)
+        OutIt encodeAsBytes(OutIt dst, char32_t codePoint)
         {
             return addUtf8(dst, codePoint);
         }

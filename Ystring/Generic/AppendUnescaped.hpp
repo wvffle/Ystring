@@ -15,12 +15,12 @@
 
 namespace Ystring { namespace EncodedString
 {
-    inline bool isBackslash(uint32_t c)
+    inline bool isBackslash(char32_t c)
     {
         return c == '\\';
     }
 
-    inline bool isAmpersand(uint32_t c)
+    inline bool isAmpersand(char32_t c)
     {
         return c == '&';
     }
@@ -29,7 +29,7 @@ namespace Ystring { namespace EncodedString
     void appendUnescaped(Generic::StringReference<Str>& dst,
                          Generic::Range<It> src,
                          Enc encoding,
-                         bool (*isEscaped)(uint32_t),
+                         bool (*isEscaped)(char32_t),
                          Unescaper unescaper)
     {
         auto first = src.begin();
@@ -37,7 +37,7 @@ namespace Ystring { namespace EncodedString
         while (last != src.end())
         {
             dst.getAppender().append(Generic::makeRange(first, last));
-            uint32_t ch;
+            char32_t ch;
             first = last;
             if (unescaper.unescape(ch, first, src.end()))
                 dst.getEncoder(encoding).encode(ch);

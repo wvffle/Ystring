@@ -22,7 +22,7 @@ namespace Ystring { namespace Utf32
     typedef std::u32string String;
     typedef Utf32Encoding Enc;
 
-    String& append(String& str, uint32_t chr)
+    String& append(String& str, char32_t chr)
     {
         append(makeStringReference(str), chr, Enc());
         return str;
@@ -49,7 +49,7 @@ namespace Ystring { namespace Utf32
                                             Enc());
     }
 
-    bool contains(const String& str, uint32_t chr)
+    bool contains(const String& str, char32_t chr)
     {
         return Generic::contains(makeRange(str), chr, Enc());
     }
@@ -202,7 +202,7 @@ namespace Ystring { namespace Utf32
         return Generic::findLastNewline(makeRange(first, last), Enc());
     }
 
-    uint32_t getCodePoint(const String& str, ptrdiff_t n)
+    char32_t getCodePoint(const String& str, ptrdiff_t n)
     {
         return Generic::getCodePoint(makeRange(str), n, Enc());
     }
@@ -223,7 +223,7 @@ namespace Ystring { namespace Utf32
                 makeRange(str), pos, makeRange(sub), Enc());
     }
 
-    String insert(const String& str, ptrdiff_t pos, uint32_t chr)
+    String insert(const String& str, ptrdiff_t pos, char32_t chr)
     {
         return Generic::insert<String>(makeRange(str), pos, chr, Enc());
     }
@@ -323,14 +323,14 @@ namespace Ystring { namespace Utf32
     }
 
     String replaceCodePoint(const String& s,
-                            uint32_t from,
-                            uint32_t to,
+                            char32_t from,
+                            char32_t to,
                             ptrdiff_t maxReplacements)
     {
-        uint32_t fBuf[2];
+        char32_t fBuf[2];
         auto fIt = std::begin(fBuf);
         auto fromSize = encodeUtf32(fIt, std::end(fBuf), from);
-        uint32_t tBuf[2];
+        char32_t tBuf[2];
         auto tIt = std::begin(tBuf);
         auto toSize = encodeUtf32(tIt, std::end(tBuf), to);
         return Generic::replace<String>(
@@ -341,7 +341,7 @@ namespace Ystring { namespace Utf32
                 maxReplacements, FindFlags::DEFAULTS);
     }
 
-    String replaceInvalidUtf32(const String& str, uint32_t chr)
+    String replaceInvalidUtf32(const String& str, char32_t chr)
     {
         String result;
         result.reserve(str.size());
@@ -349,7 +349,7 @@ namespace Ystring { namespace Utf32
         auto it = str.begin();
         while (it != str.end())
         {
-            uint32_t cp;
+            char32_t cp;
             if (nextUtf32CodePoint<false>(cp, it, str.end()) !=
                     DecoderResult::OK)
             {
@@ -362,13 +362,13 @@ namespace Ystring { namespace Utf32
         return result;
     }
 
-    String& replaceInvalidUtf32InPlace(String& str, uint32_t chr)
+    String& replaceInvalidUtf32InPlace(String& str, char32_t chr)
     {
         assert(chr > 0);
         auto it = str.begin();
         while (it != str.end())
         {
-            uint32_t cp;
+            char32_t cp;
             if (nextUtf32CodePoint<false>(cp, it, str.end()) !=
                     DecoderResult::OK)
             {
@@ -401,7 +401,7 @@ namespace Ystring { namespace Utf32
     }
 
     std::vector<String> splitIf(const String& str,
-                                std::function<bool(uint32_t)> predicate,
+                                std::function<bool(char32_t)> predicate,
                                 ptrdiff_t maxSplits,
                                 SplitFlags_t flags)
     {
@@ -433,7 +433,7 @@ namespace Ystring { namespace Utf32
         return Generic::title<String>(makeRange(str), Enc());
     }
 
-    String toUtf32(uint32_t chr)
+    String toUtf32(char32_t chr)
     {
         String s;
         append(s, chr);
@@ -480,7 +480,7 @@ namespace Ystring { namespace Utf32
         }
     }
 
-    String toUtf32(const uint16_t* str, size_t length, Encoding_t encoding)
+    String toUtf32(const char16_t* str, size_t length, Encoding_t encoding)
     {
         switch (encoding)
         {
@@ -492,7 +492,7 @@ namespace Ystring { namespace Utf32
         }
     }
 
-    String toUtf32(const uint32_t* str, size_t length, Encoding_t encoding)
+    String toUtf32(const char32_t* str, size_t length, Encoding_t encoding)
     {
         switch (encoding)
         {
@@ -519,27 +519,13 @@ namespace Ystring { namespace Utf32
         return toUtf32(internal_char_type_cast(str), length, encoding);
     }
 
-    #ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
-
-    String toUtf32(const char16_t* str, size_t length, Encoding_t encoding)
-    {
-        return toUtf32(internal_char_type_cast(str), length, encoding);
-    }
-
-    String toUtf32(const char32_t* str, size_t length, Encoding_t encoding)
-    {
-        return toUtf32(internal_char_type_cast(str), length, encoding);
-    }
-
-    #endif
-
     String trim(const String& str)
     {
         return fromRange<String>(Generic::trim(
                 makeRange(str), Enc(), Unicode::isWhitespace));
     }
 
-    String trim(const String& str, std::function<bool(uint32_t)> predicate)
+    String trim(const String& str, std::function<bool(char32_t)> predicate)
     {
         return fromRange<String>(Generic::trim(
                 makeRange(str), Enc(), predicate));
@@ -551,7 +537,7 @@ namespace Ystring { namespace Utf32
                 makeRange(str), Enc(), Unicode::isWhitespace));
     }
 
-    String trimEnd(const String& str, std::function<bool(uint32_t)> predicate)
+    String trimEnd(const String& str, std::function<bool(char32_t)> predicate)
     {
         return fromRange<String>(Generic::trimEnd(
                 makeRange(str), Enc(), predicate));
@@ -564,7 +550,7 @@ namespace Ystring { namespace Utf32
     }
 
     String trimStart(const String& str,
-                     std::function<bool(uint32_t)> predicate)
+                     std::function<bool(char32_t)> predicate)
     {
         return fromRange<String>(Generic::trimStart(
                 makeRange(str), Enc(), predicate));

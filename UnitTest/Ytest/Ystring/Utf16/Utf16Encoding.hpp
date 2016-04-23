@@ -24,13 +24,13 @@ namespace Ystring { namespace Utf16
         template<typename FwdIt>
         bool next(FwdIt& it, FwdIt last)
         {
-            uint32_t codePoint;
+            char32_t codePoint;
             return nextUtf16CodePoint<SwapBytes>(codePoint, it, last) ==
                     DecoderResult::OK;
         }
 
         template <typename FwdIt>
-        bool next(uint32_t& codePoint, FwdIt& it, FwdIt last)
+        bool next(char32_t& codePoint, FwdIt& it, FwdIt last)
         {
             switch (nextUtf16CodePoint<SwapBytes>(codePoint, it, last))
             {
@@ -47,7 +47,7 @@ namespace Ystring { namespace Utf16
         }
 
         template <typename BiIt>
-        bool prev(uint32_t& codePoint, BiIt first, BiIt& it)
+        bool prev(char32_t& codePoint, BiIt first, BiIt& it)
         {
             switch (prevUtf16CodePoint<SwapBytes>(codePoint, first, it))
             {
@@ -76,13 +76,13 @@ namespace Ystring { namespace Utf16
         }
 
         template <typename OutIt>
-        OutIt encode(OutIt dst, uint32_t codePoint)
+        OutIt encode(OutIt dst, char32_t codePoint)
         {
             return addUtf16(dst, codePoint);
         }
 
         template <typename OutIt>
-        OutIt encodeAsBytes(OutIt dst, uint32_t codePoint)
+        OutIt encodeAsBytes(OutIt dst, char32_t codePoint)
         {
             return addUtf16AsBytes<SwapBytes>(dst, codePoint);
         }

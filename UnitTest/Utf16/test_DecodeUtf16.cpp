@@ -16,24 +16,24 @@ namespace
     using namespace Ystring::Utf16;
 
     inline void testNextUtf16LEChar(const char*& it, const char* end,
-                                    uint32_t expected)
+                                    char32_t expected)
     {
-        uint32_t c;
+        char32_t c;
         Y_EQUAL(nextUtf16LECodePoint(c, it, end), DecoderResult::OK);
         Y_EQUAL(c, expected);
     }
 
     inline void testNextUtf16BEChar(const char*& it, const char* end,
-                                    uint32_t expected)
+                                    char32_t expected)
     {
-        uint32_t c;
+        char32_t c;
         Y_EQUAL(nextUtf16BECodePoint(c, it, end), DecoderResult::OK);
         Y_EQUAL(c, expected);
     }
 
     void test_NextUtf16LECharacter()
     {
-        uint16_t s[] = {'N', 'a', 't', 0xD7FF, 0xD800, 0xDC00, 0xDBFF,
+        char16_t s[] = {'N', 'a', 't', 0xD7FF, 0xD800, 0xDC00, 0xDBFF,
                         0xDFFF, 0xE000};
 
         auto it = (const char*)std::begin(s);
@@ -70,16 +70,16 @@ namespace
     }
 
     template <typename FwdIt>
-    inline void testPrevUtf16LEChar(FwdIt begin, FwdIt& it, uint32_t expected)
+    inline void testPrevUtf16LEChar(FwdIt begin, FwdIt& it, char32_t expected)
     {
-        uint32_t c;
+        char32_t c;
         Y_EQUAL(prevUtf16LECodePoint(c, begin, it), DecoderResult::OK);
         Y_EQUAL(c, expected);
     }
 
     void test_PrevUtf16LECharacter()
     {
-        uint16_t s[] = {'N', 'a', 't', 0xD7FF, 0xD800, 0xDC00, 0xDBFF,
+        char16_t s[] = {'N', 'a', 't', 0xD7FF, 0xD800, 0xDC00, 0xDBFF,
                         0xDFFF, 0xE000};
 
         auto begin = std::begin(s);

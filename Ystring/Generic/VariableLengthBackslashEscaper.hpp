@@ -15,7 +15,7 @@ namespace Ystring { namespace EncodedString
     {
     public:
         template <typename Appender>
-        void escape(Appender dst, uint32_t chr)
+        void escape(Appender dst, char32_t chr)
         {
             using Utilities::toCharDigit;
             dst.append('\\');

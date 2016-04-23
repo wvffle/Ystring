@@ -13,7 +13,7 @@ namespace Ystring { namespace CodePage
 {
     namespace
     {
-        typedef std::pair<uint8_t, uint32_t> P;
+        typedef std::pair<uint8_t, char32_t> P;
         const P SpecialChars[] = {
                 P(0xA4, 0x20AC), P(0xA6, 0x0160), P(0xA8, 0x0161),
                 P(0xB4, 0x017D), P(0xB8, 0x017E), P(0xBC, 0x0152),

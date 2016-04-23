@@ -27,10 +27,10 @@ namespace Ystring { namespace CodePage
           m_LastSpecialChar(256)
     {}
 
-    CodePage::CodePage(const std::pair<uint32_t, uint32_t>* fromCodePoint,
-                       const uint32_t* fromChar,
-                       uint16_t firstSpecialChar,
-                       uint16_t lastSpecialChar,
+    CodePage::CodePage(const std::pair<char32_t, char32_t>* fromCodePoint,
+                       const char32_t* fromChar,
+                       char16_t firstSpecialChar,
+                       char16_t lastSpecialChar,
                        Encoding_t encoding)
         : m_FromCodePoint(fromCodePoint),
           m_FromChar(fromChar),
@@ -39,7 +39,7 @@ namespace Ystring { namespace CodePage
           m_LastSpecialChar(lastSpecialChar)
     {}
 
-    uint32_t CodePage::toCodePoint(char c) const
+    char32_t CodePage::toCodePoint(char c) const
     {
         auto uc = uint8_t(c);
         if (uc < m_FirstSpecialChar || uc > m_LastSpecialChar)
@@ -47,14 +47,14 @@ namespace Ystring { namespace CodePage
         return m_FromChar[uc - m_FirstSpecialChar];
     }
 
-    uint32_t CodePage::fromCodePoint(uint32_t c) const
+    char32_t CodePage::fromCodePoint(char32_t c) const
     {
         if (c < m_FirstSpecialChar || (m_LastSpecialChar < c && c < 256))
             return c;
         auto n = m_LastSpecialChar - m_FirstSpecialChar + 1;
         auto it = Utilities::binaryFind(
                 m_FromCodePoint, m_FromCodePoint + n, c,
-                [](const std::pair<uint32_t, char>& p) { return p.first; });
+                [](const std::pair<char32_t, char>& p) { return p.first; });
         if (it != m_FromCodePoint + n)
             return it->second;
         return INVALID_CHAR;

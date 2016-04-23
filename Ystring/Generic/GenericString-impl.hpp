@@ -102,14 +102,14 @@ namespace Ystring { namespace Generic
     }
 
     template <typename Str, typename Enc>
-    void append(StringReference<Str>& dst, uint32_t chr, Enc encoding)
+    void append(StringReference<Str>& dst, char32_t chr, Enc encoding)
     {
         auto encoder = dst.getEncoder(encoding);
         encoder.encode(chr);
     }
 
     template <typename Str, typename Enc>
-    void append(StringReference<Str>&& dst, uint32_t chr, Enc encoding)
+    void append(StringReference<Str>&& dst, char32_t chr, Enc encoding)
     {
         append(dst, chr, encoding);
     }
@@ -178,11 +178,11 @@ namespace Ystring { namespace Generic
     }
 
     template <typename It, typename Enc>
-    bool contains(Range<It> str, uint32_t chr, Enc encoding)
+    bool contains(Range<It> str, char32_t chr, Enc encoding)
     {
         auto dec = EncodedString::makeForwardDecoder(str, encoding);
         return EncodedString::advanceUntil(
-                dec, [=](uint32_t c){return c == chr;});
+                dec, [=](char32_t c){return c == chr;});
     }
 
     template <typename It, typename Enc>
@@ -197,7 +197,7 @@ namespace Ystring { namespace Generic
     {
         auto dec = EncodedString::makeForwardDecoder(str, encoding);
         size_t n = 0;
-        uint32_t ch;
+        char32_t ch;
         while (dec.next(ch))
             ++n;
         return n;
@@ -286,7 +286,7 @@ namespace Ystring { namespace Generic
     }
 
     template <typename It, typename Enc>
-    uint32_t getCodePoint(Range<It> str, ptrdiff_t pos, Enc encoding)
+    char32_t getCodePoint(Range<It> str, ptrdiff_t pos, Enc encoding)
     {
         auto it = str.begin();
         if (pos > 0)
@@ -298,7 +298,7 @@ namespace Ystring { namespace Generic
             it = str.end();
             encoding.skipPrev(str.begin(), it, static_cast<size_t>(-pos));
         }
-        uint32_t chr;
+        char32_t chr;
         if (!encoding.next(chr, it, str.end()))
             YSTRING_THROW("No character at position " + std::to_string(pos));
         return chr;
@@ -327,7 +327,7 @@ namespace Ystring { namespace Generic
     }
 
     template <typename Str, typename It, typename Enc>
-    Str insert(Range<It> str, ptrdiff_t pos, uint32_t chr, Enc encoding)
+    Str insert(Range<It> str, ptrdiff_t pos, char32_t chr, Enc encoding)
     {
         auto ranges = findInsertPosition(str, pos, encoding);
         auto result = Str();

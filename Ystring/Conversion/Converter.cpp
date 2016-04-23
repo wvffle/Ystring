@@ -9,6 +9,7 @@
 
 #include <vector>
 #include "../EncodingInfo.hpp"
+#include "../PrivatePlatformDetails.hpp"
 #include "../Generic/GenericConvert.hpp"
 #include "CodePageDecoder.hpp"
 #include "CodePageEncoder.hpp"
@@ -131,7 +132,7 @@ namespace Ystring { namespace Conversion {
                               std::string& destination,
                               bool sourceIsIncomplete)
     {
-        return convertImpl(source,
+        return convertImpl(internal_char_type_cast(source),
                            sourceLength,
                            destination,
                            sourceIsIncomplete);
@@ -142,7 +143,7 @@ namespace Ystring { namespace Conversion {
                               std::u16string& destination,
                               bool sourceIsIncomplete)
     {
-        return convertImpl(source,
+        return convertImpl(internal_char_type_cast(source),
                            sourceLength,
                            destination,
                            sourceIsIncomplete);
@@ -153,7 +154,18 @@ namespace Ystring { namespace Conversion {
                               std::u32string& destination,
                               bool sourceIsIncomplete)
     {
-        return convertImpl(source,
+        return convertImpl(internal_char_type_cast(source),
+                           sourceLength,
+                           destination,
+                           sourceIsIncomplete);
+    }
+
+    size_t Converter::convert(const char* source,
+                              size_t sourceLength,
+                              std::wstring& destination,
+                              bool sourceIsIncomplete)
+    {
+        return convertImpl(internal_char_type_cast(source),
                            sourceLength,
                            destination,
                            sourceIsIncomplete);
@@ -164,7 +176,7 @@ namespace Ystring { namespace Conversion {
                               std::string& destination,
                               bool sourceIsIncomplete)
     {
-        return convertImpl(source,
+        return convertImpl(internal_char_type_cast(source),
                            sourceLength,
                            destination,
                            sourceIsIncomplete);
@@ -175,7 +187,7 @@ namespace Ystring { namespace Conversion {
                               std::u16string& destination,
                               bool sourceIsIncomplete)
     {
-        return convertImpl(source,
+        return convertImpl(internal_char_type_cast(source),
                            sourceLength,
                            destination,
                            sourceIsIncomplete);
@@ -186,7 +198,18 @@ namespace Ystring { namespace Conversion {
                               std::u32string& destination,
                               bool sourceIsIncomplete)
     {
-        return convertImpl(source,
+        return convertImpl(internal_char_type_cast(source),
+                           sourceLength,
+                           destination,
+                           sourceIsIncomplete);
+    }
+
+    size_t Converter::convert(const char16_t* source,
+                              size_t sourceLength,
+                              std::wstring& destination,
+                              bool sourceIsIncomplete)
+    {
+        return convertImpl(internal_char_type_cast(source),
                            sourceLength,
                            destination,
                            sourceIsIncomplete);
@@ -197,7 +220,7 @@ namespace Ystring { namespace Conversion {
                               std::string& destination,
                               bool sourceIsIncomplete)
     {
-        return convertImpl(source,
+        return convertImpl(internal_char_type_cast(source),
                            sourceLength,
                            destination,
                            sourceIsIncomplete);
@@ -208,7 +231,7 @@ namespace Ystring { namespace Conversion {
                               std::u16string& destination,
                               bool sourceIsIncomplete)
     {
-        return convertImpl(source,
+        return convertImpl(internal_char_type_cast(source),
                            sourceLength,
                            destination,
                            sourceIsIncomplete);
@@ -219,11 +242,70 @@ namespace Ystring { namespace Conversion {
                               std::u32string& destination,
                               bool sourceIsIncomplete)
     {
-        return convertImpl(source,
+        return convertImpl(internal_char_type_cast(source),
                            sourceLength,
                            destination,
                            sourceIsIncomplete);
     }
+
+    size_t Converter::convert(const char32_t* source,
+                              size_t sourceLength,
+                              std::wstring& destination,
+                              bool sourceIsIncomplete)
+    {
+        return convertImpl(internal_char_type_cast(source),
+                           sourceLength,
+                           destination,
+                           sourceIsIncomplete);
+    }
+
+    #ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
+
+    size_t Converter::convert(const wchar_t* source,
+                              size_t sourceLength,
+                              std::string& destination,
+                              bool sourceIsIncomplete)
+    {
+        return convertImpl(internal_char_type_cast(source),
+                           sourceLength,
+                           destination,
+                           sourceIsIncomplete);
+    }
+
+    size_t Converter::convert(const wchar_t* source,
+                              size_t sourceLength,
+                              std::u16string& destination,
+                              bool sourceIsIncomplete)
+    {
+        return convertImpl(internal_char_type_cast(source),
+                           sourceLength,
+                           destination,
+                           sourceIsIncomplete);
+    }
+
+    size_t Converter::convert(const wchar_t* source,
+                              size_t sourceLength,
+                              std::u32string& destination,
+                              bool sourceIsIncomplete)
+    {
+        return convertImpl(internal_char_type_cast(source),
+                           sourceLength,
+                           destination,
+                           sourceIsIncomplete);
+    }
+
+    size_t Converter::convert(const wchar_t* source,
+                              size_t sourceLength,
+                              std::wstring& destination,
+                              bool sourceIsIncomplete)
+    {
+        return convertImpl(internal_char_type_cast(source),
+                           sourceLength,
+                           destination,
+                           sourceIsIncomplete);
+    }
+
+    #endif
 
     Converter::ConversionType Converter::getConversionType(
             Encoding_t src, Encoding_t dst)

@@ -23,7 +23,7 @@ namespace Ystring { namespace Unicode
     }
 
 
-    uint32_t upper(uint32_t ch)
+    char32_t upper(char32_t ch)
     {
         return g_UpperMap.get(ch);
     }

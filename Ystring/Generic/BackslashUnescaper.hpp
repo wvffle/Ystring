@@ -21,7 +21,7 @@ namespace Ystring { namespace EncodedString
         {}
 
         template <typename It>
-        bool unescape(uint32_t& result, It& first, It last)
+        bool unescape(char32_t& result, It& first, It last)
         {
             if (first == last || *first != '\\')
                 return false;

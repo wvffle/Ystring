@@ -14,7 +14,7 @@ namespace Ystring { namespace EncodedString
     class FixedLengthBackslashEscaper
     {
     public:
-        FixedLengthBackslashEscaper(uint32_t unicodeChar,
+        FixedLengthBackslashEscaper(char32_t unicodeChar,
                                     int unicodeHexDigits)
             : m_UnicodeChar(unicodeChar),
               m_MaxChar(unicodeHexDigits >= 8 ?
@@ -23,7 +23,7 @@ namespace Ystring { namespace EncodedString
         {}
 
         template <typename Appender>
-        void escape(Appender dst, uint32_t chr)
+        void escape(Appender dst, char32_t chr)
         {
             using Utilities::toCharDigit;
             dst.append('\\');
@@ -59,8 +59,8 @@ namespace Ystring { namespace EncodedString
             }
         }
     private:
-        uint32_t m_UnicodeChar;
-        uint32_t m_MaxChar;
+        char32_t m_UnicodeChar;
+        char32_t m_MaxChar;
         int m_UnicodeHexDigits;
     };
 }}

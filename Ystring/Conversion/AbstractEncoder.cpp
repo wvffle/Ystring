@@ -78,6 +78,13 @@ namespace Ystring { namespace Conversion {
         return doEncode(srcBeg, srcEnd, dst);
     }
 
+    bool AbstractEncoder::encode(const char32_t*& srcBeg,
+                                 const char32_t* srcEnd,
+                                 std::wstring& dst)
+    {
+        return doEncode(srcBeg, srcEnd, dst);
+    }
+
     bool AbstractEncoder::doEncode(const char32_t*& srcBeg,
                                    const char32_t* srcEnd,
                                    std::string& dst)
@@ -101,4 +108,13 @@ namespace Ystring { namespace Conversion {
         YSTRING_THROW(encodingName()
                       + "-encoder doesn't support 32-bit strings.");
     }
+
+    bool AbstractEncoder::doEncode(const char32_t*& srcBeg,
+                                   const char32_t* srcEnd,
+                                   std::wstring& dst)
+    {
+        YSTRING_THROW(encodingName()
+                      + "-encoder doesn't support 32-bit strings.");
+    }
+
 }}

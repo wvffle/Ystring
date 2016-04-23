@@ -20,23 +20,23 @@ namespace Ystring { namespace CodePage
     {
     public:
         CodePage(Encoding_t encoding);
-        CodePage(const std::pair<uint32_t, uint32_t>* fromCodePoint,
-                 const uint32_t* fromChar,
-                 uint16_t firstSpecialChar,
-                 uint16_t lastSpecialChar,
+        CodePage(const std::pair<char32_t, char32_t>* fromCodePoint,
+                 const char32_t* fromChar,
+                 char16_t firstSpecialChar,
+                 char16_t lastSpecialChar,
                  Encoding_t encoding);
 
-        uint32_t toCodePoint(char c) const;
+        char32_t toCodePoint(char c) const;
 
-        uint32_t fromCodePoint(uint32_t c) const;
+        char32_t fromCodePoint(char32_t c) const;
 
         Encoding_t encoding() const;
     private:
-        const std::pair<uint32_t, uint32_t>* m_FromCodePoint;
-        const uint32_t* m_FromChar;
+        const std::pair<char32_t, char32_t>* m_FromCodePoint;
+        const char32_t* m_FromChar;
         Encoding_t m_Encoding;
-        uint16_t m_FirstSpecialChar;
-        uint16_t m_LastSpecialChar;
+        char16_t m_FirstSpecialChar;
+        char16_t m_LastSpecialChar;
     };
 
     YSTRING_API CodePage makeCodePage(Encoding_t encoding);

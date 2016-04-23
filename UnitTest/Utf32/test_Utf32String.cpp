@@ -561,7 +561,7 @@ namespace
                          SplitFlags_t flags, ptrdiff_t count,
                          const std::u32string& expected)
     {
-        auto parts = Utf32::splitIf(s, [](uint32_t c){return c == ':';},
+        auto parts = Utf32::splitIf(s, [](char32_t c){return c == ':';},
                                    count, flags);
         Y_EQUAL(parts.size(), expected.size());
         for (auto i = 0u; i < parts.size(); ++i)
@@ -696,7 +696,7 @@ namespace
                 UTF32_GREEK_SMALL_SIGMA U"foo bar");
         Y_EQUAL(Utf32::trim(
                 U"A.BC_DFB.-GA-B",
-                [](uint32_t c){return Utf32::contains(U"AB.-", c);}),
+                [](char32_t c){return Utf32::contains(U"AB.-", c);}),
                 U"C_DFB.-G");
     }
 

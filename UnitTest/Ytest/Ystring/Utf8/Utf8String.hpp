@@ -67,7 +67,7 @@ namespace Ystring { namespace Utf8
       * If @a pos is negative, code points are counted from the end of @a str
       *  where the last character in @a str is at position -1.
       */
-    YSTRING_API uint32_t getCodePoint(const std::string& str,
+    YSTRING_API char32_t getCodePoint(const std::string& str,
                                       ptrdiff_t pos);
 
     /** @brief Returns the concatenation of the strings in @a strings
@@ -109,7 +109,7 @@ namespace Ystring { namespace Utf8
       */
     YSTRING_API std::vector<std::string> splitIf(
             const std::string& str,
-            std::function<bool(uint32_t)> predicate,
+            std::function<bool(char32_t)> predicate,
             ptrdiff_t maxSplits = 0,
             SplitFlags_t flags = SplitFlags::DEFAULTS);
 
@@ -134,7 +134,7 @@ namespace Ystring { namespace Utf8
       *     unsupported for strings of @a str's type.
       */
     YSTRING_API std::string toUtf8(
-            const uint16_t* str, size_t length,
+            const char16_t* str, size_t length,
             Encoding_t encoding);
 
     /** @brief Returns an UTF-8 encoded string equivalent to @a str.
@@ -146,7 +146,7 @@ namespace Ystring { namespace Utf8
       *     unsupported for strings of @a str's type.
       */
     YSTRING_API std::string toUtf8(
-            const uint32_t* str, size_t length,
+            const char32_t* str, size_t length,
             Encoding_t encoding);
 
     /** @brief Returns an UTF-8 encoded string equivalent to @a str.

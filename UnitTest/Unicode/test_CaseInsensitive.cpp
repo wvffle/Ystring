@@ -17,7 +17,7 @@ namespace {
     {
         CaseInsensitiveEqual op;
 
-        Y_ASSERT(op((uint32_t) 100, (uint32_t) 100));
+        Y_ASSERT(op((char32_t) 100, (char32_t) 100));
         Y_ASSERT(op('a', 'a'));
         Y_ASSERT(!op('a', 'b'));
         Y_ASSERT(op('a', 'A'));

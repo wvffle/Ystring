@@ -40,7 +40,7 @@ namespace Ystring { namespace CodePage
         }
 
         template <typename FwdIt>
-        bool next(uint32_t& codePoint, FwdIt& it, FwdIt last)
+        bool next(char32_t& codePoint, FwdIt& it, FwdIt last)
         {
             if (it == last)
                 return false;
@@ -59,7 +59,7 @@ namespace Ystring { namespace CodePage
         }
 
         template <typename BiIt>
-        bool prev(uint32_t& codePoint, BiIt first, BiIt& it)
+        bool prev(char32_t& codePoint, BiIt first, BiIt& it)
         {
             if (it == first)
                 return false;
@@ -78,13 +78,13 @@ namespace Ystring { namespace CodePage
         }
 
         template <typename OutIt>
-        OutIt encode(OutIt dst, uint32_t codePoint)
+        OutIt encode(OutIt dst, char32_t codePoint)
         {
             return encodeAsBytes(dst, codePoint);
         }
 
         template <typename OutIt>
-        OutIt encodeAsBytes(OutIt dst, uint32_t codePoint)
+        OutIt encodeAsBytes(OutIt dst, char32_t codePoint)
         {
             auto chr = m_CodePage.fromCodePoint(codePoint);
             if (chr == INVALID_CHAR)

@@ -10,6 +10,7 @@
 #include <memory>
 #include <string>
 #include "../Encoding.hpp"
+#include "../PlatformDetails.hpp"
 #include "../YstringDefinitions.hpp"
 #include "ErrorHandlingPolicy.hpp"
 
@@ -68,6 +69,11 @@ namespace Ystring { namespace Conversion {
                        std::u32string& destination,
                        bool sourceIsIncomplete = false);
 
+        size_t convert(const char* source,
+                       size_t sourceLength,
+                       std::wstring& destination,
+                       bool sourceIsIncomplete = false);
+
         size_t convert(const char16_t* source,
                        size_t sourceLength,
                        std::string& destination,
@@ -83,6 +89,11 @@ namespace Ystring { namespace Conversion {
                        std::u32string& destination,
                        bool sourceIsIncomplete = false);
 
+        size_t convert(const char16_t* source,
+                       size_t sourceLength,
+                       std::wstring& destination,
+                       bool sourceIsIncomplete = false);
+
         size_t convert(const char32_t* source,
                        size_t sourceLength,
                        std::string& destination,
@@ -97,6 +108,35 @@ namespace Ystring { namespace Conversion {
                        size_t sourceLength,
                        std::u32string& destination,
                        bool sourceIsIncomplete = false);
+
+        size_t convert(const char32_t* source,
+                       size_t sourceLength,
+                       std::wstring& destination,
+                       bool sourceIsIncomplete = false);
+
+        #ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
+
+        size_t convert(const wchar_t* source,
+                       size_t sourceLength,
+                       std::string& destination,
+                       bool sourceIsIncomplete = false);
+
+        size_t convert(const wchar_t* source,
+                       size_t sourceLength,
+                       std::u16string& destination,
+                       bool sourceIsIncomplete = false);
+
+        size_t convert(const wchar_t* source,
+                       size_t sourceLength,
+                       std::u32string& destination,
+                       bool sourceIsIncomplete = false);
+
+        size_t convert(const wchar_t* source,
+                       size_t sourceLength,
+                       std::wstring& destination,
+                       bool sourceIsIncomplete = false);
+
+        #endif
 
         template <typename Char1T, typename Char2T>
         typename std::basic_string<Char1T>::const_iterator

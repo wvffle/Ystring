@@ -13,19 +13,19 @@
 namespace Ystring { namespace EncodedString
 {
 
-    inline bool isMandatoryEscape(uint32_t c)
+    inline bool isMandatoryEscape(char32_t c)
     {
         return c < 32 || c == '"' || c == '\\' || (127 <= c && c < 160);
     }
 
-    inline bool isNonAsciiEscape(uint32_t c)
+    inline bool isNonAsciiEscape(char32_t c)
     {
         return c < 32 || c == '"' || c == '\\' || 127 <= c;
     }
 
     template <typename Appender, typename It, typename Escaper>
     void appendEscaped(Appender dst, Generic::Range<It> src,
-                       bool (*isEscapable)(uint32_t), Escaper escaper)
+                       bool (*isEscapable)(char32_t), Escaper escaper)
     {
         typedef typename Generic::Range<It>::ValueType Char;
         typedef typename std::make_unsigned<Char>::type UChar;
@@ -45,13 +45,13 @@ namespace Ystring { namespace EncodedString
 
     template <typename Appender, typename It, typename Enc, typename Escaper>
     void appendEscaped(Appender dst, ForwardDecoder<It, Enc> src,
-                       bool (*isEscapable)(uint32_t), Escaper escaper)
+                       bool (*isEscapable)(char32_t), Escaper escaper)
     {
         auto first = src.begin();
         while (advanceUntil(src, isEscapable))
         {
             dst.append(Generic::makeRange(first, src.begin()));
-            uint32_t c;
+            char32_t c;
             src.next(c);
             escaper.escape(dst, c);
             first = src.begin();
@@ -61,7 +61,7 @@ namespace Ystring { namespace EncodedString
 
     template <typename It>
     bool hasUnescapedCharacters(Generic::Range<It> src,
-                                bool (*isEscapable)(uint32_t))
+                                bool (*isEscapable)(char32_t))
     {
         typedef typename Generic::Range<It>::ValueType Char;
         typedef typename std::make_unsigned<Char>::type UChar;
@@ -72,7 +72,7 @@ namespace Ystring { namespace EncodedString
 
     template <typename It, typename Enc>
     bool hasUnescapedCharacters(ForwardDecoder<It, Enc> src,
-                                bool (*isEscapable)(uint32_t))
+                                bool (*isEscapable)(char32_t))
     {
         return advanceUntil(src, isEscapable);
     }

@@ -37,7 +37,7 @@ namespace Ystring { namespace Conversion {
     {
         while (dstBeg != dstEnd)
         {
-            uint32_t tmp = *dstBeg;
+            char32_t tmp = *dstBeg;
             auto result = Utf8::nextUtf8CodePoint(tmp, srcBeg, srcEnd);
             *dstBeg = tmp;
             if (result != DecoderResult::OK)

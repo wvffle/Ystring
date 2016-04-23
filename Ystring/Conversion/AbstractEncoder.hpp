@@ -39,6 +39,9 @@ namespace Ystring { namespace Conversion {
         bool encode(const char32_t*& srcBeg, const char32_t* srcEnd,
                     std::u32string& dst);
 
+        bool encode(const char32_t*& srcBeg, const char32_t* srcEnd,
+                    std::wstring& dst);
+
     protected:
         AbstractEncoder(Encoding_t encoding);
 
@@ -53,6 +56,10 @@ namespace Ystring { namespace Conversion {
         virtual bool doEncode(
                 const char32_t*& srcBeg, const char32_t* srcEnd,
                 std::u32string& dst);
+
+        virtual bool doEncode(
+                const char32_t*& srcBeg, const char32_t* srcEnd,
+                std::wstring& dst);
 
     private:
         Encoding_t m_Encoding;

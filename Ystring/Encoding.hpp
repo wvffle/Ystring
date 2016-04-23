@@ -6,6 +6,7 @@
 // License text is included with the source distribution.
 //****************************************************************************
 #pragma once
+#include "PlatformDetails.hpp"
 
 /** @file
   * @brief Defines the Encoding enum.
@@ -123,7 +124,13 @@ namespace Ystring {
               */
             UNSPECIFIED_SINGLE_BYTE_CHARACTER_SET,
 
-            MAXIMUM
+            MAXIMUM,
+
+            #ifdef YSTRING_WCHAR_IS_4_BYTES
+            WCHAR_DEFAULT = UTF_32
+            #else
+            WCHAR_DEFAULT = UTF_16
+            #endif
         };
     };
 
