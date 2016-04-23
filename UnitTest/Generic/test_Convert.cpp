@@ -6,7 +6,6 @@
 // License text is included with the source distribution.
 //****************************************************************************
 
-#include "../../Ystring/CodePage/CodePageEncoding.hpp"
 #include "../../Ystring/Generic/GenericString.hpp"
 #include "../../Ystring/Utf8/Utf8Chars.hpp"
 #include "../../Ystring/Utf8/Utf8Encoding.hpp"
@@ -24,18 +23,6 @@ using Ystring::Utilities::littleU32;
 using Ystring::Generic::convert;
 using Ystring::Generic::makeRange;
 using Ystring::Generic::makeArrayRange;
-
-void test_Cp437_to_Utf32()
-{
-    char str[] = "\x01" "1A" "\x7F\xD0\xF0";
-    char32_t expected[] = {0x263A, '1', 'A', 0x2302, 0x2568, 0x2261};
-    Y_EQUAL_RANGES(
-            convert<std::vector<char32_t>>(
-                    makeArrayRange(str),
-                    CodePage::Ibm437Encoding(),
-                    Utf32::Utf32Encoding()),
-            expected);
-}
 
 void test_Utf8_to_Utf32BE_as_char()
 {
@@ -167,7 +154,6 @@ void test_Utf32LE_as_char_to_Utf32()
 }
 
 Y_SUBTEST("Generic",
-          test_Cp437_to_Utf32,
           test_Utf8_to_Utf32BE_as_char,
           test_Utf8_to_Utf32LE_as_char,
           test_Utf8_to_Utf16BE_as_char,

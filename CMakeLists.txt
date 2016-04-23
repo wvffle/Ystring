@@ -104,7 +104,6 @@ set(PRIVATE_HEADERS
     Ystring/DecoderResult.hpp
     Ystring/PrivatePlatformDetails.hpp
     Ystring/CodePage/CodePage.hpp
-    Ystring/CodePage/CodePageEncoding.hpp
     Ystring/CodePage/CodePageFactory.hpp
     Ystring/CodePage/Ibm437.hpp
     Ystring/CodePage/Ibm850.hpp

@@ -37,6 +37,14 @@ namespace Ystring { namespace Utf32
                       std::u32string::const_iterator>
             StringConstIteratorPair;
 
+    /** @brief The Unicode replacement character.
+      *
+      * This is a copy of the constant found in UnicodeChars.hpp. It's
+      * duplicated here to avoid unnecessary conflicts between constant names
+      * in that file and macros defined in Windows.h.
+      */
+    static const char32_t REPLACEMENT_CHARACTER = 0xFFFDu;
+
     /** @brief Adds @a codePoint encoded as UTF-32 to the end of @a str.
       */
     YSTRING_API std::u32string& append(std::u32string& str, char32_t chr);
@@ -137,6 +145,9 @@ namespace Ystring { namespace Utf32
     /** @brief Returns the first substring in @a str that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.end().
       */
     YSTRING_API StringConstIteratorPair findFirst(
             const std::u32string& str,
@@ -147,6 +158,9 @@ namespace Ystring { namespace Utf32
       *     to @a last that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.end().
       */
     YSTRING_API StringIteratorPair findFirst(
             std::u32string::iterator first,
@@ -158,6 +172,9 @@ namespace Ystring { namespace Utf32
       *     to @a last that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.end().
       */
     YSTRING_API StringConstIteratorPair findFirst(
             std::u32string::const_iterator first,
@@ -233,6 +250,9 @@ namespace Ystring { namespace Utf32
     /** @brief Returns the last substring in @a str that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.begin().
       */
     YSTRING_API StringIteratorPair findLast(
             std::u32string& str,
@@ -242,6 +262,9 @@ namespace Ystring { namespace Utf32
     /** @brief Returns the last substring in @a str that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.begin().
       */
     YSTRING_API StringConstIteratorPair findLast(
             const std::u32string& str,
@@ -252,6 +275,9 @@ namespace Ystring { namespace Utf32
       *     to @a last that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.begin().
       */
     YSTRING_API StringIteratorPair findLast(
           std::u32string::iterator first,
@@ -263,6 +289,9 @@ namespace Ystring { namespace Utf32
       *     to @a last that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.begin().
       */
     YSTRING_API StringConstIteratorPair findLast(
           std::u32string::const_iterator first,
@@ -523,13 +552,13 @@ namespace Ystring { namespace Utf32
       */
     YSTRING_API std::u32string replaceInvalidUtf32(
             const std::u32string& str,
-            char32_t chr = '?');
+            char32_t chr = REPLACEMENT_CHARACTER);
 
     /** @brief Replaces all invalid code points in @a str with @a chr.
       */
     YSTRING_API std::u32string& replaceInvalidUtf32InPlace(
             std::u32string& str,
-            char chr = '?');
+            char32_t chr = REPLACEMENT_CHARACTER);
 
     /** @brief Returns a reversed copy of @a str.
       *
@@ -707,34 +736,6 @@ namespace Ystring { namespace Utf32
     YSTRING_API std::u32string toUtf32(
             const std::u32string& str,
             Encoding_t encoding = Encoding::UTF_32);
-
-    #ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
-
-    /** @brief Returns an UTF-32 encoded string equivalent to @a str.
-      *
-      * @param str The string to convert from.
-      * @param encoding The encoding of @a str.
-      * @throws YstringException if str contains any characters that aren't
-      *     encoded according to @a encoding, or if @a encoding is
-      *     unsupported for strings of @a str's type.
-      */
-    YSTRING_API std::u32string toUtf32(
-            const char16_t* str, size_t length,
-            Encoding_t encoding);
-
-    /** @brief Returns an UTF-32 encoded string equivalent to @a str.
-      *
-      * @param str The string to convert from.
-      * @param encoding The encoding of @a str.
-      * @throws YstringException if str contains any characters that aren't
-      *     encoded according to @a encoding, or if @a encoding is
-      *     unsupported for strings of @a str's type.
-      */
-    YSTRING_API std::u32string toUtf32(
-            const char32_t* str, size_t length,
-            Encoding_t encoding);
-
-	#endif
 
     /** @brief Returns an UTF-32 encoded string equivalent to @a str.
       *

@@ -373,7 +373,6 @@ namespace Ystring { namespace Utf8
     YSTRING_API char32_t getCodePoint(const std::string& str,
                                       ptrdiff_t pos);
 
-
     /** @brief Returns true if @a str has characters that will be unescaped
       *     if unescape is called with the same parameters.
       */
@@ -741,34 +740,6 @@ namespace Ystring { namespace Utf8
     YSTRING_API std::string toUtf8(
             const std::u32string& str,
             Encoding_t encoding = Encoding::UTF_32);
-
-    #ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
-
-    /** @brief Returns an UTF-8 encoded string equivalent to @a str.
-      *
-      * @param str The string to convert from.
-      * @param encoding The encoding of @a str.
-      * @throws YstringException if str contains any characters that aren't
-      *     encoded according to @a encoding, or if @a encoding is
-      *     unsupported for strings of @a str's type.
-      */
-    YSTRING_API std::string toUtf8(
-            const char16_t* str, size_t length,
-            Encoding_t encoding);
-
-    /** @brief Returns an UTF-8 encoded string equivalent to @a str.
-      *
-      * @param str The string to convert from.
-      * @param encoding The encoding of @a str.
-      * @throws YstringException if str contains any characters that aren't
-      *     encoded according to @a encoding, or if @a encoding is
-      *     unsupported for strings of @a str's type.
-      */
-    YSTRING_API std::string toUtf8(
-            const char32_t* str, size_t length,
-            Encoding_t encoding);
-
-    #endif
 
     /** @brief Returns an UTF-8 encoded string equivalent to @a str.
       *

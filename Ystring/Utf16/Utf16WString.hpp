@@ -145,6 +145,9 @@ namespace Ystring { namespace Utf16W
     /** @brief Returns the first substring in @a str that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.end().
       */
     YSTRING_API StringConstIteratorPair findFirst(
             const std::wstring& str,
@@ -155,6 +158,9 @@ namespace Ystring { namespace Utf16W
       *     to @a last that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.end().
       */
     YSTRING_API StringIteratorPair findFirst(
             std::wstring::iterator first,
@@ -166,6 +172,9 @@ namespace Ystring { namespace Utf16W
       *     to @a last that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.end().
       */
     YSTRING_API StringConstIteratorPair findFirst(
             std::wstring::const_iterator first,
@@ -241,6 +250,9 @@ namespace Ystring { namespace Utf16W
     /** @brief Returns the last substring in @a str that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.begin().
       */
     YSTRING_API StringIteratorPair findLast(
             std::wstring& str,
@@ -250,6 +262,9 @@ namespace Ystring { namespace Utf16W
     /** @brief Returns the last substring in @a str that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.begin().
       */
     YSTRING_API StringConstIteratorPair findLast(
             const std::wstring& str,
@@ -260,6 +275,9 @@ namespace Ystring { namespace Utf16W
       *     to @a last that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.begin().
       */
     YSTRING_API StringIteratorPair findLast(
           std::wstring::iterator first,
@@ -271,6 +289,9 @@ namespace Ystring { namespace Utf16W
       *     to @a last that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.begin().
       */
     YSTRING_API StringConstIteratorPair findLast(
           std::wstring::const_iterator first,
@@ -719,34 +740,6 @@ namespace Ystring { namespace Utf16W
     YSTRING_API std::wstring toUtf16(
             const std::u32string& str,
             Encoding_t encoding = Encoding::UTF_32);
-
-    #ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
-
-    /** @brief Returns an UTF-16 encoded string equivalent to @a str.
-      *
-      * @param str The string to convert from.
-      * @param encoding The encoding of @a str.
-      * @throws YstringException if str contains any characters that aren't
-      *     encoded according to @a encoding, or if @a encoding is
-      *     unsupported for strings of @a str's type.
-      */
-    YSTRING_API std::wstring toUtf16(
-            const char16_t* str, size_t length,
-            Encoding_t encoding);
-
-    /** @brief Returns an UTF-16 encoded string equivalent to @a str.
-      *
-      * @param str The string to convert from.
-      * @param encoding The encoding of @a str.
-      * @throws YstringException if str contains any characters that aren't
-      *     encoded according to @a encoding, or if @a encoding is
-      *     unsupported for strings of @a str's type.
-      */
-    YSTRING_API std::wstring toUtf16(
-            const char32_t* str, size_t length,
-            Encoding_t encoding);
-
-    #endif
 
     /** @brief Returns an UTF-16 encoded string equivalent to @a str.
       *

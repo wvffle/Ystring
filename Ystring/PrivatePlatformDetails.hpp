@@ -37,8 +37,8 @@ namespace Ystring
     #endif
 
     #ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
-        YSTRING_DEFINE_INTERNAL_CHAR_TYPE(char16_t, char16_t);
-        YSTRING_DEFINE_INTERNAL_CHAR_TYPE(char32_t, char32_t);
+        YSTRING_DEFINE_INTERNAL_CHAR_TYPE(uint16_t, char16_t);
+        YSTRING_DEFINE_INTERNAL_CHAR_TYPE(uint32_t, char32_t);
     #endif
 
     template <typename T>

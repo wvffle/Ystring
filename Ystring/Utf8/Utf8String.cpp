@@ -465,10 +465,13 @@ namespace Ystring { namespace Utf8
         switch (encoding)
         {
         case Encoding::UTF_8:
-            return str;
+            return String(str, length);
         case Encoding::UTF_16:
             return Generic::convert<String>(makeRange(str, str + length),
                                             Utf16::Utf16Encoding(), Enc());
+        case Encoding::UTF_32:
+            return Generic::convert<String>(makeRange(str, str + length),
+                                            Utf32::Utf32Encoding(), Enc());
         default:
             return toUtf8Impl(str, length, encoding);
         }

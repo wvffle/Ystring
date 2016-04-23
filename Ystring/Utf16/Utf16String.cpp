@@ -9,9 +9,9 @@
 
 #include "../PrivatePlatformDetails.hpp"
 #include "../Generic/GenericString.hpp"
-#include "../CodePage/CodePageEncoding.hpp"
 #include "../Utf8/Utf8Encoding.hpp"
 #include "../Utf32/Utf32Encoding.hpp"
+#include "../Conversion/Converter.hpp"
 #include "Utf16Encoding.hpp"
 
 namespace Ystring { namespace Utf16
@@ -443,6 +443,15 @@ namespace Ystring { namespace Utf16
         return s;
     }
 
+    template <typename CharT>
+    String toUtf16Impl(const CharT* str, size_t length, Encoding_t encoding)
+    {
+        Conversion::Converter converter(encoding, Encoding::UTF_16);
+        String result;
+        converter.convert(str, length, result);
+        return result;
+    }
+
     String toUtf16(const std::string& str, Encoding_t encoding)
     {
         return toUtf16(str.data(), str.size(), encoding);
@@ -453,33 +462,20 @@ namespace Ystring { namespace Utf16
         return toUtf16(str.data(), str.size(), encoding);
     }
 
-    #define CASE_ENCODING(enumName, encodingName) \
-        case enumName: \
-            return Generic::convert<String>( \
-                    makeRange(str, str + length), \
-                    encodingName(), \
-                    Enc())
-
     String toUtf16(const char* str, size_t length, Encoding_t encoding)
     {
         switch (encoding)
         {
-        CASE_ENCODING(Encoding::UTF_8, Utf8::Utf8Encoding);
-        CASE_ENCODING(Encoding::IBM_437, CodePage::Ibm437Encoding);
-        CASE_ENCODING(Encoding::IBM_850, CodePage::Ibm850Encoding);
-        CASE_ENCODING(Encoding::LATIN_1, CodePage::Latin1Encoding);
-        CASE_ENCODING(Encoding::LATIN_5, CodePage::Latin5Encoding);
-        CASE_ENCODING(Encoding::LATIN_6, CodePage::Latin6Encoding);
-        CASE_ENCODING(Encoding::LATIN_9, CodePage::Latin9Encoding);
-        CASE_ENCODING(Encoding::WINDOWS_1250, CodePage::Windows1250Encoding);
-        CASE_ENCODING(Encoding::WINDOWS_1252, CodePage::Windows1252Encoding);
-        CASE_ENCODING(Encoding::UTF_16_BE, Utf16::Utf16BEEncoding);
-        CASE_ENCODING(Encoding::UTF_16_LE, Utf16::Utf16LEEncoding);
-        CASE_ENCODING(Encoding::UTF_32_BE, Utf32::Utf32BEEncoding);
-        CASE_ENCODING(Encoding::UTF_32_LE, Utf32::Utf32LEEncoding);
+        case Encoding::UTF_8:
+            return Generic::convert<String>(makeRange(str, str + length),
+                                            Utf8::Utf8Encoding(), Enc());
+        case Encoding::UTF_16:
+            return String(reinterpret_cast<const char16_t*>(str), length / 2);
+        case Encoding::UTF_32:
+            return Generic::convert<String>(makeRange(str, str + length),
+                                            Utf32::Utf32Encoding(), Enc());
         default:
-            YSTRING_THROW("toUtf16: unsupported encoding " +
-                          std::to_string(int64_t(encoding)));
+            return toUtf16Impl(str, length, encoding);
         }
     }
 
@@ -487,11 +483,10 @@ namespace Ystring { namespace Utf16
     {
         switch (encoding)
         {
-        CASE_ENCODING(Encoding::UTF_16_BE, Utf16::Utf16BEEncoding);
-        CASE_ENCODING(Encoding::UTF_16_LE, Utf16::Utf16LEEncoding);
+        case Encoding::UTF_16:
+            return String(str, length);
         default:
-            YSTRING_THROW("toUtf16: unsupported encoding " +
-                          std::to_string(int64_t(encoding)));
+            return toUtf16Impl(str, length, encoding);
         }
     }
 
@@ -499,11 +494,11 @@ namespace Ystring { namespace Utf16
     {
         switch (encoding)
         {
-        CASE_ENCODING(Encoding::UTF_32_BE, Utf32::Utf32BEEncoding);
-        CASE_ENCODING(Encoding::UTF_32_LE, Utf32::Utf32LEEncoding);
+        case Encoding::UTF_32:
+            return Generic::convert<String>(makeRange(str, str + length),
+                                            Utf32::Utf32Encoding(), Enc());
         default:
-            YSTRING_THROW("toUtf16: unsupported encoding " +
-                          std::to_string(int64_t(encoding)));
+            return toUtf16Impl(str, length, encoding);
         }
     }
 
