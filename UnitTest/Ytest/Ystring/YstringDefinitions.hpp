@@ -34,7 +34,7 @@ namespace Ystring
     /** @brief The namespace for everything specific to single byte
       *     character sets.
       */
-    namespace CodePage {}
+    namespace Encodings {}
 
     /** @brief The namespace for functions and types related
       *     to unicode code-points.

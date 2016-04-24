@@ -14,7 +14,8 @@
 #include "../YstringDefinitions.hpp"
 #include "ErrorHandlingPolicy.hpp"
 
-namespace Ystring { namespace Conversion {
+namespace Ystring { namespace Conversion
+{
 
     class AbstractDecoder;
     class AbstractEncoder;
@@ -114,8 +115,6 @@ namespace Ystring { namespace Conversion {
                        std::wstring& destination,
                        bool sourceIsIncomplete = false);
 
-        #ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
-
         size_t convert(const wchar_t* source,
                        size_t sourceLength,
                        std::string& destination,
@@ -135,8 +134,6 @@ namespace Ystring { namespace Conversion {
                        size_t sourceLength,
                        std::wstring& destination,
                        bool sourceIsIncomplete = false);
-
-        #endif
 
         template <typename Char1T, typename Char2T>
         typename std::basic_string<Char1T>::const_iterator

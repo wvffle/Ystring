@@ -247,7 +247,7 @@ namespace Ystring { namespace Utf8
     bool isValidUtf8(const std::string& str)
     {
         return DecoderResult::OK == std::get<2>(
-                nextInvalidUtf8CodePoint(begin(str), end(str)));
+                Encodings::nextInvalidUtf8CodePoint(begin(str), end(str)));
     }
 
     String join(const std::vector<String>& strings,
@@ -333,10 +333,10 @@ namespace Ystring { namespace Utf8
                             char32_t to,
                             ptrdiff_t maxReplacements)
     {
-        char fBuf[MAX_ENCODED_UTF8_LENGTH];
-        size_t fromSize = encodeUtf8(fBuf, from);
-        char tBuf[MAX_ENCODED_UTF8_LENGTH];
-        auto toSize = encodeUtf8(tBuf, to);
+        char fBuf[Encodings::MAX_ENCODED_UTF8_LENGTH];
+        size_t fromSize = Encodings::encodeUtf8(fBuf, from);
+        char tBuf[Encodings::MAX_ENCODED_UTF8_LENGTH];
+        auto toSize = Encodings::encodeUtf8(tBuf, to);
         return Generic::replace<String>(
                 makeRange(s),
                 makeRange(fBuf, fBuf + fromSize),
@@ -353,7 +353,7 @@ namespace Ystring { namespace Utf8
         auto end = str.end();
         while (true)
         {
-            auto invalid = nextInvalidUtf8CodePoint(it, end);
+            auto invalid = Encodings::nextInvalidUtf8CodePoint(it, end);
             result.append(it, std::get<0>(invalid));
             if (std::get<0>(invalid) == end)
                 break;
@@ -370,11 +370,8 @@ namespace Ystring { namespace Utf8
         while (it != str.end())
         {
             char32_t cp;
-            if (nextUtf8CodePoint(cp, it, str.end()) !=
-                    DecoderResult::OK)
-            {
+            if (Encodings::nextUtf8CodePoint(cp, it, str.end()) != DecoderResult::OK)
                 *it++ = chr;
-            }
         }
         return str;
     }

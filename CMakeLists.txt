@@ -43,6 +43,7 @@ if (YSTRING_WCHAR_IS_2_BYTES)
 endif(YSTRING_WCHAR_IS_2_BYTES)
 
 set(PUBLIC_HEADERS_ROOT
+    Ystring/Conversion.hpp
     Ystring/Encoding.hpp
     Ystring/EncodingInfo.hpp
     Ystring/Endianness.hpp
@@ -60,6 +61,7 @@ set(PUBLIC_HEADERS_ROOT
     )
 
 set(PUBLIC_HEADERS_CONVERSION
+    Ystring/Conversion/Convert.hpp
     Ystring/Conversion/Converter.hpp
     Ystring/Conversion/ErrorHandlingPolicy.hpp
     )
@@ -103,16 +105,16 @@ set(PUBLIC_HEADERS
 set(PRIVATE_HEADERS
     Ystring/DecoderResult.hpp
     Ystring/PrivatePlatformDetails.hpp
-    Ystring/CodePage/CodePage.hpp
-    Ystring/CodePage/CodePageFactory.hpp
-    Ystring/CodePage/Ibm437.hpp
-    Ystring/CodePage/Ibm850.hpp
-    Ystring/CodePage/Iso8859_1.hpp
-    Ystring/CodePage/Iso8859_9.hpp
-    Ystring/CodePage/Iso8859_10.hpp
-    Ystring/CodePage/Iso8859_15.hpp
-    Ystring/CodePage/Windows1250.hpp
-    Ystring/CodePage/Windows1252.hpp
+    Ystring/Encodings/CodePage.hpp
+    Ystring/Encodings/CodePageFactory.hpp
+    Ystring/Encodings/Ibm437.hpp
+    Ystring/Encodings/Ibm850.hpp
+    Ystring/Encodings/Iso8859_1.hpp
+    Ystring/Encodings/Iso8859_9.hpp
+    Ystring/Encodings/Iso8859_10.hpp
+    Ystring/Encodings/Iso8859_15.hpp
+    Ystring/Encodings/Windows1250.hpp
+    Ystring/Encodings/Windows1252.hpp
     Ystring/Conversion/AbstractDecoder.hpp
     Ystring/Conversion/AbstractEncoder.hpp
     Ystring/Conversion/CodePageDecoder.hpp
@@ -154,22 +156,22 @@ set(PRIVATE_HEADERS
     Ystring/Unicode/StandardLowerCase.hpp
     Ystring/Unicode/StandardTitleCase.hpp
     Ystring/Unicode/StandardUpperCase.hpp
-    Ystring/Utf8/DecodeUtf8.hpp
-    Ystring/Utf8/DecodeUtf8-impl.hpp
-    Ystring/Utf8/EncodeUtf8.hpp
-    Ystring/Utf8/EncodeUtf8-impl.hpp
+    Ystring/Encodings/DecodeUtf8.hpp
+    Ystring/Encodings/DecodeUtf8-impl.hpp
+    Ystring/Encodings/EncodeUtf8.hpp
+    Ystring/Encodings/EncodeUtf8-impl.hpp
     Ystring/Utf8/Utf8Chars.hpp
     Ystring/Utf8/Utf8Encoding.hpp
-    Ystring/Utf16/DecodeUtf16.hpp
-    Ystring/Utf16/DecodeUtf16-impl.hpp
-    Ystring/Utf16/EncodeUtf16.hpp
-    Ystring/Utf16/EncodeUtf16-impl.hpp
+    Ystring/Encodings/DecodeUtf16.hpp
+    Ystring/Encodings/DecodeUtf16-impl.hpp
+    Ystring/Encodings/EncodeUtf16.hpp
+    Ystring/Encodings/EncodeUtf16-impl.hpp
     Ystring/Utf16/Utf16Chars.hpp
     Ystring/Utf16/Utf16Encoding.hpp
-    Ystring/Utf32/DecodeUtf32.hpp
-    Ystring/Utf32/DecodeUtf32-impl.hpp
-    Ystring/Utf32/EncodeUtf32.hpp
-    Ystring/Utf32/EncodeUtf32-impl.hpp
+    Ystring/Encodings/DecodeUtf32.hpp
+    Ystring/Encodings/DecodeUtf32-impl.hpp
+    Ystring/Encodings/EncodeUtf32.hpp
+    Ystring/Encodings/EncodeUtf32-impl.hpp
     Ystring/Utf32/Utf32Chars.hpp
     Ystring/Utf32/Utf32Encoding.hpp
     Ystring/Utilities/Algorithms.hpp
@@ -188,16 +190,16 @@ set(SOURCE_FILES
     Ystring/EncodingInfo.cpp
     Ystring/Predicates.cpp
     Ystring/YstringException.cpp
-    Ystring/CodePage/CodePage.cpp
-    Ystring/CodePage/CodePageFactory.cpp
-    Ystring/CodePage/Ibm437.cpp
-    Ystring/CodePage/Ibm850.cpp
-    Ystring/CodePage/Iso8859_1.cpp
-    Ystring/CodePage/Iso8859_9.cpp
-    Ystring/CodePage/Iso8859_10.cpp
-    Ystring/CodePage/Iso8859_15.cpp
-    Ystring/CodePage/Windows1250.cpp
-    Ystring/CodePage/Windows1252.cpp
+    Ystring/Encodings/CodePage.cpp
+    Ystring/Encodings/CodePageFactory.cpp
+    Ystring/Encodings/Ibm437.cpp
+    Ystring/Encodings/Ibm850.cpp
+    Ystring/Encodings/Iso8859_1.cpp
+    Ystring/Encodings/Iso8859_9.cpp
+    Ystring/Encodings/Iso8859_10.cpp
+    Ystring/Encodings/Iso8859_15.cpp
+    Ystring/Encodings/Windows1250.cpp
+    Ystring/Encodings/Windows1252.cpp
     Ystring/Conversion/AbstractDecoder.cpp
     Ystring/Conversion/AbstractEncoder.cpp
     Ystring/Conversion/CodePageDecoder.cpp
@@ -210,12 +212,12 @@ set(SOURCE_FILES
     Ystring/Unicode/CharClass.cpp
     Ystring/Unicode/CharMap.cpp
     Ystring/Unicode/CharMappingTypes.cpp
-    Ystring/Utf8/EncodeUtf8.cpp
+    Ystring/Encodings/EncodeUtf8.cpp
     Ystring/Utf8/Utf8String.cpp
     Ystring/Utf16/Utf16String.cpp
     Ystring/Utf32/Utf32String.cpp
     ${SOURCE_FILES}
-    )
+    Ystring/Conversion/Convert.hpp Ystring/Conversion.hpp)
 
 add_library(
     ${PROJECT_NAME} SHARED

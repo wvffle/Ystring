@@ -13,7 +13,7 @@ namespace Ystring { namespace Conversion {
 
     CodePageEncoder::CodePageEncoder(Encoding_t encoding)
         : AbstractEncoder(encoding),
-          m_CodePage(CodePage::makeCodePage(encoding))
+          m_CodePage(Encodings::makeCodePage(encoding))
     {
         // Use ? as replacement character unless the code page supports
         // unicode's designated replacement character.

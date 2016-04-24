@@ -6,7 +6,7 @@
 // License text is included with the source distribution.
 //****************************************************************************
 #include "Utf8Decoder.hpp"
-#include "../Utf8/DecodeUtf8.hpp"
+#include "../Encodings/DecodeUtf8.hpp"
 
 namespace Ystring { namespace Conversion {
 
@@ -19,7 +19,7 @@ namespace Ystring { namespace Conversion {
             const char* srcEnd,
             bool sourceIsIncomplete) const
     {
-        auto invalid = Utf8::nextInvalidUtf8CodePoint(srcBeg, srcEnd);
+        auto invalid = Encodings::nextInvalidUtf8CodePoint(srcBeg, srcEnd);
         if (std::get<2>(invalid) == DecoderResult::OK)
             return std::make_pair(true, srcEnd);
         if (std::get<2>(invalid) == DecoderResult::INCOMPLETE
@@ -38,7 +38,7 @@ namespace Ystring { namespace Conversion {
         while (dstBeg != dstEnd)
         {
             char32_t tmp = *dstBeg;
-            auto result = Utf8::nextUtf8CodePoint(tmp, srcBeg, srcEnd);
+            auto result = Encodings::nextUtf8CodePoint(tmp, srcBeg, srcEnd);
             *dstBeg = tmp;
             if (result != DecoderResult::OK)
                 return result;
@@ -50,7 +50,7 @@ namespace Ystring { namespace Conversion {
     void Utf8Decoder::skipInvalidCharacter(
             const char*& srcBeg, const char* srcEnd) const
     {
-        Utf8::skipNextUtf8CodePoint(srcBeg, srcEnd);
+        Encodings::skipNextUtf8CodePoint(srcBeg, srcEnd);
     }
 
 }}

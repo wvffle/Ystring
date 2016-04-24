@@ -7,7 +7,7 @@
 //****************************************************************************
 #pragma once
 #include "AbstractEncoder.hpp"
-#include "../Utf16/EncodeUtf16.hpp"
+#include "../Encodings/EncodeUtf16.hpp"
 
 namespace Ystring { namespace Conversion {
 
@@ -28,7 +28,7 @@ namespace Ystring { namespace Conversion {
             auto out = back_inserter(dst);
             while (srcBeg != srcEnd)
             {
-                Utf16::addUtf16AsBytes<SwapBytes>(out, *srcBeg);
+                Encodings::addUtf16AsBytes<SwapBytes>(out, *srcBeg);
                 ++srcBeg;
             }
             return true;
@@ -40,7 +40,7 @@ namespace Ystring { namespace Conversion {
             auto out = back_inserter(dst);
             while (srcBeg != srcEnd)
             {
-                Utf16::addUtf16<SwapBytes>(out, *srcBeg);
+                Encodings::addUtf16<SwapBytes>(out, *srcBeg);
                 ++srcBeg;
             }
             return true;

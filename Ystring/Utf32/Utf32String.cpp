@@ -329,10 +329,10 @@ namespace Ystring { namespace Utf32
     {
         char32_t fBuf[2];
         auto fIt = std::begin(fBuf);
-        auto fromSize = encodeUtf32(fIt, std::end(fBuf), from);
+        auto fromSize = Encodings::encodeUtf32(fIt, std::end(fBuf), from);
         char32_t tBuf[2];
         auto tIt = std::begin(tBuf);
-        auto toSize = encodeUtf32(tIt, std::end(tBuf), to);
+        auto toSize = Encodings::encodeUtf32(tIt, std::end(tBuf), to);
         return Generic::replace<String>(
                 makeRange(s),
                 makeRange(fBuf, fBuf + fromSize),
@@ -350,8 +350,8 @@ namespace Ystring { namespace Utf32
         while (it != str.end())
         {
             char32_t cp;
-            if (nextUtf32CodePoint<false>(cp, it, str.end()) !=
-                    DecoderResult::OK)
+            if (Encodings::nextUtf32CodePoint<false>(cp, it, str.end())
+                != DecoderResult::OK)
             {
                 result.append(first, it);
                 first = ++it;
@@ -369,7 +369,7 @@ namespace Ystring { namespace Utf32
         while (it != str.end())
         {
             char32_t cp;
-            if (nextUtf32CodePoint<false>(cp, it, str.end()) !=
+            if (Encodings::nextUtf32CodePoint<false>(cp, it, str.end()) !=
                     DecoderResult::OK)
             {
                 *it++ = chr;

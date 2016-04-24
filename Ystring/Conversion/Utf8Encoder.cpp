@@ -8,7 +8,7 @@
 #include "Utf8Encoder.hpp"
 
 #include <iterator>
-#include "../Utf8/EncodeUtf8.hpp"
+#include "../Encodings/EncodeUtf8.hpp"
 
 namespace Ystring { namespace Conversion {
 
@@ -23,7 +23,7 @@ namespace Ystring { namespace Conversion {
         auto out = back_inserter(dst);
         while (srcBeg != srcEnd)
         {
-            Utf8::addUtf8(out, *srcBeg);
+            Encodings::addUtf8(out, *srcBeg);
             ++srcBeg;
         }
         return true;

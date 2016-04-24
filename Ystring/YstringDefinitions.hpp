@@ -57,7 +57,7 @@ namespace Ystring
     /** @brief The namespace for everything specific to single byte
       *     character sets.
       */
-    namespace CodePage {}
+    namespace Encodings {}
 
     /** @brief The namespace for functions and types related
       *     to unicode code-points.
@@ -67,4 +67,19 @@ namespace Ystring
     /** @brief The namespace for all UTF-8 related classes and functions.
       */
     namespace Utf8 {}
+
+    /** @brief The namespace for all UTF-16 related functions that operate on
+      *     std::u16string.
+      */
+    namespace Utf16 {}
+
+    /** @brief The namespace for all UTF-16 related functions that operate on
+      *     std::wstring. (Windows only!)
+      */
+    namespace Utf16W {}
+
+    /** @brief The namespace for all UTF-16 related functions that operate on
+      *     std::u32string.
+      */
+    namespace Utf32 {}
 }

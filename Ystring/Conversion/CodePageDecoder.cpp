@@ -11,7 +11,7 @@ namespace Ystring { namespace Conversion {
 
     CodePageDecoder::CodePageDecoder(Encoding_t encoding)
         : AbstractDecoder(encoding),
-          m_CodePage(CodePage::makeCodePage(encoding))
+          m_CodePage(Encodings::makeCodePage(encoding))
     {}
 
     DecoderResult_t CodePageDecoder::doDecode(const char*& srcBeg,

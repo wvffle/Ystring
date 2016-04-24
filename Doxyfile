@@ -677,7 +677,8 @@ WARN_LOGFILE           =
 # directories like "/usr/src/myproject". Separate the files or directories
 # with spaces.
 
-INPUT                  = Ystring/Encoding.hpp \
+INPUT                  = Ystring/Conversion.hpp \
+                         Ystring/Encoding.hpp \
                          Ystring/EncodingInfo.hpp \
                          Ystring/Endianness.hpp \
                          Ystring/EscapeType.hpp \
@@ -691,6 +692,7 @@ INPUT                  = Ystring/Encoding.hpp \
                          Ystring/Utf32.hpp \
                          Ystring/YstringDefinitions.hpp \
                          Ystring/YstringException.hpp \
+                         Ystring/Conversion/Convert.hpp \
                          Ystring/Conversion/Converter.hpp \
                          Ystring/Conversion/ErrorHandlingPolicy.hpp \
                          Ystring/Streaming/StreamFill.hpp \

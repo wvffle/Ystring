@@ -5,7 +5,7 @@
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
-#include "../../Ystring/Utf16/DecodeUtf16.hpp"
+#include "../../Ystring/Encodings/DecodeUtf16.hpp"
 
 #include <iterator>
 #include "../Ytest/Ytest.hpp"
@@ -13,7 +13,7 @@
 namespace
 {
     using namespace Ystring;
-    using namespace Ystring::Utf16;
+    using namespace Ystring::Encodings;
 
     inline void testNextUtf16LEChar(const char*& it, const char* end,
                                     char32_t expected)

@@ -247,7 +247,8 @@ namespace Ystring { namespace Utf16
     bool isValidUtf16(const String& str)
     {
         return DecoderResult::OK == std::get<2>(
-                nextInvalidUtf16CodePoint<false>(begin(str), end(str)));
+                Encodings::nextInvalidUtf16CodePoint<false>(
+                        begin(str), end(str)));
     }
 
     String join(const std::vector<String>& strings,
@@ -335,10 +336,10 @@ namespace Ystring { namespace Utf16
     {
         char16_t fBuf[2];
         auto fIt = std::begin(fBuf);
-        auto fromSize = encodeUtf16(fIt, std::end(fBuf), from);
+        auto fromSize = Encodings::encodeUtf16(fIt, std::end(fBuf), from);
         char16_t tBuf[2];
         auto tIt = std::begin(tBuf);
-        auto toSize = encodeUtf16(tIt, std::end(tBuf), to);
+        auto toSize = Encodings::encodeUtf16(tIt, std::end(tBuf), to);
         return Generic::replace<String>(
                 makeRange(s),
                 makeRange(fBuf, fBuf + fromSize),
@@ -355,7 +356,7 @@ namespace Ystring { namespace Utf16
         auto end = str.end();
         while (true)
         {
-            auto invalid = nextInvalidUtf16CodePoint<false>(it, end);
+            auto invalid = Encodings::nextInvalidUtf16CodePoint<false>(it, end);
             result.append(it, std::get<0>(invalid));
             if (std::get<0>(invalid) == end)
                 break;
@@ -372,7 +373,7 @@ namespace Ystring { namespace Utf16
         while (it != str.end())
         {
             char32_t cp;
-            if (nextUtf16CodePoint<false>(cp, it, str.end()) !=
+            if (Encodings::nextUtf16CodePoint<false>(cp, it, str.end()) !=
                     DecoderResult::OK)
             {
                 *it++ = chr;

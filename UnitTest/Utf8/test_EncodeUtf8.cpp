@@ -5,14 +5,14 @@
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
-#include "../../Ystring/Utf8/EncodeUtf8.hpp"
+#include "../../Ystring/Encodings/EncodeUtf8.hpp"
 
 #include "../Ytest/Ytest.hpp"
 
 namespace {
 
 using namespace Ystring;
-using namespace Ystring::Utf8;
+using namespace Ystring::Encodings;
 
 void test_encode()
 {

@@ -7,7 +7,7 @@
 //****************************************************************************
 #pragma once
 #include "AbstractDecoder.hpp"
-#include "../CodePage/CodePage.hpp"
+#include "../Encodings/CodePage.hpp"
 
 namespace Ystring { namespace Conversion {
 
@@ -25,7 +25,7 @@ namespace Ystring { namespace Conversion {
                 const char*& srcBeg, const char* srcEnd) const;
 
     private:
-        CodePage::CodePage m_CodePage;
+        Encodings::CodePage m_CodePage;
     };
 
 }}
