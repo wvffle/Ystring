@@ -123,12 +123,20 @@ namespace Ystring {
               * to be an 8-bit encoding, but is not ASCII or UTF-8.
               */
             UNSPECIFIED_SINGLE_BYTE_CHARACTER_SET,
-
+            /** @brief A constant used when enumerating the
+              *     different encodings.
+              */
             MAXIMUM,
 
             #ifdef YSTRING_WCHAR_IS_4_BYTES
+            /** @brief The system specific default encoding for
+              * wchar_t strings (UTF-32).
+              */
             WCHAR_DEFAULT = UTF_32
             #else
+            /** @brief The system specific default encoding for
+              * wchar_t strings (UTF-16).
+              */
             WCHAR_DEFAULT = UTF_16
             #endif
         };

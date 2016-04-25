@@ -54,15 +54,10 @@ namespace Ystring
       */
     static const char32_t INVALID_CHAR = 0xFFFFFFFFul;
 
-    /** @brief The namespace for everything specific to single byte
-      *     character sets.
+    /** @brief The namespace for functions and classes that convert between
+      *     string types and encodings.
       */
-    namespace Encodings {}
-
-    /** @brief The namespace for functions and types related
-      *     to unicode code-points.
-      */
-    namespace Unicode {}
+    namespace Conversion {}
 
     /** @brief The namespace for all UTF-8 related classes and functions.
       */
@@ -78,8 +73,12 @@ namespace Ystring
       */
     namespace Utf16W {}
 
-    /** @brief The namespace for all UTF-16 related functions that operate on
-      *     std::u32string.
+    /** @brief The namespace for the functions that operate on std::u32string.
       */
     namespace Utf32 {}
+
+    /** @brief The namespace for functions and types related
+      *     to unicode code-points.
+      */
+    namespace Unicode {}
 }
