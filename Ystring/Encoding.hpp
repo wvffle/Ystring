@@ -130,12 +130,12 @@ namespace Ystring {
 
             #ifdef YSTRING_WCHAR_IS_4_BYTES
             /** @brief The system specific default encoding for
-              * wchar_t strings (UTF-32).
+              * wchar_t strings (UTF-16 on Windows, UTF-32 everywhere else).
               */
             WCHAR_DEFAULT = UTF_32
             #else
             /** @brief The system specific default encoding for
-              * wchar_t strings (UTF-16).
+              * wchar_t strings (UTF-16 on Windows, UTF-32 everywhere else).
               */
             WCHAR_DEFAULT = UTF_16
             #endif

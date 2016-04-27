@@ -34,7 +34,7 @@ namespace Ystring { namespace Generic
         EncodedString::Encoder<BackInsertIterator, Enc> getEncoder(Enc encoding)
         {
             return EncodedString::makeEncoder(std::back_inserter(m_String),
-                                        encoding);
+                                              encoding);
         }
 
         void reserve(size_t size)
