@@ -45,6 +45,23 @@ namespace Ystring { namespace Conversion {
             }
             return true;
         }
+
+#ifdef YSTRING_WCHAR_IS_2_BYTES
+
+        bool doEncode(const char32_t*& srcBeg, const char32_t* srcEnd,
+                      std::wstring& dst)
+        {
+            auto out = back_inserter(dst);
+            while (srcBeg != srcEnd)
+            {
+                Encodings::addUtf16<SwapBytes>(out, *srcBeg);
+                ++srcBeg;
+            }
+            return true;
+        }
+
+#endif
+
     };
 
 
