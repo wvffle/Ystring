@@ -7,7 +7,7 @@
 //****************************************************************************
 #pragma once
 #include "AbstractDecoder.hpp"
-#include "../Utf16/DecodeUtf16.hpp"
+#include "../Encodings/DecodeUtf16.hpp"
 
 namespace Ystring { namespace Conversion {
 
@@ -26,7 +26,7 @@ namespace Ystring { namespace Conversion {
                 const char* srcEnd,
                 bool sourceIsIncomplete) const
         {
-            auto invalid = Utf16::nextInvalidUtf16CodePoint<SwapBytes>(
+            auto invalid = Encodings::nextInvalidUtf16CodePoint<SwapBytes>(
                     srcBeg, srcEnd);
             auto decoderResult = std::get<2>(invalid);
             if (decoderResult == DecoderResult::OK)
@@ -41,7 +41,7 @@ namespace Ystring { namespace Conversion {
                 const char16_t* srcEnd,
                 bool sourceIsIncomplete) const
         {
-            auto invalid = Utf16::nextInvalidUtf16CodePoint<SwapBytes>(
+            auto invalid = Encodings::nextInvalidUtf16CodePoint<SwapBytes>(
                     srcBeg, srcEnd);
             auto decoderResult = std::get<2>(invalid);
             if (decoderResult == DecoderResult::OK)
@@ -58,8 +58,8 @@ namespace Ystring { namespace Conversion {
         {
             while (dstBeg != dstEnd)
             {
-                uint32_t tmp = *dstBeg;
-                auto result = Utf16::nextUtf16CodePoint<SwapBytes>(
+                char32_t tmp = *dstBeg;
+                auto result = Encodings::nextUtf16CodePoint<SwapBytes>(
                         tmp, srcBeg, srcEnd);
                 *dstBeg = tmp;
                 if (result != DecoderResult::OK)
@@ -75,8 +75,8 @@ namespace Ystring { namespace Conversion {
         {
             while (dstBeg != dstEnd)
             {
-                uint32_t tmp = *dstBeg;
-                auto result = Utf16::nextUtf16CodePoint<SwapBytes>(
+                char32_t tmp = *dstBeg;
+                auto result = Encodings::nextUtf16CodePoint<SwapBytes>(
                         tmp, srcBeg, srcEnd);
                 *dstBeg = tmp;
                 if (result != DecoderResult::OK)
@@ -89,13 +89,13 @@ namespace Ystring { namespace Conversion {
         void skipInvalidCharacter(
                 const char*& srcBeg, const char* srcEnd) const
         {
-            Utf16::skipNextUtf16CodePoint<SwapBytes>(srcBeg, srcEnd);
+            Encodings::skipNextUtf16CodePoint<SwapBytes>(srcBeg, srcEnd);
         }
 
         void skipInvalidCharacter(
                 const char16_t*& srcBeg, const char16_t* srcEnd) const
         {
-            Utf16::skipNextUtf16CodePoint<SwapBytes>(srcBeg, srcEnd);
+            Encodings::skipNextUtf16CodePoint<SwapBytes>(srcBeg, srcEnd);
         }
     };
 

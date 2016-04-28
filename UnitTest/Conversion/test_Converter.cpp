@@ -121,6 +121,16 @@ namespace {
         Y_EQUAL(dst, "ab\x0Aqr\xE2\x99\x82st\xC3\x86uv\xE2\x95\xA8");
     }
 
+    void test_Cp437_to_Utf32()
+    {
+        Converter converter(Encoding::IBM_437, Encoding::UTF_32);
+        char src[] = "\x01" "1A" "\x7F\xD0\xF0";
+        std::u32string dst;
+        Y_EQUAL(converter.convert(src, sizeof(src), dst), sizeof(src));
+        char32_t expected[] = {0x263A, '1', 'A', 0x2302, 0x2568, 0x2261, 0};
+        Y_EQUAL(dst, std::u32string(expected,
+                                    sizeof(expected) / sizeof(char32_t)));
+    }
 
     void test_Utf32_to_Cp437()
     {
@@ -153,6 +163,7 @@ namespace {
               test_Utf16BE_to_Utf16LE,
               test_Utf16LE_to_Utf16BE,
               test_Cp437_to_Utf8,
+              test_Cp437_to_Utf32,
               test_Utf32_to_Cp437,
               test_Utf8_to_Utf8_WithErrors);
 }

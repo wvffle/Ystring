@@ -43,11 +43,11 @@ namespace Ystring { namespace Utf8
       * duplicated here to avoid unnecessary conflicts between constant names
       * in that file and macros defined in Windows.h.
       */
-    static const uint32_t REPLACEMENT_CHARACTER = 0xFFFDu;
+    static const char32_t REPLACEMENT_CHARACTER = 0xFFFDu;
 
     /** @brief Adds @a codePoint encoded as UTF-8 to the end of @a str.
       */
-    YSTRING_API std::string& append(std::string& str, uint32_t chr);
+    YSTRING_API std::string& append(std::string& str, char32_t chr);
 
     /** @brief Compares @a str and @a cmp, ignoring any differences in
       *     letter casing.
@@ -88,7 +88,7 @@ namespace Ystring { namespace Utf8
     /** @brief Returns true if @a str contains code point @a chr.
       * @throw YstringException if str contains an invalid UTF-8 code point.
       */
-    YSTRING_API bool contains(const std::string& str, uint32_t chr);
+    YSTRING_API bool contains(const std::string& str, char32_t chr);
 
     /** @brief Returns the number of characters in @a str.
       *
@@ -370,9 +370,8 @@ namespace Ystring { namespace Utf8
       * If @a pos is negative, code points are counted from the end of @a str
       *  where the last character in @a str is at position -1.
       */
-    YSTRING_API uint32_t getCodePoint(const std::string& str,
+    YSTRING_API char32_t getCodePoint(const std::string& str,
                                       ptrdiff_t pos);
-
 
     /** @brief Returns true if @a str has characters that will be unescaped
       *     if unescape is called with the same parameters.
@@ -412,7 +411,7 @@ namespace Ystring { namespace Utf8
     YSTRING_API std::string insert(
             const std::string& str,
             ptrdiff_t pos,
-            uint32_t chr);
+            char32_t chr);
 
     /** @brief Returns true if all characters in @a str are either
       *     letters or numbers.
@@ -548,8 +547,8 @@ namespace Ystring { namespace Utf8
       */
     YSTRING_API std::string replaceCodePoint(
             const std::string& str,
-            uint32_t from,
-            uint32_t to,
+            char32_t from,
+            char32_t to,
             ptrdiff_t maxReplacements = 0);
 
     /** @brief Returns a copy of @a str where all invalid code points have
@@ -557,7 +556,7 @@ namespace Ystring { namespace Utf8
       */
     YSTRING_API std::string replaceInvalidUtf8(
             const std::string& str,
-            uint32_t chr = REPLACEMENT_CHARACTER);
+            char32_t chr = REPLACEMENT_CHARACTER);
 
     /** @brief Replaces all invalid code points in @a str with @a chr.
       */
@@ -608,7 +607,7 @@ namespace Ystring { namespace Utf8
       */
     YSTRING_API std::vector<std::string> splitIf(
             const std::string& str,
-            std::function<bool(uint32_t)> predicate,
+            std::function<bool(char32_t)> predicate,
             ptrdiff_t maxSplits = 0,
             SplitFlags_t flags = SplitFlags::DEFAULTS);
 
@@ -656,7 +655,7 @@ namespace Ystring { namespace Utf8
 
     /** @brief Returns a UTF-8 encoded string representing @a chr
       */
-    YSTRING_API std::string toUtf8(uint32_t chr);
+    YSTRING_API std::string toUtf8(char32_t chr);
 
     /** @brief Returns an UTF-8 encoded string equivalent to @a str.
       *
@@ -703,7 +702,7 @@ namespace Ystring { namespace Utf8
       *     unsupported for strings of @a str's type.
       */
     YSTRING_API std::string toUtf8(
-            const uint16_t* str, size_t length,
+            const char16_t* str, size_t length,
             Encoding_t encoding);
 
     /** @brief Returns an UTF-8 encoded string equivalent to @a str.
@@ -715,7 +714,7 @@ namespace Ystring { namespace Utf8
       *     unsupported for strings of @a str's type.
       */
     YSTRING_API std::string toUtf8(
-            const uint32_t* str, size_t length,
+            const char32_t* str, size_t length,
             Encoding_t encoding);
 
     /** @brief Returns an UTF-8 encoded string equivalent to @a str.
@@ -742,34 +741,6 @@ namespace Ystring { namespace Utf8
             const std::u32string& str,
             Encoding_t encoding = Encoding::UTF_32);
 
-    #ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
-
-    /** @brief Returns an UTF-8 encoded string equivalent to @a str.
-      *
-      * @param str The string to convert from.
-      * @param encoding The encoding of @a str.
-      * @throws YstringException if str contains any characters that aren't
-      *     encoded according to @a encoding, or if @a encoding is
-      *     unsupported for strings of @a str's type.
-      */
-    YSTRING_API std::string toUtf8(
-            const char16_t* str, size_t length,
-            Encoding_t encoding);
-
-    /** @brief Returns an UTF-8 encoded string equivalent to @a str.
-      *
-      * @param str The string to convert from.
-      * @param encoding The encoding of @a str.
-      * @throws YstringException if str contains any characters that aren't
-      *     encoded according to @a encoding, or if @a encoding is
-      *     unsupported for strings of @a str's type.
-      */
-    YSTRING_API std::string toUtf8(
-            const char32_t* str, size_t length,
-            Encoding_t encoding);
-
-    #endif
-
     /** @brief Returns an UTF-8 encoded string equivalent to @a str.
       *
       * @param str The string to convert from.
@@ -792,7 +763,7 @@ namespace Ystring { namespace Utf8
       */
     YSTRING_API std::string trim(
             const std::string& str,
-            std::function<bool(uint32_t)> predicate);
+            std::function<bool(char32_t)> predicate);
 
     /** @brief Returns a copy of @a str where all whitespace characters at the
       *     end of the string have been removed.
@@ -804,7 +775,7 @@ namespace Ystring { namespace Utf8
       */
     YSTRING_API std::string trimEnd(
             const std::string& str,
-            std::function<bool(uint32_t)> predicate);
+            std::function<bool(char32_t)> predicate);
 
     /** @brief Returns a copy of @a str where all whitespace characters at the
       *     start of the string have been removed.
@@ -816,7 +787,7 @@ namespace Ystring { namespace Utf8
       */
     YSTRING_API std::string trimStart(
             const std::string& str,
-            std::function<bool(uint32_t)> predicate);
+            std::function<bool(char32_t)> predicate);
 
     /** @brief Returns a copy of @a str where all escape sequences have been
       *     translated to the characters they represent.

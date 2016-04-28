@@ -13,7 +13,7 @@ namespace Ystring { namespace Conversion {
 
     CodePageEncoder::CodePageEncoder(Encoding_t encoding)
         : AbstractEncoder(encoding),
-          m_CodePage(CodePage::makeCodePage(encoding))
+          m_CodePage(Encodings::makeCodePage(encoding))
     {
         // Use ? as replacement character unless the code page supports
         // unicode's designated replacement character.
@@ -36,7 +36,7 @@ namespace Ystring { namespace Conversion {
             auto ch = m_CodePage.fromCodePoint(*srcBeg);
             if (ch != INVALID_CHAR)
             {
-                dst.push_back(ch);
+                dst.push_back(char(ch));
             }
             else
             {

@@ -10,23 +10,49 @@
 #include <memory>
 #include <string>
 #include "../Encoding.hpp"
+#include "../PlatformDetails.hpp"
 #include "../YstringDefinitions.hpp"
 #include "ErrorHandlingPolicy.hpp"
 
-namespace Ystring { namespace Conversion {
+/** @file
+  * @brief Defines the Converter class.
+  */
+
+namespace Ystring { namespace Conversion
+{
 
     class AbstractDecoder;
     class AbstractEncoder;
 
+    /** @brief Converts strings from one encoding to another.
+      */
     class YSTRING_API Converter
     {
     public:
-        Converter(Encoding_t srcEncoding, Encoding_t dstEncoding);
+        /** @brief Constructs a converter from @a sourceEncoding to
+          *     @a destinationEncoding.
+          * @throw YstringException if either of the encodings
+          *     are unsupported.
+          */
+        Converter(Encoding_t sourceEncoding, Encoding_t destinationEncoding);
 
         ~Converter();
 
+        /** @brief Returns the size (in 32-bit code points) of the internal
+          *     buffer used during conversion.
+          */
         size_t bufferSize() const;
 
+        /** @brief Sets the size (in 32-bit code points) of the internal
+          *     buffer used during conversion.
+          *
+          * A large buffer may improve performance when long texts are
+          * converted, but should normally be left alone.
+          * The buffer isn't used at all for some trivial conversions, e.g.
+          * bid-endian to little-endian versions of the same encoding.
+          *
+          * The default size is 256 code points (i.e. 1024 bytes).
+          */
         void setBufferSize(size_t value);
 
         void setErrorHandlingPolicy(ErrorHandlingPolicy_t value);
@@ -68,6 +94,11 @@ namespace Ystring { namespace Conversion {
                        std::u32string& destination,
                        bool sourceIsIncomplete = false);
 
+        size_t convert(const char* source,
+                       size_t sourceLength,
+                       std::wstring& destination,
+                       bool sourceIsIncomplete = false);
+
         size_t convert(const char16_t* source,
                        size_t sourceLength,
                        std::string& destination,
@@ -83,6 +114,11 @@ namespace Ystring { namespace Conversion {
                        std::u32string& destination,
                        bool sourceIsIncomplete = false);
 
+        size_t convert(const char16_t* source,
+                       size_t sourceLength,
+                       std::wstring& destination,
+                       bool sourceIsIncomplete = false);
+
         size_t convert(const char32_t* source,
                        size_t sourceLength,
                        std::string& destination,
@@ -96,6 +132,31 @@ namespace Ystring { namespace Conversion {
         size_t convert(const char32_t* source,
                        size_t sourceLength,
                        std::u32string& destination,
+                       bool sourceIsIncomplete = false);
+
+        size_t convert(const char32_t* source,
+                       size_t sourceLength,
+                       std::wstring& destination,
+                       bool sourceIsIncomplete = false);
+
+        size_t convert(const wchar_t* source,
+                       size_t sourceLength,
+                       std::string& destination,
+                       bool sourceIsIncomplete = false);
+
+        size_t convert(const wchar_t* source,
+                       size_t sourceLength,
+                       std::u16string& destination,
+                       bool sourceIsIncomplete = false);
+
+        size_t convert(const wchar_t* source,
+                       size_t sourceLength,
+                       std::u32string& destination,
+                       bool sourceIsIncomplete = false);
+
+        size_t convert(const wchar_t* source,
+                       size_t sourceLength,
+                       std::wstring& destination,
                        bool sourceIsIncomplete = false);
 
         template <typename Char1T, typename Char2T>

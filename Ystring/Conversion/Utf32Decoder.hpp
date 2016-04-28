@@ -7,7 +7,7 @@
 //****************************************************************************
 #pragma once
 #include "AbstractDecoder.hpp"
-#include "../Utf32/DecodeUtf32.hpp"
+#include "../Encodings/DecodeUtf32.hpp"
 
 namespace Ystring { namespace Conversion {
 
@@ -38,8 +38,8 @@ namespace Ystring { namespace Conversion {
         {
             while (dstBeg != dstEnd)
             {
-                uint32_t tmp = *dstBeg;
-                auto result = Utf32::nextUtf32CodePoint<SwapBytes>(
+                char32_t tmp = *dstBeg;
+                auto result = Encodings::nextUtf32CodePoint<SwapBytes>(
                         tmp, srcBeg, srcEnd);
                 *dstBeg = tmp;
                 if (result != DecoderResult::OK)
@@ -55,8 +55,8 @@ namespace Ystring { namespace Conversion {
         {
             while (dstBeg != dstEnd)
             {
-                uint32_t tmp = *dstBeg;
-                auto result = Utf32::nextUtf32CodePoint<SwapBytes>(
+                char32_t tmp = *dstBeg;
+                auto result = Encodings::nextUtf32CodePoint<SwapBytes>(
                         tmp, srcBeg, srcEnd);
                 *dstBeg = tmp;
                 if (result != DecoderResult::OK)
@@ -69,13 +69,13 @@ namespace Ystring { namespace Conversion {
         void skipInvalidCharacter(
                 const char*& srcBeg, const char* srcEnd) const
         {
-            Utf32::skipNextUtf32CodePoint(srcBeg, srcEnd);
+            Encodings::skipNextUtf32CodePoint(srcBeg, srcEnd);
         }
 
         void skipInvalidCharacter(
                 const char32_t*& srcBeg, const char32_t* srcEnd) const
         {
-            Utf32::skipNextUtf32CodePoint(srcBeg, srcEnd);
+            Encodings::skipNextUtf32CodePoint(srcBeg, srcEnd);
         }
     };
 

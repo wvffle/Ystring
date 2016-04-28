@@ -7,10 +7,10 @@
 //****************************************************************************
 #pragma once
 
-#include "../Encoded/DecoderStringFunctions.hpp"
-#include "../Encoded/Encoder.hpp"
-#include "../Encoded/ForwardDecoder.hpp"
-#include "../Encoded/ReverseDecoder.hpp"
+#include "DecoderStringFunctions.hpp"
+#include "Encoder.hpp"
+#include "ForwardDecoder.hpp"
+#include "ReverseDecoder.hpp"
 #include "../Utilities/CountingOutputIterator.hpp"
 #include "GenericConvert.hpp"
 #include "GenericEscape.hpp"
@@ -102,14 +102,14 @@ namespace Ystring { namespace Generic
     }
 
     template <typename Str, typename Enc>
-    void append(StringReference<Str>& dst, uint32_t chr, Enc encoding)
+    void append(StringReference<Str>& dst, char32_t chr, Enc encoding)
     {
         auto encoder = dst.getEncoder(encoding);
         encoder.encode(chr);
     }
 
     template <typename Str, typename Enc>
-    void append(StringReference<Str>&& dst, uint32_t chr, Enc encoding)
+    void append(StringReference<Str>&& dst, char32_t chr, Enc encoding)
     {
         append(dst, chr, encoding);
     }
@@ -119,9 +119,9 @@ namespace Ystring { namespace Generic
                      Range<It> src,
                      Enc encoding)
     {
-        Encoded::appendLower(
+        EncodedString::appendLower(
                 dst.getEncoder(encoding),
-                Encoded::makeForwardDecoder(src, encoding));
+                EncodedString::makeForwardDecoder(src, encoding));
         dst.terminate();
     }
 
@@ -130,9 +130,9 @@ namespace Ystring { namespace Generic
                      Range<It> src,
                      Enc encoding)
     {
-        Encoded::appendTitle(
+        EncodedString::appendTitle(
                 dst.getEncoder(encoding),
-                Encoded::makeForwardDecoder(src, encoding));
+                EncodedString::makeForwardDecoder(src, encoding));
         dst.terminate();
     }
 
@@ -141,9 +141,9 @@ namespace Ystring { namespace Generic
                      Range<It> src,
                      Enc encoding)
     {
-        Encoded::appendUpper(
+        EncodedString::appendUpper(
                 dst.getEncoder(encoding),
-                Encoded::makeForwardDecoder(src, encoding));
+                EncodedString::makeForwardDecoder(src, encoding));
         dst.terminate();
     }
 
@@ -153,8 +153,8 @@ namespace Ystring { namespace Generic
                                    Enc encoding)
     {
         return caseInsensitiveCompare(
-                Encoded::makeForwardDecoder(str, encoding),
-                Encoded::makeForwardDecoder(cmp, encoding));
+                EncodedString::makeForwardDecoder(str, encoding),
+                EncodedString::makeForwardDecoder(cmp, encoding));
     }
 
     template <typename It1, typename It2, typename Enc>
@@ -163,8 +163,8 @@ namespace Ystring { namespace Generic
                               Enc encoding)
     {
         return caseInsensitiveEqual(
-                Encoded::makeForwardDecoder(str, encoding),
-                Encoded::makeForwardDecoder(cmp, encoding));
+                EncodedString::makeForwardDecoder(str, encoding),
+                EncodedString::makeForwardDecoder(cmp, encoding));
     }
 
     template <typename It1, typename It2, typename Enc>
@@ -173,30 +173,31 @@ namespace Ystring { namespace Generic
                              Enc encoding)
     {
         return caseInsensitiveLess(
-                Encoded::makeForwardDecoder(str, encoding),
-                Encoded::makeForwardDecoder(cmp, encoding));
+                EncodedString::makeForwardDecoder(str, encoding),
+                EncodedString::makeForwardDecoder(cmp, encoding));
     }
 
     template <typename It, typename Enc>
-    bool contains(Range<It> str, uint32_t chr, Enc encoding)
+    bool contains(Range<It> str, char32_t chr, Enc encoding)
     {
-        auto dec = Encoded::makeForwardDecoder(str, encoding);
-        return Encoded::advanceUntil(dec, [=](uint32_t c){return c == chr;});
+        auto dec = EncodedString::makeForwardDecoder(str, encoding);
+        return EncodedString::advanceUntil(
+                dec, [=](char32_t c){return c == chr;});
     }
 
     template <typename It, typename Enc>
     size_t countCharacters(Range<It> str, Enc encoding)
     {
-        auto dec = Encoded::makeForwardDecoder(str, encoding);
+        auto dec = EncodedString::makeForwardDecoder(str, encoding);
         return advanceCharacters(dec, SIZE_MAX);
     }
 
     template <typename It, typename Enc>
     size_t countCodePoints(Range<It> str, Enc encoding)
     {
-        auto dec = Encoded::makeForwardDecoder(str, encoding);
+        auto dec = EncodedString::makeForwardDecoder(str, encoding);
         size_t n = 0;
-        uint32_t ch;
+        char32_t ch;
         while (dec.next(ch))
             ++n;
         return n;
@@ -235,8 +236,8 @@ namespace Ystring { namespace Generic
     template <typename It, typename Enc>
     Range<It> findFirstNewline(Range<It> str, Enc encoding)
     {
-        auto dec = Encoded::makeForwardDecoder(str, encoding);
-        return Encoded::nextNewline(dec).getRange();
+        auto dec = EncodedString::makeForwardDecoder(str, encoding);
+        return EncodedString::nextNewline(dec).getRange();
     }
 
     template <typename It1, typename It2, typename Enc>
@@ -257,8 +258,8 @@ namespace Ystring { namespace Generic
     template <typename It, typename Enc>
     Range<It> findLastNewline(Range<It> str, Enc encoding)
     {
-        auto dec = Encoded::makeReverseDecoder(str, encoding);
-        return Encoded::nextNewline(dec).getRange();
+        auto dec = EncodedString::makeReverseDecoder(str, encoding);
+        return EncodedString::nextNewline(dec).getRange();
     }
 
     template <typename It, typename Enc>
@@ -271,13 +272,13 @@ namespace Ystring { namespace Generic
         It insertPos;
         if (pos >= 0)
         {
-            auto dec = Encoded::makeForwardDecoder(str, encoding);
+            auto dec = EncodedString::makeForwardDecoder(str, encoding);
             advanceCharacters(dec, static_cast<size_t>(pos));
             range1.end() = range2.begin() = dec.begin();
         }
         else
         {
-            auto dec = Encoded::makeReverseDecoder(str, encoding);
+            auto dec = EncodedString::makeReverseDecoder(str, encoding);
             advanceCharacters(dec, static_cast<size_t>(-pos));
             range1.end() = range2.begin() = dec.end();
         }
@@ -285,7 +286,7 @@ namespace Ystring { namespace Generic
     }
 
     template <typename It, typename Enc>
-    uint32_t getCodePoint(Range<It> str, ptrdiff_t pos, Enc encoding)
+    char32_t getCodePoint(Range<It> str, ptrdiff_t pos, Enc encoding)
     {
         auto it = str.begin();
         if (pos > 0)
@@ -297,7 +298,7 @@ namespace Ystring { namespace Generic
             it = str.end();
             encoding.skipPrev(str.begin(), it, static_cast<size_t>(-pos));
         }
-        uint32_t chr;
+        char32_t chr;
         if (!encoding.next(chr, it, str.end()))
             YSTRING_THROW("No character at position " + std::to_string(pos));
         return chr;
@@ -326,7 +327,7 @@ namespace Ystring { namespace Generic
     }
 
     template <typename Str, typename It, typename Enc>
-    Str insert(Range<It> str, ptrdiff_t pos, uint32_t chr, Enc encoding)
+    Str insert(Range<It> str, ptrdiff_t pos, char32_t chr, Enc encoding)
     {
         auto ranges = findInsertPosition(str, pos, encoding);
         auto result = Str();
@@ -340,7 +341,7 @@ namespace Ystring { namespace Generic
     template <typename It, typename Enc>
     bool isAlphaNumeric(Range<It> str, Enc encoding)
     {
-        return isAlphaNumeric(Encoded::makeForwardDecoder(str, encoding));
+        return isAlphaNumeric(EncodedString::makeForwardDecoder(str, encoding));
     }
 
     template <typename Str, typename It, typename Enc>
@@ -355,7 +356,7 @@ namespace Ystring { namespace Generic
     template <typename It, typename Enc>
     It nextCharacter(Range<It> str, size_t n, Enc encoding)
     {
-        auto dec = Encoded::makeForwardDecoder(str, encoding);
+        auto dec = EncodedString::makeForwardDecoder(str, encoding);
         if (advanceCharacters(dec, n) != n)
             YSTRING_THROW("can't advance beyond the end of the range");
         return dec.begin();
@@ -373,7 +374,7 @@ namespace Ystring { namespace Generic
     template <typename It, typename Enc>
     It prevCharacter(Range<It> str, size_t n, Enc encoding)
     {
-        auto dec = Encoded::makeReverseDecoder(str, encoding);
+        auto dec = EncodedString::makeReverseDecoder(str, encoding);
         if (advanceCharacters(dec, n) != n)
             YSTRING_THROW("can't advance beyond the start of the range");
         return dec.end();
@@ -386,12 +387,15 @@ namespace Ystring { namespace Generic
                                           FindFlags_t flags)
     {
         if (maxCount >= 0)
-            return Detail::findPositionsFwd(
-                    str, cmp, encoding, static_cast<size_t>(maxCount), flags);
+        {
+            return Detail::findPositionsFwd(str, cmp, encoding,
+                                            static_cast<size_t>(maxCount), flags);
+        }
         else
-            return Detail::findPositionsRev(
-                    str, cmp, encoding,
-                    static_cast<size_t>(-maxCount), flags);
+        {
+            return Detail::findPositionsRev(str, cmp, encoding,
+                                            static_cast<size_t>(-maxCount), flags);
+        }
     }
 
     template <typename Str, typename It1, typename It2, typename Enc>
@@ -404,13 +408,11 @@ namespace Ystring { namespace Generic
             return Str(str.begin(), str.end());
 
         if (maxReplacements >= 0)
-            return Detail::replaceFwd<Str>(
-                    str, cmp, rep, encoding,
-                    static_cast<size_t>(maxReplacements), flags);
+            return Detail::replaceFwd<Str>(str, cmp, rep, encoding,
+                                           static_cast<size_t>(maxReplacements), flags);
         else
-            return Detail::replaceRev<Str>(
-                    str, cmp, rep, encoding,
-                    static_cast<size_t>(-maxReplacements), flags);
+            return Detail::replaceRev<Str>(str, cmp, rep, encoding,
+                                           static_cast<size_t>(-maxReplacements), flags);
     }
 
     template <typename Str, typename It1, typename It2, typename Enc>
@@ -432,7 +434,7 @@ namespace Ystring { namespace Generic
     {
         Str result(getSize(src), 0);
         auto dst = begin(result);
-        auto dec = Encoded::makeReverseDecoder(src, encoding);
+        auto dec = EncodedString::makeReverseDecoder(src, encoding);
         while (advanceCharacter(dec))
         {
             src.begin() = dec.end();
@@ -468,9 +470,9 @@ namespace Ystring { namespace Generic
     {
         size_t n = 0;
         Utilities::CountingOutputIterator<typename Enc::CanonicalType> it(&n);
-        Encoded::appendLower(
-                Encoded::makeEncoder(it, encoding),
-                Encoded::makeForwardDecoder(src, encoding));
+        EncodedString::appendLower(
+                EncodedString::makeEncoder(it, encoding),
+                EncodedString::makeForwardDecoder(src, encoding));
         return n;
     }
 
@@ -479,9 +481,9 @@ namespace Ystring { namespace Generic
     {
         size_t n = 0;
         Utilities::CountingOutputIterator<typename Enc::CanonicalType> it(&n);
-        Encoded::appendUpper(
-                Encoded::makeEncoder(it, encoding),
-                Encoded::makeForwardDecoder(src, encoding));
+        EncodedString::appendUpper(
+                EncodedString::makeEncoder(it, encoding),
+                EncodedString::makeForwardDecoder(src, encoding));
         return n;
     }
 
@@ -492,12 +494,15 @@ namespace Ystring { namespace Generic
                     FindFlags_t flags)
     {
         if (flags == FindFlags::CASE_INSENSITIVE)
+        {
             return Detail::startsWithImpl(str, cmp, encoding, flags,
                                           std::false_type());
+        }
         else
-            return Detail::startsWithImpl(
-                    str, cmp, encoding, flags,
-                    SameIteratorValueType<It1, It2>());
+        {
+            return Detail::startsWithImpl(str, cmp, encoding, flags,
+                                          SameIteratorValueType<It1, It2>());
+        }
     }
 
     template <typename It, typename Enc>
@@ -573,7 +578,7 @@ namespace Ystring { namespace Generic
                       Enc encoding,
                       UnaryPred trimChar)
     {
-        auto dec = Encoded::makeReverseDecoder(str, encoding);
+        auto dec = EncodedString::makeReverseDecoder(str, encoding);
         advanceWhile(dec, trimChar);
         return dec.getRange();
     }
@@ -583,7 +588,7 @@ namespace Ystring { namespace Generic
                         Enc encoding,
                         UnaryPred trimChar)
     {
-        auto dec = Encoded::makeForwardDecoder(str, encoding);
+        auto dec = EncodedString::makeForwardDecoder(str, encoding);
         advanceWhile(dec, trimChar);
         return dec.getRange();
     }
@@ -618,9 +623,9 @@ namespace Ystring { namespace Generic
                           FindFlags_t flags,
                           std::false_type)
         {
-            return Encoded::startsWith(
-                    Encoded::makeReverseDecoder(str, encoding),
-                    Encoded::makeReverseDecoder(cmp, encoding),
+            return EncodedString::startsWith(
+                    EncodedString::makeReverseDecoder(str, encoding),
+                    EncodedString::makeReverseDecoder(cmp, encoding),
                     flags);
         }
 
@@ -641,9 +646,9 @@ namespace Ystring { namespace Generic
                                  FindFlags_t flags,
                                  std::false_type)
         {
-            auto strDec = Encoded::makeForwardDecoder(str, encoding);
-            return Encoded::find(strDec,
-                                 Encoded::makeForwardDecoder(cmp, encoding),
+            auto strDec = EncodedString::makeForwardDecoder(str, encoding);
+            return EncodedString::find(strDec,
+                                 EncodedString::makeForwardDecoder(cmp, encoding),
                                  flags).getRange();
         }
 
@@ -664,10 +669,11 @@ namespace Ystring { namespace Generic
                                 FindFlags_t flags,
                                 std::false_type)
         {
-            auto strDec = Encoded::makeReverseDecoder(str, encoding);
-            return Encoded::find(strDec,
-                                 Encoded::makeReverseDecoder(cmp, encoding),
-                                 flags).getRange();
+            auto strDec = EncodedString::makeReverseDecoder(str, encoding);
+            return EncodedString::find(
+                    strDec,
+                    EncodedString::makeReverseDecoder(cmp, encoding),
+                    flags).getRange();
         }
 
         template <typename It1, typename It2, typename Enc>
@@ -767,9 +773,9 @@ namespace Ystring { namespace Generic
                             FindFlags_t flags,
                             std::false_type)
         {
-            return Encoded::startsWith(
-                    Encoded::makeForwardDecoder(str, encoding),
-                    Encoded::makeForwardDecoder(cmp, encoding),
+            return EncodedString::startsWith(
+                    EncodedString::makeForwardDecoder(str, encoding),
+                    EncodedString::makeForwardDecoder(cmp, encoding),
                     flags);
         }
     }

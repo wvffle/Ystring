@@ -43,11 +43,11 @@ set(PRIVATE_HEADERS
     Utf8.hpp
     YstringDefinitions.hpp
     YstringException.hpp
-    CodePage/CodePage.hpp
-    CodePage/CodePageEncoding.hpp
-    CodePage/Cp437.hpp
-    CodePage/Iso8859_1.hpp
-    CodePage/Windows1252.hpp
+    Encodings/Encodings.hpp
+    Encodings/CodePageEncoding.hpp
+    Encodings/Cp437.hpp
+    Encodings/Iso8859_1.hpp
+    Encodings/Windows1252.hpp
     Encoded/Appender.hpp
     Encoded/AppendEscaped.hpp
     Encoded/AppendUnescaped.hpp
@@ -111,10 +111,10 @@ set(SOURCE_FILES
     EncodingInfo.cpp
     Predicates.cpp
     YstringException.cpp
-    CodePage/CodePage.cpp
-    CodePage/Cp437.cpp
-    CodePage/Iso8859_1.cpp
-    CodePage/Windows1252.cpp
+    Encodings/Encodings.cpp
+    Encodings/Cp437.cpp
+    Encodings/Iso8859_1.cpp
+    Encodings/Windows1252.cpp
     Unicode/CaseConverter.cpp
     Unicode/CharClass.cpp
     Unicode/CharMap.cpp

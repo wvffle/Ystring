@@ -9,9 +9,9 @@
 
 #include "../PrivatePlatformDetails.hpp"
 #include "../Generic/GenericString.hpp"
-#include "../CodePage/CodePageEncoding.hpp"
 #include "../Utf8/Utf8Encoding.hpp"
 #include "../Utf32/Utf32Encoding.hpp"
+#include "../Conversion/Converter.hpp"
 #include "Utf16Encoding.hpp"
 
 namespace Ystring { namespace Utf16
@@ -22,7 +22,7 @@ namespace Ystring { namespace Utf16
     typedef std::u16string String;
     typedef Utf16Encoding Enc;
 
-    String& append(String& str, uint32_t chr)
+    String& append(String& str, char32_t chr)
     {
         append(makeStringReference(str), chr, Enc());
         return str;
@@ -49,7 +49,7 @@ namespace Ystring { namespace Utf16
                                             Enc());
     }
 
-    bool contains(const String& str, uint32_t chr)
+    bool contains(const String& str, char32_t chr)
     {
         return Generic::contains(makeRange(str), chr, Enc());
     }
@@ -202,7 +202,7 @@ namespace Ystring { namespace Utf16
         return Generic::findLastNewline(makeRange(first, last), Enc());
     }
 
-    uint32_t getCodePoint(const String& str, ptrdiff_t n)
+    char32_t getCodePoint(const String& str, ptrdiff_t n)
     {
         return Generic::getCodePoint(makeRange(str), n, Enc());
     }
@@ -223,7 +223,7 @@ namespace Ystring { namespace Utf16
                 makeRange(str), pos, makeRange(sub), Enc());
     }
 
-    String insert(const String& str, ptrdiff_t pos, uint32_t chr)
+    String insert(const String& str, ptrdiff_t pos, char32_t chr)
     {
         return Generic::insert<String>(makeRange(str), pos, chr, Enc());
     }
@@ -247,7 +247,8 @@ namespace Ystring { namespace Utf16
     bool isValidUtf16(const String& str)
     {
         return DecoderResult::OK == std::get<2>(
-                nextInvalidUtf16CodePoint<false>(begin(str), end(str)));
+                Encodings::nextInvalidUtf16CodePoint<false>(
+                        begin(str), end(str)));
     }
 
     String join(const std::vector<String>& strings,
@@ -329,16 +330,16 @@ namespace Ystring { namespace Utf16
     }
 
     String replaceCodePoint(const String& s,
-                            uint32_t from,
-                            uint32_t to,
+                            char32_t from,
+                            char32_t to,
                             ptrdiff_t maxReplacements)
     {
-        uint16_t fBuf[2];
+        char16_t fBuf[2];
         auto fIt = std::begin(fBuf);
-        auto fromSize = encodeUtf16(fIt, std::end(fBuf), from);
-        uint16_t tBuf[2];
+        auto fromSize = Encodings::encodeUtf16(fIt, std::end(fBuf), from);
+        char16_t tBuf[2];
         auto tIt = std::begin(tBuf);
-        auto toSize = encodeUtf16(tIt, std::end(tBuf), to);
+        auto toSize = Encodings::encodeUtf16(tIt, std::end(tBuf), to);
         return Generic::replace<String>(
                 makeRange(s),
                 makeRange(fBuf, fBuf + fromSize),
@@ -347,7 +348,7 @@ namespace Ystring { namespace Utf16
                 maxReplacements, FindFlags::DEFAULTS);
     }
 
-    String replaceInvalidUtf16(const String& str, uint32_t chr)
+    String replaceInvalidUtf16(const String& str, char32_t chr)
     {
         String result;
         result.reserve(str.size());
@@ -355,7 +356,7 @@ namespace Ystring { namespace Utf16
         auto end = str.end();
         while (true)
         {
-            auto invalid = nextInvalidUtf16CodePoint<false>(it, end);
+            auto invalid = Encodings::nextInvalidUtf16CodePoint<false>(it, end);
             result.append(it, std::get<0>(invalid));
             if (std::get<0>(invalid) == end)
                 break;
@@ -365,14 +366,14 @@ namespace Ystring { namespace Utf16
         return result;
     }
 
-    String& replaceInvalidUtf16InPlace(String& str, uint16_t chr)
+    String& replaceInvalidUtf16InPlace(String& str, char16_t chr)
     {
         assert(chr > 0);
         auto it = str.begin();
         while (it != str.end())
         {
-            uint32_t cp;
-            if (nextUtf16CodePoint<false>(cp, it, str.end()) !=
+            char32_t cp;
+            if (Encodings::nextUtf16CodePoint<false>(cp, it, str.end()) !=
                     DecoderResult::OK)
             {
                 *it++ = chr;
@@ -404,7 +405,7 @@ namespace Ystring { namespace Utf16
     }
 
     std::vector<String> splitIf(const String& str,
-                                std::function<bool(uint32_t)> predicate,
+                                std::function<bool(char32_t)> predicate,
                                 ptrdiff_t maxSplits,
                                 SplitFlags_t flags)
     {
@@ -436,11 +437,20 @@ namespace Ystring { namespace Utf16
         return Generic::title<String>(makeRange(str), Enc());
     }
 
-    String toUtf16(uint32_t chr)
+    String toUtf16(char32_t chr)
     {
         String s;
         append(s, chr);
         return s;
+    }
+
+    template <typename CharT>
+    String toUtf16Impl(const CharT* str, size_t length, Encoding_t encoding)
+    {
+        Conversion::Converter converter(encoding, Encoding::UTF_16);
+        String result;
+        converter.convert(str, length, result);
+        return result;
     }
 
     String toUtf16(const std::string& str, Encoding_t encoding)
@@ -453,57 +463,43 @@ namespace Ystring { namespace Utf16
         return toUtf16(str.data(), str.size(), encoding);
     }
 
-    #define CASE_ENCODING(enumName, encodingName) \
-        case enumName: \
-            return Generic::convert<String>( \
-                    makeRange(str, str + length), \
-                    encodingName(), \
-                    Enc())
-
     String toUtf16(const char* str, size_t length, Encoding_t encoding)
     {
         switch (encoding)
         {
-        CASE_ENCODING(Encoding::UTF_8, Utf8::Utf8Encoding);
-        CASE_ENCODING(Encoding::IBM_437, CodePage::Ibm437Encoding);
-        CASE_ENCODING(Encoding::IBM_850, CodePage::Ibm850Encoding);
-        CASE_ENCODING(Encoding::LATIN_1, CodePage::Latin1Encoding);
-        CASE_ENCODING(Encoding::LATIN_5, CodePage::Latin5Encoding);
-        CASE_ENCODING(Encoding::LATIN_6, CodePage::Latin6Encoding);
-        CASE_ENCODING(Encoding::LATIN_9, CodePage::Latin9Encoding);
-        CASE_ENCODING(Encoding::WINDOWS_1250, CodePage::Windows1250Encoding);
-        CASE_ENCODING(Encoding::WINDOWS_1252, CodePage::Windows1252Encoding);
-        CASE_ENCODING(Encoding::UTF_16_BE, Utf16::Utf16BEEncoding);
-        CASE_ENCODING(Encoding::UTF_16_LE, Utf16::Utf16LEEncoding);
-        CASE_ENCODING(Encoding::UTF_32_BE, Utf32::Utf32BEEncoding);
-        CASE_ENCODING(Encoding::UTF_32_LE, Utf32::Utf32LEEncoding);
+        case Encoding::UTF_8:
+            return Generic::convert<String>(makeRange(str, str + length),
+                                            Utf8::Utf8Encoding(), Enc());
+        case Encoding::UTF_16:
+            return String(reinterpret_cast<const char16_t*>(str), length / 2);
+        case Encoding::UTF_32:
+            return Generic::convert<String>(makeRange(str, str + length),
+                                            Utf32::Utf32Encoding(), Enc());
         default:
-            YSTRING_THROW("toUtf16: unsupported encoding " +
-                          std::to_string(int64_t(encoding)));
+            return toUtf16Impl(str, length, encoding);
         }
     }
 
-    String toUtf16(const uint16_t* str, size_t length, Encoding_t encoding)
+    String toUtf16(const char16_t* str, size_t length, Encoding_t encoding)
     {
         switch (encoding)
         {
-        CASE_ENCODING(Encoding::UTF_16_BE, Utf16::Utf16BEEncoding);
-        CASE_ENCODING(Encoding::UTF_16_LE, Utf16::Utf16LEEncoding);
+        case Encoding::UTF_16:
+            return String(str, length);
         default:
-            YSTRING_THROW("toUtf16: unsupported encoding " +
-                          std::to_string(int64_t(encoding)));
+            return toUtf16Impl(str, length, encoding);
         }
     }
 
-    String toUtf16(const uint32_t* str, size_t length, Encoding_t encoding)
+    String toUtf16(const char32_t* str, size_t length, Encoding_t encoding)
     {
         switch (encoding)
         {
-        CASE_ENCODING(Encoding::UTF_32_BE, Utf32::Utf32BEEncoding);
-        CASE_ENCODING(Encoding::UTF_32_LE, Utf32::Utf32LEEncoding);
+        case Encoding::UTF_32:
+            return Generic::convert<String>(makeRange(str, str + length),
+                                            Utf32::Utf32Encoding(), Enc());
         default:
-            YSTRING_THROW("toUtf16: unsupported encoding " +
-                          std::to_string(int64_t(encoding)));
+            return toUtf16Impl(str, length, encoding);
         }
     }
 
@@ -522,27 +518,13 @@ namespace Ystring { namespace Utf16
         return toUtf16(internal_char_type_cast(str), length, encoding);
     }
 
-    #ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
-
-    String toUtf16(const char16_t* str, size_t length, Encoding_t encoding)
-    {
-        return toUtf16(internal_char_type_cast(str), length, encoding);
-    }
-
-    String toUtf16(const char32_t* str, size_t length, Encoding_t encoding)
-    {
-        return toUtf16(internal_char_type_cast(str), length, encoding);
-    }
-
-    #endif
-
     String trim(const String& str)
     {
         return fromRange<String>(Generic::trim(
                 makeRange(str), Enc(), Unicode::isWhitespace));
     }
 
-    String trim(const String& str, std::function<bool(uint32_t)> predicate)
+    String trim(const String& str, std::function<bool(char32_t)> predicate)
     {
         return fromRange<String>(Generic::trim(
                 makeRange(str), Enc(), predicate));
@@ -554,7 +536,7 @@ namespace Ystring { namespace Utf16
                 makeRange(str), Enc(), Unicode::isWhitespace));
     }
 
-    String trimEnd(const String& str, std::function<bool(uint32_t)> predicate)
+    String trimEnd(const String& str, std::function<bool(char32_t)> predicate)
     {
         return fromRange<String>(Generic::trimEnd(
                 makeRange(str), Enc(), predicate));
@@ -567,7 +549,7 @@ namespace Ystring { namespace Utf16
     }
 
     String trimStart(const String& str,
-                     std::function<bool(uint32_t)> predicate)
+                     std::function<bool(char32_t)> predicate)
     {
         return fromRange<String>(Generic::trimStart(
                 makeRange(str), Enc(), predicate));

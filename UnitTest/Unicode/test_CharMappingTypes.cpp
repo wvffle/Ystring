@@ -16,7 +16,7 @@ namespace {
     static void test_Get()
     {
         CompactCharMapping ccs = {0x40, 0x20, 0x07FFFDFE, 0xF8000001};
-        uint32_t lcase;
+        char32_t lcase;
         Y_ASSERT(ccs.get(0x40, lcase));
         Y_EQUAL(lcase, 0x40);
         Y_ASSERT(ccs.get('A', lcase));

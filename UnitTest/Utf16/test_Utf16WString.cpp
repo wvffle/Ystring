@@ -576,7 +576,7 @@ namespace
                          SplitFlags_t flags, ptrdiff_t count,
                          const std::wstring& expected)
     {
-        auto parts = Utf16W::splitIf(s, [](uint32_t c){return c == ':';},
+        auto parts = Utf16W::splitIf(s, [](char32_t c){return c == ':';},
                                    count, flags);
         Y_EQUAL(parts.size(), expected.size());
         for (auto i = 0u; i < parts.size(); ++i)
@@ -711,7 +711,7 @@ namespace
                              Unicode::isPunctuation),
                 UTF16W_GREEK_SMALL_SIGMA L"foo bar");
         Y_EQUAL(Utf16W::trim(L"A.BC_DFB.-GA-B",
-                    [](uint32_t c){return Utf16W::contains(L"AB.-", c);}),
+                    [](char32_t c){return Utf16W::contains(L"AB.-", c);}),
                 L"C_DFB.-G");
     }
 

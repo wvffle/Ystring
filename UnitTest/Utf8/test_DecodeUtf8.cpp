@@ -5,28 +5,28 @@
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
-#include "../../Ystring/Utf8/DecodeUtf8.hpp"
-#include "../../Ystring/Utf8/EncodeUtf8.hpp"
+#include "../../Ystring/Encodings/DecodeUtf8.hpp"
+#include "../../Ystring/Encodings/EncodeUtf8.hpp"
 
 #include "../Ytest/Ytest.hpp"
 
 namespace {
 
 using namespace Ystring;
-using namespace Ystring::Utf8;
+using namespace Ystring::Encodings;
 
-void testNextOk(const std::string& s, uint32_t expected)
+void testNextOk(const std::string& s, char32_t expected)
 {
-    uint32_t c;
+    char32_t c;
     auto it = s.cbegin();
     Y_EQUAL(nextUtf8CodePoint(c, it, s.cend()), DecoderResult::OK);
     Y_ASSERT(it == s.cend());
     Y_EQUAL(c, expected);
 }
 
-void testNextOk(const std::string& s, uint32_t expected, size_t length)
+void testNextOk(const std::string& s, char32_t expected, size_t length)
 {
-    uint32_t c;
+    char32_t c;
     auto it = s.cbegin();
     Y_EQUAL(nextUtf8CodePoint(c, it, s.cend()), DecoderResult::OK);
     Y_ASSERT(it == s.begin() + length);
@@ -35,7 +35,7 @@ void testNextOk(const std::string& s, uint32_t expected, size_t length)
 
 void testNextNotOk(const std::string& s, int expected)
 {
-    uint32_t c;
+    char32_t c;
     auto it = s.cbegin();
     Y_EQUAL(nextUtf8CodePoint(c, it, s.cend()), expected);
     Y_ASSERT(it == s.cbegin());
@@ -66,15 +66,15 @@ void test_nextChar()
 
 void testPrevNotOk(const std::string& s, unsigned expected)
 {
-    uint32_t c;
+    char32_t c;
     auto it = s.cend();
     Y_EQUAL(prevUtf8CodePoint(c, s.cbegin(), it), expected);
     Y_ASSERT(it == s.cend());
 }
 
-void testPrevOk(const std::string& s, uint32_t expected)
+void testPrevOk(const std::string& s, char32_t expected)
 {
-    uint32_t c;
+    char32_t c;
     auto it = s.cend();
     Y_EQUAL(prevUtf8CodePoint(c, s.cbegin(), it), DecoderResult::OK);
     Y_ASSERT(it == s.cbegin());

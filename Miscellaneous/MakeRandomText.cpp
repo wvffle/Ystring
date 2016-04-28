@@ -12,13 +12,13 @@
 
 using namespace Ystring;
 
-typedef Ydebug::RandomIntGenerator<uint32_t> RandomCodePointGenerator;
+typedef Ydebug::RandomIntGenerator<char32_t> RandomCodePointGenerator;
 
-const uint32_t ASCII_MAX = 126 + 2 - 32;
-const uint32_t LATIN1_MAX = 255 + 2 - 64;
-const uint32_t LETTER_MAX = 0x2FF + 2 - 64;
+const char32_t ASCII_MAX = 126 + 2 - 32;
+const char32_t LATIN1_MAX = 255 + 2 - 64;
+const char32_t LETTER_MAX = 0x2FF + 2 - 64;
 
-uint32_t getCharValue(uint32_t value)
+char32_t getCharValue(char32_t value)
 {
     value %= LETTER_MAX;
     if (value == 0)
@@ -30,7 +30,7 @@ uint32_t getCharValue(uint32_t value)
     return (value - 95) + 160;
 }
 
-uint32_t makeChar(RandomCodePointGenerator& rcpg)
+char32_t makeChar(RandomCodePointGenerator& rcpg)
 {
     return getCharValue(rcpg.generate());
 }

@@ -43,11 +43,11 @@ namespace Ystring { namespace Utf16W
       * duplicated here to avoid unnecessary conflicts between constant names
       * in that file and macros defined in Windows.h.
       */
-    static const uint32_t REPLACEMENT_CHARACTER = 0xFFFDu;
+    static const char32_t REPLACEMENT_CHARACTER = 0xFFFDu;
 
     /** @brief Adds @a codePoint encoded as UTF-16 to the end of @a str.
       */
-    YSTRING_API std::wstring& append(std::wstring& str, uint32_t chr);
+    YSTRING_API std::wstring& append(std::wstring& str, char32_t chr);
 
     /** @brief Compares @a str and @a cmp, ignoring any differences in
       *     letter casing.
@@ -88,7 +88,7 @@ namespace Ystring { namespace Utf16W
     /** @brief Returns true if @a str contains code point @a chr.
       * @throw YstringException if str contains an invalid UTF-16 code point.
       */
-    YSTRING_API bool contains(const std::wstring& str, uint32_t chr);
+    YSTRING_API bool contains(const std::wstring& str, char32_t chr);
 
     /** @brief Returns the number of characters in @a str.
       *
@@ -145,6 +145,9 @@ namespace Ystring { namespace Utf16W
     /** @brief Returns the first substring in @a str that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.end().
       */
     YSTRING_API StringConstIteratorPair findFirst(
             const std::wstring& str,
@@ -155,6 +158,9 @@ namespace Ystring { namespace Utf16W
       *     to @a last that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.end().
       */
     YSTRING_API StringIteratorPair findFirst(
             std::wstring::iterator first,
@@ -166,6 +172,9 @@ namespace Ystring { namespace Utf16W
       *     to @a last that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.end().
       */
     YSTRING_API StringConstIteratorPair findFirst(
             std::wstring::const_iterator first,
@@ -241,6 +250,9 @@ namespace Ystring { namespace Utf16W
     /** @brief Returns the last substring in @a str that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.begin().
       */
     YSTRING_API StringIteratorPair findLast(
             std::wstring& str,
@@ -250,6 +262,9 @@ namespace Ystring { namespace Utf16W
     /** @brief Returns the last substring in @a str that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.begin().
       */
     YSTRING_API StringConstIteratorPair findLast(
             const std::wstring& str,
@@ -260,6 +275,9 @@ namespace Ystring { namespace Utf16W
       *     to @a last that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.begin().
       */
     YSTRING_API StringIteratorPair findLast(
           std::wstring::iterator first,
@@ -271,6 +289,9 @@ namespace Ystring { namespace Utf16W
       *     to @a last that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.
+      * @return A pair of iterators where first points to the start and
+      *     second points to the end of the substring within @a str.
+      *     If the substring can't be found both point to @a str.begin().
       */
     YSTRING_API StringConstIteratorPair findLast(
           std::wstring::const_iterator first,
@@ -349,7 +370,7 @@ namespace Ystring { namespace Utf16W
       * If @a pos is negative, code points are counted from the end of @a str
       *  where the last character in @a str is at position -1.
       */
-    YSTRING_API uint32_t getCodePoint(const std::wstring& str,
+    YSTRING_API char32_t getCodePoint(const std::wstring& str,
                                       ptrdiff_t pos);
 
     /** @brief Returns true if @a str has characters that will be unescaped
@@ -390,7 +411,7 @@ namespace Ystring { namespace Utf16W
     YSTRING_API std::wstring insert(
             const std::wstring& str,
             ptrdiff_t pos,
-            uint32_t chr);
+            char32_t chr);
 
     /** @brief Returns true if all characters in @a str are either
       *     letters or numbers.
@@ -516,7 +537,7 @@ namespace Ystring { namespace Utf16W
     /** @brief Returns a copy of @a str with instances of @a from replaced
       *     with @a to.
       *
-      * @param str The string operated on. 
+      * @param str The string operated on.
       * @param from The character to replace.
       * @param to The replacement.
       * @param maxReplacements The maximum number of replacements that will be
@@ -526,8 +547,8 @@ namespace Ystring { namespace Utf16W
       */
     YSTRING_API std::wstring replaceCodePoint(
             const std::wstring& s,
-            uint32_t from,
-            uint32_t to,
+            char32_t from,
+            char32_t to,
             ptrdiff_t maxReplacements = 0);
 
     /** @brief Returns a copy of @a str where all invalid code points have
@@ -535,13 +556,13 @@ namespace Ystring { namespace Utf16W
       */
     YSTRING_API std::wstring replaceInvalidUtf16(
             const std::wstring& str,
-            uint32_t chr = REPLACEMENT_CHARACTER);
+            char32_t chr = REPLACEMENT_CHARACTER);
 
     /** @brief Replaces all invalid code points in @a str with @a chr.
       */
     YSTRING_API std::wstring& replaceInvalidUtf16InPlace(
             std::wstring& str,
-            uint16_t chr = REPLACEMENT_CHARACTER);
+            char16_t chr = REPLACEMENT_CHARACTER);
 
     /** @brief Returns a reversed copy of @a str.
       *
@@ -586,7 +607,7 @@ namespace Ystring { namespace Utf16W
       */
     YSTRING_API std::vector<std::wstring> splitIf(
             const std::wstring& str,
-            std::function<bool(uint32_t)> predicate,
+            std::function<bool(char32_t)> predicate,
             ptrdiff_t maxSplits = 0,
             SplitFlags_t flags = SplitFlags::DEFAULTS);
 
@@ -634,7 +655,7 @@ namespace Ystring { namespace Utf16W
 
     /** @brief Returns a UTF-16 encoded string representing @a chr
       */
-    YSTRING_API std::wstring toUtf16(uint32_t chr);
+    YSTRING_API std::wstring toUtf16(char32_t chr);
 
     /** @brief Returns an UTF-16 encoded string equivalent to @a str.
       *
@@ -681,7 +702,7 @@ namespace Ystring { namespace Utf16W
       *     unsupported for strings of @a str's type.
       */
     YSTRING_API std::wstring toUtf16(
-            const uint16_t* str, size_t length,
+            const char16_t* str, size_t length,
             Encoding_t encoding);
 
     /** @brief Returns an UTF-16 encoded string equivalent to @a str.
@@ -693,7 +714,7 @@ namespace Ystring { namespace Utf16W
       *     unsupported for strings of @a str's type.
       */
     YSTRING_API std::wstring toUtf16(
-            const uint32_t* str, size_t length,
+            const char32_t* str, size_t length,
             Encoding_t encoding);
 
     /** @brief Returns an UTF-16 encoded string equivalent to @a str.
@@ -720,34 +741,6 @@ namespace Ystring { namespace Utf16W
             const std::u32string& str,
             Encoding_t encoding = Encoding::UTF_32);
 
-    #ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
-
-    /** @brief Returns an UTF-16 encoded string equivalent to @a str.
-      *
-      * @param str The string to convert from.
-      * @param encoding The encoding of @a str.
-      * @throws YstringException if str contains any characters that aren't
-      *     encoded according to @a encoding, or if @a encoding is
-      *     unsupported for strings of @a str's type.
-      */
-    YSTRING_API std::wstring toUtf16(
-            const char16_t* str, size_t length,
-            Encoding_t encoding);
-
-    /** @brief Returns an UTF-16 encoded string equivalent to @a str.
-      *
-      * @param str The string to convert from.
-      * @param encoding The encoding of @a str.
-      * @throws YstringException if str contains any characters that aren't
-      *     encoded according to @a encoding, or if @a encoding is
-      *     unsupported for strings of @a str's type.
-      */
-    YSTRING_API std::wstring toUtf16(
-            const char32_t* str, size_t length,
-            Encoding_t encoding);
-
-    #endif
-
     /** @brief Returns an UTF-16 encoded string equivalent to @a str.
       *
       * @param str The string to convert from.
@@ -770,7 +763,7 @@ namespace Ystring { namespace Utf16W
       */
     YSTRING_API std::wstring trim(
             const std::wstring& str,
-            std::function<bool(uint32_t)> predicate);
+            std::function<bool(char32_t)> predicate);
 
     /** @brief Returns a copy of @a str where all whitespace characters at the
       *     end of the string have been removed.
@@ -782,7 +775,7 @@ namespace Ystring { namespace Utf16W
       */
     YSTRING_API std::wstring trimEnd(
             const std::wstring& str,
-            std::function<bool(uint32_t)> predicate);
+            std::function<bool(char32_t)> predicate);
 
     /** @brief Returns a copy of @a str where all whitespace characters at the
       *     start of the string have been removed.
@@ -794,7 +787,7 @@ namespace Ystring { namespace Utf16W
       */
     YSTRING_API std::wstring trimStart(
             const std::wstring& str,
-            std::function<bool(uint32_t)> predicate);
+            std::function<bool(char32_t)> predicate);
 
     /** @brief Returns a copy of @a str where all escape sequences have been
       *     translated to the characters they represent.

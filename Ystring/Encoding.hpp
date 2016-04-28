@@ -6,6 +6,7 @@
 // License text is included with the source distribution.
 //****************************************************************************
 #pragma once
+#include "PlatformDetails.hpp"
 
 /** @file
   * @brief Defines the Encoding enum.
@@ -122,8 +123,22 @@ namespace Ystring {
               * to be an 8-bit encoding, but is not ASCII or UTF-8.
               */
             UNSPECIFIED_SINGLE_BYTE_CHARACTER_SET,
+            /** @brief A constant used when enumerating the
+              *     different encodings.
+              */
+            MAXIMUM,
 
-            MAXIMUM
+            #ifdef YSTRING_WCHAR_IS_4_BYTES
+            /** @brief The system specific default encoding for
+              * wchar_t strings (UTF-16 on Windows, UTF-32 everywhere else).
+              */
+            WCHAR_DEFAULT = UTF_32
+            #else
+            /** @brief The system specific default encoding for
+              * wchar_t strings (UTF-16 on Windows, UTF-32 everywhere else).
+              */
+            WCHAR_DEFAULT = UTF_16
+            #endif
         };
     };
 

@@ -8,7 +8,7 @@
 #include "EncodingInfo.hpp"
 
 #include <istream>
-#include "Utf8/DecodeUtf8.hpp"
+#include "Encodings/DecodeUtf8.hpp"
 #include "Utf8.hpp"
 
 namespace Ystring
@@ -307,7 +307,7 @@ namespace Ystring
             return Encoding::UNKNOWN;
         else if (enc1 != Encoding::UTF_8)
             return enc1;
-        else if (Utf8::isValidUtf8(str, str + len, ignoreLastCharacter))
+        else if (Encodings::isValidUtf8(str, str + len, ignoreLastCharacter))
             return Encoding::UTF_8;
         else
             return Encoding::WINDOWS_1252;

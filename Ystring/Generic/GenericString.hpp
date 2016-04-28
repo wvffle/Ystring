@@ -16,10 +16,10 @@
 namespace Ystring { namespace Generic
 {
     template <typename Str, typename Enc>
-    void append(StringReference<Str>& dst, uint32_t chr, Enc encoding);
+    void append(StringReference<Str>& dst, char32_t chr, Enc encoding);
 
     template <typename Str, typename Enc>
-    void append(StringReference<Str>&& dst, uint32_t chr, Enc encoding);
+    void append(StringReference<Str>&& dst, char32_t chr, Enc encoding);
 
     template <typename Str, typename It, typename Enc>
     void appendLower(StringReference<Str>& dst,
@@ -58,7 +58,7 @@ namespace Ystring { namespace Generic
     Range<It> findFirstNewline(Range<It> str, Enc encoding);
 
     template<typename It, typename Enc>
-    uint32_t getCodePoint(Range<It> str, ptrdiff_t pos, Enc encoding);
+    char32_t getCodePoint(Range<It> str, ptrdiff_t pos, Enc encoding);
 
     template<typename It, typename Enc>
     Range<It> getValidSubstring(Range<It> str, Enc encoding);
