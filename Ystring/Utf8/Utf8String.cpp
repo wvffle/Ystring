@@ -81,6 +81,28 @@ namespace Ystring { namespace Utf8
         return Generic::escape<String>(makeRange(str), mode, Enc());
     }
 
+    std::string escapeInvalidUtf8(const std::string& str)
+    {
+        String result;
+        result.reserve(str.size());
+        auto it = str.begin();
+        auto end = str.end();
+        while (true)
+        {
+            auto invalid = Encodings::nextInvalidUtf8CodePoint(it, end);
+            result.append(it, std::get<0>(invalid));
+            if (std::get<0>(invalid) == end)
+                break;
+            for (it = std::get<0>(invalid); it != std::get<1>(invalid); ++it)
+            {
+                result.append("\\x");
+                result.push_back(Utilities::toCharDigit((*it >> 4) & 0xF));
+                result.push_back(Utilities::toCharDigit(*it & 0xF));
+            }
+        }
+        return result;
+    }
+
     StringIteratorPair findFirst(
             String& str,
             const String& cmp,
