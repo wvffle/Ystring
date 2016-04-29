@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <cassert>
 
-namespace Ystring { namespace Utf8
+namespace Ystring { namespace Encodings
 {
     namespace Detail
     {
@@ -61,7 +61,7 @@ namespace Ystring { namespace Utf8
                     return std::make_tuple(first, it, DecoderResult::INVALID);
                 bit >>= 1;
             }
-            if (bits >= 0xFE)
+            if (((bits & 0xFC) ^ 0xFC) < 0xC)
                 return std::make_tuple(first, it, DecoderResult::INVALID);
         }
 

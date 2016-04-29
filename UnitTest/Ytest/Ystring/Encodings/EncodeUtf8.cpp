@@ -7,7 +7,7 @@
 //****************************************************************************
 #include "EncodeUtf8.hpp"
 
-namespace Ystring { namespace Utf8
+namespace Ystring { namespace Encodings
 {
     size_t encodeUtf8(char (&buffer)[MAX_ENCODED_UTF8_LENGTH], char32_t chr)
     {

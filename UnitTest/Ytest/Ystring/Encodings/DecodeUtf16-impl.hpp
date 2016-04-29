@@ -9,7 +9,7 @@
 #include "../Utilities/Union16.hpp"
 #include "../DecoderResult.hpp"
 
-namespace Ystring { namespace Utf16
+namespace Ystring { namespace Encodings
 {
 
     namespace Detail

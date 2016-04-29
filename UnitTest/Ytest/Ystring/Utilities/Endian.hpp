@@ -1,6 +1,6 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 2015-07-08
+// Created by Jan Erik Breimo on 2015-07-08.
 //
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
@@ -24,6 +24,11 @@ namespace Ystring { namespace Utilities
     }
 
     inline uint8_t reverseBytes(uint8_t v)
+    {
+        return v;
+    }
+
+    inline int8_t reverseBytes(int8_t v)
     {
         return v;
     }

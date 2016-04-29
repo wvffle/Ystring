@@ -9,7 +9,7 @@
 #include "../Utilities/Endian.hpp"
 #include "../Utilities/Union16.hpp"
 
-namespace Ystring { namespace Utf16
+namespace Ystring { namespace Encodings
 {
     using Ystring::Utilities::swapEndianness;
     using Ystring::Utilities::Union16;

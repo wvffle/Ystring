@@ -9,7 +9,7 @@
 #include "../Utilities/Endian.hpp"
 #include "../Utilities/Union32.hpp"
 
-namespace Ystring { namespace Utf32
+namespace Ystring { namespace Encodings
 {
     using Ystring::Utilities::swapEndianness;
 

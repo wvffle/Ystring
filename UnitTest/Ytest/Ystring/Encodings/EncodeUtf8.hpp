@@ -15,7 +15,7 @@
   * @brief Defines functions for working with UTF-8 encoded strings.
   */
 
-namespace Ystring { namespace Utf8
+namespace Ystring { namespace Encodings
 {
     /** @brief The maximum length of an UTF-8-encoded code point.
       */

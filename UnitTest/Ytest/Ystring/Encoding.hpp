@@ -1,11 +1,12 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 2015-06-02
+// Created by Jan Erik Breimo on 2015-06-02.
 //
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
 #pragma once
+#include "PlatformDetails.hpp"
 
 /** @file
   * @brief Defines the Encoding enum.
@@ -37,6 +38,12 @@ namespace Ystring {
             /** @brief An alias for ISO 8859-1.
               */
             LATIN_1 = ISO_8859_1,
+            /** @brief ASCII extended with the characters used in Turkish.
+              */
+            ISO_8859_9,
+            /** @brief ASCII extended with the characters used in Turkish.
+              */
+            LATIN_5 = ISO_8859_9,
             /** @brief ASCII extended with the characters used in
               *     Nordic languages.
               */
@@ -52,7 +59,10 @@ namespace Ystring {
             /** @brief An alias for ISO 8859-15.
               */
             LATIN_9 = ISO_8859_15,
-            /** @brief The Windows version of ISO 8859.
+            /** @brief The Windows equivalent to ISO 8859-3.
+              */
+            WINDOWS_1250,
+            /** @brief The Windows equivalent to ISO 8859-1.
               */
             WINDOWS_1252,
             /** @brief The most common MS DOS encoding.
@@ -113,8 +123,22 @@ namespace Ystring {
               * to be an 8-bit encoding, but is not ASCII or UTF-8.
               */
             UNSPECIFIED_SINGLE_BYTE_CHARACTER_SET,
+            /** @brief A constant used when enumerating the
+              *     different encodings.
+              */
+            MAXIMUM,
 
-            MAXIMUM
+            #ifdef YSTRING_WCHAR_IS_4_BYTES
+            /** @brief The system specific default encoding for
+              * wchar_t strings (UTF-16 on Windows, UTF-32 everywhere else).
+              */
+            WCHAR_DEFAULT = UTF_32
+            #else
+            /** @brief The system specific default encoding for
+              * wchar_t strings (UTF-16 on Windows, UTF-32 everywhere else).
+              */
+            WCHAR_DEFAULT = UTF_16
+            #endif
         };
     };
 

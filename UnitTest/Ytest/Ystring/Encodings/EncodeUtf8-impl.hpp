@@ -7,7 +7,7 @@
 //****************************************************************************
 #include <algorithm>
 
-namespace Ystring { namespace Utf8
+namespace Ystring { namespace Encodings
 {
     namespace Detail
     {
