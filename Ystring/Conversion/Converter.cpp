@@ -259,8 +259,6 @@ namespace Ystring { namespace Conversion {
                            sourceIsIncomplete);
     }
 
-    #ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
-
     size_t Converter::convert(const wchar_t* source,
                               size_t sourceLength,
                               std::string& destination,
@@ -304,8 +302,6 @@ namespace Ystring { namespace Conversion {
                            destination,
                            sourceIsIncomplete);
     }
-
-    #endif
 
     Converter::ConversionType Converter::getConversionType(
             Encoding_t src, Encoding_t dst)
