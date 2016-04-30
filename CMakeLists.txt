@@ -103,7 +103,7 @@ set(PUBLIC_HEADERS
     )
 
 set(PRIVATE_HEADERS
-    Ystring/DecoderResult.hpp
+    Ystring/Encodings/DecoderResult.hpp
     Ystring/PrivatePlatformDetails.hpp
     Ystring/Conversion/AbstractDecoder.hpp
     Ystring/Conversion/AbstractEncoder.hpp

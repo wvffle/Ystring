@@ -24,6 +24,7 @@ namespace Ystring
                                 {return (c | 0x20) == (d | 0x20);});
         }
     }
+
     EncodingInfo::EncodingInfo()
         : m_MinCharLength(0),
           m_MaxCharLength(0),

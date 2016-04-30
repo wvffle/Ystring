@@ -6,7 +6,7 @@
 // License text is included with the source distribution.
 //****************************************************************************
 #include <type_traits>
-#include "../DecoderResult.hpp"
+#include "DecoderResult.hpp"
 #include "../PlatformDetails.hpp"
 #include "../Utilities/Iterators.hpp"
 #include "../Utilities/Union32.hpp"
