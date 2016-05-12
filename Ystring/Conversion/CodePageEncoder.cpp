@@ -17,13 +17,13 @@ namespace Ystring { namespace Conversion {
     {
         // Use ? as replacement character unless the code page supports
         // unicode's designated replacement character.
-        setReplacementCharacter('?');
-        setReplacementCharacter(Unicode::REPLACEMENT_CHARACTER);
+        CodePageEncoder::setReplacementCharacter('?');
+        CodePageEncoder::setReplacementCharacter(Unicode::REPLACEMENT_CHARACTER);
     }
 
     void CodePageEncoder::setReplacementCharacter(char32_t value)
     {
-        if (m_CodePage.fromCodePoint(value) == INVALID_CHAR)
+        if (m_CodePage.fromCodePoint(value) != INVALID_CHAR)
             AbstractEncoder::setReplacementCharacter(value);
     }
 
