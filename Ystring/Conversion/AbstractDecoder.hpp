@@ -8,8 +8,8 @@
 #pragma once
 #include <cstdint>
 #include <string>
-#include "../DecoderResult.hpp"
 #include "../Encoding.hpp"
+#include "../Encodings/DecoderResult.hpp"
 #include "ErrorHandlingPolicy.hpp"
 
 namespace Ystring { namespace Conversion {

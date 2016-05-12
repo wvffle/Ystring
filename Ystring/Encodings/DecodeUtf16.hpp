@@ -9,7 +9,7 @@
 
 #include <cstdint>
 #include <tuple>
-#include "../DecoderResult.hpp"
+#include "DecoderResult.hpp"
 #include "../Utilities/Endian.hpp"
 
 namespace Ystring { namespace Encodings

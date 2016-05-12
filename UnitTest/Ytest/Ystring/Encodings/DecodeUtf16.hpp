@@ -1,6 +1,6 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 2015-07-08
+// Created by Jan Erik Breimo on 2015-07-08.
 //
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
@@ -12,7 +12,7 @@
 #include "../DecoderResult.hpp"
 #include "../Utilities/Endian.hpp"
 
-namespace Ystring { namespace Utf16
+namespace Ystring { namespace Encodings
 {
     template <bool SwapBytes, typename FwdIt>
     DecoderResult_t nextUtf16CodePoint(char32_t& codePoint,

@@ -20,14 +20,24 @@ set(PRIVATE_HEADERS
     Utf8.hpp
     YstringDefinitions.hpp
     YstringException.hpp
-    Encoded/Appender.hpp
-    Encoded/DecoderAlgorithms.hpp
-    Encoded/DecoderStringFunctions.hpp
-    Encoded/DecoderStringFunctions-impl.hpp
-    Encoded/Encoder.hpp
-    Encoded/ForwardDecoder.hpp
-    Encoded/ReverseDecoder.hpp
-    Generic/StringReference.hpp
+    Encodings/DecodeUtf16-impl.hpp
+    Encodings/DecodeUtf16.hpp
+    Encodings/DecodeUtf32-impl.hpp
+    Encodings/DecodeUtf32.hpp
+    Encodings/DecodeUtf8-impl.hpp
+    Encodings/DecodeUtf8.hpp
+    Encodings/EncodeUtf16-impl.hpp
+    Encodings/EncodeUtf16.hpp
+    Encodings/EncodeUtf32-impl.hpp
+    Encodings/EncodeUtf32.hpp
+    Encodings/EncodeUtf8-impl.hpp
+    Encodings/EncodeUtf8.hpp
+    Generic/Appender.hpp
+    Generic/DecoderAlgorithms.hpp
+    Generic/DecoderStringFunctions-impl.hpp
+    Generic/DecoderStringFunctions.hpp
+    Generic/Encoder.hpp
+    Generic/ForwardDecoder.hpp
     Generic/GenericConvert.hpp
     Generic/GenericJoin.hpp
     Generic/GenericSplit.hpp
@@ -35,6 +45,8 @@ set(PRIVATE_HEADERS
     Generic/GenericString-impl.hpp
     Generic/Range.hpp
     Generic/RangeAlgorithms.hpp
+    Generic/ReverseDecoder.hpp
+    Generic/StringReference.hpp
     Generic/StringTypeTraits.hpp
     Streaming/StreamOperators.hpp
     Unicode/CaseConverter.hpp
@@ -45,22 +57,10 @@ set(PRIVATE_HEADERS
     Unicode/StandardUpperCase.hpp
     Unicode/UnicodeChars.hpp
     Unicode/UnicodePredicates.hpp
-    Utf8/DecodeUtf8.hpp
-    Utf8/DecodeUtf8-impl.hpp
-    Utf8/EncodeUtf8.hpp
-    Utf8/EncodeUtf8-impl.hpp
     Utf8/Utf8Chars.hpp
     Utf8/Utf8Encoding.hpp
     Utf8/Utf8String.hpp
-    Utf16/DecodeUtf16.hpp
-    Utf16/DecodeUtf16-impl.hpp
-    Utf16/EncodeUtf16.hpp
-    Utf16/EncodeUtf16-impl.hpp
     Utf16/Utf16Encoding.hpp
-    Utf32/DecodeUtf32.hpp
-    Utf32/DecodeUtf32-impl.hpp
-    Utf32/EncodeUtf32.hpp
-    Utf32/EncodeUtf32-impl.hpp
     Utf32/Utf32Encoding.hpp
     Utilities/Algorithms.hpp
     Utilities/Endian.hpp
@@ -74,12 +74,12 @@ set(PRIVATE_HEADERS
 set(SOURCE_FILES
     Predicates.cpp
     YstringException.cpp
+    Encodings/EncodeUtf8.cpp
     Streaming/StreamOperators.cpp
     Unicode/CaseConverter.cpp
     Unicode/CharClass.cpp
     Unicode/CharMap.cpp
     Unicode/CharMappingTypes.cpp
-    Utf8/EncodeUtf8.cpp
     Utf8/Utf8String.cpp
     )
 

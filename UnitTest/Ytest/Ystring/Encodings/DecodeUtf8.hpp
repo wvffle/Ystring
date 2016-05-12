@@ -17,7 +17,7 @@
   * @brief Defines functions for working with UTF-8 encoded strings.
   */
 
-namespace Ystring { namespace Utf8
+namespace Ystring { namespace Encodings
 {
     template <typename FwdIt>
     bool isValidUtf8(FwdIt begin, FwdIt end,

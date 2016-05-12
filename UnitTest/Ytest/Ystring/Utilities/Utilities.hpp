@@ -1,6 +1,6 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 2015-07-20
+// Created by Jan Erik Breimo on 2015-07-20.
 //
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
@@ -70,8 +70,8 @@ namespace Ystring { namespace Utilities
     }
 
     template <typename Char>
-    Char toCharDigit(Char c)
+    char toCharDigit(Char c)
     {
-        return c + (c < 0xA ? '0' : 'A' - 10);
+        return static_cast<char>(c + (c < 0xA ? '0' : 'A' - 10));
     }
 }}

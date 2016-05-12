@@ -7,7 +7,7 @@
 //****************************************************************************
 #include <type_traits>
 #include "../Utilities/Union16.hpp"
-#include "../DecoderResult.hpp"
+#include "DecoderResult.hpp"
 
 namespace Ystring { namespace Encodings
 {

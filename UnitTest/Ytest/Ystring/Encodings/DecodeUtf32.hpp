@@ -13,7 +13,7 @@
 #include "../DecoderResult.hpp"
 #include "../Utilities/Endian.hpp"
 
-namespace Ystring { namespace Utf32
+namespace Ystring { namespace Encodings
 {
     template <bool SwapBytes, typename FwdIt>
     DecoderResult_t nextUtf32CodePoint(char32_t& codePoint,

@@ -1,6 +1,6 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 2015-05-31
+// Created by Jan Erik Breimo on 2015-05-31.
 //
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
@@ -35,6 +35,17 @@ namespace Ystring { namespace Utf8
     typedef std::pair<std::string::const_iterator,
                       std::string::const_iterator>
             StringConstIteratorPair;
+
+    /** @brief Returns true if the upper case versions of @a str and @a cmp
+      *     are equal.
+      *
+      * @note Composed and decomposed versions of the same characters are
+      *     treated as different characters (the decomposed character is
+      *     typically the "lesser" one).
+      * @throw YstringException if str contains an invalid UTF-16 code point.
+      */
+    YSTRING_API bool caseInsensitiveEqual(const std::string& str,
+                                          const std::string& cmp);
 
     /** @brief Returns the number of characters in @a str.
       *
@@ -172,34 +183,6 @@ namespace Ystring { namespace Utf8
     YSTRING_API std::string toUtf8(
             const std::u32string& str,
             Encoding_t encoding = Encoding::UTF_32);
-
-    #ifdef YSTRING_CPP11_CHAR_TYPES_SUPPORTED
-
-    /** @brief Returns an UTF-8 encoded string equivalent to @a str.
-      *
-      * @param str The string to convert from.
-      * @param encoding The encoding of @a str.
-      * @throws YstringException if str contains any characters that aren't
-      *     encoded according to @a encoding, or if @a encoding is
-      *     unsupported for strings of @a str's type.
-      */
-    YSTRING_API std::string toUtf8(
-            const char16_t* str, size_t length,
-            Encoding_t encoding);
-
-    /** @brief Returns an UTF-8 encoded string equivalent to @a str.
-      *
-      * @param str The string to convert from.
-      * @param encoding The encoding of @a str.
-      * @throws YstringException if str contains any characters that aren't
-      *     encoded according to @a encoding, or if @a encoding is
-      *     unsupported for strings of @a str's type.
-      */
-    YSTRING_API std::string toUtf8(
-            const char32_t* str, size_t length,
-            Encoding_t encoding);
-
-    #endif
 
     /** @brief Returns an UTF-8 encoded string equivalent to @a str.
       *

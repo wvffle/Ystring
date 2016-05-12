@@ -133,6 +133,12 @@ namespace Ystring { namespace Utf8
             const std::string& str,
             EscapeType_t type = EscapeType::BACKSLASH);
 
+    /** @brief Returns a copy of @a str where non-UTF-8 bytes have
+      *     been escaped with a \\x and the bytes hexadecimal value.
+      */
+    YSTRING_API std::string escapeInvalidUtf8(
+            const std::string& str);
+
     /** @brief Returns the first substring in @a str that matches @a cmp.
       * @note Composed and decomposed versions of the same characters are
       *     treated as different characters.

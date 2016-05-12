@@ -1,21 +1,48 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 2015-07-11
+// Created by Jan Erik Breimo on 2015-07-11.
 //
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
 #include <type_traits>
+#include "../DecoderResult.hpp"
+#include "../PlatformDetails.hpp"
 #include "../Utilities/Iterators.hpp"
 #include "../Utilities/Union32.hpp"
-#include "../DecoderResult.hpp"
 
-namespace Ystring { namespace Utf32
+namespace Ystring { namespace Encodings
 {
     typedef std::make_unsigned<wchar_t>::type UnsignedWChar;
 
-    namespace Details
+    namespace Detail
     {
+        template<typename T>
+        struct Utf32CharType
+        {
+          typedef T Type;
+        };
+
+        #define YSTRING_DEFINE_UTF32_CHAR_TYPE(type, internalType) \
+            template <> \
+            struct Utf32CharType<type> \
+            { \
+                typedef internalType Type; \
+            }
+
+        YSTRING_DEFINE_UTF32_CHAR_TYPE(char, uint8_t);
+        YSTRING_DEFINE_UTF32_CHAR_TYPE(int8_t, uint8_t);
+        YSTRING_DEFINE_UTF32_CHAR_TYPE(int16_t, char16_t);
+        YSTRING_DEFINE_UTF32_CHAR_TYPE(char16_t, char16_t);
+        YSTRING_DEFINE_UTF32_CHAR_TYPE(char32_t, char32_t);
+        YSTRING_DEFINE_UTF32_CHAR_TYPE(int32_t, char32_t);
+
+        #ifdef YSTRING_WCHAR_IS_2_BYTES
+            YSTRING_DEFINE_UTF32_CHAR_TYPE(wchar_t, char16_t);
+        #else
+            YSTRING_DEFINE_UTF32_CHAR_TYPE(wchar_t, char32_t);
+        #endif
+
         using Utilities::swapEndianness;
 
         template <bool SwapBytes, typename FwdIt>
@@ -159,30 +186,34 @@ namespace Ystring { namespace Utf32
     DecoderResult_t nextUtf32CodePoint(char32_t& codePoint, FwdIt& it,
                                        FwdIt end)
     {
-        typedef typename std::iterator_traits<FwdIt>::value_type ValueType;
-        return Details::nextWord<SwapBytes>(codePoint, it, end, ValueType());
+        typedef typename std::iterator_traits<FwdIt>::value_type CharType;
+        typedef typename Detail::Utf32CharType<CharType>::Type Utf32Type;
+        return Detail::nextWord<SwapBytes>(codePoint, it, end, Utf32Type());
     }
 
     template<bool SwapBytes, typename BiIt>
     DecoderResult_t prevUtf32CodePoint(char32_t& codePoint, BiIt begin,
                                        BiIt& it)
     {
-        typedef typename std::iterator_traits<BiIt>::value_type ValueType;
-        return Details::prevWord<SwapBytes>(codePoint, begin, it,
-                                            ValueType());
+        typedef typename std::iterator_traits<BiIt>::value_type CharType;
+        typedef typename Detail::Utf32CharType<CharType>::Type Utf32Type;
+        return Detail::prevWord<SwapBytes>(codePoint, begin, it,
+                Utf32Type());
     }
 
     template <typename FwdIt>
     bool skipNextUtf32CodePoint(FwdIt& it, FwdIt end, size_t count)
     {
-        typedef typename std::iterator_traits<FwdIt>::value_type ValueType;
-        return Details::skipNextWord(it, end, count, ValueType());
+        typedef typename std::iterator_traits<FwdIt>::value_type CharType;
+        typedef typename Detail::Utf32CharType<CharType>::Type Utf32Type;
+        return Detail::skipNextWord(it, end, count, Utf32Type());
     }
 
     template <typename BiIt>
     bool skipPrevUtf32CodePoint(BiIt begin, BiIt& it, size_t count)
     {
-        typedef typename std::iterator_traits<BiIt>::value_type ValueType;
-        return Details::skipPrevWord(begin, it, count, ValueType());
+        typedef typename std::iterator_traits<BiIt>::value_type CharType;
+        typedef typename Detail::Utf32CharType<CharType>::Type Utf32Type;
+        return Detail::skipPrevWord(begin, it, count, Utf32Type());
     }
 }}

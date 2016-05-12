@@ -9,7 +9,7 @@
 
 #include <stdint.h>
 
-namespace Ystring { namespace Encoded
+namespace Ystring { namespace EncodedString
 {
     template <typename OutIt, typename Enc>
     class Encoder

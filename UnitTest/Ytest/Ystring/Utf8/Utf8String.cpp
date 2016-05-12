@@ -7,8 +7,8 @@
 //****************************************************************************
 #include "Utf8String.hpp"
 
-#include "../PrivatePlatformDetails.hpp"
 #include "../Generic/GenericString.hpp"
+#include "../PrivatePlatformDetails.hpp"
 #include "../Utf16/Utf16Encoding.hpp"
 #include "../Utf32/Utf32Encoding.hpp"
 #include "Utf8Encoding.hpp"
@@ -21,6 +21,12 @@ namespace Ystring { namespace Utf8
     typedef std::string String;
     typedef Utf8Encoding Enc;
 
+    bool caseInsensitiveEqual(const String& str, const String& cmp)
+    {
+        return Generic::caseInsensitiveEqual(makeRange(str),
+                                             makeRange(cmp),
+                                             Enc());
+    }
     size_t countCharacters(const String& str)
     {
         return Generic::countCharacters(makeRange(str), Enc());
@@ -84,19 +90,11 @@ namespace Ystring { namespace Utf8
     {
         switch (encoding)
         {
-        case Encoding::UTF_16_BE:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    Utf16::Utf16BEEncoding(),
-                    Enc());
-        case Encoding::UTF_16_LE:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    Utf16::Utf16LEEncoding(),
-                    Enc());
+        case Encoding::UTF_16:
+            return Generic::convert<String>(makeRange(str, str + length),
+                                            Utf16::Utf16Encoding(), Enc());
         default:
-            YSTRING_THROW("toUtf8: unsupported encoding " +
-                          std::to_string(int64_t(encoding)));
+            YSTRING_THROW("Unsupported encoding:" + std::to_string(encoding));
         }
     }
 
@@ -104,19 +102,11 @@ namespace Ystring { namespace Utf8
     {
         switch (encoding)
         {
-        case Encoding::UTF_32_BE:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    Utf32::Utf32BEEncoding(),
-                    Enc());
-        case Encoding::UTF_32_LE:
-            return Generic::convert<String>(
-                    makeRange(str, str + length),
-                    Utf32::Utf32LEEncoding(),
-                    Enc());
+        case Encoding::UTF_32:
+            return Generic::convert<String>(makeRange(str, str + length),
+                                            Utf32::Utf32Encoding(), Enc());
         default:
-            YSTRING_THROW("toUtf8: unsupported encoding " +
-                          std::to_string(int64_t(encoding)));
+            YSTRING_THROW("Unsupported encoding:" + std::to_string(encoding));
         }
     }
 

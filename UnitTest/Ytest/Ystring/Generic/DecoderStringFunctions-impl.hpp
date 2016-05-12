@@ -1,6 +1,6 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 2015-06-03
+// Created by Jan Erik Breimo on 2015-06-03.
 //
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
@@ -12,7 +12,7 @@
 #include "../Unicode/UnicodePredicates.hpp"
 #include "DecoderAlgorithms.hpp"
 
-namespace Ystring { namespace Encoded
+namespace Ystring { namespace EncodedString
 {
     template <typename Decoder>
     bool advanceCharacter(Decoder& it)
@@ -201,7 +201,7 @@ namespace Ystring { namespace Encoded
     Decoder1 nextToken(Decoder1& str, Decoder2 cmp, FindFlags_t flags)
     {
         auto token = str;
-        auto delimiter = Encoded::find(str, cmp, flags);
+        auto delimiter = EncodedString::find(str, cmp, flags);
         token.setLogicalEnd(delimiter.getLogicalBegin());
         return token;
     }

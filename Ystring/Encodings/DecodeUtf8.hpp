@@ -11,7 +11,7 @@
 #include <iterator>
 #include <limits>
 #include <tuple>
-#include "../DecoderResult.hpp"
+#include "DecoderResult.hpp"
 
 /** @file
   * @brief Defines functions for working with UTF-8 encoded strings.

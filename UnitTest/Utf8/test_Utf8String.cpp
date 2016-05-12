@@ -174,6 +174,12 @@ namespace
                 "\n\tA&amp;\"\'&lt;B&gt;");
     }
 
+    void test_escapeInvalidUtf8()
+    {
+        Y_EQUAL(Utf8::escapeInvalidUtf8("AB\xDF\xC2QR"),
+                "AB\\xDF\\xC2QR");
+    }
+
     void test_findLast()
     {
         auto s = std::string("abc_gh" UTF8_GREEK_CAPITAL_SIGMA  "IJ_gH"
@@ -815,6 +821,7 @@ namespace
               test_escape_URL_QUERY,
               test_escape_XML_ATTRIBUTE,
               test_escape_XML_TEXT,
+              test_escapeInvalidUtf8,
               test_findLast,
               test_findLastNewline,
               test_findFirst,

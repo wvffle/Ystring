@@ -8,11 +8,23 @@
 #include "EncodingInfo.hpp"
 
 #include <istream>
+#include <vector>
 #include "Encodings/DecodeUtf8.hpp"
-#include "Utf8.hpp"
 
 namespace Ystring
 {
+    namespace
+    {
+        bool caseInsensitiveEqual(const std::string& a, const std::string& b)
+        {
+            if (a.size() != b.size())
+                return false;
+            return std::equal(begin(a), end(a), begin(b),
+                              [](uint8_t c, uint8_t d)
+                                {return (c | 0x20) == (d | 0x20);});
+        }
+    }
+
     EncodingInfo::EncodingInfo()
         : m_MinCharLength(0),
           m_MaxCharLength(0),
@@ -194,7 +206,7 @@ namespace Ystring
         using namespace std;
         for (auto it = begin(s_EncodingMap); it != end(s_EncodingMap); ++it)
         {
-            if (Utf8::caseInsensitiveEqual(it->first, name))
+            if (caseInsensitiveEqual(it->first, name))
                 return it->second;
         }
         return Encoding::UNKNOWN;
