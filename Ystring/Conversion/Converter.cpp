@@ -113,14 +113,14 @@ namespace Ystring { namespace Conversion {
         m_Encoder->setReplacementCharacter(value);
     }
 
-    Encoding_t Converter::decoderEncoding() const
+    Encoding_t Converter::sourceEncoding() const
     {
         if (!m_Decoder)
             return Encoding::UNKNOWN;
         return m_Decoder->encoding();
     }
 
-    Encoding_t Converter::encoderEncoding() const
+    Encoding_t Converter::destinationEncoding() const
     {
         if (!m_Encoder)
             return Encoding::UNKNOWN;
