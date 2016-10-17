@@ -36,7 +36,15 @@ namespace Ystring { namespace Conversion
           */
         Converter(Encoding_t sourceEncoding, Encoding_t destinationEncoding);
 
+        Converter(Converter&&);
+
+        Converter(const Converter&) = delete;
+
         ~Converter();
+
+        Converter& operator=(Converter&&);
+
+        Converter& operator=(const Converter&) = delete;
 
         /** @brief Returns the size (in 32-bit code points) of the internal
           *     buffer used during conversion.
