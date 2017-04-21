@@ -88,7 +88,7 @@ namespace Ystring { namespace Conversion
         void setEncoderErrorHandlingPolicy(ErrorHandlingPolicy_t value);
 
         /** @brief Set the replacement character used by both the decoder
-          *     and enwcoder.
+          *     and encoder.
           *
           * The replacement character is used when the error handling policy
           * is REPLACE.
@@ -110,7 +110,9 @@ namespace Ystring { namespace Conversion
 
         /** @brief Returnes the replacement character used by the encoder.
           *
-          * The default value is the unicode "REPLACEMENT CHARACTER".
+          * The default value is the unicode "REPLACEMENT CHARACTER" if the
+          * destination encoding supports this character, otherwise it will
+          * be the question mark character.
           */
         char32_t encoderReplacementCharacter() const;
 
