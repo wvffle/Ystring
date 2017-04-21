@@ -36,6 +36,6 @@ namespace Ystring
     {
         if (!m_Message.empty())
             return m_Message.c_str();
-        return std::exception::what();
+        return std::logic_error::what();
     }
 }
