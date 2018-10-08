@@ -153,7 +153,6 @@ namespace
         Y_EQUAL(dst, "ABCD" UTF8_REPLACEMENT_CHARACTER "E");
     }
 
-
     void test_Utf8_to_Windows1252()
     {
         Converter converter(Encoding::UTF_8, Encoding::WINDOWS_1252);
@@ -161,6 +160,15 @@ namespace
         std::string s1252;
         Y_EQUAL(converter.convert(s8.data(), s8.size(), s1252), s8.size());
         Y_EQUAL(s1252, "ABCD \xC6\xD8\xC5 \xE6\xF8\xE5");
+    }
+
+    void test_Utf8_to_Iso8859_1()
+    {
+        Converter converter(Encoding::UTF_8, Encoding::ISO_8859_1);
+        std::string src = "Foobar";
+        std::string dst;
+        Y_EQUAL(converter.convert(src.data(), src.size(), dst), src.size());
+        Y_EQUAL(src, dst);
     }
 
     Y_SUBTEST("Conversion",
@@ -175,5 +183,6 @@ namespace
               test_Cp437_to_Utf32,
               test_Utf32_to_Cp437,
               test_Utf8_to_Utf8_WithErrors,
-              test_Utf8_to_Windows1252);
+              test_Utf8_to_Windows1252,
+              test_Utf8_to_Iso8859_1);
 }
