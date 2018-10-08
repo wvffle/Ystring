@@ -69,7 +69,8 @@ namespace Ystring { namespace Conversion {
         void skipInvalidCharacter(
                 const char*& srcBeg, const char* srcEnd) const
         {
-            Encodings::skipNextUtf32CodePoint(srcBeg, srcEnd);
+            if (!Encodings::skipNextUtf32CodePoint(srcBeg, srcEnd))
+                srcBeg = srcEnd;
         }
 
         void skipInvalidCharacter(

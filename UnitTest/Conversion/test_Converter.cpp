@@ -141,7 +141,6 @@ namespace {
         Y_EQUAL((int)dst[0], (int)0xB);
     }
 
-
     void test_Utf8_to_Utf8_WithErrors()
     {
         Converter converter(Encoding::UTF_8, Encoding::UTF_8);
@@ -152,6 +151,15 @@ namespace {
         src = "CD\xCF" "E";
         Y_ASSERT(converter.convert(src, dst) == src.end());
         Y_EQUAL(dst, "ABCD" UTF8_REPLACEMENT_CHARACTER "E");
+    }
+
+    void test_Utf8_to_Iso8859_1()
+    {
+        Converter converter(Encoding::UTF_8, Encoding::ISO_8859_1);
+        std::string src = "Foobar";
+        std::string dst;
+        Y_EQUAL(converter.convert(src.data(), src.size(), dst), src.size());
+        Y_EQUAL(src, dst);
     }
 
     Y_SUBTEST("Conversion",
@@ -165,5 +173,6 @@ namespace {
               test_Cp437_to_Utf8,
               test_Cp437_to_Utf32,
               test_Utf32_to_Cp437,
-              test_Utf8_to_Utf8_WithErrors);
+              test_Utf8_to_Utf8_WithErrors,
+              test_Utf8_to_Iso8859_1);
 }

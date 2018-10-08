@@ -44,19 +44,23 @@ namespace Ystring { namespace Encodings
         auto uc = uint8_t(c);
         if (uc < m_FirstSpecialChar || uc > m_LastSpecialChar)
             return uc;
-        return m_FromChar[uc - m_FirstSpecialChar];
+        return m_FromChar ? m_FromChar[uc - m_FirstSpecialChar]
+                          : INVALID_CHAR;
     }
 
     char32_t CodePage::fromCodePoint(char32_t c) const
     {
         if (c < m_FirstSpecialChar || (m_LastSpecialChar < c && c < 256))
             return c;
-        auto n = m_LastSpecialChar - m_FirstSpecialChar + 1;
-        auto it = Utilities::binaryFind(
-                m_FromCodePoint, m_FromCodePoint + n, c,
-                [](const std::pair<char32_t, char32_t>& p) { return p.first; });
-        if (it != m_FromCodePoint + n)
-            return it->second;
+        if (m_FromCodePoint)
+        {
+            auto n = m_LastSpecialChar - m_FirstSpecialChar + 1;
+            auto it = Utilities::binaryFind(
+                    m_FromCodePoint, m_FromCodePoint + n, c,
+                    [](const std::pair<char32_t, char32_t>& p) { return p.first; });
+            if (it != m_FromCodePoint + n)
+                return it->second;
+        }
         return INVALID_CHAR;
     }
 
