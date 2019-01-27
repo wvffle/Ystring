@@ -50,8 +50,7 @@ namespace Ystring { namespace Conversion {
 
     Converter::Converter(Converter&&) = default;
 
-    Converter::~Converter()
-    {}
+    Converter::~Converter() = default;
 
     Converter& Converter::operator=(Converter&&) = default;
 
@@ -496,7 +495,7 @@ namespace Ystring { namespace Conversion {
             auto dstLength = srcMemLength / sizeof(DstChar);
             auto initialDstSize = dst.size();
             dst.resize(initialDstSize + dstLength);
-            std::memcpy(&dst[initialDstSize], src, srcMemLength);
+            memcpy(&dst[initialDstSize], src, srcMemLength);
             return srcMemLength / sizeof(CharT);
         }
 
