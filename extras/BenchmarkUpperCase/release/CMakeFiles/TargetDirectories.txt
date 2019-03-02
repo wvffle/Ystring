@@ -1,0 +1,2 @@
+/Users/janeb/Repositories/Ystring/Miscellaneous/release/CMakeFiles/MakeRandomText.dir
+/Users/janeb/Repositories/Ystring/Miscellaneous/release/CMakeFiles/BenchmarkUpperCase.dir

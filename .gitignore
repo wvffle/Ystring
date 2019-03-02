@@ -1,8 +1,7 @@
-bin
 .idea
 *.pyc
-scripts/*.hpp
-scripts/*.cpp
-scripts/*.txt
+docs/Ystring_doc
+tools/unicode_character_tables/*.hpp
+tools/unicode_character_tables/*.cpp
+tools/unicode_character_tables/*.txt
 build
-release

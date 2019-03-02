@@ -2,22 +2,22 @@
 
 YSTRING_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-if [ ! -d release.Ystring ]
+if [ ! -d build/release.Ystring ]
 then
-    mkdir release.Ystring
+    mkdir -p build/release.Ystring
 fi
 
-cd release.Ystring
+cd build/release.Ystring
 cmake -DCMAKE_BUILD_TYPE=Release $YSTRING_DIR
 make install
 cd ..
 
-if [ ! -d debug.Ystring ]
+if [ ! -d build/debug.Ystring ]
 then
-    mkdir debug.Ystring
+    mkdir -p build/debug.Ystring
 fi
 
-cd debug.Ystring
+cd build/debug.Ystring
 cmake -DCMAKE_BUILD_TYPE=Debug $YSTRING_DIR
 make install
 cd ..
