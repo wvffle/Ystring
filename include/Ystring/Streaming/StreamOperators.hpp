@@ -8,7 +8,7 @@
 #pragma once
 
 #include <ostream>
-#include "Ystring/PlatformDetails.hpp"
+#include "../PlatformDetails.hpp"
 
 namespace Ystring
 {

@@ -9,9 +9,9 @@
 
 #include <memory>
 #include <string>
-#include "Ystring/Encoding.hpp"
-#include "Ystring/PlatformDetails.hpp"
-#include "Ystring/YstringDefinitions.hpp"
+#include "../Encoding.hpp"
+#include "../PlatformDetails.hpp"
+#include "../YstringDefinitions.hpp"
 #include "ErrorHandlingPolicy.hpp"
 
 /** @file

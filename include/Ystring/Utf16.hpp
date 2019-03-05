@@ -11,4 +11,4 @@
   * @brief Top-level include file for the std::u16string function library.
   */
 
-#include "Ystring/Utf16/Utf16String.hpp"
+#include "Utf16/Utf16String.hpp"

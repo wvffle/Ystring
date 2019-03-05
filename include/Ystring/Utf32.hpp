@@ -11,4 +11,4 @@
   * @brief Top-level include file for the std::u32string function library.
   */
 
-#include "Ystring/Utf32/Utf32String.hpp"
+#include "Utf32/Utf32String.hpp"

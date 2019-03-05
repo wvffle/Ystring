@@ -8,7 +8,7 @@
 #pragma once
 
 #include "YstringDefinitions.hpp"
-#include "Ystring/Unicode/UnicodePredicates.hpp"
+#include "Unicode/UnicodePredicates.hpp"
 
 /** @file
   * @brief Defines character predicates.
