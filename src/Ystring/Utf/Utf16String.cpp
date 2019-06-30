@@ -5,7 +5,7 @@
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
-#include "Utf16String.hpp"
+#include "Ystring/Utf/Utf16String.hpp"
 
 #include "Ystring/PrivatePlatformDetails.hpp"
 #include "Ystring/Generic/GenericString.hpp"

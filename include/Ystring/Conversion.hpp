@@ -7,7 +7,7 @@
 //****************************************************************************
 #pragma once
 
-#include "Conversion/Convert.hpp"
+#include "Ystring/Conversion/Convert.hpp"
 
 /** @file
   * @brief Top-level include file for the conversion function library.

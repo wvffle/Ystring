@@ -5,7 +5,7 @@
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
-#include "EncodingInfo.hpp"
+#include "Ystring/EncodingInfo.hpp"
 
 #include <istream>
 #include <vector>

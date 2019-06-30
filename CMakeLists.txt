@@ -17,11 +17,11 @@ endif(MSVC)
 if (YSTRING_WCHAR_IS_2_BYTES)
     set(PUBLIC_HEADERS_ROOT
         ${PUBLIC_HEADERS_ROOT}
-        src/Ystring/Utf16W.hpp
+        include/Ystring/Utf16W.hpp
         )
-    set(PUBLIC_HEADERS_UTF16
-        ${PUBLIC_HEADERS_UTF16}
-        src/Ystring/Utf/Utf16WString.hpp
+    set(PUBLIC_HEADERS_UTF
+        ${PUBLIC_HEADERS_UTF}
+        include/Ystring/Utf/Utf16WString.hpp
         )
     set(PRIVATE_HEADERS
         ${PRIVATE_HEADERS}
@@ -34,53 +34,46 @@ if (YSTRING_WCHAR_IS_2_BYTES)
 endif(YSTRING_WCHAR_IS_2_BYTES)
 
 set(PUBLIC_HEADERS_ROOT
-    src/Ystring/Conversion.hpp
-    src/Ystring/Encoding.hpp
-    src/Ystring/EncodingInfo.hpp
-    src/Ystring/Endianness.hpp
-    src/Ystring/EscapeType.hpp
-    src/Ystring/FindFlags.hpp
-    src/Ystring/PlatformDetails.hpp
-    src/Ystring/Predicates.hpp
-    src/Ystring/SplitFlags.hpp
-    src/Ystring/Utf8.hpp
-    src/Ystring/Utf16.hpp
-    src/Ystring/Utf32.hpp
-    src/Ystring/YstringDefinitions.hpp
-    src/Ystring/YstringException.hpp
+    include/Ystring/Conversion.hpp
+    include/Ystring/Encoding.hpp
+    include/Ystring/EncodingInfo.hpp
+    include/Ystring/Endianness.hpp
+    include/Ystring/EscapeType.hpp
+    include/Ystring/FindFlags.hpp
+    include/Ystring/PlatformDetails.hpp
+    include/Ystring/Predicates.hpp
+    include/Ystring/SplitFlags.hpp
+    include/Ystring/Utf8.hpp
+    include/Ystring/Utf16.hpp
+    include/Ystring/Utf32.hpp
+    include/Ystring/YstringDefinitions.hpp
+    include/Ystring/YstringException.hpp
     ${PUBLIC_HEADERS_ROOT}
     )
 
 set(PUBLIC_HEADERS_CONVERSION
-    src/Ystring/Conversion/Convert.hpp
-    src/Ystring/Conversion/Converter.hpp
-    src/Ystring/Conversion/ErrorHandlingPolicy.hpp
+    include/Ystring/Conversion/Convert.hpp
+    include/Ystring/Conversion/Converter.hpp
+    include/Ystring/Conversion/ErrorHandlingPolicy.hpp
     )
 
 set(PUBLIC_HEADERS_STREAMING
-    src/Ystring/Streaming/StreamFill.hpp
-    src/Ystring/Streaming/StreamJoin.hpp
-    src/Ystring/Streaming/StreamOperators.hpp
+    include/Ystring/Streaming/StreamFill.hpp
+    include/Ystring/Streaming/StreamJoin.hpp
+    include/Ystring/Streaming/StreamOperators.hpp
     )
 
 set(PUBLIC_HEADERS_UNICODE
-    src/Ystring/Unicode/CharClass.hpp
-    src/Ystring/Unicode/UnicodeChars.hpp
-    src/Ystring/Unicode/UnicodePredicates.hpp
+    include/Ystring/Unicode/CharClass.hpp
+    include/Ystring/Unicode/UnicodeChars.hpp
+    include/Ystring/Unicode/UnicodePredicates.hpp
     )
 
-set(PUBLIC_HEADERS_UTF8
-    src/Ystring/Utf/Utf8String.hpp
-    )
-
-set(PUBLIC_HEADERS_UTF16
-    src/Ystring/Utf/Utf16String.hpp
-    ${PUBLIC_HEADERS_UTF16}
-    )
-
-set(PUBLIC_HEADERS_UTF32
-    src/Ystring/Utf/Utf32String.hpp
-    ${PUBLIC_HEADERS_UTF32}
+set(PUBLIC_HEADERS_UTF
+    include/Ystring/Utf/Utf8String.hpp
+    include/Ystring/Utf/Utf16String.hpp
+    ${PUBLIC_HEADERS_UTF}
+    include/Ystring/Utf/Utf32String.hpp
     )
 
 set(PUBLIC_HEADERS
@@ -88,9 +81,7 @@ set(PUBLIC_HEADERS
     ${PUBLIC_HEADERS_CONVERSION}
     ${PUBLIC_HEADERS_STREAMING}
     ${PUBLIC_HEADERS_UNICODE}
-    ${PUBLIC_HEADERS_UTF8}
-    ${PUBLIC_HEADERS_UTF16}
-    ${PUBLIC_HEADERS_UTF32}
+    ${PUBLIC_HEADERS_UTF}
     )
 
 set(PRIVATE_HEADERS
@@ -248,9 +239,5 @@ install(FILES ${PUBLIC_HEADERS_STREAMING}
     DESTINATION include/Ystring/Streaming)
 install(FILES ${PUBLIC_HEADERS_UNICODE}
     DESTINATION include/Ystring/Unicode)
-install(FILES ${PUBLIC_HEADERS_UTF8}
-    DESTINATION include/Ystring/Utf8)
-install(FILES ${PUBLIC_HEADERS_UTF16}
-    DESTINATION include/Ystring/Utf16)
-install(FILES ${PUBLIC_HEADERS_UTF32}
-    DESTINATION include/Ystring/Utf32)
+install(FILES ${PUBLIC_HEADERS_UTF}
+    DESTINATION include/Ystring/Utf)

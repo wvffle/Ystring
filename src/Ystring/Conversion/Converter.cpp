@@ -5,7 +5,7 @@
 // This file is distributed under the BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
-#include "Converter.hpp"
+#include "Ystring/Conversion/Converter.hpp"
 
 #include <vector>
 #include "Ystring/EncodingInfo.hpp"

@@ -5,7 +5,7 @@
 // This file is distributed under the BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
-#include "StreamOperators.hpp"
+#include "Ystring/Streaming/StreamOperators.hpp"
 #include "Ystring/Utf8.hpp"
 
 namespace Ystring

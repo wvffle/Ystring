@@ -5,7 +5,7 @@
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
-#include "YstringException.hpp"
+#include "Ystring/YstringException.hpp"
 
 #include <sstream>
 

@@ -1,14 +1,22 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 2015-09-12.
+// Created by Jan Erik Breimo on 2015-08-06.
 //
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
 #pragma once
 
+#include "YstringDefinitions.hpp"
+#include "Ystring/Unicode/UnicodePredicates.hpp"
+
 /** @file
-  * @brief Top-level include file for the std::u16string function library.
+  * @brief Defines character predicates.
   */
 
-#include "Utf/Utf16String.hpp"
+namespace Ystring
+{
+    YSTRING_API bool isPathSeparator(char32_t chr);
+    YSTRING_API bool isWindowsPathSeparator(char32_t chr);
+    YSTRING_API bool isPosixPathSeparator(char32_t chr);
+}

@@ -9,7 +9,7 @@
 
 #include <string>
 #include "Ystring/Encoding.hpp"
-#include "ErrorHandlingPolicy.hpp"
+#include "Ystring/Conversion/ErrorHandlingPolicy.hpp"
 
 namespace Ystring { namespace Conversion {
 

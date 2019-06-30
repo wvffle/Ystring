@@ -8,7 +8,7 @@
 #pragma once
 #include <cstddef>
 #include <cstdint>
-#include "PlatformDetails.hpp"
+#include "Ystring/PlatformDetails.hpp"
 
 namespace Ystring
 {
