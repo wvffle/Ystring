@@ -9,7 +9,7 @@
 
 #include <cstdint>
 #include <utility>
-#include "../YstringDefinitions.hpp"
+#include "Ystring/YstringDefinitions.hpp"
 
 namespace Ystring { namespace Unicode
 {

@@ -6,7 +6,7 @@
 // License text is included with the source distribution.
 //****************************************************************************
 #include "StreamOperators.hpp"
-#include "../Utf8.hpp"
+#include "Ystring/Utf8.hpp"
 
 namespace Ystring
 {

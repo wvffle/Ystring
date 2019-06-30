@@ -7,7 +7,7 @@
 //****************************************************************************
 #pragma once
 
-#include "../Utilities/Algorithms.hpp"
+#include "Ystring/Utilities/Algorithms.hpp"
 #include "Range.hpp"
 
 namespace Ystring { namespace Generic

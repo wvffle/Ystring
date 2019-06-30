@@ -11,8 +11,8 @@
 #include <cstdint>
 #include <vector>
 #include <utility>
-#include "../Encoding.hpp"
-#include "../YstringDefinitions.hpp"
+#include "Ystring/Encoding.hpp"
+#include "Ystring/YstringDefinitions.hpp"
 
 namespace Ystring { namespace Encodings
 {

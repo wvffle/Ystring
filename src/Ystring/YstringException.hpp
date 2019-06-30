@@ -25,12 +25,12 @@ namespace Ystring
     {
     public:
         YstringException();
-        YstringException(const std::string& msg);
+        explicit YstringException(const std::string& msg);
         YstringException(const std::string& msg,
                          const std::string& filename,
                          int lineno,
                          const std::string& funcname);
-        const char* what() const _NOEXCEPT;
+        const char* what() const _NOEXCEPT override;
     private:
         std::string m_Message;
     };

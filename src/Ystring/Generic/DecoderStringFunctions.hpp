@@ -7,7 +7,7 @@
 //****************************************************************************
 #pragma once
 
-#include "../FindFlags.hpp"
+#include "Ystring/FindFlags.hpp"
 
 namespace Ystring { namespace EncodedString {
     template <typename Decoder>

@@ -10,7 +10,7 @@
 #include <iterator>
 #include "Appender.hpp"
 #include "Encoder.hpp"
-#include "../Utilities/ArrayOutputIterator.hpp"
+#include "Ystring/Utilities/ArrayOutputIterator.hpp"
 
 namespace Ystring { namespace Generic
 {

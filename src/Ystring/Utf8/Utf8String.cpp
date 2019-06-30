@@ -7,11 +7,11 @@
 //****************************************************************************
 #include "Utf8String.hpp"
 
-#include "../PrivatePlatformDetails.hpp"
-#include "../Generic/GenericString.hpp"
-#include "../Utf16/Utf16Encoding.hpp"
-#include "../Utf32/Utf32Encoding.hpp"
-#include "../Conversion/Converter.hpp"
+#include "Ystring/PrivatePlatformDetails.hpp"
+#include "Ystring/Generic/GenericString.hpp"
+#include "Ystring/Utf16/Utf16Encoding.hpp"
+#include "Ystring/Utf32/Utf32Encoding.hpp"
+#include "Ystring/Conversion/Converter.hpp"
 #include "Utf8Encoding.hpp"
 
 namespace Ystring { namespace Utf8

@@ -8,7 +8,7 @@
 #include "Utf8Encoder.hpp"
 
 #include <iterator>
-#include "../Encodings/EncodeUtf8.hpp"
+#include "Ystring/Encodings/EncodeUtf8.hpp"
 
 namespace Ystring { namespace Conversion {
 

@@ -7,9 +7,9 @@
 //****************************************************************************
 #pragma once
 
-#include "../Encoding.hpp"
-#include "../Encodings/DecodeUtf16.hpp"
-#include "../Encodings/EncodeUtf16.hpp"
+#include "Ystring/Encoding.hpp"
+#include "Ystring/Encodings/DecodeUtf16.hpp"
+#include "Ystring/Encodings/EncodeUtf16.hpp"
 
 namespace Ystring { namespace Utf16
 {

@@ -8,8 +8,8 @@
 #pragma once
 
 #include <vector>
-#include "../FindFlags.hpp"
-#include "../SplitFlags.hpp"
+#include "Ystring/FindFlags.hpp"
+#include "Ystring/SplitFlags.hpp"
 #include "RangeAlgorithms.hpp"
 #include "StringReference.hpp"
 

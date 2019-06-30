@@ -7,7 +7,7 @@
 //****************************************************************************
 #pragma once
 #include <vector>
-#include "../SplitFlags.hpp"
+#include "Ystring/SplitFlags.hpp"
 #include "DecoderStringFunctions.hpp"
 #include "ForwardDecoder.hpp"
 #include "ReverseDecoder.hpp"

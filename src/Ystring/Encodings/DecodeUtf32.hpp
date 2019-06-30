@@ -11,7 +11,7 @@
 #include <limits>
 #include <string>
 #include "DecoderResult.hpp"
-#include "../Utilities/Endian.hpp"
+#include "Ystring/Utilities/Endian.hpp"
 
 namespace Ystring { namespace Encodings
 {

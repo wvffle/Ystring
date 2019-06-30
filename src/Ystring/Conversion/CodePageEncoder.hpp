@@ -7,7 +7,7 @@
 //****************************************************************************
 #pragma once
 #include "AbstractEncoder.hpp"
-#include "../Encodings/CodePage.hpp"
+#include "Ystring/Encodings/CodePage.hpp"
 
 namespace Ystring { namespace Conversion {
 

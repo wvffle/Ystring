@@ -8,7 +8,7 @@
 #pragma once
 
 #include <stdexcept>
-#include "../YstringDefinitions.hpp"
+#include "Ystring/YstringDefinitions.hpp"
 #include "Range.hpp"
 #include "StringReference.hpp"
 #include "ForwardDecoder.hpp"

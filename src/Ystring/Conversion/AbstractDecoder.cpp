@@ -7,9 +7,9 @@
 //****************************************************************************
 #include "AbstractDecoder.hpp"
 
-#include "../YstringException.hpp"
-#include "../EncodingInfo.hpp"
-#include "../Unicode/UnicodeChars.hpp"
+#include "Ystring/YstringException.hpp"
+#include "Ystring/EncodingInfo.hpp"
+#include "Ystring/Unicode/UnicodeChars.hpp"
 
 namespace Ystring { namespace Conversion {
 

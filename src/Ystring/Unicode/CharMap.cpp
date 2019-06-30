@@ -8,7 +8,7 @@
 #include "CharMap.hpp"
 
 #include <cassert>
-#include "../Utilities/KeyFunctionAlgorithms.hpp"
+#include "Ystring/Utilities/KeyFunctionAlgorithms.hpp"
 
 namespace Ystring { namespace Unicode
 {

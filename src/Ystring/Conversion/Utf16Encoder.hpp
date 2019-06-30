@@ -7,7 +7,7 @@
 //****************************************************************************
 #pragma once
 #include "AbstractEncoder.hpp"
-#include "../Encodings/EncodeUtf16.hpp"
+#include "Ystring/Encodings/EncodeUtf16.hpp"
 
 namespace Ystring { namespace Conversion {
 

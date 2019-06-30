@@ -8,8 +8,8 @@
 #pragma once
 
 #include <string>
-#include "../YstringException.hpp"
-#include "../Utilities/Algorithms.hpp"
+#include "Ystring/YstringException.hpp"
+#include "Ystring/Utilities/Algorithms.hpp"
 #include "Range.hpp"
 
 namespace Ystring { namespace EncodedString

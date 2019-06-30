@@ -8,7 +8,7 @@
 #pragma once
 
 #include <stdint.h>
-#include "../Utilities/Utilities.hpp"
+#include "Ystring/Utilities/Utilities.hpp"
 
 namespace Ystring { namespace EncodedString
 {

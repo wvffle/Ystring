@@ -222,9 +222,19 @@ target_compile_definitions(Ystring
         $<$<BOOL:${MSVC}>:YSTRING_EXPORTS>
 )
 
+target_include_directories(Ystring BEFORE
+    PUBLIC
+        $<INSTALL_INTERFACE:include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+    )
+
 set_target_properties(Ystring PROPERTIES
     MACOSX_RPATH ON
     DEBUG_OUTPUT_NAME "Ystring.debug")
+
+add_library(Ystring::Ystring ALIAS Ystring)
 
 set(CTEST_OUTPUT_ON_FAILURE 1)
 add_subdirectory(tests/YstringTest)

@@ -7,7 +7,7 @@
 //****************************************************************************
 #pragma once
 
-#include "../EscapeType.hpp"
+#include "Ystring/EscapeType.hpp"
 #include "AppendEscaped.hpp"
 #include "AppendUnescaped.hpp"
 #include "BackslashUnescaper.hpp"

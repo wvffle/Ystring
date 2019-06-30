@@ -8,7 +8,7 @@
 #pragma once
 
 #include <cstdint>
-#include "../YstringDefinitions.hpp"
+#include "Ystring/YstringDefinitions.hpp"
 
 /** @file
   * @brief Defines the CharClass enum and the getCharClass function.

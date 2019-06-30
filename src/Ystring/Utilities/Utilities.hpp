@@ -7,7 +7,7 @@
 //****************************************************************************
 #pragma once
 #include <cstdint>
-#include "../YstringException.hpp"
+#include "Ystring/YstringException.hpp"
 
 namespace Ystring { namespace Utilities
 {

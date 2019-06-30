@@ -8,9 +8,9 @@
 #include "Converter.hpp"
 
 #include <vector>
-#include "../EncodingInfo.hpp"
-#include "../PrivatePlatformDetails.hpp"
-#include "../Generic/GenericConvert.hpp"
+#include "Ystring/EncodingInfo.hpp"
+#include "Ystring/PrivatePlatformDetails.hpp"
+#include "Ystring/Generic/GenericConvert.hpp"
 #include "CodePageDecoder.hpp"
 #include "CodePageEncoder.hpp"
 #include "Utf8Decoder.hpp"

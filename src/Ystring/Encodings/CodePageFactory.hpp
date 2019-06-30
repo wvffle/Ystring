@@ -8,7 +8,7 @@
 #pragma once
 #include <cstdint>
 #include <vector>
-#include "../Encoding.hpp"
+#include "Ystring/Encoding.hpp"
 #include "CodePage.hpp"
 
 namespace Ystring { namespace Encodings

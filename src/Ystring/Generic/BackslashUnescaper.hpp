@@ -9,7 +9,7 @@
 
 #include <stdexcept>
 #include "Range.hpp"
-#include "../Utilities/Utilities.hpp"
+#include "Ystring/Utilities/Utilities.hpp"
 
 namespace Ystring { namespace EncodedString
 {

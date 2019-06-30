@@ -11,12 +11,12 @@
 #include <functional>
 #include <string>
 #include <vector>
-#include "../Encoding.hpp"
-#include "../EscapeType.hpp"
-#include "../FindFlags.hpp"
-#include "../PlatformDetails.hpp"
-#include "../SplitFlags.hpp"
-#include "../YstringException.hpp"
+#include "Ystring/Encoding.hpp"
+#include "Ystring/EscapeType.hpp"
+#include "Ystring/FindFlags.hpp"
+#include "Ystring/PlatformDetails.hpp"
+#include "Ystring/SplitFlags.hpp"
+#include "Ystring/YstringException.hpp"
 
 /** @file
   * @brief The function library for UTF-8 encoded strings.

@@ -8,7 +8,7 @@
 #pragma once
 
 #include <string>
-#include "../Encoding.hpp"
+#include "Ystring/Encoding.hpp"
 #include "ErrorHandlingPolicy.hpp"
 
 namespace Ystring { namespace Conversion {

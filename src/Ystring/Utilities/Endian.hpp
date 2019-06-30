@@ -8,8 +8,8 @@
 #pragma once
 
 #include <type_traits>
-#include "../Endianness.hpp"
-#include "../PlatformDetails.hpp"
+#include "Ystring/Endianness.hpp"
+#include "Ystring/PlatformDetails.hpp"
 #include "Union16.hpp"
 #include "Union32.hpp"
 

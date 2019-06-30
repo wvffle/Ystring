@@ -7,9 +7,9 @@
 //****************************************************************************
 #pragma once
 
-#include "../Encoding.hpp"
-#include "../Encodings/DecodeUtf32.hpp"
-#include "../Encodings/EncodeUtf32.hpp"
+#include "Ystring/Encoding.hpp"
+#include "Ystring/Encodings/DecodeUtf32.hpp"
+#include "Ystring/Encodings/EncodeUtf32.hpp"
 
 namespace Ystring { namespace Utf32
 {

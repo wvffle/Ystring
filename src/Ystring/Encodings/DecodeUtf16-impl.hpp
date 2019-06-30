@@ -6,7 +6,7 @@
 // License text is included with the source distribution.
 //****************************************************************************
 #include <type_traits>
-#include "../Utilities/Union16.hpp"
+#include "Ystring/Utilities/Union16.hpp"
 #include "DecoderResult.hpp"
 
 namespace Ystring { namespace Encodings

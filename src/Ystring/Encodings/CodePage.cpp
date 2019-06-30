@@ -6,8 +6,8 @@
 // License text is included with the source distribution.
 //****************************************************************************
 #include "CodePage.hpp"
-#include "../YstringException.hpp"
-#include "../Utilities/KeyFunctionAlgorithms.hpp"
+#include "Ystring/YstringException.hpp"
+#include "Ystring/Utilities/KeyFunctionAlgorithms.hpp"
 #include "Ibm437.hpp"
 #include "Ibm850.hpp"
 #include "Iso8859_1.hpp"

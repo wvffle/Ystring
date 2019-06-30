@@ -6,8 +6,8 @@
 // License text is included with the source distribution.
 //****************************************************************************
 #include "CodePageEncoder.hpp"
-#include "../Unicode/UnicodeChars.hpp"
-#include "../YstringException.hpp"
+#include "Ystring/Unicode/UnicodeChars.hpp"
+#include "Ystring/YstringException.hpp"
 
 namespace Ystring { namespace Conversion {
 

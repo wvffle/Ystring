@@ -60,7 +60,7 @@ target_include_directories(YstringTest
     )
 
 target_link_libraries(YstringTest
-                      Ystring
+    Ystring::Ystring
     Ytest)
 
 add_test(Ystring YstringTest)

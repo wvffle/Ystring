@@ -8,7 +8,7 @@
 #pragma once
 
 #include <functional>
-#include "../YstringDefinitions.hpp"
+#include "Ystring/YstringDefinitions.hpp"
 
 namespace Ystring { namespace Unicode
 {

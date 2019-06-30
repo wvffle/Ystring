@@ -6,8 +6,8 @@
 // License text is included with the source distribution.
 //****************************************************************************
 #include <iterator>
-#include "../Utilities/Endian.hpp"
-#include "../Utilities/Union16.hpp"
+#include "Ystring/Utilities/Endian.hpp"
+#include "Ystring/Utilities/Union16.hpp"
 
 namespace Ystring { namespace Encodings
 {

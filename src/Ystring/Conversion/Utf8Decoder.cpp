@@ -6,7 +6,7 @@
 // License text is included with the source distribution.
 //****************************************************************************
 #include "Utf8Decoder.hpp"
-#include "../Encodings/DecodeUtf8.hpp"
+#include "Ystring/Encodings/DecodeUtf8.hpp"
 
 namespace Ystring { namespace Conversion {
 

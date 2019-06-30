@@ -7,9 +7,9 @@
 //****************************************************************************
 #pragma once
 
-#include "../Unicode/CaseConverter.hpp"
-#include "../Unicode/CaseInsensitive.hpp"
-#include "../Unicode/UnicodePredicates.hpp"
+#include "Ystring/Unicode/CaseConverter.hpp"
+#include "Ystring/Unicode/CaseInsensitive.hpp"
+#include "Ystring/Unicode/UnicodePredicates.hpp"
 #include "DecoderAlgorithms.hpp"
 
 namespace Ystring { namespace EncodedString
