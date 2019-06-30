@@ -8,8 +8,8 @@
 #include "Ystring/Utf32.hpp"
 
 #include "Ystring/Unicode/UnicodePredicates.hpp"
-#include "Ystring/Utf8/Utf8Chars.hpp"
-#include "Ystring/Utf32/Utf32Chars.hpp"
+#include "Ystring/Utf/Utf8Chars.hpp"
+#include "Ystring/Utf/Utf32Chars.hpp"
 #include "../Ytest/Ytest.hpp"
 
 namespace

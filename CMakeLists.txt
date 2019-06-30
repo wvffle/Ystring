@@ -21,15 +21,15 @@ if (YSTRING_WCHAR_IS_2_BYTES)
         )
     set(PUBLIC_HEADERS_UTF16
         ${PUBLIC_HEADERS_UTF16}
-        src/Ystring/Utf16/Utf16WString.hpp
+        src/Ystring/Utf/Utf16WString.hpp
         )
     set(PRIVATE_HEADERS
         ${PRIVATE_HEADERS}
-        src/Ystring/Utf16/Utf16WChars.hpp
+        src/Ystring/Utf/Utf16WChars.hpp
         )
     set(SOURCE_FILES
         ${SOURCE_FILES}
-        src/Ystring/Utf16/Utf16WString.cpp
+        src/Ystring/Utf/Utf16WString.cpp
         )
 endif(YSTRING_WCHAR_IS_2_BYTES)
 
@@ -70,16 +70,16 @@ set(PUBLIC_HEADERS_UNICODE
     )
 
 set(PUBLIC_HEADERS_UTF8
-    src/Ystring/Utf8/Utf8String.hpp
+    src/Ystring/Utf/Utf8String.hpp
     )
 
 set(PUBLIC_HEADERS_UTF16
-    src/Ystring/Utf16/Utf16String.hpp
+    src/Ystring/Utf/Utf16String.hpp
     ${PUBLIC_HEADERS_UTF16}
     )
 
 set(PUBLIC_HEADERS_UTF32
-    src/Ystring/Utf32/Utf32String.hpp
+    src/Ystring/Utf/Utf32String.hpp
     ${PUBLIC_HEADERS_UTF32}
     )
 
@@ -159,12 +159,12 @@ set(PRIVATE_HEADERS
     src/Ystring/Unicode/StandardLowerCase.hpp
     src/Ystring/Unicode/StandardTitleCase.hpp
     src/Ystring/Unicode/StandardUpperCase.hpp
-    src/Ystring/Utf16/Utf16Chars.hpp
-    src/Ystring/Utf16/Utf16Encoding.hpp
-    src/Ystring/Utf32/Utf32Chars.hpp
-    src/Ystring/Utf32/Utf32Encoding.hpp
-    src/Ystring/Utf8/Utf8Chars.hpp
-    src/Ystring/Utf8/Utf8Encoding.hpp
+    src/Ystring/Utf/Utf16Chars.hpp
+    src/Ystring/Utf/Utf16Encoding.hpp
+    src/Ystring/Utf/Utf32Chars.hpp
+    src/Ystring/Utf/Utf32Encoding.hpp
+    src/Ystring/Utf/Utf8Chars.hpp
+    src/Ystring/Utf/Utf8Encoding.hpp
     src/Ystring/Utilities/Algorithms.hpp
     src/Ystring/Utilities/ArrayOutputIterator.hpp
     src/Ystring/Utilities/CountingOutputIterator.hpp
@@ -204,9 +204,9 @@ set(SOURCE_FILES
     src/Ystring/Unicode/CharClass.cpp
     src/Ystring/Unicode/CharMap.cpp
     src/Ystring/Unicode/CharMappingTypes.cpp
-    src/Ystring/Utf16/Utf16String.cpp
-    src/Ystring/Utf32/Utf32String.cpp
-    src/Ystring/Utf8/Utf8String.cpp
+    src/Ystring/Utf/Utf16String.cpp
+    src/Ystring/Utf/Utf32String.cpp
+    src/Ystring/Utf/Utf8String.cpp
     ${SOURCE_FILES}
     )
 

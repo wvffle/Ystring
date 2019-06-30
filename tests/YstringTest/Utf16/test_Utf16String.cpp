@@ -8,10 +8,10 @@
 #include "Ystring/Utf16.hpp"
 
 #include "Ystring/Unicode/UnicodePredicates.hpp"
-#include "Ystring/Utf8/Utf8Chars.hpp"
-#include "Ystring/Utf16/Utf16Chars.hpp"
-#include "../Ytest/Ytest.hpp"
+#include "Ystring/Utf/Utf8Chars.hpp"
+#include "Ystring/Utf/Utf16Chars.hpp"
 #include "Ystring/Utilities/Endian.hpp"
+#include "../Ytest/Ytest.hpp"
 
 namespace
 {

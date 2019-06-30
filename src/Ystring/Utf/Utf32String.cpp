@@ -1,29 +1,26 @@
 //****************************************************************************
 // Copyright © 2015 Jan Erik Breimo. All rights reserved.
-// Created by Jan Erik Breimo on 2015-07-29.
+// Created by Jan Erik Breimo on 2015-09-17.
 //
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
-#include "Utf16WString.hpp"
+#include "Utf32String.hpp"
 
 #include "Ystring/PrivatePlatformDetails.hpp"
 #include "Ystring/Generic/GenericString.hpp"
-#include "Ystring/Utf8/Utf8Encoding.hpp"
-#include "Ystring/Utf32/Utf32Encoding.hpp"
 #include "Ystring/Conversion/Converter.hpp"
+#include "Utf8Encoding.hpp"
 #include "Utf16Encoding.hpp"
+#include "Utf32Encoding.hpp"
 
-namespace Ystring { namespace Utf16W
+namespace Ystring { namespace Utf32
 {
     using Generic::makeStringReference;
     using Generic::makeRange;
     using Generic::fromRange;
-    using Encodings::encodeUtf16;
-    using Encodings::nextUtf16CodePoint;
-    using Encodings::nextInvalidUtf16CodePoint;
-    typedef std::wstring String;
-    typedef Utf16::Utf16Encoding Enc;
+    typedef std::u32string String;
+    typedef Utf32Encoding Enc;
 
     String& append(String& str, char32_t chr)
     {
@@ -247,12 +244,6 @@ namespace Ystring { namespace Utf16W
         return isAlphaNumeric(makeRange(first, last), Enc());
     }
 
-    bool isValidUtf16(const String& str)
-    {
-        return DecoderResult::OK == std::get<2>(
-                nextInvalidUtf16CodePoint<false>(begin(str), end(str)));
-    }
-
     String join(const std::vector<String>& strings,
                 const String& delimiter)
     {
@@ -336,12 +327,12 @@ namespace Ystring { namespace Utf16W
                             char32_t to,
                             ptrdiff_t maxReplacements)
     {
-        char16_t fBuf[2];
+        char32_t fBuf[2];
         auto fIt = std::begin(fBuf);
-        auto fromSize = encodeUtf16(fIt, std::end(fBuf), from);
-        char16_t tBuf[2];
+        auto fromSize = Encodings::encodeUtf32(fIt, std::end(fBuf), from);
+        char32_t tBuf[2];
         auto tIt = std::begin(tBuf);
-        auto toSize = encodeUtf16(tIt, std::end(tBuf), to);
+        auto toSize = Encodings::encodeUtf32(tIt, std::end(tBuf), to);
         return Generic::replace<String>(
                 makeRange(s),
                 makeRange(fBuf, fBuf + fromSize),
@@ -350,32 +341,35 @@ namespace Ystring { namespace Utf16W
                 maxReplacements, FindFlags::DEFAULTS);
     }
 
-    String replaceInvalidUtf16(const String& str, char32_t chr)
+    String replaceInvalidUtf32(const String& str, char32_t chr)
     {
         String result;
         result.reserve(str.size());
+        auto first = str.begin();
         auto it = str.begin();
-        auto end = str.end();
-        while (true)
+        while (it != str.end())
         {
-            auto invalid = nextInvalidUtf16CodePoint<false>(it, end);
-            result.append(it, std::get<0>(invalid));
-            if (std::get<0>(invalid) == end)
-                break;
-            append(result, chr);
-            it = std::get<1>(invalid);
+            char32_t cp;
+            if (Encodings::nextUtf32CodePoint<false>(cp, it, str.end())
+                != DecoderResult::OK)
+            {
+                result.append(first, it);
+                first = ++it;
+                append(result, chr);
+            }
         }
+        result.append(first, str.end());
         return result;
     }
 
-    String& replaceInvalidUtf16InPlace(String& str, char16_t chr)
+    String& replaceInvalidUtf32InPlace(String& str, char32_t chr)
     {
         assert(chr > 0);
         auto it = str.begin();
         while (it != str.end())
         {
             char32_t cp;
-            if (nextUtf16CodePoint<false>(cp, it, str.end()) !=
+            if (Encodings::nextUtf32CodePoint<false>(cp, it, str.end()) !=
                     DecoderResult::OK)
             {
                 *it++ = chr;
@@ -439,7 +433,7 @@ namespace Ystring { namespace Utf16W
         return Generic::title<String>(makeRange(str), Enc());
     }
 
-    String toUtf16(char32_t chr)
+    String toUtf32(char32_t chr)
     {
         String s;
         append(s, chr);
@@ -447,25 +441,25 @@ namespace Ystring { namespace Utf16W
     }
 
     template <typename CharT>
-    String toUtf16Impl(const CharT* str, size_t length, Encoding_t encoding)
+    String toUtf32Impl(const CharT* str, size_t length, Encoding_t encoding)
     {
-        Conversion::Converter converter(encoding, Encoding::UTF_16);
+        Conversion::Converter converter(encoding, Encoding::UTF_32);
         String result;
         converter.convert(str, length, result);
         return result;
     }
 
-    String toUtf16(const std::string& str, Encoding_t encoding)
+    String toUtf32(const std::string& str, Encoding_t encoding)
     {
-        return toUtf16(str.data(), str.size(), encoding);
+        return toUtf32(str.data(), str.size(), encoding);
     }
 
-    String toUtf16(const std::wstring& str, Encoding_t encoding)
+    String toUtf32(const std::wstring& str, Encoding_t encoding)
     {
-        return toUtf16(str.data(), str.size(), encoding);
+        return toUtf32(str.data(), str.size(), encoding);
     }
 
-    String toUtf16(const char* str, size_t length, Encoding_t encoding)
+    String toUtf32(const char* str, size_t length, Encoding_t encoding)
     {
         switch (encoding)
         {
@@ -473,51 +467,51 @@ namespace Ystring { namespace Utf16W
             return Generic::convert<String>(makeRange(str, str + length),
                                             Utf8::Utf8Encoding(), Enc());
         case Encoding::UTF_16:
-            return String(reinterpret_cast<const wchar_t*>(str), length / 2);
-        case Encoding::UTF_32:
             return Generic::convert<String>(makeRange(str, str + length),
-                                            Utf32::Utf32Encoding(), Enc());
+                                            Utf16::Utf16Encoding(), Enc());
+        case Encoding::UTF_32:
+            return String(reinterpret_cast<const char32_t*>(str), length / 4);
         default:
-            return toUtf16Impl(str, length, encoding);
+            return toUtf32Impl(str, length, encoding);
         }
     }
 
-    String toUtf16(const char16_t* str, size_t length, Encoding_t encoding)
+    String toUtf32(const char16_t* str, size_t length, Encoding_t encoding)
     {
         switch (encoding)
         {
         case Encoding::UTF_16:
-            return String(reinterpret_cast<const wchar_t*>(str), length);
+            return Generic::convert<String>(makeRange(str, str + length),
+                                            Utf16::Utf16Encoding(), Enc());
         default:
-            return toUtf16Impl(str, length, encoding);
+            return toUtf32Impl(str, length, encoding);
         }
     }
 
-    String toUtf16(const char32_t* str, size_t length, Encoding_t encoding)
+    String toUtf32(const char32_t* str, size_t length, Encoding_t encoding)
     {
         switch (encoding)
         {
         case Encoding::UTF_32:
-            return Generic::convert<String>(makeRange(str, str + length),
-                                            Utf32::Utf32Encoding(), Enc());
+            return String(str, length);
         default:
-            return toUtf16Impl(str, length, encoding);
+            return toUtf32Impl(str, length, encoding);
         }
     }
 
-    String toUtf16(const std::u16string& str, Encoding_t encoding)
+    String toUtf32(const std::u16string& str, Encoding_t encoding)
     {
-        return toUtf16(str.data(), str.size(), encoding);
+        return toUtf32(str.data(), str.size(), encoding);
     }
 
-    String toUtf16(const std::u32string& str, Encoding_t encoding)
+    String toUtf32(const std::u32string& str, Encoding_t encoding)
     {
-        return toUtf16(str.data(), str.size(), encoding);
+        return toUtf32(str.data(), str.size(), encoding);
     }
 
-    String toUtf16(const wchar_t* str, size_t length, Encoding_t encoding)
+    String toUtf32(const wchar_t* str, size_t length, Encoding_t encoding)
     {
-        return toUtf16(internal_char_type_cast(str), length, encoding);
+        return toUtf32(internal_char_type_cast(str), length, encoding);
     }
 
     String trim(const String& str)

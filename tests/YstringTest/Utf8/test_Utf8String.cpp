@@ -9,7 +9,7 @@
 
 #include "Ystring/Unicode/UnicodeChars.hpp"
 #include "Ystring/Unicode/UnicodePredicates.hpp"
-#include "Ystring/Utf8/Utf8Chars.hpp"
+#include "Ystring/Utf/Utf8Chars.hpp"
 #include "../Ytest/Ytest.hpp"
 
 namespace

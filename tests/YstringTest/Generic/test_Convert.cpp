@@ -5,13 +5,13 @@
 // This file is distributed under the Simplified BSD License.
 // License text is included with the source distribution.
 //****************************************************************************
-
 #include "Ystring/Generic/GenericString.hpp"
-#include "Ystring/Utf8/Utf8Chars.hpp"
-#include "Ystring/Utf8/Utf8Encoding.hpp"
-#include "Ystring/Utf16/Utf16Encoding.hpp"
-#include "Ystring/Utf32/Utf32Encoding.hpp"
+
 #include <list>
+#include "Ystring/Utf/Utf8Chars.hpp"
+#include "Ystring/Utf/Utf8Encoding.hpp"
+#include "Ystring/Utf/Utf16Encoding.hpp"
+#include "Ystring/Utf/Utf32Encoding.hpp"
 #include "../Ytest/Ytest.hpp"
 
 namespace {
