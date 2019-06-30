@@ -227,7 +227,7 @@ set_target_properties(Ystring PROPERTIES
     DEBUG_OUTPUT_NAME "Ystring.debug")
 
 set(CTEST_OUTPUT_ON_FAILURE 1)
-add_subdirectory(YstringTest)
+add_subdirectory(tests/YstringTest)
 
 install(TARGETS Ystring DESTINATION lib)
 install(FILES ${PUBLIC_HEADERS_ROOT}
