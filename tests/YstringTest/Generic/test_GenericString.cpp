@@ -7,7 +7,7 @@
 //****************************************************************************
 #include "Ystring/Generic/GenericString.hpp"
 #include "Ystring/Utf/Utf8Encoding.hpp"
-#include "../Ytest/Ytest.hpp"
+#include "Ytest/Ytest.hpp"
 
 namespace {
 

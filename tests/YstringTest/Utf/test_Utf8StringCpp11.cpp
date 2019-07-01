@@ -6,7 +6,7 @@
 // License text is included with the source distribution.
 //****************************************************************************
 #include "Ystring/Utf8.hpp"
-#include "../Ytest/Ytest.hpp"
+#include "Ytest/Ytest.hpp"
 
 namespace
 {

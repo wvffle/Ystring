@@ -11,7 +11,7 @@
 #include "Ystring/Utf/Utf8Chars.hpp"
 #include "Ystring/Utf/Utf16Chars.hpp"
 #include "Ystring/Utilities/Endian.hpp"
-#include "../Ytest/Ytest.hpp"
+#include "Ytest/Ytest.hpp"
 
 namespace
 {

@@ -227,8 +227,14 @@ set_target_properties(Ystring PROPERTIES
 
 add_library(Ystring::Ystring ALIAS Ystring)
 
-set(CTEST_OUTPUT_ON_FAILURE 1)
-add_subdirectory(tests/YstringTest)
+if (EXISTS "${CMAKE_SOURCE_DIR}/external/Ytest/CMakeLists.txt")
+    add_subdirectory(external/Ytest)
+    add_subdirectory(tests/YstringTest)
+
+    enable_testing()
+    add_test(YstringTest
+        COMMAND YstringTest)
+endif ()
 
 install(TARGETS Ystring DESTINATION lib)
 install(FILES ${PUBLIC_HEADERS_ROOT}

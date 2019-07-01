@@ -7,7 +7,7 @@
 //****************************************************************************
 #include "Ystring/Encodings/EncodeUtf8.hpp"
 
-#include "../Ytest/Ytest.hpp"
+#include "Ytest/Ytest.hpp"
 
 namespace {
 

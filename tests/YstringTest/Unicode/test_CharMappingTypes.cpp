@@ -7,7 +7,7 @@
 //****************************************************************************
 #include "Ystring/Unicode/CharMappingTypes.hpp"
 
-#include "../Ytest/Ytest.hpp"
+#include "Ytest/Ytest.hpp"
 
 namespace {
 

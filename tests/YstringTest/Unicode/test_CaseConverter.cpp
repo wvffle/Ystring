@@ -8,7 +8,7 @@
 #include "Ystring/Unicode/CaseConverter.hpp"
 #include "Ystring/Unicode/UnicodeChars.hpp"
 
-#include "../Ytest/Ytest.hpp"
+#include "Ytest/Ytest.hpp"
 
 namespace {
 

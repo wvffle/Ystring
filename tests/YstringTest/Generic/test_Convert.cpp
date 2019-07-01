@@ -12,7 +12,7 @@
 #include "Ystring/Utf/Utf8Encoding.hpp"
 #include "Ystring/Utf/Utf16Encoding.hpp"
 #include "Ystring/Utf/Utf32Encoding.hpp"
-#include "../Ytest/Ytest.hpp"
+#include "Ytest/Ytest.hpp"
 
 namespace {
 

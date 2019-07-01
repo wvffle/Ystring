@@ -8,7 +8,7 @@
 #include "Ystring/Encodings/EncodeUtf16.hpp"
 
 #include <iterator>
-#include "../Ytest/Ytest.hpp"
+#include "Ytest/Ytest.hpp"
 
 namespace
 {

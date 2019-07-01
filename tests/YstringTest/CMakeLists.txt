@@ -10,31 +10,19 @@ cmake_minimum_required(VERSION 3.2)
 set(PARENT_PROJECT Ystring)
 project(YstringTest)
 
-add_subdirectory(Ytest)
-
 if(MSVC)
     set(SOURCE_FILES_PLATFORM_SPECIFIC
         Utf/test_Utf16WString.cpp)
-    if(NOT MSVC_VERSION LESS 1900)
-        set(SOURCE_FILES_PLATFORM_SPECIFIC
-            ${SOURCE_FILES_PLATFORM_SPECIFIC}
-            Conversion/test_Converter.cpp
-            Utf/test_Utf8StringCpp11.cpp
-            Utf/test_Utf32String.cpp
-            )
-    endif(NOT MSVC_VERSION LESS 1900)
-else(MSVC)
+else()
     set(SOURCE_FILES_PLATFORM_SPECIFIC
-        Conversion/test_Converter.cpp
-        Utf/test_Utf8StringCpp11.cpp
         Utf/test_Utf16String.cpp
-        Utf/test_Utf32String.cpp
         )
-endif(MSVC)
+endif()
 
 set(SOURCE_FILES
     main.cpp
     test_EncodingInfo.cpp
+    Conversion/test_Converter.cpp
     Generic/test_Convert.cpp
     Generic/test_GenericString.cpp
     Streaming/test_StreamFill.cpp
@@ -47,6 +35,8 @@ set(SOURCE_FILES
     Utf/test_DecodeUtf8.cpp
     Utf/test_EncodeUtf8.cpp
     Utf/test_Utf8String.cpp
+    Utf/test_Utf8StringCpp11.cpp
+    Utf/test_Utf32String.cpp
     Utf/test_DecodeUtf16.cpp
     Utf/test_EncodeUtf16.cpp
     ${SOURCE_FILES_PLATFORM_SPECIFIC})
@@ -61,6 +51,6 @@ target_include_directories(YstringTest
 
 target_link_libraries(YstringTest
     Ystring::Ystring
-    Ytest)
+    Ytest::Ytest)
 
 add_test(Ystring YstringTest)

@@ -8,7 +8,7 @@
 #include "Ystring/Unicode/CharMap.hpp"
 
 #include <type_traits>
-#include "../Ytest/Ytest.hpp"
+#include "Ytest/Ytest.hpp"
 
 namespace {
 

@@ -8,7 +8,7 @@
 #include "Ystring/Streaming/StreamFill.hpp"
 #include <sstream>
 
-#include "../Ytest/Ytest.hpp"
+#include "Ytest/Ytest.hpp"
 
 namespace
 {

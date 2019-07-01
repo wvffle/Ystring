@@ -7,7 +7,7 @@
 //****************************************************************************
 #include "Ystring/Unicode/CharClass.hpp"
 #include "Ystring/Unicode/UnicodeChars.hpp"
-#include "../Ytest/Ytest.hpp"
+#include "Ytest/Ytest.hpp"
 
 namespace {
 
