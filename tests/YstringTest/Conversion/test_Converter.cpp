@@ -7,8 +7,8 @@
 //****************************************************************************
 #include "Ystring/Conversion/Converter.hpp"
 #include "Ystring/YstringException.hpp"
-#include "../Ytest/Ytest.hpp"
 #include "Ystring/Utf/Utf8Chars.hpp"
+#include "../Ytest/Ytest.hpp"
 
 using namespace Ystring;
 using namespace Ystring::Conversion;
