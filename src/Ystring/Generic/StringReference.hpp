@@ -8,9 +8,9 @@
 #pragma once
 
 #include <iterator>
+#include "Ystring/Utilities/ArrayOutputIterator.hpp"
 #include "Appender.hpp"
 #include "Encoder.hpp"
-#include "Ystring/Utilities/ArrayOutputIterator.hpp"
 
 namespace Ystring { namespace Generic
 {

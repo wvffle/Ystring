@@ -9,8 +9,8 @@
 
 #include <cstdint>
 #include <tuple>
-#include "DecoderResult.hpp"
 #include "Ystring/Utilities/Endian.hpp"
+#include "DecoderResult.hpp"
 
 namespace Ystring { namespace Encodings
 {

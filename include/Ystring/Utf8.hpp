@@ -7,7 +7,7 @@
 //****************************************************************************
 #pragma once
 
-#include "Ystring/Utf/Utf8String.hpp"
+#include "Utf/Utf8String.hpp"
 
 /** @file
   * @brief Top-level include file for the UTF-8 function library.

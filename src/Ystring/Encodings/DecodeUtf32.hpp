@@ -10,8 +10,8 @@
 #include <cstdint>
 #include <limits>
 #include <string>
-#include "DecoderResult.hpp"
 #include "Ystring/Utilities/Endian.hpp"
+#include "DecoderResult.hpp"
 
 namespace Ystring { namespace Encodings
 {

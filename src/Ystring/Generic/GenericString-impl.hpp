@@ -7,11 +7,11 @@
 //****************************************************************************
 #pragma once
 
+#include "Ystring/Utilities/CountingOutputIterator.hpp"
 #include "DecoderStringFunctions.hpp"
 #include "Encoder.hpp"
 #include "ForwardDecoder.hpp"
 #include "ReverseDecoder.hpp"
-#include "Ystring/Utilities/CountingOutputIterator.hpp"
 #include "GenericConvert.hpp"
 #include "GenericEscape.hpp"
 #include "GenericJoin.hpp"

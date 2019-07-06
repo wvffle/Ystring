@@ -85,7 +85,6 @@ set(PUBLIC_HEADERS
     )
 
 set(PRIVATE_HEADERS
-    src/Ystring/Encodings/DecoderResult.hpp
     src/Ystring/PrivatePlatformDetails.hpp
     src/Ystring/Conversion/AbstractDecoder.hpp
     src/Ystring/Conversion/AbstractEncoder.hpp
@@ -111,6 +110,7 @@ set(PRIVATE_HEADERS
     src/Ystring/Encodings/EncodeUtf32.hpp
     src/Ystring/Encodings/EncodeUtf8-impl.hpp
     src/Ystring/Encodings/EncodeUtf8.hpp
+    src/Ystring/Encodings/DecoderResult.hpp
     src/Ystring/Encodings/Ibm437.hpp
     src/Ystring/Encodings/Ibm850.hpp
     src/Ystring/Encodings/Iso8859_1.hpp
@@ -210,8 +210,7 @@ add_library(Ystring STATIC
 target_compile_definitions(Ystring
     PRIVATE
         $<$<BOOL:${MSVC}>:_SCL_SECURE_NO_WARNINGS>
-        $<$<BOOL:${MSVC}>:YSTRING_EXPORTS>
-)
+    )
 
 target_include_directories(Ystring BEFORE
     PUBLIC
@@ -228,7 +227,7 @@ set_target_properties(Ystring PROPERTIES
 add_library(Ystring::Ystring ALIAS Ystring)
 
 if (EXISTS "${CMAKE_SOURCE_DIR}/external/Ytest/CMakeLists.txt")
-    add_subdirectory(external/Ytest)
+    add_subdirectory(external/Ytest EXCLUDE_FROM_ALL)
     add_subdirectory(tests/YstringTest)
 
     enable_testing()

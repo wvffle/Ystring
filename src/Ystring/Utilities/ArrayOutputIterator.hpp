@@ -10,6 +10,7 @@
 #include <cstddef>
 #include <iterator>
 #include <stdexcept>
+#include "Ystring/YstringException.hpp"
 
 namespace Ystring { namespace Utilities
 {
