@@ -15,26 +15,19 @@ if(MSVC)
 endif(MSVC)
 
 if (YSTRING_WCHAR_IS_2_BYTES)
-    set(PUBLIC_HEADERS_ROOT
-        ${PUBLIC_HEADERS_ROOT}
+    set(ADDITIONAL_SOURCE_FILES
         include/Ystring/Utf16W.hpp
-        )
-    set(PUBLIC_HEADERS_UTF
-        ${PUBLIC_HEADERS_UTF}
         include/Ystring/Utf/Utf16WString.hpp
-        )
-    set(PRIVATE_HEADERS
-        ${PRIVATE_HEADERS}
         src/Ystring/Utf/Utf16WChars.hpp
-        )
-    set(SOURCE_FILES
-        ${SOURCE_FILES}
         src/Ystring/Utf/Utf16WString.cpp
         )
-endif(YSTRING_WCHAR_IS_2_BYTES)
+endif()
 
-set(PUBLIC_HEADERS_ROOT
+add_library(Ystring STATIC
     include/Ystring/Conversion.hpp
+    include/Ystring/Conversion/Convert.hpp
+    include/Ystring/Conversion/Converter.hpp
+    include/Ystring/Conversion/ErrorHandlingPolicy.hpp
     include/Ystring/Encoding.hpp
     include/Ystring/EncodingInfo.hpp
     include/Ystring/Endianness.hpp
@@ -43,61 +36,43 @@ set(PUBLIC_HEADERS_ROOT
     include/Ystring/PlatformDetails.hpp
     include/Ystring/Predicates.hpp
     include/Ystring/SplitFlags.hpp
-    include/Ystring/Utf8.hpp
-    include/Ystring/Utf16.hpp
-    include/Ystring/Utf32.hpp
-    include/Ystring/YstringDefinitions.hpp
-    include/Ystring/YstringException.hpp
-    ${PUBLIC_HEADERS_ROOT}
-    )
-
-set(PUBLIC_HEADERS_CONVERSION
-    include/Ystring/Conversion/Convert.hpp
-    include/Ystring/Conversion/Converter.hpp
-    include/Ystring/Conversion/ErrorHandlingPolicy.hpp
-    )
-
-set(PUBLIC_HEADERS_STREAMING
     include/Ystring/Streaming/StreamFill.hpp
     include/Ystring/Streaming/StreamJoin.hpp
     include/Ystring/Streaming/StreamOperators.hpp
-    )
-
-set(PUBLIC_HEADERS_UNICODE
     include/Ystring/Unicode/CharClass.hpp
     include/Ystring/Unicode/UnicodeChars.hpp
     include/Ystring/Unicode/UnicodePredicates.hpp
-    )
-
-set(PUBLIC_HEADERS_UTF
-    include/Ystring/Utf/Utf8String.hpp
     include/Ystring/Utf/Utf16String.hpp
-    ${PUBLIC_HEADERS_UTF}
     include/Ystring/Utf/Utf32String.hpp
-    )
-
-set(PUBLIC_HEADERS
-    ${PUBLIC_HEADERS_ROOT}
-    ${PUBLIC_HEADERS_CONVERSION}
-    ${PUBLIC_HEADERS_STREAMING}
-    ${PUBLIC_HEADERS_UNICODE}
-    ${PUBLIC_HEADERS_UTF}
-    )
-
-set(PRIVATE_HEADERS
-    src/Ystring/PrivatePlatformDetails.hpp
+    include/Ystring/Utf/Utf8String.hpp
+    include/Ystring/Utf16.hpp
+    include/Ystring/Utf32.hpp
+    include/Ystring/Utf8.hpp
+    include/Ystring/YstringDefinitions.hpp
+    include/Ystring/YstringException.hpp
+    src/Ystring/Conversion/AbstractDecoder.cpp
     src/Ystring/Conversion/AbstractDecoder.hpp
+    src/Ystring/Conversion/AbstractEncoder.cpp
     src/Ystring/Conversion/AbstractEncoder.hpp
+    src/Ystring/Conversion/CodePageDecoder.cpp
     src/Ystring/Conversion/CodePageDecoder.hpp
+    src/Ystring/Conversion/CodePageEncoder.cpp
     src/Ystring/Conversion/CodePageEncoder.hpp
+    src/Ystring/Conversion/Converter.cpp
     src/Ystring/Conversion/Utf16Decoder.hpp
     src/Ystring/Conversion/Utf16Encoder.hpp
     src/Ystring/Conversion/Utf32Decoder.hpp
     src/Ystring/Conversion/Utf32Encoder.hpp
+    src/Ystring/Conversion/Utf8Decoder.cpp
     src/Ystring/Conversion/Utf8Decoder.hpp
+    src/Ystring/Conversion/Utf8Encoder.cpp
     src/Ystring/Conversion/Utf8Encoder.hpp
+    src/Ystring/EncodingInfo.cpp
+    src/Ystring/Encodings/CodePage.cpp
     src/Ystring/Encodings/CodePage.hpp
+    src/Ystring/Encodings/CodePageFactory.cpp
     src/Ystring/Encodings/CodePageFactory.hpp
+    src/Ystring/Encodings/DecoderResult.hpp
     src/Ystring/Encodings/DecodeUtf16-impl.hpp
     src/Ystring/Encodings/DecodeUtf16.hpp
     src/Ystring/Encodings/DecodeUtf32-impl.hpp
@@ -109,15 +84,23 @@ set(PRIVATE_HEADERS
     src/Ystring/Encodings/EncodeUtf32-impl.hpp
     src/Ystring/Encodings/EncodeUtf32.hpp
     src/Ystring/Encodings/EncodeUtf8-impl.hpp
+    src/Ystring/Encodings/EncodeUtf8.cpp
     src/Ystring/Encodings/EncodeUtf8.hpp
-    src/Ystring/Encodings/DecoderResult.hpp
+    src/Ystring/Encodings/Ibm437.cpp
     src/Ystring/Encodings/Ibm437.hpp
+    src/Ystring/Encodings/Ibm850.cpp
     src/Ystring/Encodings/Ibm850.hpp
+    src/Ystring/Encodings/Iso8859_1.cpp
     src/Ystring/Encodings/Iso8859_1.hpp
+    src/Ystring/Encodings/Iso8859_10.cpp
     src/Ystring/Encodings/Iso8859_10.hpp
+    src/Ystring/Encodings/Iso8859_15.cpp
     src/Ystring/Encodings/Iso8859_15.hpp
+    src/Ystring/Encodings/Iso8859_9.cpp
     src/Ystring/Encodings/Iso8859_9.hpp
+    src/Ystring/Encodings/Windows1250.cpp
     src/Ystring/Encodings/Windows1250.hpp
+    src/Ystring/Encodings/Windows1252.cpp
     src/Ystring/Encodings/Windows1252.hpp
     src/Ystring/Generic/Appender.hpp
     src/Ystring/Generic/AppendEscaped.hpp
@@ -143,19 +126,29 @@ set(PRIVATE_HEADERS
     src/Ystring/Generic/UrlEscaper.hpp
     src/Ystring/Generic/VariableLengthBackslashEscaper.hpp
     src/Ystring/Generic/XmlEscaper.hpp
+    src/Ystring/Predicates.cpp
+    src/Ystring/PrivatePlatformDetails.hpp
+    src/Ystring/Streaming/StreamOperators.cpp
+    src/Ystring/Unicode/CaseConverter.cpp
     src/Ystring/Unicode/CaseConverter.hpp
     src/Ystring/Unicode/CaseInsensitive.hpp
+    src/Ystring/Unicode/CharClass.cpp
+    src/Ystring/Unicode/CharMap.cpp
     src/Ystring/Unicode/CharMap.hpp
+    src/Ystring/Unicode/CharMappingTypes.cpp
     src/Ystring/Unicode/CharMappingTypes.hpp
     src/Ystring/Unicode/StandardLowerCase.hpp
     src/Ystring/Unicode/StandardTitleCase.hpp
     src/Ystring/Unicode/StandardUpperCase.hpp
     src/Ystring/Utf/Utf16Chars.hpp
     src/Ystring/Utf/Utf16Encoding.hpp
+    src/Ystring/Utf/Utf16String.cpp
     src/Ystring/Utf/Utf32Chars.hpp
     src/Ystring/Utf/Utf32Encoding.hpp
+    src/Ystring/Utf/Utf32String.cpp
     src/Ystring/Utf/Utf8Chars.hpp
     src/Ystring/Utf/Utf8Encoding.hpp
+    src/Ystring/Utf/Utf8String.cpp
     src/Ystring/Utilities/Algorithms.hpp
     src/Ystring/Utilities/ArrayOutputIterator.hpp
     src/Ystring/Utilities/CountingOutputIterator.hpp
@@ -165,46 +158,8 @@ set(PRIVATE_HEADERS
     src/Ystring/Utilities/Union16.hpp
     src/Ystring/Utilities/Union32.hpp
     src/Ystring/Utilities/Utilities.hpp
-    ${PRIVATE_HEADERS}
-    )
-
-set(SOURCE_FILES
-    src/Ystring/EncodingInfo.cpp
-    src/Ystring/Predicates.cpp
     src/Ystring/YstringException.cpp
-    src/Ystring/Conversion/AbstractDecoder.cpp
-    src/Ystring/Conversion/AbstractEncoder.cpp
-    src/Ystring/Conversion/CodePageDecoder.cpp
-    src/Ystring/Conversion/CodePageEncoder.cpp
-    src/Ystring/Conversion/Converter.cpp
-    src/Ystring/Conversion/Utf8Decoder.cpp
-    src/Ystring/Conversion/Utf8Encoder.cpp
-    src/Ystring/Encodings/CodePage.cpp
-    src/Ystring/Encodings/CodePageFactory.cpp
-    src/Ystring/Encodings/EncodeUtf8.cpp
-    src/Ystring/Encodings/Ibm437.cpp
-    src/Ystring/Encodings/Ibm850.cpp
-    src/Ystring/Encodings/Iso8859_1.cpp
-    src/Ystring/Encodings/Iso8859_10.cpp
-    src/Ystring/Encodings/Iso8859_15.cpp
-    src/Ystring/Encodings/Iso8859_9.cpp
-    src/Ystring/Encodings/Windows1250.cpp
-    src/Ystring/Encodings/Windows1252.cpp
-    src/Ystring/Streaming/StreamOperators.cpp
-    src/Ystring/Unicode/CaseConverter.cpp
-    src/Ystring/Unicode/CharClass.cpp
-    src/Ystring/Unicode/CharMap.cpp
-    src/Ystring/Unicode/CharMappingTypes.cpp
-    src/Ystring/Utf/Utf16String.cpp
-    src/Ystring/Utf/Utf32String.cpp
-    src/Ystring/Utf/Utf8String.cpp
-    ${SOURCE_FILES}
-    )
-
-add_library(Ystring STATIC
-    ${PUBLIC_HEADERS}
-    ${PRIVATE_HEADERS}
-    ${SOURCE_FILES}
+    ${ADDITIONAL_SOURCE_FILES}
     )
 
 target_compile_definitions(Ystring
@@ -228,21 +183,42 @@ add_library(Ystring::Ystring ALIAS Ystring)
 
 if (EXISTS "${CMAKE_SOURCE_DIR}/external/Ytest/CMakeLists.txt")
     add_subdirectory(external/Ytest EXCLUDE_FROM_ALL)
-    add_subdirectory(tests/YstringTest)
-
-    enable_testing()
-    add_test(YstringTest
-        COMMAND YstringTest)
 endif ()
 
-install(TARGETS Ystring DESTINATION lib)
-install(FILES ${PUBLIC_HEADERS_ROOT}
-    DESTINATION include/Ystring)
-install(FILES ${PUBLIC_HEADERS_CONVERSION}
-    DESTINATION include/Ystring/Conversion)
-install(FILES ${PUBLIC_HEADERS_STREAMING}
-    DESTINATION include/Ystring/Streaming)
-install(FILES ${PUBLIC_HEADERS_UNICODE}
-    DESTINATION include/Ystring/Unicode)
-install(FILES ${PUBLIC_HEADERS_UTF}
-    DESTINATION include/Ystring/Utf)
+enable_testing()
+
+add_subdirectory(tests/YstringTest)
+
+export(TARGETS Ystring
+    NAMESPACE
+        Ystring::
+    FILE
+        YstringConfig.cmake
+    )
+
+include(GNUInstallDirs)
+
+install(TARGETS Ystring
+    EXPORT
+        YstringConfig
+    LIBRARY
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    )
+
+install(EXPORT YstringConfig
+    FILE
+        YstringConfig.cmake
+    NAMESPACE
+        Yson::
+    DESTINATION
+        ${CMAKE_INSTALL_LIBDIR}/cmake/Ystring
+    )
+
+install(
+    DIRECTORY
+        include/
+    DESTINATION
+        ${CMAKE_INSTALL_INCLUDEDIR}
+    )

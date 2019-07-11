@@ -7,8 +7,14 @@
 ##****************************************************************************
 cmake_minimum_required(VERSION 3.2)
 
-set(PARENT_PROJECT Ystring)
 project(YstringTest)
+
+find_package(Ytest QUIET)
+
+if (NOT TARGET Ytest::Ytest)
+    message("Ytest not found. Unit tests will not be built or run.")
+    return()
+endif ()
 
 if(MSVC)
     set(SOURCE_FILES_PLATFORM_SPECIFIC
@@ -19,7 +25,7 @@ else()
         )
 endif()
 
-set(SOURCE_FILES
+add_executable(YstringTest
     main.cpp
     test_EncodingInfo.cpp
     Conversion/test_Converter.cpp
@@ -39,10 +45,8 @@ set(SOURCE_FILES
     Utf/test_Utf32String.cpp
     Utf/test_DecodeUtf16.cpp
     Utf/test_EncodeUtf16.cpp
-    ${SOURCE_FILES_PLATFORM_SPECIFIC})
-
-add_executable(YstringTest
-               ${SOURCE_FILES})
+    ${SOURCE_FILES_PLATFORM_SPECIFIC}
+    )
 
 target_include_directories(YstringTest
     PRIVATE
@@ -50,7 +54,11 @@ target_include_directories(YstringTest
     )
 
 target_link_libraries(YstringTest
-    Ystring::Ystring
-    Ytest::Ytest)
+    PRIVATE
+        Ystring::Ystring
+        Ytest::Ytest
+    )
 
-add_test(Ystring YstringTest)
+add_test(NAME YstringTest
+    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/YstringTest
+    )
