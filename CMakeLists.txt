@@ -211,7 +211,7 @@ install(EXPORT YstringConfig
     FILE
         YstringConfig.cmake
     NAMESPACE
-        Yson::
+        Ystring::
     DESTINATION
         ${CMAKE_INSTALL_LIBDIR}/cmake/Ystring
     )

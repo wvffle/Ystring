@@ -19,7 +19,7 @@ namespace Ystring { namespace Encodings
     class YSTRING_API CodePage
     {
     public:
-        CodePage(Encoding_t encoding);
+        explicit CodePage(Encoding_t encoding);
         CodePage(const std::pair<char32_t, char32_t>* fromCodePoint,
                  const char32_t* fromChar,
                  char16_t firstSpecialChar,
