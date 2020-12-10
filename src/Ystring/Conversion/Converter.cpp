@@ -7,6 +7,7 @@
 //****************************************************************************
 #include "Ystring/Conversion/Converter.hpp"
 
+#include <cstring>
 #include <vector>
 #include "Ystring/EncodingInfo.hpp"
 #include "Ystring/PrivatePlatformDetails.hpp"
