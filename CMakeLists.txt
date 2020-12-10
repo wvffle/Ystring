@@ -6,9 +6,29 @@
 ## License text is included with the source distribution.
 ##****************************************************************************
 cmake_minimum_required(VERSION 3.13)
-project(Ystring)
+project(Ystring VERSION 1.0.0)
+
+
+# Set YSTRING_MASTER_PROJECT to ON if Argos is the root level project.
+if (NOT DEFINED YSTRING_MASTER_PROJECT)
+    if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+        set(YSTRING_MASTER_PROJECT ON)
+    else()
+        set(YSTRING_MASTER_PROJECT OFF)
+    endif()
+endif ()
+
+# Test option
+option(YSTRING_BUILD_TEST "Build tests" ${YSTRING_MASTER_PROJECT})
+
+# Install option
+option(YSTRING_INSTALL "Generate the install target" ${YSTRING_MASTER_PROJECT})
 
 set(CMAKE_CXX_STANDARD 14)
+
+include(GNUInstallDirs)
+
+configure_file(src/Ystring/YstringVersion.hpp.in YstringVersion.hpp @ONLY)
 
 if(MSVC)
     set(YSTRING_WCHAR_IS_2_BYTES TRUE)
@@ -23,7 +43,7 @@ if (YSTRING_WCHAR_IS_2_BYTES)
         )
 endif()
 
-add_library(Ystring STATIC
+add_library(Ystring
     include/Ystring/Conversion.hpp
     include/Ystring/Conversion/Convert.hpp
     include/Ystring/Conversion/Converter.hpp
@@ -164,12 +184,13 @@ add_library(Ystring STATIC
 
 target_compile_definitions(Ystring
     PRIVATE
-        $<$<BOOL:${MSVC}>:_SCL_SECURE_NO_WARNINGS>
+        $<$<CXX_COMPILER_ID:MSVC>:_SCL_SECURE_NO_WARNINGS>
+        $<$<CXX_COMPILER_ID:MSVC>:YSTRING_EXPORTS>
     )
 
 target_include_directories(Ystring BEFORE
     PUBLIC
-        $<INSTALL_INTERFACE:include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -181,14 +202,6 @@ set_target_properties(Ystring PROPERTIES
 
 add_library(Ystring::Ystring ALIAS Ystring)
 
-if (EXISTS "${CMAKE_SOURCE_DIR}/external/Ytest/CMakeLists.txt")
-    add_subdirectory(external/Ytest EXCLUDE_FROM_ALL)
-endif ()
-
-enable_testing()
-
-add_subdirectory(tests/YstringTest)
-
 export(TARGETS Ystring
     NAMESPACE
         Ystring::
@@ -196,29 +209,44 @@ export(TARGETS Ystring
         YstringConfig.cmake
     )
 
-include(GNUInstallDirs)
+if (YSTRING_BUILD_TEST)
+    if (EXISTS "${CMAKE_SOURCE_DIR}/external/Ytest/CMakeLists.txt")
+        add_subdirectory(external/Ytest EXCLUDE_FROM_ALL)
+    endif ()
 
-install(TARGETS Ystring
-    EXPORT
-        YstringConfig
-    LIBRARY
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    ARCHIVE
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    enable_testing()
+
+    add_subdirectory(tests/YstringTest)
+endif()
+
+if (YSTRING_INSTALL)
+    install(TARGETS Ystring
+        EXPORT YstringConfig
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        )
+
+    install(EXPORT YstringConfig
+        FILE YstringConfig.cmake
+        NAMESPACE Ystring::
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Ystring
+        )
+
+    install(DIRECTORY include/
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+        )
+
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/YstringVersion.hpp
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Ystring
     )
 
-install(EXPORT YstringConfig
-    FILE
-        YstringConfig.cmake
-    NAMESPACE
-        Ystring::
-    DESTINATION
-        ${CMAKE_INSTALL_LIBDIR}/cmake/Ystring
-    )
+    include(CMakePackageConfigHelpers)
 
-install(
-    DIRECTORY
-        include/
-    DESTINATION
-        ${CMAKE_INSTALL_INCLUDEDIR}
-    )
+    write_basic_package_version_file(YstringConfigVersion.cmake
+        COMPATIBILITY SameMajorVersion
+        )
+
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/YstringConfigVersion.cmake
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Ystring
+        )
+endif()

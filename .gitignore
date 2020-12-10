@@ -4,5 +4,4 @@ bin
 scripts/*.hpp
 scripts/*.cpp
 scripts/*.txt
-build
-release
+build*

@@ -147,7 +147,7 @@ namespace Ystring { namespace EncodedString
     Decoder1 find(Decoder1& str, Decoder2 sub, FindFlags_t flags)
     {
         if (flags == FindFlags::CASE_INSENSITIVE)
-            return search(str, sub, Unicode::CaseInsensitiveEqual());
+            return Ystring::EncodedString::search(str, sub, Unicode::CaseInsensitiveEqual());
         else
             return search(str, sub);
     }
