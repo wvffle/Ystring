@@ -15,4 +15,4 @@
 static_assert(sizeof(wchar_t) == 2,
               "wchar_t isn't 16-bit and isn't suited for UTF-16.");
 
-#include "Utf16/Utf16WString.hpp"
+#include "Utf/Utf16WString.hpp"
